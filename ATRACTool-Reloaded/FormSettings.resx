@@ -1,0 +1,1623 @@
+﻿<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="comboBox_at9_bitrate.Items2" xml:space="preserve">
+    <value>60kbps</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="comboBox_at9_useband.Items15" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label_at9_nol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>241, 90</value>
+  </data>
+  <data name="textBox_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>412, 50</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items6" xml:space="preserve">
+    <value>105kbps, stereo</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopstart.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Name" xml:space="preserve">
+    <value>comboBox_at9_startband</value>
+  </data>
+  <data name="textBox_at9_cmd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 467</value>
+  </data>
+  <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 15</value>
+  </data>
+  <data name="checkBox_at9_advband.Text" xml:space="preserve">
+    <value>Enable advanced band settings</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="textBox_at9_looptimes.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="textBox_at9_loopend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="comboBox_at9_startband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_samples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>522, 63</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="checkBox_at9_supframe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>414, 39</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_at9_loopstart.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
+    <value>button_Cancel</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_at9_useband.Items5" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="checkBox_at9_advanced.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 19</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Name" xml:space="preserve">
+    <value>comboBox_at9_sampling</value>
+  </data>
+  <data name="label_at9_useband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 15</value>
+  </data>
+  <data name="comboBox_at9_useband.Items10" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items10" xml:space="preserve">
+    <value>192kbps, stereo</value>
+  </data>
+  <data name="label_at9_nol.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 449</value>
+  </data>
+  <data name="checkBox_at9_supframe.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at3_cmd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 23</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Name" xml:space="preserve">
+    <value>textBox_at3_loopend</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="checkBox_at9_looppoint.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>412, 60</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Name" xml:space="preserve">
+    <value>textBox_at3_looptimes</value>
+  </data>
+  <data name="checkBox_at3_looppoint.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 52</value>
+  </data>
+  <data name="label_at9_enctype.Text" xml:space="preserve">
+    <value>Encoding method:</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="textBox_at9_cmd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 23</value>
+  </data>
+  <data name="comboBox_at9_useband.Items2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items" xml:space="preserve">
+    <value>36kbps</value>
+  </data>
+  <data name="label_at9_loopend.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 17</value>
+  </data>
+  <data name="textBox_at3_loopstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="textBox_at3_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label_at9_loopend.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="checkBox_at9_looplist.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="comboBox_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>337, 64</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items5" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="label_at3_nol.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_at3_looptimes.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items3" xml:space="preserve">
+    <value>72kbps</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="checkBox_at9_advband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 66</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items9" xml:space="preserve">
+    <value>160kbps, stereo</value>
+  </data>
+  <data name="label_at9_samples.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_at3_encmethod.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="comboBox_at9_sampling.Items2" xml:space="preserve">
+    <value>48000Hz</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 32</value>
+  </data>
+  <data name="comboBox_at9_startband.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="label_at3_samples.Text" xml:space="preserve">
+    <value>samples</value>
+  </data>
+  <data name="label_at3_nol.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBox_at3_loopend.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_at9_looplist.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="checkBox_at9_looppoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 19</value>
+  </data>
+  <data name="label_at3_nol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 80</value>
+  </data>
+  <data name="checkBox_at9_looplist.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 115</value>
+  </data>
+  <data name="label_at3_samples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Name" xml:space="preserve">
+    <value>label_at3_loopstart</value>
+  </data>
+  <data name="checkBox_at9_looppoint.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 62</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 23</value>
+  </data>
+  <data name="label_at3_samples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>522, 53</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 19</value>
+  </data>
+  <data name="textBox_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 23</value>
+  </data>
+  <data name="checkBox_at9_advanced.Text" xml:space="preserve">
+    <value>Enable advanced settings</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="comboBox_at9_sampling.Location" type="System.Drawing.Point, System.Drawing">
+    <value>240, 29</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_cmd.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items13" xml:space="preserve">
+    <value>352kbps, stereo</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopstart.Name" xml:space="preserve">
+    <value>label_at9_loopstart</value>
+  </data>
+  <data name="textBox_at3_loopstart.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="comboBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 23</value>
+  </data>
+  <data name="checkBox_at9_advanced.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 19</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Name" xml:space="preserve">
+    <value>label_at3_loopend</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBox_at3_loopstart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_nol.Text" xml:space="preserve">
+    <value>Number of loops:</value>
+  </data>
+  <data name="label_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>302, 53</value>
+  </data>
+  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>522, 506</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label_at3_loopstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 15</value>
+  </data>
+  <data name="button_at9_looplist.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>302, 63</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Name" xml:space="preserve">
+    <value>button_OK</value>
+  </data>
+  <data name="textBox_at9_loopstart.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label_at3_loopstart.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label_at9_useband.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>ATRAC9 Command-line arguments:</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Name" xml:space="preserve">
+    <value>label_at3_times</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Name" xml:space="preserve">
+    <value>label_at9_loopend</value>
+  </data>
+  <data name="textBox_at9_loopstart.MaxLength" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_cmd.Name" xml:space="preserve">
+    <value>textBox_at3_cmd</value>
+  </data>
+  <data name="label_at3_loopend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 15</value>
+  </data>
+  <data name="label_at9_times.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Name" xml:space="preserve">
+    <value>label_at3_nol</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_at3_samples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 15</value>
+  </data>
+  <data name="label_at3_times.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 15</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Name" xml:space="preserve">
+    <value>checkBox_at9_looppoint</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Encoding method:</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items7" xml:space="preserve">
+    <value>144kbps</value>
+  </data>
+  <data name="textBox_at3_looptimes.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_at9_useband.Items13" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="button_OK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="label_at9_loopstart.Text" xml:space="preserve">
+    <value>LoopStart:</value>
+  </data>
+  <data name="label_at3_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 53</value>
+  </data>
+  <data name="checkBox_at9_looptimes.Text" xml:space="preserve">
+    <value>Specify the number of times to loop</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Name" xml:space="preserve">
+    <value>checkBox_at9_looptimes</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items3" xml:space="preserve">
+    <value>64kbps, mono / stereo</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 22</value>
+  </data>
+  <data name="label_at9_times.Text" xml:space="preserve">
+    <value>times</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items1" xml:space="preserve">
+    <value>48kbps, mono / stereo</value>
+  </data>
+  <data name="label_at9_startband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 15</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="label_at9_useband.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="comboBox_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>363, 14</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="comboBox_at9_useband.Items4" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label_at9_startband.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>441, 506</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items12" xml:space="preserve">
+    <value>320kbps, stereo</value>
+  </data>
+  <data name="textBox_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 23</value>
+  </data>
+  <data name="textBox_at9_loopstart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items5" xml:space="preserve">
+    <value>96kbps, mono / stereo</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 20</value>
+  </data>
+  <data name="textBox_at9_looplist.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBox_at3_loopend.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Name" xml:space="preserve">
+    <value>checkBox_at9_loopsound</value>
+  </data>
+  <data name="checkBox_at3_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 19</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label_at9_nol.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBox_at3_looptimes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Name" xml:space="preserve">
+    <value>textBox_at9_loopend</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_enctype.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>247, 39</value>
+  </data>
+  <data name="comboBox_at9_useband.Items12" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="label_at3_samples.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_at9_useband.Items" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_at3_times.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Name" xml:space="preserve">
+    <value>label_at9_times</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="checkBox_at3_looppoint.Text" xml:space="preserve">
+    <value>Set the loop point</value>
+  </data>
+  <data name="label_at9_loopstart.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label_at9_loopend.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="checkBox_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 19</value>
+  </data>
+  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBox_at3_looptimes.MaxLength" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 110</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Name" xml:space="preserve">
+    <value>checkBox_at3_looppoint</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label_at9_useband.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_startband.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBox_at3_loopstart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="label_at3_samples.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="textBox_at9_loopend.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="label_at9_loopend.Text" xml:space="preserve">
+    <value>samples~ LoopEnd:</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items11" xml:space="preserve">
+    <value>256kbps, stereo</value>
+  </data>
+  <data name="label_at9_samples.Text" xml:space="preserve">
+    <value>samples</value>
+  </data>
+  <data name="textBox_at9_loopstart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="textBox_at9_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 87</value>
+  </data>
+  <data name="checkBox_at9_supframe.Text" xml:space="preserve">
+    <value>Enable super-frame encode</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 91</value>
+  </data>
+  <data name="checkBox_at3_loopsound.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at9_looptimes.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_at9_samples.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+</value>
+  </data>
+  <data name="label_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 67</value>
+  </data>
+  <data name="checkBox_at3_looppoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 19</value>
+  </data>
+  <data name="textBox_at3_looptimes.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label_at9_enctype.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_at9_enctype.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 32</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Sampling frequency:</value>
+  </data>
+  <data name="checkBox_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 39</value>
+  </data>
+  <data name="comboBox_at9_startband.Items1" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label_at9_useband.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="checkBox_at9_supframe.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_at9_looplist.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_cmd.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 15</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Conversion Settings</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Name" xml:space="preserve">
+    <value>checkBox_at9_looplist</value>
+  </data>
+  <data name="comboBox_at9_useband.Items8" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="button_at9_looplist.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="checkBox_at9_enctype.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 173</value>
+  </data>
+  <data name="textBox_at3_cmd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 419</value>
+  </data>
+  <data name="checkBox_at3_looptimes.Text" xml:space="preserve">
+    <value>Specify the number of times to loop</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Name" xml:space="preserve">
+    <value>comboBox_at9_enctype</value>
+  </data>
+  <data name="label_at9_samples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 15</value>
+  </data>
+  <data name="label_at9_loopstart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="textBox_at3_cmd.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_sampling.Items1" xml:space="preserve">
+    <value>24000Hz</value>
+  </data>
+  <data name="label_at3_loopend.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 15</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_cmd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Name" xml:space="preserve">
+    <value>comboBox_at9_bitrate</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+ Command-line arguments:</value>
+  </data>
+  <data name="comboBox_at9_useband.Items1" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="comboBox_at9_useband.Items14" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="label_at3_times.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 80</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Name" xml:space="preserve">
+    <value>checkBox_at3_loopsound</value>
+  </data>
+  <data name="label_at3_loopstart.Text" xml:space="preserve">
+    <value>LoopStart:</value>
+  </data>
+  <data name="label_at9_times.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 90</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Name" xml:space="preserve">
+    <value>label_at9_enctype</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items8" xml:space="preserve">
+    <value>132kbps, stereo</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_cmd.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items8" xml:space="preserve">
+    <value>168kbps</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items7" xml:space="preserve">
+    <value>128kbps, mono / stereo</value>
+  </data>
+  <data name="label_at3_times.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 19</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label_at3_loopend.Text" xml:space="preserve">
+    <value>samples ~ LoopEnd:</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Name" xml:space="preserve">
+    <value>checkBox_at9_advanced</value>
+  </data>
+  <data name="checkBox_at9_supframe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Name" xml:space="preserve">
+    <value>label_at9_samples</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="comboBox_at9_enctype.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="comboBox_at9_startband.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="label_at9_startband.Text" xml:space="preserve">
+    <value>Start band:</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_cmd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_cmd.Name" xml:space="preserve">
+    <value>textBox_at9_cmd</value>
+  </data>
+  <data name="label_at9_useband.Text" xml:space="preserve">
+    <value>Number of bands used:</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="checkBox_at3_looptimes.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 31</value>
+  </data>
+  <data name="label_at9_samples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="button_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 23</value>
+  </data>
+  <data name="checkBox_at3_looppoint.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBox_at9_looplist.Text" xml:space="preserve">
+    <value>Specifying a loop list file to set up a loop</value>
+  </data>
+  <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 15</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="textBox_at9_cmd.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="textBox_at3_loopend.MaxLength" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Name" xml:space="preserve">
+    <value>label_at9_nol</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_at9_looptimes.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 67</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_at9_dualenc.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Name" xml:space="preserve">
+    <value>textBox_at9_loopstart</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Name" xml:space="preserve">
+    <value>checkBox_at9_supframe</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Name" xml:space="preserve">
+    <value>checkBox_at9_enctype</value>
+  </data>
+  <data name="checkBox_at9_looppoint.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="comboBox_at9_startband.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="label_at3_nol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 15</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Name" xml:space="preserve">
+    <value>comboBox_at9_useband</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="comboBox_at9_useband.Items3" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="checkBox_at9_enctype.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="checkBox_at9_advanced.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 16</value>
+  </data>
+  <data name="checkBox_at9_loopsound.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 128</value>
+  </data>
+  <data name="checkBox_at9_enctype.Text" xml:space="preserve">
+    <value>Specify the encoding type of ATRAC</value>
+  </data>
+  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_cmd.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_at9_useband.Items7" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="checkBox_at9_advband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 19</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_at9_useband.Items9" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="label_at9_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 63</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_sampling.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 29</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_times.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>ATRAC9</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>ATRAC9 Advanced</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Name" xml:space="preserve">
+    <value>comboBox_at3_encmethod</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBox_at9_looppoint.Text" xml:space="preserve">
+    <value>Set the loop point</value>
+  </data>
+  <data name="checkBox_at9_loopsound.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="comboBox_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 64</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="checkBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 19</value>
+  </data>
+  <data name="label_at9_nol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 15</value>
+  </data>
+  <data name="comboBox_at9_useband.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Name" xml:space="preserve">
+    <value>textBox_at9_looplist</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="textBox_at3_loopend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBox_at9_advband.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="textBox_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 23</value>
+  </data>
+  <data name="textBox_at3_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>202, 50</value>
+  </data>
+  <data name="checkBox_at9_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 19</value>
+  </data>
+  <data name="textBox_at3_loopstart.MaxLength" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label_at9_startband.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="comboBox_at9_useband.Items6" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_sampling.Items" xml:space="preserve">
+    <value>12000Hz</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items4" xml:space="preserve">
+    <value>84kbps</value>
+  </data>
+  <data name="label_at3_nol.Text" xml:space="preserve">
+    <value>Number of loops:</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="checkBox_at3_loopsound.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_at3_loopend.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at9_looplist.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 140</value>
+  </data>
+  <data name="checkBox_at9_dualenc.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="textBox_at9_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>202, 60</value>
+  </data>
+  <data name="textBox_at9_looptimes.MaxLength" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Name" xml:space="preserve">
+    <value>textBox_at9_looptimes</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Text" xml:space="preserve">
+    <value>Loop a sound source from beginning to end</value>
+  </data>
+  <data name="checkBox_at3_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 79</value>
+  </data>
+  <data name="label_at9_nol.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at3_times.Text" xml:space="preserve">
+    <value>times</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
+    <value>Enable dual encode mode</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Name" xml:space="preserve">
+    <value>checkBox_at9_dualenc</value>
+  </data>
+  <data name="button_at9_looplist.Location" type="System.Drawing.Point, System.Drawing">
+    <value>536, 140</value>
+  </data>
+  <data name="comboBox_at9_bitrate.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopstart.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="checkBox_at9_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 89</value>
+  </data>
+  <data name="checkBox_at3_looppoint.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_at9_advband.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items5" xml:space="preserve">
+    <value>96kbps</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 23</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 401</value>
+  </data>
+  <data name="comboBox_at9_sampling.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items1" xml:space="preserve">
+    <value>48kbps</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="checkBox_at9_looptimes.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="label_at9_enctype.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBox_at9_looplist.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 307</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="label_at9_times.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 15</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items4" xml:space="preserve">
+    <value>66kbps, mono / stereo</value>
+  </data>
+  <data name="label_at9_useband.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Name" xml:space="preserve">
+    <value>label_at3_samples</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 15</value>
+  </data>
+  <data name="label_at3_loopstart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_at9_useband.Items11" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="label_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 15</value>
+  </data>
+  <data name="comboBox_at9_useband.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label_at9_useband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at9_loopstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 15</value>
+  </data>
+  <data name="label_at9_times.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at9_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 15</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items2" xml:space="preserve">
+    <value>52kbps, mono</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items" xml:space="preserve">
+    <value>32kbps, mono</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Name" xml:space="preserve">
+    <value>checkBox_at9_advband</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Name" xml:space="preserve">
+    <value>button_at9_looplist</value>
+  </data>
+  <data name="textBox_at9_loopstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="checkBox_at9_advband.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_at3_nol.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="checkBox_at9_enctype.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label_at3_loopstart.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_at9_loopend.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_at9_useband.Name" xml:space="preserve">
+    <value>label_at9_useband</value>
+  </data>
+  <data name="textBox_at9_looptimes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Bitrate:</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Items6" xml:space="preserve">
+    <value>120kbps</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Name" xml:space="preserve">
+    <value>textBox_at3_loopstart</value>
+  </data>
+  <data name="textBox_at3_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 77</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>609, 541</value>
+  </data>
+  <data name="comboBox_at9_useband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 23</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Name" xml:space="preserve">
+    <value>checkBox_at3_looptimes</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 23</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormSettings</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Name" xml:space="preserve">
+    <value>label_at9_startband</value>
+  </data>
+  <data name="checkBox_at9_supframe.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="textBox_at9_loopend.MaxLength" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Text" xml:space="preserve">
+    <value>Loop a sound source from beginning to end</value>
+  </data>
+  <data name="checkBox_at9_advanced.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_at3_times.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+</root>
