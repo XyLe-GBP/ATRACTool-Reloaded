@@ -1,4 +1,4 @@
-# ATRACTool
+# ATRACTool-Reloaded
 ![Downloads](https://img.shields.io/github/downloads/XyLe-GBP/ATRACTool-Reloaded/total.svg)  
 
 <p>Utility tool to convert Sony's ATRAC3/ATRAC3plus/ATRAC9(.AT3/.AT9) to Wave(.WAV) sound.</p>
