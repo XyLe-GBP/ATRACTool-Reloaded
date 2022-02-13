@@ -183,6 +183,9 @@
   <data name="LatestCaption" xml:space="preserve">
     <value>最新バージョン：</value>
   </data>
+  <data name="LengthCaption" xml:space="preserve">
+    <value>時間</value>
+  </data>
   <data name="ListFilters" xml:space="preserve">
     <value>リストファイル (*.lst)|*.lst;|すべてのファイル (*.*)|*.*</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="LoopListErrorCaption" xml:space="preserve">
     <value>ループを設定するためのリストファイルが指定されていません。</value>
+  </data>
+  <data name="LoopNotSetCaption" xml:space="preserve">
+    <value>LoopStartのポイントとLoopEndのポイントが正しく設定されていません。</value>
   </data>
   <data name="LoopStartErrorCaption" xml:space="preserve">
     <value>'LoopStart'値が正しく入力されていません。</value>
@@ -223,6 +229,9 @@
   <data name="NotAllowedExtensionCaption" xml:space="preserve">
     <value>サポートされていないファイルは読み込みできません。</value>
   </data>
+  <data name="NotFoundIOStringCaption" xml:space="preserve">
+    <value>'$InFile' または '$OutFile' の文字列を削除することはできません。</value>
+  </data>
   <data name="NotReadyCaption" xml:space="preserve">
     <value>準備未完了 - ファイルを開いてください…</value>
   </data>
@@ -236,8 +245,17 @@
   <data name="OpenListDialogTitle" xml:space="preserve">
     <value>ループリストファイルを開く</value>
   </data>
+  <data name="PauseCaption" xml:space="preserve">
+    <value>一時停止</value>
+  </data>
+  <data name="PlayCaption" xml:space="preserve">
+    <value>再生</value>
+  </data>
   <data name="ReadyCaption" xml:space="preserve">
     <value>準備完了！</value>
+  </data>
+  <data name="SampleCaption" xml:space="preserve">
+    <value>サンプル</value>
   </data>
   <data name="SaveDialogTitle" xml:space="preserve">
     <value>対象のファイルを保存</value>
@@ -248,6 +266,9 @@
   </data>
   <data name="StatusCaption" xml:space="preserve">
     <value>{0} / {1} ファイルを変換済み</value>
+  </data>
+  <data name="StopCaption" xml:space="preserve">
+    <value>停止</value>
   </data>
   <data name="UnExpectedCaption" xml:space="preserve">
     <value>予期せぬエラーが発生しました。

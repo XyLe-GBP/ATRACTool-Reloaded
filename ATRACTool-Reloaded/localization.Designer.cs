@@ -247,6 +247,15 @@ namespace ATRACTool_Reloaded {
         }
         
         /// <summary>
+        ///   Length に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LengthCaption {
+            get {
+                return ResourceManager.GetString("LengthCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   List file (*.lst)|*.lst;|All Files (*.*)|*.* に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ListFilters {
@@ -270,6 +279,15 @@ namespace ATRACTool_Reloaded {
         internal static string LoopListErrorCaption {
             get {
                 return ResourceManager.GetString("LoopListErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LoopStart or LoopEnd value is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LoopNotSetCaption {
+            get {
+                return ResourceManager.GetString("LoopNotSetCaption", resourceCulture);
             }
         }
         
@@ -364,6 +382,15 @@ namespace ATRACTool_Reloaded {
         }
         
         /// <summary>
+        ///   It is not possible to delete the &apos;$InFile&apos; and &apos;$OutFile&apos; strings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NotFoundIOStringCaption {
+            get {
+                return ResourceManager.GetString("NotFoundIOStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Not Ready - Please open the file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NotReadyCaption {
@@ -400,11 +427,38 @@ namespace ATRACTool_Reloaded {
         }
         
         /// <summary>
+        ///   Pause に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PauseCaption {
+            get {
+                return ResourceManager.GetString("PauseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Play に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PlayCaption {
+            get {
+                return ResourceManager.GetString("PlayCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   All Ready! に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ReadyCaption {
             get {
                 return ResourceManager.GetString("ReadyCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Samples に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SampleCaption {
+            get {
+                return ResourceManager.GetString("SampleCaption", resourceCulture);
             }
         }
         
@@ -433,6 +487,15 @@ namespace ATRACTool_Reloaded {
         internal static string StatusCaption {
             get {
                 return ResourceManager.GetString("StatusCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StopCaption {
+            get {
+                return ResourceManager.GetString("StopCaption", resourceCulture);
             }
         }
         

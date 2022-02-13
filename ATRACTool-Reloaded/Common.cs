@@ -38,6 +38,8 @@ namespace ATRACTool_Reloaded
             public static string DecodeParamAT9 = "at9tool -d $InFile $OutFile";
             public static string EncodeParamAT3 = "";
             public static string EncodeParamAT9 = "";
+
+            public static StreamReader Log = null!;
         }
 
         internal class Utils
@@ -199,6 +201,20 @@ namespace ATRACTool_Reloaded
                     default:
                         Generic.WTAFmt = ".mp3";
                         break;
+                }
+            }
+
+            public static string LogSplit(StreamReader streamReader)
+            {
+                string read = streamReader.ReadToEnd();
+                int pos = read.IndexOf("SCEI");
+                if (pos != -1)
+                {
+                    return read.Substring(0, pos);
+                }
+                else
+                {
+                    return null!;
                 }
             }
         }

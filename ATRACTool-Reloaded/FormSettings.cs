@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ATRACTool_Reloaded
+﻿namespace ATRACTool_Reloaded
 {
     public partial class FormSettings : Form
     {
@@ -80,41 +70,41 @@ namespace ATRACTool_Reloaded
 
             switch (bitrateindexAT3)
             {
-                case 0: // 32 mono
+                case 0: // 32k
                     comboBox_at3_encmethod.SelectedIndex = 0;
                     bitrateAT3 = " -br 32";
                     break;
-                case 1: // 48k mono / stereo
+                case 1: // 48k
                     comboBox_at3_encmethod.SelectedIndex = 1;
                     bitrateAT3 = " -br 48";
                     break;
-                case 2: // 52k mono
+                case 2: // 57k
                     comboBox_at3_encmethod.SelectedIndex = 2;
-                    bitrateAT3 = " -br 52";
+                    bitrateAT3 = " -br 57";
                     break;
                 case 3: // 64k mono / stereo
                     comboBox_at3_encmethod.SelectedIndex = 3;
                     bitrateAT3 = " -br 64";
                     break;
-                case 4: // 66k mono / stereo
+                case 4: // 72k mono / stereo
                     comboBox_at3_encmethod.SelectedIndex = 4;
-                    bitrateAT3 = " -br 66";
+                    bitrateAT3 = " -br 72";
                     break;
                 case 5: // 96k mono / stereo
                     comboBox_at3_encmethod.SelectedIndex = 5;
                     bitrateAT3 = " -br 96";
                     break;
-                case 6: // 105k stereo
+                case 6: // 114k stereo
                     comboBox_at3_encmethod.SelectedIndex = 6;
-                    bitrateAT3 = " -br 105";
+                    bitrateAT3 = " -br 114";
                     break;
                 case 7: // 128k mono / stereo
                     comboBox_at3_encmethod.SelectedIndex = 7;
                     bitrateAT3 = " -br 128";
                     break;
-                case 8: // 132k
+                case 8: // 144k
                     comboBox_at3_encmethod.SelectedIndex = 8;
-                    bitrateAT3 = " -br 132";
+                    bitrateAT3 = " -br 144";
                     break;
                 case 9: // 160k
                     comboBox_at3_encmethod.SelectedIndex = 9;
@@ -132,9 +122,17 @@ namespace ATRACTool_Reloaded
                     comboBox_at3_encmethod.SelectedIndex = 12;
                     bitrateAT3 = " -br 320";
                     break;
-                case 13: // 352k
+                case 13: // 384k
                     comboBox_at3_encmethod.SelectedIndex = 13;
-                    bitrateAT3 = " -br 352";
+                    bitrateAT3 = " -br 384";
+                    break;
+                case 14: // 512k
+                    comboBox_at3_encmethod.SelectedIndex = 14;
+                    bitrateAT3 = " -br 512";
+                    break;
+                case 15: // 768k
+                    comboBox_at3_encmethod.SelectedIndex = 15;
+                    bitrateAT3 = " -br 768";
                     break;
                 default:
                     comboBox_at3_encmethod.SelectedIndex = 10;
@@ -209,6 +207,9 @@ namespace ATRACTool_Reloaded
             {
                 if (looppointindexAT3 != 0)
                 {
+                    wholeloopAT3 = "";
+                    checkBox_at3_loopsound.Enabled = false;
+
                     checkBox_at3_looppoint.Checked = true;
                     looppointAT3 = " -loop";
                     label_at3_loopstart.Enabled = true;
@@ -229,6 +230,8 @@ namespace ATRACTool_Reloaded
                 }
                 else
                 {
+                    checkBox_at3_loopsound.Enabled = true;
+
                     looppointAT3 = "";
                     loopstartAT3 = "";
                     loopendAT3 = "";
@@ -244,6 +247,8 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                checkBox_at3_loopsound.Enabled = true;
+
                 looppointAT3 = "";
                 loopstartAT3 = "";
                 loopendAT3 = "";
@@ -261,6 +266,7 @@ namespace ATRACTool_Reloaded
             {
                 if (looppointindexAT9 != 0)
                 {
+                    checkBox_at9_loopsound.Enabled = false;
                     checkBox_at9_looppoint.Checked = true;
                     looppointAT9 = " -loop";
                     label_at9_loopstart.Enabled = true;
@@ -292,6 +298,7 @@ namespace ATRACTool_Reloaded
                     textBox_at9_loopstart.Text = null;
                     textBox_at9_loopend.Enabled = false;
                     textBox_at9_loopend.Text = null;
+                    checkBox_at9_loopsound.Enabled = true;
                 }
             }
             else
@@ -307,6 +314,7 @@ namespace ATRACTool_Reloaded
                 textBox_at9_loopstart.Text = null;
                 textBox_at9_loopend.Enabled = false;
                 textBox_at9_loopend.Text = null;
+                checkBox_at9_loopsound.Enabled = true;
             }
 
             if (wholeloopindexAT3 != 65535)
@@ -315,17 +323,20 @@ namespace ATRACTool_Reloaded
                 {
                     wholeloopAT3 = " -wholeloop";
                     checkBox_at3_loopsound.Checked = true;
+                    checkBox_at3_looppoint.Enabled = false;
                 }
                 else
                 {
                     wholeloopAT3 = "";
                     checkBox_at3_loopsound.Checked = false;
+                    checkBox_at3_looppoint.Enabled = true;
                 }
             }
             else
             {
                 wholeloopAT3 = "";
                 checkBox_at3_loopsound.Checked = false;
+                checkBox_at3_looppoint.Enabled = true;
             }
 
             if (wholeloopindexAT9 != 65535)
@@ -334,17 +345,20 @@ namespace ATRACTool_Reloaded
                 {
                     wholeloopAT9 = " -wholeloop";
                     checkBox_at9_loopsound.Checked = true;
+                    checkBox_at9_looppoint.Enabled = false;
                 }
                 else
                 {
                     wholeloopAT9 = "";
                     checkBox_at9_loopsound.Checked = false;
+                    checkBox_at9_looppoint.Enabled = true;
                 }
             }
             else
             {
                 wholeloopAT9 = "";
                 checkBox_at9_loopsound.Checked = false;
+                checkBox_at9_looppoint.Enabled = true;
             }
 
             if (looptimeindexAT3 != 65535)
@@ -798,49 +812,72 @@ namespace ATRACTool_Reloaded
         {
             switch (comboBox_at3_encmethod.SelectedIndex)
             {
-                case 0: // 32 mono
+                case 0: // 32k
+                    comboBox_at3_encmethod.SelectedIndex = 0;
                     bitrateAT3 = " -br 32";
                     break;
-                case 1: // 48k mono / stereo
+                case 1: // 48k
+                    comboBox_at3_encmethod.SelectedIndex = 1;
                     bitrateAT3 = " -br 48";
                     break;
-                case 2: // 52k mono
-                    bitrateAT3 = " -br 52";
+                case 2: // 57k
+                    comboBox_at3_encmethod.SelectedIndex = 2;
+                    bitrateAT3 = " -br 57";
                     break;
                 case 3: // 64k mono / stereo
+                    comboBox_at3_encmethod.SelectedIndex = 3;
                     bitrateAT3 = " -br 64";
                     break;
-                case 4: // 66k mono / stereo
-                    bitrateAT3 = " -br 66";
+                case 4: // 72k mono / stereo
+                    comboBox_at3_encmethod.SelectedIndex = 4;
+                    bitrateAT3 = " -br 72";
                     break;
                 case 5: // 96k mono / stereo
+                    comboBox_at3_encmethod.SelectedIndex = 5;
                     bitrateAT3 = " -br 96";
                     break;
-                case 6: // 105k stereo
-                    bitrateAT3 = " -br 105";
+                case 6: // 114k stereo
+                    comboBox_at3_encmethod.SelectedIndex = 6;
+                    bitrateAT3 = " -br 114";
                     break;
                 case 7: // 128k mono / stereo
+                    comboBox_at3_encmethod.SelectedIndex = 7;
                     bitrateAT3 = " -br 128";
                     break;
-                case 8: // 132k
-                    bitrateAT3 = " -br 132";
+                case 8: // 144k
+                    comboBox_at3_encmethod.SelectedIndex = 8;
+                    bitrateAT3 = " -br 144";
                     break;
                 case 9: // 160k
+                    comboBox_at3_encmethod.SelectedIndex = 9;
                     bitrateAT3 = " -br 160";
                     break;
                 case 10: // 192k
+                    comboBox_at3_encmethod.SelectedIndex = 10;
                     bitrateAT3 = " -br 192";
                     break;
                 case 11: // 256k
+                    comboBox_at3_encmethod.SelectedIndex = 11;
                     bitrateAT3 = " -br 256";
                     break;
                 case 12: // 320k
+                    comboBox_at3_encmethod.SelectedIndex = 12;
                     bitrateAT3 = " -br 320";
                     break;
-                case 13: // 352k
-                    bitrateAT3 = " -br 352";
+                case 13: // 384k
+                    comboBox_at3_encmethod.SelectedIndex = 13;
+                    bitrateAT3 = " -br 384";
+                    break;
+                case 14: // 512k
+                    comboBox_at3_encmethod.SelectedIndex = 14;
+                    bitrateAT3 = " -br 512";
+                    break;
+                case 15: // 768k
+                    comboBox_at3_encmethod.SelectedIndex = 15;
+                    bitrateAT3 = " -br 768";
                     break;
                 default:
+                    comboBox_at3_encmethod.SelectedIndex = 10;
                     bitrateAT3 = " -br 192";
                     break;
             }
@@ -853,9 +890,21 @@ namespace ATRACTool_Reloaded
             if (checkBox_at3_loopsound.Checked != false)
             {
                 wholeloopAT3 = " -wholeloop";
+                looppointAT3 = "";
+                loopstartAT3 = "";
+                loopendAT3 = "";
+                checkBox_at3_looppoint.Enabled = false;
+                label_at3_loopstart.Enabled = false;
+                label_at3_loopend.Enabled = false;
+                label_at3_samples.Enabled = false;
+                textBox_at3_loopstart.Enabled = false;
+                textBox_at3_loopstart.Text = null;
+                textBox_at3_loopend.Enabled = false;
+                textBox_at3_loopend.Text = null;
             }
             else
             {
+                checkBox_at3_looppoint.Enabled = true;
                 wholeloopAT3 = "";
             }
             paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
@@ -872,6 +921,9 @@ namespace ATRACTool_Reloaded
                 label_at3_samples.Enabled = true;
                 textBox_at3_loopstart.Enabled = true;
                 textBox_at3_loopend.Enabled = true;
+                wholeloopAT3 = "";
+                checkBox_at3_loopsound.Checked = false;
+                checkBox_at3_loopsound.Enabled = false;
             }
             else
             {
@@ -885,6 +937,7 @@ namespace ATRACTool_Reloaded
                 textBox_at3_loopstart.Text = null;
                 textBox_at3_loopend.Enabled = false;
                 textBox_at3_loopend.Text = null;
+                checkBox_at3_loopsound.Enabled = true;
             }
             paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
             textBox_at3_cmd.Text = paramAT3;
@@ -1051,10 +1104,23 @@ namespace ATRACTool_Reloaded
             if (checkBox_at9_loopsound.Checked != false)
             {
                 wholeloopAT9 = " -wholeloop";
+                looppointAT9 = "";
+                loopstartAT9 = "";
+                loopendAT9 = "";
+                label_at9_loopstart.Enabled = false;
+                label_at9_loopend.Enabled = false;
+                label_at9_samples.Enabled = false;
+                textBox_at9_loopstart.Enabled = false;
+                textBox_at9_loopstart.Text = null;
+                textBox_at9_loopend.Enabled = false;
+                textBox_at9_loopend.Text = null;
+                checkBox_at9_looppoint.Checked = false;
+                checkBox_at9_looppoint.Enabled = false;
             }
             else
             {
                 wholeloopAT9 = "";
+                checkBox_at9_looppoint.Enabled = true;
             }
             paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
             textBox_at9_cmd.Text = paramAT9;
@@ -1064,12 +1130,15 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_at9_looppoint.Checked != false)
             {
+                wholeloopAT9 = "";
                 looppointAT9 = " -loop";
                 label_at9_loopstart.Enabled = true;
                 label_at9_loopend.Enabled = true;
                 label_at9_samples.Enabled = true;
                 textBox_at9_loopstart.Enabled = true;
                 textBox_at9_loopend.Enabled = true;
+                checkBox_at9_loopsound.Checked = false;
+                checkBox_at9_loopsound.Enabled = false;
             }
             else
             {
@@ -1083,6 +1152,7 @@ namespace ATRACTool_Reloaded
                 textBox_at9_loopstart.Text = null;
                 textBox_at9_loopend.Enabled = false;
                 textBox_at9_loopend.Text = null;
+                checkBox_at9_loopsound.Enabled = true;
             }
             paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
             textBox_at9_cmd.Text = paramAT9;
@@ -1430,6 +1500,24 @@ namespace ATRACTool_Reloaded
         private void Button_OK_Click(object sender, EventArgs e)
         {
             Common.IniFile ini = new(@".\settings.ini");
+
+            if (paramAT3.Contains("$InFile $OutFile") != true || paramAT3.Contains("$InFile") != true || paramAT3.Contains("$OutFile") != true)
+            {
+                MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+                textBox_at3_cmd.Text = paramAT3;
+                return;
+            }
+
+            if (paramAT9.Contains("$InFile $OutFile") != true || paramAT9.Contains("$InFile") != true || paramAT9.Contains("$OutFile") != true)
+            {
+                MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                textBox_at9_cmd.Text = paramAT9;
+                return;
+            }
+
+
             if (checkBox_at3_looppoint.Checked != false)
             {
                 if (textBox_at3_loopstart.TextLength == 0)

@@ -98,7 +98,7 @@
     <value>520, 53</value>
   </data>
   <data name="label_at3_samples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 15</value>
+    <value>45, 15</value>
   </data>
   <data name="label_at3_samples.Text" xml:space="preserve">
     <value>サンプル</value>
@@ -107,7 +107,7 @@
     <value>410, 50</value>
   </data>
   <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 15</value>
+    <value>109, 15</value>
   </data>
   <data name="label_at3_loopend.Text" xml:space="preserve">
     <value>サンプル ~ LoopEnd:</value>
@@ -122,7 +122,7 @@
     <value>音源の最初から最後までをループさせる</value>
   </data>
   <data name="checkBox_at3_looppoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 19</value>
+    <value>122, 19</value>
   </data>
   <data name="checkBox_at3_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
@@ -131,43 +131,40 @@
     <value>32kbps, モノラル</value>
   </data>
   <data name="comboBox_at3_encmethod.Items1" xml:space="preserve">
-    <value>48kbps, モノラル / ステレオ</value>
+    <value>48kbps, モノラル</value>
   </data>
   <data name="comboBox_at3_encmethod.Items2" xml:space="preserve">
-    <value>52kbps, モノラル</value>
+    <value>57kbps, モノラル</value>
   </data>
   <data name="comboBox_at3_encmethod.Items3" xml:space="preserve">
     <value>64kbps, モノラル / ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items4" xml:space="preserve">
-    <value>66kbps, モノラル / ステレオ</value>
+    <value>72kbps, モノラル / ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items5" xml:space="preserve">
     <value>96kbps, モノラル / ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items6" xml:space="preserve">
-    <value>105kbps, ステレオ</value>
+    <value>114kbps, ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items7" xml:space="preserve">
     <value>128kbps, モノラル / ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items8" xml:space="preserve">
-    <value>132kbps, ステレオ</value>
+    <value>144kbps, ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items9" xml:space="preserve">
     <value>160kbps, ステレオ</value>
   </data>
   <data name="comboBox_at3_encmethod.Items10" xml:space="preserve">
-    <value>192kbps, ステレオ</value>
+    <value>192kbps, ステレオ / 6ch</value>
   </data>
   <data name="comboBox_at3_encmethod.Items11" xml:space="preserve">
-    <value>256kbps, ステレオ</value>
+    <value>256kbps, ステレオ / 6ch</value>
   </data>
   <data name="comboBox_at3_encmethod.Items12" xml:space="preserve">
-    <value>320kbps, ステレオ</value>
-  </data>
-  <data name="comboBox_at3_encmethod.Items13" xml:space="preserve">
-    <value>352kbps, ステレオ</value>
+    <value>320kbps, ステレオ / 6ch</value>
   </data>
   <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
     <value>88, 20</value>
@@ -200,16 +197,10 @@
     <value>520, 63</value>
   </data>
   <data name="label_at9_samples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 15</value>
+    <value>45, 15</value>
   </data>
   <data name="label_at9_samples.Text" xml:space="preserve">
     <value>サンプル</value>
-  </data>
-  <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 15</value>
-  </data>
-  <data name="label_at9_loopend.Text" xml:space="preserve">
-    <value>サンプル ~ LoopEnd:</value>
   </data>
   <data name="textBox_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
     <value>410, 60</value>
@@ -236,7 +227,7 @@
     <value>音源の最初から最後までをループさせる</value>
   </data>
   <data name="checkBox_at9_looppoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 19</value>
+    <value>122, 19</value>
   </data>
   <data name="checkBox_at9_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
@@ -261,6 +252,12 @@
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>ビットレート：</value>
+  </data>
+  <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 15</value>
+  </data>
+  <data name="label_at9_loopend.Text" xml:space="preserve">
+    <value>サンプル ~ LoopEnd:</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>ATRAC9 高度な設定</value>
@@ -329,7 +326,7 @@
     <value>190, 39</value>
   </data>
   <data name="checkBox_at9_dualenc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 19</value>
+    <value>190, 19</value>
   </data>
   <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
     <value>デュアルエンコードモードを有効にする</value>

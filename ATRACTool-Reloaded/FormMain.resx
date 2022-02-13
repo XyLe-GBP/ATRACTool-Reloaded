@@ -312,7 +312,7 @@
     <value>Conversion settings (&amp;S)</value>
   </data>
   <data name="settingsSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 20</value>
+    <value>72, 20</value>
   </data>
   <data name="settingsSToolStripMenuItem.Text" xml:space="preserve">
     <value>Config (&amp;C)</value>
@@ -330,10 +330,16 @@
     <value>WAVE to Audio</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>AudioConverter (&amp;C)</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Loop point creation</value>
   </data>
   <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 20</value>
@@ -6802,6 +6808,12 @@
     <value>wAVEToAudioToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;wAVEToAudioToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Name" xml:space="preserve">
+    <value>loopPointCreationToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;helpHToolStripMenuItem.Name" xml:space="preserve">

@@ -183,6 +183,9 @@ Please select either 'ATRAC3' or 'ATRAC9'.</value>
   <data name="LatestCaption" xml:space="preserve">
     <value>Latest version:</value>
   </data>
+  <data name="LengthCaption" xml:space="preserve">
+    <value>Length</value>
+  </data>
   <data name="ListFilters" xml:space="preserve">
     <value>List file (*.lst)|*.lst;|All Files (*.*)|*.*</value>
   </data>
@@ -191,6 +194,9 @@ Please select either 'ATRAC3' or 'ATRAC9'.</value>
   </data>
   <data name="LoopListErrorCaption" xml:space="preserve">
     <value>The list file used for the loop has not been specified.</value>
+  </data>
+  <data name="LoopNotSetCaption" xml:space="preserve">
+    <value>LoopStart or LoopEnd value is not set.</value>
   </data>
   <data name="LoopStartErrorCaption" xml:space="preserve">
     <value>The LoopStart value is not set.</value>
@@ -222,6 +228,9 @@ Please select either 'ATRAC3' or 'ATRAC9'.</value>
   <data name="NotAllowedExtensionCaption" xml:space="preserve">
     <value>Unsupported files cannot be loaded.</value>
   </data>
+  <data name="NotFoundIOStringCaption" xml:space="preserve">
+    <value>It is not possible to delete the '$InFile' and '$OutFile' strings.</value>
+  </data>
   <data name="NotReadyCaption" xml:space="preserve">
     <value>Not Ready - Please open the file.</value>
   </data>
@@ -234,8 +243,17 @@ Please select either 'ATRAC3' or 'ATRAC9'.</value>
   <data name="OpenListDialogTitle" xml:space="preserve">
     <value>Open a looplist file</value>
   </data>
+  <data name="PauseCaption" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="PlayCaption" xml:space="preserve">
+    <value>Play</value>
+  </data>
   <data name="ReadyCaption" xml:space="preserve">
     <value>All Ready!</value>
+  </data>
+  <data name="SampleCaption" xml:space="preserve">
+    <value>Samples</value>
   </data>
   <data name="SaveDialogTitle" xml:space="preserve">
     <value>Save a sound source file</value>
@@ -246,6 +264,9 @@ Please make appropriate settings from the menu 'Conversion Settings'.</value>
   </data>
   <data name="StatusCaption" xml:space="preserve">
     <value>Converting {0} of {1} files</value>
+  </data>
+  <data name="StopCaption" xml:space="preserve">
+    <value>Stop</value>
   </data>
   <data name="UnExpectedCaption" xml:space="preserve">
     <value>An un expected error occured.

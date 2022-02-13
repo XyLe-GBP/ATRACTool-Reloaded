@@ -1,5 +1,3 @@
-using MediaToolkit;
-using MediaToolkit.Model;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -62,7 +60,7 @@ namespace ATRACTool_Reloaded
             {
                 Common.Generic.EncodeParamAT9 = "";
             }
-            
+            loopPointCreationToolStripMenuItem.Enabled = false;
         }
 
         // ÉÅÉjÉÖÅ[çÄñ⁄
@@ -102,6 +100,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = true;
                             button_Decode.Enabled = false;
                             button_Encode.Enabled = true;
+                            loopPointCreationToolStripMenuItem.Enabled = true;
                             break;
                         case ".AT3":
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
@@ -109,6 +108,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = false;
                             button_Decode.Enabled = true;
                             button_Encode.Enabled = false;
+                            loopPointCreationToolStripMenuItem.Enabled = false;
                             break;
                         case ".AT9":
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
@@ -116,6 +116,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = false;
                             button_Decode.Enabled = true;
                             button_Encode.Enabled = false;
+                            loopPointCreationToolStripMenuItem.Enabled = false;
                             break;
                     }
                     
@@ -148,6 +149,7 @@ namespace ATRACTool_Reloaded
                                 toolStripDropDownButton_EF.Visible = false;
                                 button_Decode.Enabled = false;
                                 button_Encode.Enabled = false;
+                                loopPointCreationToolStripMenuItem.Enabled = false;
                                 return;
                             }
                         }
@@ -162,6 +164,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = true;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = true;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                                 case ".AT3":
                                     label_Formattxt.Text = Localization.ATRAC3FormatCaption;
@@ -169,6 +172,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = false;
                                     button_Decode.Enabled = true;
                                     button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                                 case ".AT9":
                                     label_Formattxt.Text = Localization.ATRAC9FormatCaption;
@@ -176,6 +180,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = false;
                                     button_Decode.Enabled = true;
                                     button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                             }
                         }
@@ -609,7 +614,7 @@ namespace ATRACTool_Reloaded
                                     {
                                         File.Delete(Common.Generic.SavePath);
                                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                        MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         ResetStatus();
                                         return;
                                     }
@@ -617,7 +622,7 @@ namespace ATRACTool_Reloaded
                                 else
                                 {
                                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                    MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     ResetStatus();
                                     return;
                                 }
@@ -625,7 +630,7 @@ namespace ATRACTool_Reloaded
                             else
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 ResetStatus();
                                 return;
                             }
@@ -721,6 +726,7 @@ namespace ATRACTool_Reloaded
             label_Formattxt.Visible = false;
             toolStripDropDownButton_EF.Enabled = false;
             toolStripDropDownButton_EF.Visible = false;
+            loopPointCreationToolStripMenuItem.Enabled = false;
             closeFileCToolStripMenuItem.Enabled = false;
         }
 
@@ -731,7 +737,7 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = Localization.ConverterFilters,
-                FilterIndex = 14,
+                FilterIndex = 15,
                 Title = Localization.OpenDialogTitle,
                 Multiselect = true,
                 RestoreDirectory = true
@@ -1079,6 +1085,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = true;
                             button_Decode.Enabled = false;
                             button_Encode.Enabled = true;
+                            loopPointCreationToolStripMenuItem.Enabled = true;
                             break;
                         case ".AT3":
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
@@ -1086,6 +1093,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = false;
                             button_Decode.Enabled = true;
                             button_Encode.Enabled = false;
+                            loopPointCreationToolStripMenuItem.Enabled = false;
                             break;
                         case ".AT9":
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
@@ -1093,6 +1101,7 @@ namespace ATRACTool_Reloaded
                             toolStripDropDownButton_EF.Visible = false;
                             button_Decode.Enabled = true;
                             button_Encode.Enabled = false;
+                            loopPointCreationToolStripMenuItem.Enabled = false;
                             break;
                     }
 
@@ -1125,6 +1134,7 @@ namespace ATRACTool_Reloaded
                                 toolStripDropDownButton_EF.Visible = false;
                                 button_Decode.Enabled = false;
                                 button_Encode.Enabled = false;
+                                loopPointCreationToolStripMenuItem.Enabled = false;
                                 return;
                             }
                         }
@@ -1139,6 +1149,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = true;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = true;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                                 case ".AT3":
                                     label_Formattxt.Text = Localization.ATRAC3FormatCaption;
@@ -1146,6 +1157,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = false;
                                     button_Decode.Enabled = true;
                                     button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                                 case ".AT9":
                                     label_Formattxt.Text = Localization.ATRAC9FormatCaption;
@@ -1153,6 +1165,7 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Visible = false;
                                     button_Decode.Enabled = true;
                                     button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
                                     break;
                             }
                         }
@@ -1177,6 +1190,12 @@ namespace ATRACTool_Reloaded
         {
             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             Directory.Delete(Directory.GetCurrentDirectory() + @"\_temp");
+        }
+
+        private void loopPointCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using FormLPC form = new();
+            form.ShowDialog();
         }
     }
 }

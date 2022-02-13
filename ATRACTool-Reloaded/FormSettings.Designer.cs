@@ -54,7 +54,6 @@
             this.label_at9_nol = new System.Windows.Forms.Label();
             this.textBox_at9_looptimes = new System.Windows.Forms.TextBox();
             this.label_at9_samples = new System.Windows.Forms.Label();
-            this.label_at9_loopend = new System.Windows.Forms.Label();
             this.textBox_at9_loopend = new System.Windows.Forms.TextBox();
             this.textBox_at9_loopstart = new System.Windows.Forms.TextBox();
             this.label_at9_loopstart = new System.Windows.Forms.Label();
@@ -68,6 +67,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox_at9_bitrate = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label_at9_loopend = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.comboBox_at9_enctype = new System.Windows.Forms.ComboBox();
             this.label_at9_enctype = new System.Windows.Forms.Label();
@@ -225,7 +225,9 @@
             resources.GetString("comboBox_at3_encmethod.Items10"),
             resources.GetString("comboBox_at3_encmethod.Items11"),
             resources.GetString("comboBox_at3_encmethod.Items12"),
-            resources.GetString("comboBox_at3_encmethod.Items13")});
+            resources.GetString("comboBox_at3_encmethod.Items13"),
+            resources.GetString("comboBox_at3_encmethod.Items14"),
+            resources.GetString("comboBox_at3_encmethod.Items15")});
             this.comboBox_at3_encmethod.Name = "comboBox_at3_encmethod";
             this.comboBox_at3_encmethod.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at3_encmethod_SelectedIndexChanged);
             // 
@@ -241,7 +243,6 @@
             this.groupBox2.Controls.Add(this.label_at9_nol);
             this.groupBox2.Controls.Add(this.textBox_at9_looptimes);
             this.groupBox2.Controls.Add(this.label_at9_samples);
-            this.groupBox2.Controls.Add(this.label_at9_loopend);
             this.groupBox2.Controls.Add(this.textBox_at9_loopend);
             this.groupBox2.Controls.Add(this.textBox_at9_loopstart);
             this.groupBox2.Controls.Add(this.label_at9_loopstart);
@@ -255,6 +256,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.comboBox_at9_bitrate);
             this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label_at9_loopend);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -279,11 +281,6 @@
             // 
             resources.ApplyResources(this.label_at9_samples, "label_at9_samples");
             this.label_at9_samples.Name = "label_at9_samples";
-            // 
-            // label_at9_loopend
-            // 
-            resources.ApplyResources(this.label_at9_loopend, "label_at9_loopend");
-            this.label_at9_loopend.Name = "label_at9_loopend";
             // 
             // textBox_at9_loopend
             // 
@@ -384,6 +381,11 @@
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
+            // 
+            // label_at9_loopend
+            // 
+            resources.ApplyResources(this.label_at9_loopend, "label_at9_loopend");
+            this.label_at9_loopend.Name = "label_at9_loopend";
             // 
             // groupBox3
             // 

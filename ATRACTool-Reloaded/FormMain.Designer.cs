@@ -49,6 +49,7 @@
             this.convertAudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.audioToWAVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wAVEToAudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loopPointCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutATRACToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
@@ -171,7 +172,8 @@
             // toolsTToolStripMenuItem
             // 
             this.toolsTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.convertAudioToolStripMenuItem});
+            this.convertAudioToolStripMenuItem,
+            this.loopPointCreationToolStripMenuItem});
             this.toolsTToolStripMenuItem.Name = "toolsTToolStripMenuItem";
             resources.ApplyResources(this.toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
             // 
@@ -195,6 +197,12 @@
             this.wAVEToAudioToolStripMenuItem.Name = "wAVEToAudioToolStripMenuItem";
             resources.ApplyResources(this.wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             this.wAVEToAudioToolStripMenuItem.Click += new System.EventHandler(this.WAVEToAudioToolStripMenuItem_Click);
+            // 
+            // loopPointCreationToolStripMenuItem
+            // 
+            this.loopPointCreationToolStripMenuItem.Name = "loopPointCreationToolStripMenuItem";
+            resources.ApplyResources(this.loopPointCreationToolStripMenuItem, "loopPointCreationToolStripMenuItem");
+            this.loopPointCreationToolStripMenuItem.Click += new System.EventHandler(this.loopPointCreationToolStripMenuItem_Click);
             // 
             // helpHToolStripMenuItem
             // 
@@ -336,5 +344,6 @@
         private Label label4;
         private ToolStripMenuItem audioToWAVEToolStripMenuItem;
         private ToolStripMenuItem wAVEToAudioToolStripMenuItem;
+        private ToolStripMenuItem loopPointCreationToolStripMenuItem;
     }
 }
