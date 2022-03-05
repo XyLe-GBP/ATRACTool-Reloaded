@@ -80,6 +80,7 @@
             this.checkBox_at9_dualenc = new System.Windows.Forms.CheckBox();
             this.checkBox_at9_supframe = new System.Windows.Forms.CheckBox();
             this.checkBox_at9_advanced = new System.Windows.Forms.CheckBox();
+            this.checkBox_lpcreate = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -122,7 +123,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.label_at3_times);
             this.groupBox1.Controls.Add(this.textBox_at3_looptimes);
             this.groupBox1.Controls.Add(this.label_at3_nol);
@@ -136,6 +136,7 @@
             this.groupBox1.Controls.Add(this.checkBox_at3_looppoint);
             this.groupBox1.Controls.Add(this.comboBox_at3_encmethod);
             this.groupBox1.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -208,7 +209,6 @@
             // 
             // comboBox_at3_encmethod
             // 
-            resources.ApplyResources(this.comboBox_at3_encmethod, "comboBox_at3_encmethod");
             this.comboBox_at3_encmethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at3_encmethod.FormattingEnabled = true;
             this.comboBox_at3_encmethod.Items.AddRange(new object[] {
@@ -228,6 +228,7 @@
             resources.GetString("comboBox_at3_encmethod.Items13"),
             resources.GetString("comboBox_at3_encmethod.Items14"),
             resources.GetString("comboBox_at3_encmethod.Items15")});
+            resources.ApplyResources(this.comboBox_at3_encmethod, "comboBox_at3_encmethod");
             this.comboBox_at3_encmethod.Name = "comboBox_at3_encmethod";
             this.comboBox_at3_encmethod.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at3_encmethod_SelectedIndexChanged);
             // 
@@ -238,7 +239,6 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.label_at9_times);
             this.groupBox2.Controls.Add(this.label_at9_nol);
             this.groupBox2.Controls.Add(this.textBox_at9_looptimes);
@@ -257,6 +257,7 @@
             this.groupBox2.Controls.Add(this.comboBox_at9_bitrate);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label_at9_loopend);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -344,13 +345,13 @@
             // 
             // comboBox_at9_sampling
             // 
-            resources.ApplyResources(this.comboBox_at9_sampling, "comboBox_at9_sampling");
             this.comboBox_at9_sampling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_sampling.FormattingEnabled = true;
             this.comboBox_at9_sampling.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_sampling.Items"),
             resources.GetString("comboBox_at9_sampling.Items1"),
             resources.GetString("comboBox_at9_sampling.Items2")});
+            resources.ApplyResources(this.comboBox_at9_sampling, "comboBox_at9_sampling");
             this.comboBox_at9_sampling.Name = "comboBox_at9_sampling";
             this.comboBox_at9_sampling.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at9_sampling_SelectedIndexChanged);
             // 
@@ -361,7 +362,6 @@
             // 
             // comboBox_at9_bitrate
             // 
-            resources.ApplyResources(this.comboBox_at9_bitrate, "comboBox_at9_bitrate");
             this.comboBox_at9_bitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_bitrate.FormattingEnabled = true;
             this.comboBox_at9_bitrate.Items.AddRange(new object[] {
@@ -374,6 +374,7 @@
             resources.GetString("comboBox_at9_bitrate.Items6"),
             resources.GetString("comboBox_at9_bitrate.Items7"),
             resources.GetString("comboBox_at9_bitrate.Items8")});
+            resources.ApplyResources(this.comboBox_at9_bitrate, "comboBox_at9_bitrate");
             this.comboBox_at9_bitrate.Name = "comboBox_at9_bitrate";
             this.comboBox_at9_bitrate.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at9_bitrate_SelectedIndexChanged);
             // 
@@ -389,7 +390,6 @@
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.comboBox_at9_enctype);
             this.groupBox3.Controls.Add(this.label_at9_enctype);
             this.groupBox3.Controls.Add(this.comboBox_at9_startband);
@@ -401,13 +401,14 @@
             this.groupBox3.Controls.Add(this.checkBox_at9_dualenc);
             this.groupBox3.Controls.Add(this.checkBox_at9_supframe);
             this.groupBox3.Controls.Add(this.checkBox_at9_advanced);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
             // comboBox_at9_enctype
             // 
-            resources.ApplyResources(this.comboBox_at9_enctype, "comboBox_at9_enctype");
             this.comboBox_at9_enctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox_at9_enctype, "comboBox_at9_enctype");
             this.comboBox_at9_enctype.FormattingEnabled = true;
             this.comboBox_at9_enctype.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_enctype.Items"),
@@ -426,8 +427,8 @@
             // 
             // comboBox_at9_startband
             // 
-            resources.ApplyResources(this.comboBox_at9_startband, "comboBox_at9_startband");
             this.comboBox_at9_startband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox_at9_startband, "comboBox_at9_startband");
             this.comboBox_at9_startband.FormattingEnabled = true;
             this.comboBox_at9_startband.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_startband.Items"),
@@ -444,8 +445,8 @@
             // 
             // comboBox_at9_useband
             // 
-            resources.ApplyResources(this.comboBox_at9_useband, "comboBox_at9_useband");
             this.comboBox_at9_useband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox_at9_useband, "comboBox_at9_useband");
             this.comboBox_at9_useband.FormattingEnabled = true;
             this.comboBox_at9_useband.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_useband.Items"),
@@ -505,6 +506,13 @@
             this.checkBox_at9_advanced.UseVisualStyleBackColor = true;
             this.checkBox_at9_advanced.CheckedChanged += new System.EventHandler(this.CheckBox_at9_advanced_CheckedChanged);
             // 
+            // checkBox_lpcreate
+            // 
+            resources.ApplyResources(this.checkBox_lpcreate, "checkBox_lpcreate");
+            this.checkBox_lpcreate.Name = "checkBox_lpcreate";
+            this.checkBox_lpcreate.UseVisualStyleBackColor = true;
+            this.checkBox_lpcreate.CheckedChanged += new System.EventHandler(this.checkBox_lpcreate_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AcceptButton = this.button_OK;
@@ -512,6 +520,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
             this.ControlBox = false;
+            this.Controls.Add(this.checkBox_lpcreate);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -588,5 +597,6 @@
         private CheckBox checkBox_at9_dualenc;
         private CheckBox checkBox_at9_supframe;
         private CheckBox checkBox_at9_advanced;
+        private CheckBox checkBox_lpcreate;
     }
 }

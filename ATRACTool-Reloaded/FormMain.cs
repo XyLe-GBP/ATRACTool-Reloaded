@@ -61,6 +61,8 @@ namespace ATRACTool_Reloaded
                 Common.Generic.EncodeParamAT9 = "";
             }
             loopPointCreationToolStripMenuItem.Enabled = false;
+
+            CheckForUpdatesForInit();
         }
 
         // ÉÅÉjÉÖÅ[çÄñ⁄
@@ -218,6 +220,8 @@ namespace ATRACTool_Reloaded
             formSettings.Dispose();
 
             string prm1 = Common.Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param"), prm2 = Common.Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+            int lpc = Common.Utils.GetIntForIniFile("GENERIC", "LPCreateIndex");
+
             if (prm1 != "" || prm1 != null)
             {
                 Common.Generic.EncodeParamAT3 = prm1;
@@ -233,6 +237,21 @@ namespace ATRACTool_Reloaded
             else
             {
                 Common.Generic.EncodeParamAT9 = "";
+            }
+            if (lpc != 65535)
+            {
+                switch (lpc)
+                {
+                    case 0:
+                        Common.Generic.lpcreate = false;
+                        break;
+                    case 1:
+                        Common.Generic.lpcreate = true;
+                        break;
+                    default:
+                        Common.Generic.lpcreate = false;
+                        break;
+                }
             }
         }
 
@@ -443,9 +462,9 @@ namespace ATRACTool_Reloaded
                     foreach (var file in Common.Generic.OpenFilePaths)
                     {
                         FileInfo fi = new(file);
-                        if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav")))
                         {
-                            File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.FolderSavePath + @"\" + fi.Name);
+                            File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav"), Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, ".wav"));
                             continue;
                         }
                         else
@@ -462,7 +481,7 @@ namespace ATRACTool_Reloaded
                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                         MessageBox.Show(this, Localization.DecodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ResetStatus();
-                        Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.FolderSavePath + @"""");
+                        Process.Start("EXPLORER.EXE", Common.Generic.FolderSavePath);
                         return;
                     }
                     else
@@ -478,6 +497,23 @@ namespace ATRACTool_Reloaded
 
         private void Button_Encode_Click(object sender, EventArgs e)
         {
+            int lpc = Common.Utils.GetIntForIniFile("GENERIC", "LPCreateIndex");
+            if (lpc != 65535)
+            {
+                switch (lpc)
+                {
+                    case 0:
+                        Common.Generic.lpcreate = false;
+                        break;
+                    case 1:
+                        Common.Generic.lpcreate = true;
+                        break;
+                    default:
+                        Common.Generic.lpcreate = false;
+                        break;
+                }
+            }
+
             if (Common.Generic.ATRACFlag == 0 || Common.Generic.ATRACFlag == 1)
             {
                 if (Common.Generic.EncodeParamAT3 == "" || Common.Generic.EncodeParamAT3 == null || Common.Generic.EncodeParamAT9 == "" || Common.Generic.EncodeParamAT9 == null)
@@ -585,6 +621,11 @@ namespace ATRACTool_Reloaded
                     formProgress.ShowDialog();
                     formProgress.Dispose();
 
+                    if (Common.Generic.lpcreatev2 != false)
+                    {
+                        Common.Generic.lpcreatev2 = false;
+                    }
+
                     if (Common.Generic.Result == false)
                     {
                         Common.Generic.cts.Dispose();
@@ -641,18 +682,30 @@ namespace ATRACTool_Reloaded
                             foreach (var file in Common.Generic.OpenFilePaths)
                             {
                                 FileInfo fi = new(file);
-                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
+                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt)))
                                 {
-                                    if (fi.Length != 0)
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt), Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt));
+                                    if (File.Exists(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt)))
                                     {
-                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.FolderSavePath + @"\" + fi.Name);
-                                        continue;
+                                        FileInfo fi2 = new(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt));
+                                        if (fi2.Length != 0)
+                                        {
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath + @"\");
+                                            Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                                            MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            ResetStatus();
+                                            return;
+                                        }
                                     }
                                     else
                                     {
                                         Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath + @"\");
                                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                        MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         ResetStatus();
                                         return;
                                     }
@@ -660,7 +713,7 @@ namespace ATRACTool_Reloaded
                                 else
                                 {
                                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                    MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     ResetStatus();
                                     return;
                                 }
@@ -671,13 +724,13 @@ namespace ATRACTool_Reloaded
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.EncodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 ResetStatus();
-                                Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.SavePath + @"""");
+                                Process.Start("EXPLORER.EXE", Common.Generic.FolderSavePath);
                                 return;
                             }
                             else
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                                MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.EncodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 ResetStatus();
                                 return;
                             }
@@ -1196,6 +1249,60 @@ namespace ATRACTool_Reloaded
         {
             using FormLPC form = new();
             form.ShowDialog();
+        }
+
+        private void CheckForUpdatesForInit()
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                try
+                {
+                    string netversion;
+#pragma warning disable SYSLIB0014 // å^Ç‹ÇΩÇÕÉÅÉìÉoÅ[Ç™ãåå^éÆÇ≈Ç∑
+                    WebClient wc = new();
+#pragma warning restore SYSLIB0014 // å^Ç‹ÇΩÇÕÉÅÉìÉoÅ[Ç™ãåå^éÆÇ≈Ç∑
+
+                    Stream st = wc.OpenRead("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO");
+                    StreamReader sr = new(st);
+                    netversion = sr.ReadToEnd();
+
+                    sr.Close();
+                    st.Close();
+
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+
+                    if (ver.FileVersion != null)
+                    {
+                        switch (ver.FileVersion.ToString().CompareTo(netversion[8..].Replace("\n", "")))
+                        {
+                            case -1:
+                                DialogResult dr = MessageBox.Show(this, Localization.LatestCaption + netversion[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                if (dr == DialogResult.Yes)
+                                {
+                                    Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
+                                    return;
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            case 0:
+                                break;
+                            case 1:
+                                throw new Exception(netversion[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString());
+                        }
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

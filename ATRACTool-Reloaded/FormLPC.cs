@@ -59,7 +59,34 @@ namespace ATRACTool_Reloaded
 
         private void FormLPC_Load(object sender, EventArgs e)
         {
-            reader = new(Common.Generic.OpenFilePaths[0]);
+            if (Common.Generic.lpcreate != false)
+            {
+                reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
+
+                switch (Common.Generic.ATRACFlag)
+                {
+                    case 0:
+                        checkBox_LoopEnable.Checked = true;
+                        checkBox_LoopEnable.Enabled = false;
+                        radioButton_at3.Checked = true;
+                        radioButton_at9.Checked = false;
+                        radioButton_at9.Enabled = false;
+                        button_Cancel.Enabled = false;
+                        break;
+                    case 1:
+                        checkBox_LoopEnable.Checked = true;
+                        checkBox_LoopEnable.Enabled = false;
+                        radioButton_at3.Checked = false;
+                        radioButton_at3.Enabled = false;
+                        radioButton_at9.Checked = true;
+                        button_Cancel.Enabled = false;
+                        break;
+                }
+            }
+            else
+            {
+                reader = new(Common.Generic.OpenFilePaths[0]);
+            }
             wo.Init(reader);
             trackBar_trk.Minimum = 0;
             trackBar_trk.Maximum = (int)reader.TotalTime.TotalMilliseconds;
@@ -76,6 +103,9 @@ namespace ATRACTool_Reloaded
             numericUpDown_LoopEnd.Minimum = 0;
             numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             numericUpDown_LoopEnd.Increment = 1;
+
+            int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
+            numericUpDown_LoopEnd.Value = tb;
         }
 
         private void button_Play_Click(object sender, EventArgs e)
@@ -180,6 +210,7 @@ namespace ATRACTool_Reloaded
                     ini.WriteString("ATRAC3_SETTINGS", "LoopStart_Samples", Start.ToString());
                     ini.WriteString("ATRAC3_SETTINGS", "LoopEnd_Samples", End.ToString());
                     ini.WriteString("ATRAC3_SETTINGS", "Param", "");
+                    ini.WriteString("GENERIC", "LPCreateIndex", "0");
                 }
                 else
                 {
@@ -188,6 +219,7 @@ namespace ATRACTool_Reloaded
                     ini.WriteString("ATRAC9_SETTINGS", "LoopStart_Samples", Start.ToString());
                     ini.WriteString("ATRAC9_SETTINGS", "LoopEnd_Samples", End.ToString());
                     ini.WriteString("ATRAC9_SETTINGS", "Param", "");
+                    ini.WriteString("GENERIC", "LPCreateIndex", "0");
                 }
                 using FormSettings form = new();
                 form.ShowDialog();

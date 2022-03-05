@@ -185,7 +185,7 @@ namespace ATRACTool_Reloaded
                         case ".AT3":
                             {
                                 pi.FileName = ".\\res\\at3tool.exe";
-                                pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp" + "\"").Replace("at3tool ", "");
+                                pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at3tool ", "");
                                 pi.UseShellExecute = false;
                                 pi.RedirectStandardOutput = true;
                                 pi.CreateNoWindow = true;
@@ -229,7 +229,7 @@ namespace ATRACTool_Reloaded
                         case ".AT9":
                             {
                                 pi.FileName = ".\\res\\at9tool.exe";
-                                pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp" + "\"").Replace("at9tool ", "");
+                                pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at9tool ", "");
                                 pi.UseShellExecute = false;
                                 pi.RedirectStandardOutput = true;
                                 pi.CreateNoWindow = true;
@@ -387,6 +387,7 @@ namespace ATRACTool_Reloaded
             }
             else // multiple
             {
+                int fs = 0;
                 foreach (var file in Generic.OpenFilePaths)
                 {
                     FileInfo fi = new(file);
@@ -395,8 +396,18 @@ namespace ATRACTool_Reloaded
                     {
                         case 0:
                             {
+                                if (Generic.lpcreate != false)
+                                {
+                                    Generic.lpcreatev2 = true;
+                                    Generic.files = fs;
+                                    using FormLPC form = new();
+                                    form.ShowDialog();
+
+                                    Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                }
+                                Generic.ATRACExt = ".at3";
                                 pi.FileName = ".\\res\\at3tool.exe";
-                                pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp" + "\"").Replace("at3tool ", "");
+                                pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
                                 pi.UseShellExecute = false;
                                 pi.RedirectStandardOutput = true;
                                 pi.CreateNoWindow = true;
@@ -439,8 +450,18 @@ namespace ATRACTool_Reloaded
                             break;
                         case 1:
                             {
+                                if (Generic.lpcreate != false)
+                                {
+                                    Generic.lpcreatev2 = true;
+                                    Generic.files = fs;
+                                    using FormLPC form = new();
+                                    form.ShowDialog();
+
+                                    Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                }
+                                Generic.ATRACExt = ".at9";
                                 pi.FileName = ".\\res\\at9tool.exe";
-                                pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp" + "\"").Replace("at9tool ", "");
+                                pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
                                 pi.UseShellExecute = false;
                                 pi.RedirectStandardOutput = true;
                                 pi.CreateNoWindow = true;
@@ -484,6 +505,7 @@ namespace ATRACTool_Reloaded
                         default:
                             return false;
                     }
+                    fs++;
                 }
                 return true;
             }
@@ -530,8 +552,13 @@ namespace ATRACTool_Reloaded
                     var source = new MediaFile { Filename = file };
                     var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
 
+                    var co = new ConversionOptions
+                    {
+                        AudioSampleRate = AudioSampleRate.Hz48000,
+                    };
+
                     using var engine = new Engine();
-                    engine.Convert(source, output);
+                    engine.Convert(source, output, co);
 
                     int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
 

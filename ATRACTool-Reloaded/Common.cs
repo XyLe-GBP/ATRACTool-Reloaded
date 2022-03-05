@@ -21,9 +21,16 @@ namespace ATRACTool_Reloaded
             public static int ProcessFlag = -1;
             public static int ProgressMax = 0;
             /// <summary>
+            /// 複数のファイルをエンコードする際にループポイントを作成するかのフラグ
+            /// </summary>
+            public static bool lpcreate = false;
+            public static bool lpcreatev2 = false;
+            public static int files = 0;
+            /// <summary>
             /// AT3もしくはAT9のどちらかを判定するための変数
             /// </summary>
             public static int ATRACFlag = -1;
+            public static string ATRACExt = "";
             public static int TaskFlag = 0;
             /// <summary>
             /// 変換先の形式を判別するための変数
@@ -210,7 +217,7 @@ namespace ATRACTool_Reloaded
                 int pos = read.IndexOf("SCEI");
                 if (pos != -1)
                 {
-                    return read.Substring(0, pos);
+                    return read[..pos];
                 }
                 else
                 {

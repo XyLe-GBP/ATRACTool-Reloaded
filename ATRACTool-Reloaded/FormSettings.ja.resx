@@ -98,7 +98,7 @@
     <value>520, 53</value>
   </data>
   <data name="label_at3_samples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 15</value>
+    <value>44, 15</value>
   </data>
   <data name="label_at3_samples.Text" xml:space="preserve">
     <value>サンプル</value>
@@ -107,7 +107,7 @@
     <value>410, 50</value>
   </data>
   <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 15</value>
+    <value>108, 15</value>
   </data>
   <data name="label_at3_loopend.Text" xml:space="preserve">
     <value>サンプル ~ LoopEnd:</value>
@@ -122,7 +122,7 @@
     <value>音源の最初から最後までをループさせる</value>
   </data>
   <data name="checkBox_at3_looppoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 19</value>
+    <value>121, 19</value>
   </data>
   <data name="checkBox_at3_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
@@ -197,7 +197,7 @@
     <value>520, 63</value>
   </data>
   <data name="label_at9_samples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 15</value>
+    <value>44, 15</value>
   </data>
   <data name="label_at9_samples.Text" xml:space="preserve">
     <value>サンプル</value>
@@ -227,7 +227,7 @@
     <value>音源の最初から最後までをループさせる</value>
   </data>
   <data name="checkBox_at9_looppoint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 19</value>
+    <value>121, 19</value>
   </data>
   <data name="checkBox_at9_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
@@ -254,7 +254,7 @@
     <value>ビットレート：</value>
   </data>
   <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 15</value>
+    <value>108, 15</value>
   </data>
   <data name="label_at9_loopend.Text" xml:space="preserve">
     <value>サンプル ~ LoopEnd:</value>
@@ -326,7 +326,7 @@
     <value>190, 39</value>
   </data>
   <data name="checkBox_at9_dualenc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 19</value>
+    <value>189, 19</value>
   </data>
   <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
     <value>デュアルエンコードモードを有効にする</value>
@@ -345,6 +345,12 @@
   </data>
   <data name="checkBox_at9_advanced.Text" xml:space="preserve">
     <value>高度な設定を有効にする</value>
+  </data>
+  <data name="checkBox_lpcreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 19</value>
+  </data>
+  <data name="checkBox_lpcreate.Text" xml:space="preserve">
+    <value>変換時にループポイントを作成</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>変換設定</value>
