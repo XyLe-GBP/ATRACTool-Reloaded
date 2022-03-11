@@ -1,6 +1,7 @@
 ﻿using MediaToolkit;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
+using NAudio.Wave;
 using System.Diagnostics;
 using static ATRACTool_Reloaded.Common;
 
@@ -83,90 +84,194 @@ namespace ATRACTool_Reloaded
                 {
                     case ".AT3":
                         {
-                            pi.FileName = ".\\res\\at3tool.exe";
-                            pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
-                            pi.UseShellExecute = false;
-                            pi.RedirectStandardOutput = true;
-                            pi.CreateNoWindow = true;
-
-                            ps = Process.Start(pi);
-
-                            if (ps is null) { return false; }
-
-                            Generic.Log = ps.StandardOutput;
-
-                            while (!ps.HasExited)
+                            int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                            switch (console)
                             {
-                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                if (cToken.IsCancellationRequested == true)
-                                {
-                                    if (!ps.HasExited)
+                                case 0: // PSP
                                     {
-                                        ps.Kill();
+                                        pi.FileName = Generic.PSP_ATRAC3tool;
+                                        pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
+
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
                                     }
-                                    ps.Close();
-
-                                    return false;
-                                }
-                                else if (ps.HasExited == true)
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
                                     break;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
-                                    continue;
-                                }
-                            }
+                                case 1: // PS3
+                                    {
+                                        pi.FileName = Generic.PS3_ATRAC3tool;
+                                        pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
 
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     case ".AT9":
                         {
-                            pi.FileName = ".\\res\\at9tool.exe";
-                            pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
-                            pi.UseShellExecute = false;
-                            pi.RedirectStandardOutput = true;
-                            pi.CreateNoWindow = true;
-
-                            ps = Process.Start(pi);
-
-                            if (ps is null) { return false; }
-
-                            Generic.Log = ps.StandardOutput;
-
-                            while (!ps.HasExited)
+                            int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                            switch (console)
                             {
-                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                if (cToken.IsCancellationRequested == true)
-                                {
-                                    if (!ps.HasExited)
+                                case 0: // PSV
                                     {
-                                        ps.Kill();
+                                        pi.FileName = Generic.PSV_ATRAC9tool;
+                                        pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
+
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
                                     }
-                                    ps.Close();
-
-                                    return false;
-                                }
-                                else if (ps.HasExited == true)
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
                                     break;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
-                                    continue;
-                                }
-                            }
+                                case 1: // PS4
+                                    {
+                                        pi.FileName = Generic.PS4_ATRAC9tool;
+                                        pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
 
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     default:
@@ -184,90 +289,194 @@ namespace ATRACTool_Reloaded
                     {
                         case ".AT3":
                             {
-                                pi.FileName = ".\\res\\at3tool.exe";
-                                pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at3tool ", "");
-                                pi.UseShellExecute = false;
-                                pi.RedirectStandardOutput = true;
-                                pi.CreateNoWindow = true;
-
-                                ps = Process.Start(pi);
-
-                                if (ps is null) { return false; }
-
-                                Generic.Log = ps.StandardOutput;
-
-                                while (!ps.HasExited)
+                                int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                                switch (console)
                                 {
-                                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                    if (cToken.IsCancellationRequested == true)
-                                    {
-                                        if (!ps.HasExited)
+                                    case 0: // PSP
                                         {
-                                            ps.Kill();
+                                            pi.FileName = Generic.PSP_ATRAC3tool;
+                                            pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at3tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
                                         }
-                                        ps.Close();
-
-                                        return false;
-                                    }
-                                    else if (ps.HasExited == true)
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
                                         break;
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
-                                        continue;
-                                    }
-                                }
+                                    case 1: // PS3
+                                        {
+                                            pi.FileName = Generic.PS3_ATRAC3tool;
+                                            pi.Arguments = Generic.DecodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at3tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
 
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
                         case ".AT9":
                             {
-                                pi.FileName = ".\\res\\at9tool.exe";
-                                pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at9tool ", "");
-                                pi.UseShellExecute = false;
-                                pi.RedirectStandardOutput = true;
-                                pi.CreateNoWindow = true;
-
-                                ps = Process.Start(pi);
-
-                                if (ps is null) { return false; }
-
-                                Generic.Log = ps.StandardOutput;
-
-                                while (!ps.HasExited)
+                                int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                                switch (console)
                                 {
-                                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                    if (cToken.IsCancellationRequested == true)
-                                    {
-                                        if (!ps.HasExited)
+                                    case 0: // PSV
                                         {
-                                            ps.Kill();
+                                            pi.FileName = Generic.PSV_ATRAC9tool;
+                                            pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at9tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
                                         }
-                                        ps.Close();
-
-                                        return false;
-                                    }
-                                    else if (ps.HasExited == true)
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
                                         break;
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
-                                        continue;
-                                    }
-                                }
+                                    case 1: // PS4
+                                        {
+                                            pi.FileName = Generic.PS4_ATRAC9tool;
+                                            pi.Arguments = Generic.DecodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav") + "\"").Replace("at9tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
 
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
                         default:
@@ -292,92 +501,202 @@ namespace ATRACTool_Reloaded
 
                 switch (Generic.ATRACFlag)
                 {
-                    case 0:
+                    case 0: // ATRAC3
                         {
-                            pi.FileName = ".\\res\\at3tool.exe";
-                            pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
-                            pi.UseShellExecute = false;
-                            pi.RedirectStandardOutput = true;
-                            pi.CreateNoWindow = true;
-
-                            ps = Process.Start(pi);
-
-                            if (ps is null) { return false; }
-
-                            Generic.Log = ps.StandardOutput;
-
-                            while (!ps.HasExited)
+                            int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                            switch (console)
                             {
-                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                if (cToken.IsCancellationRequested == true)
-                                {
-                                    if (!ps.HasExited)
+                                case 0: // PSP
                                     {
-                                        ps.Kill();
-                                    }
-                                    ps.Close();
+                                        Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                        pi.FileName = Generic.PSP_ATRAC3tool;
+                                        pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
 
-                                    return false;
-                                }
-                                else if (ps.HasExited == true)
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
+                                    }
                                     break;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
-                                    continue;
-                                }
+                                case 1: // PS3
+                                    {
+                                        Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                        pi.FileName = Generic.PS3_ATRAC3tool;
+                                        pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
+
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
+
 
                         }
                         break;
-                    case 1:
+                    case 1: // ATRAC9
                         {
-                            pi.FileName = ".\\res\\at9tool.exe";
-                            pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
-                            pi.UseShellExecute = false;
-                            pi.RedirectStandardOutput = true;
-                            pi.CreateNoWindow = true;
-
-                            ps = Process.Start(pi);
-
-                            if (ps is null) { return false; }
-
-                            Generic.Log = ps.StandardOutput;
-
-                            while (!ps.HasExited)
+                            int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                            switch (console)
                             {
-                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                if (cToken.IsCancellationRequested == true)
-                                {
-                                    if (!ps.HasExited)
+                                case 0: // PSV
                                     {
-                                        ps.Kill();
+                                        Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                        pi.FileName = Generic.PSV_ATRAC9tool;
+                                        pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
+
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
                                     }
-                                    ps.Close();
-
-                                    return false;
-                                }
-                                else if (ps.HasExited == true)
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
                                     break;
-                                }
-                                else
-                                {
-                                    Thread.Sleep(100);
-                                    p.Report(files);
-                                    continue;
-                                }
-                            }
+                                case 1: // PS4
+                                    {
+                                        Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                        pi.FileName = Generic.PS4_ATRAC9tool;
+                                        pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
+                                        pi.UseShellExecute = false;
+                                        pi.RedirectStandardOutput = true;
+                                        pi.CreateNoWindow = true;
 
+                                        ps = Process.Start(pi);
+
+                                        if (ps is null) { return false; }
+
+                                        Generic.Log = ps.StandardOutput;
+
+                                        while (!ps.HasExited)
+                                        {
+                                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                            if (cToken.IsCancellationRequested == true)
+                                            {
+                                                if (!ps.HasExited)
+                                                {
+                                                    ps.Kill();
+                                                }
+                                                ps.Close();
+
+                                                return false;
+                                            }
+                                            else if (ps.HasExited == true)
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Thread.Sleep(100);
+                                                p.Report(files);
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     default:
@@ -394,111 +713,237 @@ namespace ATRACTool_Reloaded
 
                     switch (Generic.ATRACFlag)
                     {
-                        case 0:
+                        case 0: // ATRAC3
                             {
-                                if (Generic.lpcreate != false)
+                                int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                                switch (console)
                                 {
-                                    Generic.lpcreatev2 = true;
-                                    Generic.files = fs;
-                                    using FormLPC form = new();
-                                    form.ShowDialog();
-
-                                    Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
-                                }
-                                Generic.ATRACExt = ".at3";
-                                pi.FileName = ".\\res\\at3tool.exe";
-                                pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
-                                pi.UseShellExecute = false;
-                                pi.RedirectStandardOutput = true;
-                                pi.CreateNoWindow = true;
-
-                                ps = Process.Start(pi);
-
-                                if (ps is null) { return false; }
-
-                                Generic.Log = ps.StandardOutput;
-
-                                while (!ps.HasExited)
-                                {
-                                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                    if (cToken.IsCancellationRequested == true)
-                                    {
-                                        if (!ps.HasExited)
+                                    case 0: // PSP
                                         {
-                                            ps.Kill();
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                Generic.files = fs;
+                                                using FormLPC form = new();
+                                                form.ShowDialog();
+
+                                                Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                            }
+                                            Generic.ATRACExt = ".at3";
+                                            pi.FileName = Generic.PSP_ATRAC3tool;
+                                            pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
                                         }
-                                        ps.Close();
-
-                                        return false;
-                                    }
-                                    else if (ps.HasExited == true)
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
                                         break;
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
-                                        continue;
-                                    }
-                                }
+                                    case 1: // PS3
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                Generic.files = fs;
+                                                using FormLPC form = new();
+                                                form.ShowDialog();
 
+                                                Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                            }
+                                            Generic.ATRACExt = ".at3";
+                                            pi.FileName = Generic.PS3_ATRAC3tool;
+                                            pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
-                        case 1:
+                        case 1: // ATRAC9
                             {
-                                if (Generic.lpcreate != false)
+                                int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                                switch (console)
                                 {
-                                    Generic.lpcreatev2 = true;
-                                    Generic.files = fs;
-                                    using FormLPC form = new();
-                                    form.ShowDialog();
-
-                                    Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
-                                }
-                                Generic.ATRACExt = ".at9";
-                                pi.FileName = ".\\res\\at9tool.exe";
-                                pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
-                                pi.UseShellExecute = false;
-                                pi.RedirectStandardOutput = true;
-                                pi.CreateNoWindow = true;
-
-                                ps = Process.Start(pi);
-
-                                if (ps is null) { return false; }
-
-                                Generic.Log = ps.StandardOutput;
-
-                                while (!ps.HasExited)
-                                {
-                                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                                    if (cToken.IsCancellationRequested == true)
-                                    {
-                                        if (!ps.HasExited)
+                                    case 0: // PSV
                                         {
-                                            ps.Kill();
-                                        }
-                                        ps.Close();
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                Generic.files = fs;
+                                                using FormLPC form = new();
+                                                form.ShowDialog();
 
-                                        return false;
-                                    }
-                                    else if (ps.HasExited == true)
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
+                                                Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                            }
+                                            Generic.ATRACExt = ".at9";
+                                            pi.FileName = Generic.PSV_ATRAC9tool;
+                                            pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
+                                        }
                                         break;
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(100);
-                                        p.Report(files);
-                                        continue;
-                                    }
+                                    case 1: // PS4
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                Generic.files = fs;
+                                                using FormLPC form = new();
+                                                form.ShowDialog();
+
+                                                Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                            }
+                                            Generic.ATRACExt = ".at9";
+                                            pi.FileName = Generic.PS4_ATRAC9tool;
+                                            pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
+                                            pi.UseShellExecute = false;
+                                            pi.RedirectStandardOutput = true;
+                                            pi.CreateNoWindow = true;
+
+                                            ps = Process.Start(pi);
+
+                                            if (ps is null) { return false; }
+
+                                            Generic.Log = ps.StandardOutput;
+
+                                            while (!ps.HasExited)
+                                            {
+                                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                                if (cToken.IsCancellationRequested == true)
+                                                {
+                                                    if (!ps.HasExited)
+                                                    {
+                                                        ps.Kill();
+                                                    }
+                                                    ps.Close();
+
+                                                    return false;
+                                                }
+                                                else if (ps.HasExited == true)
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(100);
+                                                    p.Report(files);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
                                 }
+                                
 
                             }
                             break;
@@ -514,67 +959,265 @@ namespace ATRACTool_Reloaded
         private static bool AudioConverter_ATW_DoWork(IProgress<int> p, CancellationToken cToken)
         {
             int length = Generic.OpenFilePaths.Length;
-
-            if (length == 1)
+            switch (Generic.WTAmethod)
             {
-                p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
-                FileInfo fi = new(Common.Generic.SavePath);
-                var source = new MediaFile { Filename = Common.Generic.OpenFilePaths[0] };
-                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
+                case 0: // 44100Hz
+                    {
+                        if (length == 1)
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            FileInfo fi = new(Generic.SavePath);
+                            var source = new MediaFile { Filename = Generic.OpenFilePaths[0] };
+                            var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
 
-                var co = new ConversionOptions
-                {
-                    AudioSampleRate = AudioSampleRate.Hz48000,
-                };
+                            var co = new ConversionOptions
+                            {
+                                AudioSampleRate = AudioSampleRate.Hz44100,
+                            };
 
-                using var engine = new Engine();
-                engine.Convert(source, output, co);
+                            using var engine = new Engine();
+                            engine.Convert(source, output, co);
 
-                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
 
-                if (cToken.IsCancellationRequested == true)
-                {
+                            if (cToken.IsCancellationRequested == true)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                                p.Report(files);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            foreach (var file in Generic.OpenFilePaths)
+                            {
+                                FileInfo fi = new(file);
+                                var source = new MediaFile { Filename = file };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+
+                                var co = new ConversionOptions
+                                {
+                                    AudioSampleRate = AudioSampleRate.Hz44100,
+                                };
+
+                                using var engine = new Engine();
+                                engine.Convert(source, output, co);
+
+                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                if (cToken.IsCancellationRequested == true)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(100);
+                                    p.Report(files);
+                                    continue;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                case 1: // 48000Hz
+                    {
+                        if (length == 1)
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            FileInfo fi = new(Generic.SavePath);
+                            var source = new MediaFile { Filename = Generic.OpenFilePaths[0] };
+                            var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
+
+                            var co = new ConversionOptions
+                            {
+                                AudioSampleRate = AudioSampleRate.Hz48000,
+                            };
+
+                            using var engine = new Engine();
+                            engine.Convert(source, output, co);
+
+                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                            if (cToken.IsCancellationRequested == true)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                                p.Report(files);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            foreach (var file in Generic.OpenFilePaths)
+                            {
+                                FileInfo fi = new(file);
+                                var source = new MediaFile { Filename = file };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+
+                                var co = new ConversionOptions
+                                {
+                                    AudioSampleRate = AudioSampleRate.Hz48000,
+                                };
+
+                                using var engine = new Engine();
+                                engine.Convert(source, output, co);
+
+                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                if (cToken.IsCancellationRequested == true)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(100);
+                                    p.Report(files);
+                                    continue;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                case 2: // 12000Hz
+                    {
+                        if (length == 1)
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            FileInfo fi = new(Generic.SavePath);
+                            var source = new MediaFile { Filename = Generic.OpenFilePaths[0] };
+                            var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
+
+                            var co = new ConversionOptions
+                            {
+                                AudioSampleRate = (AudioSampleRate)12000,
+                            };
+
+                            using var engine = new Engine();
+                            engine.Convert(source, output, co);
+
+                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                            if (cToken.IsCancellationRequested == true)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                                p.Report(files);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            foreach (var file in Generic.OpenFilePaths)
+                            {
+                                FileInfo fi = new(file);
+                                var source = new MediaFile { Filename = file };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+
+                                var co = new ConversionOptions
+                                {
+                                    AudioSampleRate = (AudioSampleRate)12000,
+                                };
+
+                                using var engine = new Engine();
+                                engine.Convert(source, output, co);
+
+                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                if (cToken.IsCancellationRequested == true)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(100);
+                                    p.Report(files);
+                                    continue;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                case 3: // 24000Hz
+                    {
+                        if (length == 1)
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            FileInfo fi = new(Generic.SavePath);
+                            var source = new MediaFile { Filename = Generic.OpenFilePaths[0] };
+                            var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
+
+                            var co = new ConversionOptions
+                            {
+                                AudioSampleRate = (AudioSampleRate)24000,
+                            };
+
+                            using var engine = new Engine();
+                            engine.Convert(source, output, co);
+
+                            int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                            if (cToken.IsCancellationRequested == true)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                                p.Report(files);
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            foreach (var file in Generic.OpenFilePaths)
+                            {
+                                FileInfo fi = new(file);
+                                var source = new MediaFile { Filename = file };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+
+                                var co = new ConversionOptions
+                                {
+                                    AudioSampleRate = (AudioSampleRate)24000,
+                                };
+
+                                using var engine = new Engine();
+                                engine.Convert(source, output, co);
+
+                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                if (cToken.IsCancellationRequested == true)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(100);
+                                    p.Report(files);
+                                    continue;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                default:
                     return false;
-                }
-                else
-                {
-                    Thread.Sleep(100);
-                    p.Report(files);
-                    return true;
-                }
             }
-            else
-            {
-                p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
-                foreach (var file in Common.Generic.OpenFilePaths)
-                {
-                    FileInfo fi = new(file);
-                    var source = new MediaFile { Filename = file };
-                    var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
 
-                    var co = new ConversionOptions
-                    {
-                        AudioSampleRate = AudioSampleRate.Hz48000,
-                    };
-
-                    using var engine = new Engine();
-                    engine.Convert(source, output, co);
-
-                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
-
-                    if (cToken.IsCancellationRequested == true)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        Thread.Sleep(100);
-                        p.Report(files);
-                        continue;
-                    }
-                }
-                return true;
-            }
+            
         }
 
         private static bool AudioConverter_WTA_DoWork(IProgress<int> p, CancellationToken cToken)
@@ -584,8 +1227,8 @@ namespace ATRACTool_Reloaded
             if (length == 1)
             {
                 p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
-                FileInfo fi = new(Common.Generic.SavePath);
-                var source = new MediaFile { Filename = Common.Generic.OpenFilePaths[0] };
+                FileInfo fi = new(Generic.SavePath);
+                var source = new MediaFile { Filename = Generic.OpenFilePaths[0] };
                 var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name };
 
                 using var engine = new Engine();

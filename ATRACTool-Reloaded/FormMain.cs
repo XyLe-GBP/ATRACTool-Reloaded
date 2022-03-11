@@ -806,101 +806,47 @@ namespace ATRACTool_Reloaded
 
                 if (Common.Generic.OpenFilePaths.Length == 1) // Single
                 {
-                    SaveFileDialog sfd = new()
+                    using Form formAtWST = new FormAtWSelectTarget();
+                    DialogResult dr = formAtWST.ShowDialog();
+                    if (dr != DialogResult.Cancel && dr != DialogResult.None)
                     {
-                        FileName = Common.Utils.SFDRandomNumber(),
-                        InitialDirectory = "",
-                        Filter = Localization.WAVEFilter,
-                        FilterIndex = 1,
-                        Title = Localization.SaveDialogTitle,
-                        OverwritePrompt = true,
-                        RestoreDirectory = true
-                    };
-                    if (sfd.ShowDialog() == DialogResult.OK)
-                    {
-                        Common.Generic.SavePath = sfd.FileName;
-                        Common.Generic.ProgressMax = 1;
-
-                        Common.Generic.ProcessFlag = 2;
-
-                        Form formProgress = new FormProgress();
-                        formProgress.ShowDialog();
-                        formProgress.Dispose();
-
-                        if (Common.Generic.Result == false)
+                        SaveFileDialog sfd = new()
                         {
-                            Common.Generic.cts.Dispose();
-                            MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
+                            FileName = Common.Utils.SFDRandomNumber(),
+                            InitialDirectory = "",
+                            Filter = Localization.WAVEFilter,
+                            FilterIndex = 1,
+                            Title = Localization.SaveDialogTitle,
+                            OverwritePrompt = true,
+                            RestoreDirectory = true
+                        };
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            Common.Generic.SavePath = sfd.FileName;
+                            Common.Generic.ProgressMax = 1;
 
-                        FileInfo fi = new(Common.Generic.SavePath);
-                        if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
-                        {
-                            File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
-                            Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                            MessageBox.Show(this, Localization.ConvertSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            ResetStatus();
-                            Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.SavePath + @"""");
-                            return;
-                        }
-                        else // Error
-                        {
-                            Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                            MessageBox.Show(this, Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            ResetStatus();
-                            return;
-                        }
-                    }
-                    else // Cancelled
-                    {
-                        return;
-                    }
-                }
-                else // Multiple
-                {
-                    FolderBrowserDialog fbd = new()
-                    {
-                        Description = Localization.FolderSaveDialogTitle,
-                        RootFolder = Environment.SpecialFolder.MyDocuments,
-                        SelectedPath = @"",
-                    };
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                    {
-                        Common.Generic.FolderSavePath = fbd.SelectedPath;
-                        if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
-                        {
-                            DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (dr == DialogResult.Yes)
+                            Common.Generic.ProcessFlag = 2;
+
+                            Form formProgress = new FormProgress();
+                            formProgress.ShowDialog();
+                            formProgress.Dispose();
+
+                            if (Common.Generic.Result == false)
                             {
-                                Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
-                            }
-                            else
-                            {
+                                Common.Generic.cts.Dispose();
+                                MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
-                        }
-                        Common.Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
 
-                        Common.Generic.ProcessFlag = 2;
-
-                        Form formProgress = new FormProgress();
-                        formProgress.ShowDialog();
-                        formProgress.Dispose();
-
-                        if (Common.Generic.Result == false)
-                        {
-                            Common.Generic.cts.Dispose();
-                            MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        foreach (var file in Common.Generic.OpenFilePaths)
-                        {
-                            FileInfo fi = new(file);
-                            if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav"))
+                            FileInfo fi = new(Common.Generic.SavePath);
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
                             {
-                                File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
+                                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                                MessageBox.Show(this, Localization.ConvertSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                ResetStatus();
+                                Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.SavePath + @"""");
+                                return;
                             }
                             else // Error
                             {
@@ -910,13 +856,85 @@ namespace ATRACTool_Reloaded
                                 return;
                             }
                         }
-                        Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
-                        MessageBox.Show(this, Localization.ConvertSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ResetStatus();
-                        Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.FolderSavePath + @"""");
+                        else // Cancelled
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
                         return;
                     }
-                    else // Cancelled
+                }
+                else // Multiple
+                {
+                    using Form formAtWST = new FormAtWSelectTarget();
+                    DialogResult dr = formAtWST.ShowDialog();
+                    if (dr != DialogResult.Cancel && dr != DialogResult.None)
+                    {
+                        FolderBrowserDialog fbd = new()
+                        {
+                            Description = Localization.FolderSaveDialogTitle,
+                            RootFolder = Environment.SpecialFolder.MyDocuments,
+                            SelectedPath = @"",
+                        };
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                        {
+                            Common.Generic.FolderSavePath = fbd.SelectedPath;
+                            if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                            {
+                                DialogResult dr2 = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (dr2 == DialogResult.Yes)
+                                {
+                                    Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                            Common.Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
+
+                            Common.Generic.ProcessFlag = 2;
+
+                            Form formProgress = new FormProgress();
+                            formProgress.ShowDialog();
+                            formProgress.Dispose();
+
+                            if (Common.Generic.Result == false)
+                            {
+                                Common.Generic.cts.Dispose();
+                                MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            foreach (var file in Common.Generic.OpenFilePaths)
+                            {
+                                FileInfo fi = new(file);
+                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav"))
+                                {
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                }
+                                else // Error
+                                {
+                                    Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                                    MessageBox.Show(this, Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ResetStatus();
+                                    return;
+                                }
+                            }
+                            Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                            MessageBox.Show(this, Localization.ConvertSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ResetStatus();
+                            Process.Start("EXPLORER.EXE", @"/select,""" + Common.Generic.FolderSavePath + @"""");
+                            return;
+                        }
+                        else // Cancelled
+                        {
+                            return;
+                        }
+                    }
+                    else
                     {
                         return;
                     }

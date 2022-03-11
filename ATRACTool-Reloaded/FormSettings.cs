@@ -26,6 +26,9 @@
         private string supframeAT9 = null!;
         private string nbandAT9 = null!;
         private string isbandAT9 = null!;
+        private string bex = null!;
+        private string wband = null!;
+        private string LFE = null!;
         private string paramAT9 = "at9tool -e";
 
         public FormSettings()
@@ -53,8 +56,13 @@
                 supframeindex = ini.GetInt("ATRAC9_SETTINGS", "SuperFrameEncode", 65535),
                 advbandindex = ini.GetInt("ATRAC9_SETTINGS", "AdvancedBand", 65535),
                 nband = ini.GetInt("ATRAC9_SETTINGS", "NbandsIndex", 65535),
+                bext = ini.GetInt("ATRAC9_SETTINGS", "BandExtension", 65535),
+                wideband = ini.GetInt("ATRAC9_SETTINGS", "WideBand", 65535),
+                lfe = ini.GetInt("ATRAC9_SETTINGS", "LFE_SuperLowCut", 65535),
                 isband = ini.GetInt("ATRAC9_SETTINGS", "IsbandIndex", 65535),
-                lpcreate = ini.GetInt("GENERIC", "LPCreateIndex", 65535);
+                lpcreate = ini.GetInt("GENERIC", "LPCreateIndex", 65535),
+                consoleAT3 = ini.GetInt("ATRAC3_SETTINGS", "Console", -1),
+                consoleAT9 = ini.GetInt("ATRAC9_SETTINGS", "Console", -1);
             string loopstartindexAT3 = ini.GetString("ATRAC3_SETTINGS", "LoopStart_Samples", ""),
                 loopstartindexAT9 = ini.GetString("ATRAC9_SETTINGS", "LoopStart_Samples", ""),
                 loopendindexAT3 = ini.GetString("ATRAC3_SETTINGS", "LoopEnd_Samples", ""),
@@ -144,117 +152,371 @@
                 }
             }
 
-            switch (bitrateindexAT3)
+            switch (consoleAT3)
             {
-                case 0: // 32k
-                    comboBox_at3_encmethod.SelectedIndex = 0;
-                    bitrateAT3 = " -br 32";
+                case 0:
+                    radioButton_PSP.Checked = true;
+                    comboBox_at3_encmethod.Items.Clear();
+                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("52kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("105kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("132kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("192kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("256kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("320kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("352kbps, stereo");
+                    switch (bitrateindexAT3)
+                    {
+                        case 0: // 32k
+                            comboBox_at3_encmethod.SelectedIndex = 0;
+                            bitrateAT3 = " -br 32";
+                            break;
+                        case 1: // 48k
+                            comboBox_at3_encmethod.SelectedIndex = 1;
+                            bitrateAT3 = " -br 48";
+                            break;
+                        case 2: // 52k
+                            comboBox_at3_encmethod.SelectedIndex = 2;
+                            bitrateAT3 = " -br 52";
+                            break;
+                        case 3: // 64k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 3;
+                            bitrateAT3 = " -br 64";
+                            break;
+                        case 4: // 66k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 4;
+                            bitrateAT3 = " -br 66";
+                            break;
+                        case 5: // 96k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 5;
+                            bitrateAT3 = " -br 96";
+                            break;
+                        case 6: // 105k stereo
+                            comboBox_at3_encmethod.SelectedIndex = 6;
+                            bitrateAT3 = " -br 105";
+                            break;
+                        case 7: // 128k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 7;
+                            bitrateAT3 = " -br 128";
+                            break;
+                        case 8: // 132k
+                            comboBox_at3_encmethod.SelectedIndex = 8;
+                            bitrateAT3 = " -br 132";
+                            break;
+                        case 9: // 160k
+                            comboBox_at3_encmethod.SelectedIndex = 9;
+                            bitrateAT3 = " -br 160";
+                            break;
+                        case 10: // 192k
+                            comboBox_at3_encmethod.SelectedIndex = 10;
+                            bitrateAT3 = " -br 192";
+                            break;
+                        case 11: // 256k
+                            comboBox_at3_encmethod.SelectedIndex = 11;
+                            bitrateAT3 = " -br 256";
+                            break;
+                        case 12: // 320k
+                            comboBox_at3_encmethod.SelectedIndex = 12;
+                            bitrateAT3 = " -br 320";
+                            break;
+                        case 13: // 352k
+                            comboBox_at3_encmethod.SelectedIndex = 13;
+                            bitrateAT3 = " -br 352";
+                            break;
+                        default:
+                            comboBox_at3_encmethod.SelectedIndex = 7;
+                            bitrateAT3 = " -br 128";
+                            break;
+                    }
                     break;
-                case 1: // 48k
-                    comboBox_at3_encmethod.SelectedIndex = 1;
-                    bitrateAT3 = " -br 48";
+                case 1:
+                    radioButton_PS3.Checked = true;
+                    comboBox_at3_encmethod.Items.Clear();
+                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("48kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("57kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("72kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("114kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("144kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("192kbps, stereo / 6ch");
+                    comboBox_at3_encmethod.Items.Add("256kbps, stereo / 6ch");
+                    comboBox_at3_encmethod.Items.Add("320kbps, stereo / 6ch");
+                    comboBox_at3_encmethod.Items.Add("384kbps, 6ch / 8ch");
+                    comboBox_at3_encmethod.Items.Add("512kbps, 6ch");
+                    comboBox_at3_encmethod.Items.Add("768kbps, 8ch");
+                    switch (bitrateindexAT3)
+                    {
+                        case 0: // 32k
+                            comboBox_at3_encmethod.SelectedIndex = 0;
+                            bitrateAT3 = " -br 32";
+                            break;
+                        case 1: // 48k
+                            comboBox_at3_encmethod.SelectedIndex = 1;
+                            bitrateAT3 = " -br 48";
+                            break;
+                        case 2: // 57k
+                            comboBox_at3_encmethod.SelectedIndex = 2;
+                            bitrateAT3 = " -br 57";
+                            break;
+                        case 3: // 64k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 3;
+                            bitrateAT3 = " -br 64";
+                            break;
+                        case 4: // 72k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 4;
+                            bitrateAT3 = " -br 72";
+                            break;
+                        case 5: // 96k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 5;
+                            bitrateAT3 = " -br 96";
+                            break;
+                        case 6: // 114k stereo
+                            comboBox_at3_encmethod.SelectedIndex = 6;
+                            bitrateAT3 = " -br 114";
+                            break;
+                        case 7: // 128k mono / stereo
+                            comboBox_at3_encmethod.SelectedIndex = 7;
+                            bitrateAT3 = " -br 128";
+                            break;
+                        case 8: // 144k
+                            comboBox_at3_encmethod.SelectedIndex = 8;
+                            bitrateAT3 = " -br 144";
+                            break;
+                        case 9: // 160k
+                            comboBox_at3_encmethod.SelectedIndex = 9;
+                            bitrateAT3 = " -br 160";
+                            break;
+                        case 10: // 192k
+                            comboBox_at3_encmethod.SelectedIndex = 10;
+                            bitrateAT3 = " -br 192";
+                            break;
+                        case 11: // 256k
+                            comboBox_at3_encmethod.SelectedIndex = 11;
+                            bitrateAT3 = " -br 256";
+                            break;
+                        case 12: // 320k
+                            comboBox_at3_encmethod.SelectedIndex = 12;
+                            bitrateAT3 = " -br 320";
+                            break;
+                        case 13: // 384k
+                            comboBox_at3_encmethod.SelectedIndex = 13;
+                            bitrateAT3 = " -br 384";
+                            break;
+                        case 14: // 512k
+                            comboBox_at3_encmethod.SelectedIndex = 14;
+                            bitrateAT3 = " -br 512";
+                            break;
+                        case 15: // 768k
+                            comboBox_at3_encmethod.SelectedIndex = 15;
+                            bitrateAT3 = " -br 768";
+                            break;
+                        default:
+                            comboBox_at3_encmethod.SelectedIndex = 10;
+                            bitrateAT3 = " -br 192";
+                            break;
+                    }
                     break;
-                case 2: // 57k
-                    comboBox_at3_encmethod.SelectedIndex = 2;
-                    bitrateAT3 = " -br 57";
-                    break;
-                case 3: // 64k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 3;
-                    bitrateAT3 = " -br 64";
-                    break;
-                case 4: // 72k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 4;
-                    bitrateAT3 = " -br 72";
-                    break;
-                case 5: // 96k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 5;
-                    bitrateAT3 = " -br 96";
-                    break;
-                case 6: // 114k stereo
-                    comboBox_at3_encmethod.SelectedIndex = 6;
-                    bitrateAT3 = " -br 114";
-                    break;
-                case 7: // 128k mono / stereo
+                default:
+                    radioButton_PSP.Checked = true;
+                    comboBox_at3_encmethod.Items.Clear();
+                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("52kbps, mono");
+                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("105kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
+                    comboBox_at3_encmethod.Items.Add("132kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("192kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("256kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("320kbps, stereo");
+                    comboBox_at3_encmethod.Items.Add("352kbps, stereo");
                     comboBox_at3_encmethod.SelectedIndex = 7;
                     bitrateAT3 = " -br 128";
                     break;
-                case 8: // 144k
-                    comboBox_at3_encmethod.SelectedIndex = 8;
-                    bitrateAT3 = " -br 144";
-                    break;
-                case 9: // 160k
-                    comboBox_at3_encmethod.SelectedIndex = 9;
-                    bitrateAT3 = " -br 160";
-                    break;
-                case 10: // 192k
-                    comboBox_at3_encmethod.SelectedIndex = 10;
-                    bitrateAT3 = " -br 192";
-                    break;
-                case 11: // 256k
-                    comboBox_at3_encmethod.SelectedIndex = 11;
-                    bitrateAT3 = " -br 256";
-                    break;
-                case 12: // 320k
-                    comboBox_at3_encmethod.SelectedIndex = 12;
-                    bitrateAT3 = " -br 320";
-                    break;
-                case 13: // 384k
-                    comboBox_at3_encmethod.SelectedIndex = 13;
-                    bitrateAT3 = " -br 384";
-                    break;
-                case 14: // 512k
-                    comboBox_at3_encmethod.SelectedIndex = 14;
-                    bitrateAT3 = " -br 512";
-                    break;
-                case 15: // 768k
-                    comboBox_at3_encmethod.SelectedIndex = 15;
-                    bitrateAT3 = " -br 768";
-                    break;
-                default:
-                    comboBox_at3_encmethod.SelectedIndex = 10;
-                    bitrateAT3 = " -br 192";
-                    break;
             }
-            switch (bitrateindexAT9)
+
+            switch (consoleAT9)
             {
                 case 0:
-                    comboBox_at9_bitrate.SelectedIndex = 0;
-                    bitrateAT9 = " -br 36";
+                    radioButton_PSV.Checked = true;
+                    comboBox_at9_bitrate.Items.Clear();
+                    comboBox_at9_bitrate.Items.Add("48kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("60kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("72kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("84kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("96kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("120kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("144kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("168kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("192kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("256kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("320kbps, stereo");
+                    switch (bitrateindexAT9)
+                    {
+                        case 0:
+                            comboBox_at9_bitrate.SelectedIndex = 0;
+                            bitrateAT9 = " -br 48";
+                            break;
+                        case 1:
+                            comboBox_at9_bitrate.SelectedIndex = 1;
+                            bitrateAT9 = " -br 60";
+                            break;
+                        case 2:
+                            comboBox_at9_bitrate.SelectedIndex = 2;
+                            bitrateAT9 = " -br 72";
+                            break;
+                        case 3:
+                            comboBox_at9_bitrate.SelectedIndex = 3;
+                            bitrateAT9 = " -br 84";
+                            break;
+                        case 4:
+                            comboBox_at9_bitrate.SelectedIndex = 4;
+                            bitrateAT9 = " -br 96";
+                            break;
+                        case 5:
+                            comboBox_at9_bitrate.SelectedIndex = 5;
+                            bitrateAT9 = " -br 120";
+                            break;
+                        case 6:
+                            comboBox_at9_bitrate.SelectedIndex = 6;
+                            bitrateAT9 = " -br 144";
+                            break;
+                        case 7:
+                            comboBox_at9_bitrate.SelectedIndex = 7;
+                            bitrateAT9 = " -br 168";
+                            break;
+                        case 8:
+                            comboBox_at9_bitrate.SelectedIndex = 8;
+                            bitrateAT9 = " -br 192";
+                            break;
+                        case 9:
+                            comboBox_at9_bitrate.SelectedIndex = 9;
+                            bitrateAT9 = " -br 256";
+                            break;
+                        case 10:
+                            comboBox_at9_bitrate.SelectedIndex = 10;
+                            bitrateAT9 = " -br 320";
+                            break;
+                        default:
+                            comboBox_at9_bitrate.SelectedIndex = 7;
+                            bitrateAT9 = " -br 168";
+                            break;
+                    }
                     break;
                 case 1:
-                    comboBox_at9_bitrate.SelectedIndex = 1;
-                    bitrateAT9 = " -br 48";
-                    break;
-                case 2:
-                    comboBox_at9_bitrate.SelectedIndex = 2;
-                    bitrateAT9 = " -br 60";
-                    break;
-                case 3:
-                    comboBox_at9_bitrate.SelectedIndex = 3;
-                    bitrateAT9 = " -br 72";
-                    break;
-                case 4:
-                    comboBox_at9_bitrate.SelectedIndex = 4;
-                    bitrateAT9 = " -br 84";
-                    break;
-                case 5:
-                    comboBox_at9_bitrate.SelectedIndex = 5;
-                    bitrateAT9 = " -br 96";
-                    break;
-                case 6:
-                    comboBox_at9_bitrate.SelectedIndex = 6;
-                    bitrateAT9 = " -br 120";
-                    break;
-                case 7:
-                    comboBox_at9_bitrate.SelectedIndex = 7;
-                    bitrateAT9 = " -br 144";
-                    break;
-                case 8:
-                    comboBox_at9_bitrate.SelectedIndex = 8;
-                    bitrateAT9 = " -br 168";
+                    radioButton_PS4.Checked = true;
+                    comboBox_at9_bitrate.Items.Clear();
+                    comboBox_at9_bitrate.Items.Add("48kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("60kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("72kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("84kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("96kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("120kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("144kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("168kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("192kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("240kbps, 4ch");
+                    comboBox_at9_bitrate.Items.Add("256kbps, 4ch");
+                    comboBox_at9_bitrate.Items.Add("300kbps, 5.1ch");
+                    comboBox_at9_bitrate.Items.Add("320kbps, 5.1ch");
+                    comboBox_at9_bitrate.Items.Add("384kbps, 5.1ch");
+                    comboBox_at9_bitrate.Items.Add("420kbps, 7.1ch");
+                    switch (bitrateindexAT9)
+                    {
+                        case 0:
+                            comboBox_at9_bitrate.SelectedIndex = 0;
+                            bitrateAT9 = " -br 48";
+                            break;
+                        case 1:
+                            comboBox_at9_bitrate.SelectedIndex = 1;
+                            bitrateAT9 = " -br 60";
+                            break;
+                        case 2:
+                            comboBox_at9_bitrate.SelectedIndex = 2;
+                            bitrateAT9 = " -br 72";
+                            break;
+                        case 3:
+                            comboBox_at9_bitrate.SelectedIndex = 3;
+                            bitrateAT9 = " -br 84";
+                            break;
+                        case 4:
+                            comboBox_at9_bitrate.SelectedIndex = 4;
+                            bitrateAT9 = " -br 96";
+                            break;
+                        case 5:
+                            comboBox_at9_bitrate.SelectedIndex = 5;
+                            bitrateAT9 = " -br 120";
+                            break;
+                        case 6:
+                            comboBox_at9_bitrate.SelectedIndex = 6;
+                            bitrateAT9 = " -br 144";
+                            break;
+                        case 7:
+                            comboBox_at9_bitrate.SelectedIndex = 7;
+                            bitrateAT9 = " -br 168";
+                            break;
+                        case 8:
+                            comboBox_at9_bitrate.SelectedIndex = 8;
+                            bitrateAT9 = " -br 192";
+                            break;
+                        case 9:
+                            comboBox_at9_bitrate.SelectedIndex = 9;
+                            bitrateAT9 = " -br 240";
+                            break;
+                        case 10:
+                            comboBox_at9_bitrate.SelectedIndex = 10;
+                            bitrateAT9 = " -br 256";
+                            break;
+                        case 11:
+                            comboBox_at9_bitrate.SelectedIndex = 11;
+                            bitrateAT9 = " -br 300";
+                            break;
+                        case 12:
+                            comboBox_at9_bitrate.SelectedIndex = 12;
+                            bitrateAT9 = " -br 320";
+                            break;
+                        case 13:
+                            comboBox_at9_bitrate.SelectedIndex = 13;
+                            bitrateAT9 = " -br 384";
+                            break;
+                        case 14:
+                            comboBox_at9_bitrate.SelectedIndex = 14;
+                            bitrateAT9 = " -br 420";
+                            break;
+                        default:
+                            comboBox_at9_bitrate.SelectedIndex = 7;
+                            bitrateAT9 = " -br 168";
+                            break;
+                    }
                     break;
                 default:
-                    comboBox_at9_bitrate.SelectedIndex = 8;
+                    radioButton_PSV.Checked = true;
+                    comboBox_at9_bitrate.Items.Clear();
+                    comboBox_at9_bitrate.Items.Add("48kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("60kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("72kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("84kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("96kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("120kbps, mono");
+                    comboBox_at9_bitrate.Items.Add("144kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("168kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("192kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("256kbps, stereo");
+                    comboBox_at9_bitrate.Items.Add("320kbps, stereo");
+                    comboBox_at9_bitrate.SelectedIndex = 7;
                     bitrateAT9 = " -br 168";
                     break;
             }
@@ -813,6 +1075,30 @@
                         label_at9_startband.Enabled = false;
                         comboBox_at9_startband.Enabled = false;
                     }
+                    if (bext != 65535)
+                    {
+                        bex = " -bex";
+                    }
+                    else
+                    {
+                        bex = "";
+                    }
+                    if (wideband != 65535)
+                    {
+                        wband = " -wband";
+                    }
+                    else
+                    {
+                        wband = "";
+                    }
+                    if (lfe != 65535)
+                    {
+                        LFE = " -slc";
+                    }
+                    else
+                    {
+                        LFE = "";
+                    }
                 }
                 else
                 {
@@ -867,7 +1153,7 @@
             }
             else
             {
-                paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+                paramAT3 = RefleshParamAT3();
                 textBox_at3_cmd.Text = paramAT3;
             }
             if (prmAT9 != "")
@@ -877,7 +1163,7 @@
             }
             else
             {
-                paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                paramAT9 = RefleshParamAT9();
                 textBox_at9_cmd.Text = paramAT9;
             }
         }
@@ -886,78 +1172,152 @@
 
         private void ComboBox_at3_encmethod_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at3_encmethod.SelectedIndex)
+            if (radioButton_PSP.Checked == true)
             {
-                case 0: // 32k
-                    comboBox_at3_encmethod.SelectedIndex = 0;
-                    bitrateAT3 = " -br 32";
-                    break;
-                case 1: // 48k
-                    comboBox_at3_encmethod.SelectedIndex = 1;
-                    bitrateAT3 = " -br 48";
-                    break;
-                case 2: // 57k
-                    comboBox_at3_encmethod.SelectedIndex = 2;
-                    bitrateAT3 = " -br 57";
-                    break;
-                case 3: // 64k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 3;
-                    bitrateAT3 = " -br 64";
-                    break;
-                case 4: // 72k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 4;
-                    bitrateAT3 = " -br 72";
-                    break;
-                case 5: // 96k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 5;
-                    bitrateAT3 = " -br 96";
-                    break;
-                case 6: // 114k stereo
-                    comboBox_at3_encmethod.SelectedIndex = 6;
-                    bitrateAT3 = " -br 114";
-                    break;
-                case 7: // 128k mono / stereo
-                    comboBox_at3_encmethod.SelectedIndex = 7;
-                    bitrateAT3 = " -br 128";
-                    break;
-                case 8: // 144k
-                    comboBox_at3_encmethod.SelectedIndex = 8;
-                    bitrateAT3 = " -br 144";
-                    break;
-                case 9: // 160k
-                    comboBox_at3_encmethod.SelectedIndex = 9;
-                    bitrateAT3 = " -br 160";
-                    break;
-                case 10: // 192k
-                    comboBox_at3_encmethod.SelectedIndex = 10;
-                    bitrateAT3 = " -br 192";
-                    break;
-                case 11: // 256k
-                    comboBox_at3_encmethod.SelectedIndex = 11;
-                    bitrateAT3 = " -br 256";
-                    break;
-                case 12: // 320k
-                    comboBox_at3_encmethod.SelectedIndex = 12;
-                    bitrateAT3 = " -br 320";
-                    break;
-                case 13: // 384k
-                    comboBox_at3_encmethod.SelectedIndex = 13;
-                    bitrateAT3 = " -br 384";
-                    break;
-                case 14: // 512k
-                    comboBox_at3_encmethod.SelectedIndex = 14;
-                    bitrateAT3 = " -br 512";
-                    break;
-                case 15: // 768k
-                    comboBox_at3_encmethod.SelectedIndex = 15;
-                    bitrateAT3 = " -br 768";
-                    break;
-                default:
-                    comboBox_at3_encmethod.SelectedIndex = 10;
-                    bitrateAT3 = " -br 192";
-                    break;
+                switch (comboBox_at3_encmethod.SelectedIndex)
+                {
+                    case 0: // 32k
+                        comboBox_at3_encmethod.SelectedIndex = 0;
+                        bitrateAT3 = " -br 32";
+                        break;
+                    case 1: // 48k
+                        comboBox_at3_encmethod.SelectedIndex = 1;
+                        bitrateAT3 = " -br 48";
+                        break;
+                    case 2: // 52k
+                        comboBox_at3_encmethod.SelectedIndex = 2;
+                        bitrateAT3 = " -br 52";
+                        break;
+                    case 3: // 64k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 3;
+                        bitrateAT3 = " -br 64";
+                        break;
+                    case 4: // 66k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 4;
+                        bitrateAT3 = " -br 66";
+                        break;
+                    case 5: // 96k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 5;
+                        bitrateAT3 = " -br 96";
+                        break;
+                    case 6: // 105k stereo
+                        comboBox_at3_encmethod.SelectedIndex = 6;
+                        bitrateAT3 = " -br 105";
+                        break;
+                    case 7: // 128k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 7;
+                        bitrateAT3 = " -br 128";
+                        break;
+                    case 8: // 132k
+                        comboBox_at3_encmethod.SelectedIndex = 8;
+                        bitrateAT3 = " -br 132";
+                        break;
+                    case 9: // 160k
+                        comboBox_at3_encmethod.SelectedIndex = 9;
+                        bitrateAT3 = " -br 160";
+                        break;
+                    case 10: // 192k
+                        comboBox_at3_encmethod.SelectedIndex = 10;
+                        bitrateAT3 = " -br 192";
+                        break;
+                    case 11: // 256k
+                        comboBox_at3_encmethod.SelectedIndex = 11;
+                        bitrateAT3 = " -br 256";
+                        break;
+                    case 12: // 320k
+                        comboBox_at3_encmethod.SelectedIndex = 12;
+                        bitrateAT3 = " -br 320";
+                        break;
+                    case 13: // 352k
+                        comboBox_at3_encmethod.SelectedIndex = 13;
+                        bitrateAT3 = " -br 352";
+                        break;
+                    default:
+                        comboBox_at3_encmethod.SelectedIndex = 7;
+                        bitrateAT3 = " -br 128";
+                        break;
+                }
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            else if (radioButton_PS3.Checked == true)
+            {
+                switch (comboBox_at3_encmethod.SelectedIndex)
+                {
+                    case 0: // 32k
+                        comboBox_at3_encmethod.SelectedIndex = 0;
+                        bitrateAT3 = " -br 32";
+                        break;
+                    case 1: // 48k
+                        comboBox_at3_encmethod.SelectedIndex = 1;
+                        bitrateAT3 = " -br 48";
+                        break;
+                    case 2: // 57k
+                        comboBox_at3_encmethod.SelectedIndex = 2;
+                        bitrateAT3 = " -br 57";
+                        break;
+                    case 3: // 64k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 3;
+                        bitrateAT3 = " -br 64";
+                        break;
+                    case 4: // 72k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 4;
+                        bitrateAT3 = " -br 72";
+                        break;
+                    case 5: // 96k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 5;
+                        bitrateAT3 = " -br 96";
+                        break;
+                    case 6: // 114k stereo
+                        comboBox_at3_encmethod.SelectedIndex = 6;
+                        bitrateAT3 = " -br 114";
+                        break;
+                    case 7: // 128k mono / stereo
+                        comboBox_at3_encmethod.SelectedIndex = 7;
+                        bitrateAT3 = " -br 128";
+                        break;
+                    case 8: // 144k
+                        comboBox_at3_encmethod.SelectedIndex = 8;
+                        bitrateAT3 = " -br 144";
+                        break;
+                    case 9: // 160k
+                        comboBox_at3_encmethod.SelectedIndex = 9;
+                        bitrateAT3 = " -br 160";
+                        break;
+                    case 10: // 192k
+                        comboBox_at3_encmethod.SelectedIndex = 10;
+                        bitrateAT3 = " -br 192";
+                        break;
+                    case 11: // 256k
+                        comboBox_at3_encmethod.SelectedIndex = 11;
+                        bitrateAT3 = " -br 256";
+                        break;
+                    case 12: // 320k
+                        comboBox_at3_encmethod.SelectedIndex = 12;
+                        bitrateAT3 = " -br 320";
+                        break;
+                    case 13: // 384k
+                        comboBox_at3_encmethod.SelectedIndex = 13;
+                        bitrateAT3 = " -br 384";
+                        break;
+                    case 14: // 512k
+                        comboBox_at3_encmethod.SelectedIndex = 14;
+                        bitrateAT3 = " -br 512";
+                        break;
+                    case 15: // 768k
+                        comboBox_at3_encmethod.SelectedIndex = 15;
+                        bitrateAT3 = " -br 768";
+                        break;
+                    default:
+                        comboBox_at3_encmethod.SelectedIndex = 10;
+                        bitrateAT3 = " -br 192";
+                        break;
+                }
+            }
+            else
+            {
+                throw new Exception("An error occured.");
+            }
+            
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -983,7 +1343,7 @@
                 checkBox_at3_looppoint.Enabled = true;
                 wholeloopAT3 = "";
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1015,7 +1375,7 @@
                 textBox_at3_loopend.Text = null;
                 checkBox_at3_loopsound.Enabled = true;
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1061,7 +1421,7 @@
                 textBox_at3_looptimes.Enabled = false;
                 textBox_at3_looptimes.Text = null;
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1075,7 +1435,7 @@
             {
                 loopstartAT3 = "";
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1089,7 +1449,7 @@
             {
                 loopendAT3 = "";
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1103,7 +1463,7 @@
             {
                 looptimesAT3 = "";
             }
-            paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+            paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
 
@@ -1117,61 +1477,65 @@
 
         private void ComboBox_at9_bitrate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at9_bitrate.SelectedIndex)
+            if (radioButton_PSV.Checked == true)
             {
-                case 0:
-                    bitrateAT9 = " -br 36";
-                    break;
-                case 1:
-                    bitrateAT9 = " -br 48";
-                    break;
-                case 2:
-                    bitrateAT9 = " -br 60";
-                    break;
-                case 3:
-                    bitrateAT9 = " -br 72";
-                    break;
-                case 4:
-                    bitrateAT9 = " -br 84";
-                    break;
-                case 5:
-                    bitrateAT9 = " -br 96";
-                    break;
-                case 6:
-                    bitrateAT9 = " -br 120";
-                    break;
-                case 7:
-                    bitrateAT9 = " -br 144";
-                    break;
-                case 8:
-                    bitrateAT9 = " -br 168";
-                    break;
-                default:
-                    bitrateAT9 = " -br 168";
-                    break;
+                bitrateAT9 = comboBox_at9_bitrate.SelectedIndex switch
+                {
+                    0 => " -br 48",
+                    1 => " -br 60",
+                    2 => " -br 72",
+                    3 => " -br 84",
+                    4 => " -br 96",
+                    5 => " -br 120",
+                    6 => " -br 144",
+                    7 => " -br 168",
+                    8 => " -br 192",
+                    9 => " -br 256",
+                    10 => " -br 320",
+                    _ => " -br 168",
+                };
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            else if (radioButton_PS4.Checked == true)
+            {
+                bitrateAT9 = comboBox_at9_bitrate.SelectedIndex switch
+                {
+                    0 => " -br 48",
+                    1 => " -br 60",
+                    2 => " -br 72",
+                    3 => " -br 84",
+                    4 => " -br 96",
+                    5 => " -br 120",
+                    6 => " -br 144",
+                    7 => " -br 168",
+                    8 => " -br 192",
+                    9 => " -br 240",
+                    10 => " -br 256",
+                    11 => " -br 300",
+                    12 => " -br 320",
+                    13 => " -br 384",
+                    14 => " -br 420",
+                    _ => " -br 168",
+                };
+            }
+            else
+            {
+                throw new Exception("An error occured.");
+            }
+
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
         private void ComboBox_at9_sampling_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at9_sampling.SelectedIndex)
+            samplingAT9 = comboBox_at9_sampling.SelectedIndex switch
             {
-                case 0:
-                    samplingAT9 = " -fs 12000";
-                    break;
-                case 1:
-                    samplingAT9 = " -fs 24000";
-                    break;
-                case 2:
-                    samplingAT9 = " -fs 48000";
-                    break;
-                default:
-                    samplingAT9 = " -fs 48000";
-                    break;
-            }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                0 => " -fs 12000",
+                1 => " -fs 24000",
+                2 => " -fs 48000",
+                _ => " -fs 48000",
+            };
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1198,7 +1562,7 @@
                 wholeloopAT9 = "";
                 checkBox_at9_looppoint.Enabled = true;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1230,7 +1594,7 @@
                 textBox_at9_loopend.Text = null;
                 checkBox_at9_loopsound.Enabled = true;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1244,7 +1608,7 @@
             {
                 loopstartAT9 = "";
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1258,7 +1622,7 @@
             {
                 loopendAT9 = "";
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1272,7 +1636,7 @@
             {
                 looptimesAT9 = "";
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1300,6 +1664,14 @@
             }
         }
 
+        private void TextBox_bex_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
         private void CheckBox_at9_looptimes_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_at9_looptimes.Checked != false)
@@ -1318,7 +1690,7 @@
                 textBox_at9_looptimes.Enabled = false;
                 textBox_at9_looptimes.Text = null;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1338,7 +1710,7 @@
                 textBox_at9_looplist.Text = null;
                 button_at9_looplist.Enabled = false;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1359,7 +1731,7 @@
                 textBox_at9_looplist.Text = ofd.FileName;
                 looplistfileAT9 = " " + ofd.FileName;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1367,10 +1739,29 @@
         {
             if (checkBox_at9_advanced.Checked != false)
             {
-                checkBox_at9_enctype.Enabled = true;
-                checkBox_at9_advband.Enabled = true;
-                checkBox_at9_dualenc.Enabled = true;
-                checkBox_at9_supframe.Enabled = true;
+                if (radioButton_PSV.Checked != false)
+                {
+                    checkBox_at9_enctype.Enabled = true;
+                    checkBox_at9_advband.Enabled = true;
+                    checkBox_at9_dualenc.Enabled = true;
+                    checkBox_at9_supframe.Enabled = true;
+                    checkBox_bex.Checked = false;
+                    checkBox_bex.Enabled = false;
+                    checkBox_wband.Checked = false;
+                    checkBox_wband.Enabled = false;
+                    checkBox_LFE.Checked = false;
+                    checkBox_LFE.Enabled = false;
+                }
+                else if (radioButton_PS4.Checked != false)
+                {
+                    checkBox_at9_enctype.Enabled = true;
+                    checkBox_at9_advband.Enabled = true;
+                    checkBox_at9_dualenc.Enabled = true;
+                    checkBox_at9_supframe.Enabled = true;
+                    checkBox_bex.Enabled = true;
+                    checkBox_wband.Enabled = true;
+                    checkBox_LFE.Enabled = true;
+                }
             }
             else
             {
@@ -1379,6 +1770,9 @@
                 isbandAT9 = "";
                 dualencAT9 = "";
                 supframeAT9 = "";
+                bex = "";
+                wband = "";
+                LFE = "";
                 checkBox_at9_enctype.Checked = false;
                 checkBox_at9_enctype.Enabled = false;
                 checkBox_at9_advband.Checked = false;
@@ -1393,8 +1787,14 @@
                 label_at9_enctype.Enabled = false;
                 label_at9_startband.Enabled = false;
                 label_at9_useband.Enabled = false;
+                checkBox_bex.Checked = false;
+                checkBox_bex.Enabled = false;
+                checkBox_wband.Checked = false;
+                checkBox_wband.Enabled = false;
+                checkBox_LFE.Checked = false;
+                checkBox_LFE.Enabled = false;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1411,7 +1811,7 @@
                 comboBox_at9_enctype.Enabled = false;
                 label_at9_enctype.Enabled = false;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1425,7 +1825,7 @@
             {
                 dualencAT9 = "";
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1439,7 +1839,7 @@
             {
                 supframeAT9 = " -supframeoff";
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1461,115 +1861,103 @@
                 label_at9_startband.Enabled = false;
                 comboBox_at9_startband.Enabled = false;
             }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+            paramAT9 = RefleshParamAT9();
+            textBox_at9_cmd.Text = paramAT9;
+        }
+
+        private void CheckBox_wband_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_wband.Checked != false)
+            {
+                wband = " -wband";
+            }
+            else
+            {
+                wband = "";
+            }
+            paramAT9 = RefleshParamAT9();
+            textBox_at9_cmd.Text = paramAT9;
+        }
+
+        private void CheckBox_bex_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_bex.Checked != false)
+            {
+                bex = " -bex";
+            }
+            else
+            {
+                bex = "";
+            }
+            paramAT9 = RefleshParamAT9();
+            textBox_at9_cmd.Text = paramAT9;
+        }
+
+        private void CheckBox_LFE_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_LFE.Checked != false)
+            {
+                LFE = " -slc";
+            }
+            else
+            {
+                LFE = "";
+            }
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
         private void ComboBox_at9_useband_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at9_useband.SelectedIndex)
+            nbandAT9 = comboBox_at9_useband.SelectedIndex switch
             {
-                case 0:
-                    nbandAT9 = " -nbands 3";
-                    break;
-                case 1:
-                    nbandAT9 = " -nbands 4";
-                    break;
-                case 2:
-                    nbandAT9 = " -nbands 5";
-                    break;
-                case 3:
-                    nbandAT9 = " -nbands 6";
-                    break;
-                case 4:
-                    nbandAT9 = " -nbands 7";
-                    break;
-                case 5:
-                    nbandAT9 = " -nbands 8";
-                    break;
-                case 6:
-                    nbandAT9 = " -nbands 9";
-                    break;
-                case 7:
-                    nbandAT9 = " -nbands 10";
-                    break;
-                case 8:
-                    nbandAT9 = " -nbands 11";
-                    break;
-                case 9:
-                    nbandAT9 = " -nbands 12";
-                    break;
-                case 10:
-                    nbandAT9 = " -nbands 13";
-                    break;
-                case 11:
-                    nbandAT9 = " -nbands 14";
-                    break;
-                case 12:
-                    nbandAT9 = " -nbands 15";
-                    break;
-                case 13:
-                    nbandAT9 = " -nbands 16";
-                    break;
-                case 14:
-                    nbandAT9 = " -nbands 17";
-                    break;
-                case 15:
-                    nbandAT9 = " -nbands 18";
-                    break;
-                default:
-                    nbandAT9 = "";
-                    break;
-            }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                0 => " -nbands 3",
+                1 => " -nbands 4",
+                2 => " -nbands 5",
+                3 => " -nbands 6",
+                4 => " -nbands 7",
+                5 => " -nbands 8",
+                6 => " -nbands 9",
+                7 => " -nbands 10",
+                8 => " -nbands 11",
+                9 => " -nbands 12",
+                10 => " -nbands 13",
+                11 => " -nbands 14",
+                12 => " -nbands 15",
+                13 => " -nbands 16",
+                14 => " -nbands 17",
+                15 => " -nbands 18",
+                _ => "",
+            };
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
         private void ComboBox_at9_startband_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at9_startband.SelectedIndex)
+            isbandAT9 = comboBox_at9_startband.SelectedIndex switch
             {
-                case 0:
-                    isbandAT9 = " -isband -1";
-                    break;
-                case 1:
-                    isbandAT9 = " -isband 3";
-                    break;
-                default:
-                    isbandAT9 = "";
-                    break;
-            }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                0 => " -isband -1",
+                1 => " -isband 3",
+                _ => "",
+            };
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
         private void ComboBox_at9_enctype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_at9_enctype.SelectedIndex)
+            enctypeAT9 = comboBox_at9_enctype.SelectedIndex switch
             {
-                case 0:
-                    enctypeAT9 = " -gradmode 0";
-                    break;
-                case 1:
-                    enctypeAT9 = " -gradmode 1";
-                    break;
-                case 2:
-                    enctypeAT9 = " -gradmode 2";
-                    break;
-                case 3:
-                    enctypeAT9 = " -gradmode 3";
-                    break;
-                case 4:
-                    enctypeAT9 = " -gradmode 4";
-                    break;
-                case 5:
-                    enctypeAT9 = "";
-                    break;
-                default:
-                    enctypeAT9 = "";
-                    break;
-            }
-            paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                0 => " -gradmode 0",
+                1 => " -gradmode 1",
+                2 => " -gradmode 2",
+                3 => " -gradmode 3",
+                4 => " -gradmode 4",
+                5 => "",
+                _ => "",
+            };
+            paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
         }
 
@@ -1580,7 +1968,7 @@
             if (paramAT3.Contains("$InFile $OutFile") != true || paramAT3.Contains("$InFile") != true || paramAT3.Contains("$OutFile") != true)
             {
                 MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                paramAT3 = "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+                paramAT3 = RefleshParamAT3();
                 textBox_at3_cmd.Text = paramAT3;
                 return;
             }
@@ -1588,7 +1976,7 @@
             if (paramAT9.Contains("$InFile $OutFile") != true || paramAT9.Contains("$InFile") != true || paramAT9.Contains("$OutFile") != true)
             {
                 MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                paramAT9 = "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + " $InFile $OutFile";
+                paramAT9 = RefleshParamAT9();
                 textBox_at9_cmd.Text = paramAT9;
                 return;
             }
@@ -1647,6 +2035,32 @@
                     MessageBox.Show(this, Localization.LoopListErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+
+            if (radioButton_PSP.Checked != false)
+            {
+                ini.WriteString("ATRAC3_SETTINGS", "Console", "0");
+            }
+            else if (radioButton_PS3.Checked != false)
+            {
+                ini.WriteString("ATRAC3_SETTINGS", "Console", "1");
+            }
+            else
+            {
+                ini.WriteString("ATRAC3_SETTINGS", "Console", "-1");
+            }
+
+            if (radioButton_PSV.Checked != false)
+            {
+                ini.WriteString("ATRAC9_SETTINGS", "Console", "0");
+            }
+            else if (radioButton_PS4.Checked != false)
+            {
+                ini.WriteString("ATRAC9_SETTINGS", "Console", "1");
+            }
+            else
+            {
+                ini.WriteString("ATRAC9_SETTINGS", "Console", "-1");
             }
 
             ini.WriteString("ATRAC3_SETTINGS", "Bitrate", comboBox_at3_encmethod.SelectedIndex.ToString());
@@ -1765,6 +2179,30 @@
                 {
                     ini.WriteString("ATRAC9_SETTINGS", "SuperFrameEncode", "0");
                 }
+                if (checkBox_wband.Checked != false)
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "WideBand", "1");
+                }
+                else
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "WideBand", "0");
+                }
+                if (checkBox_bex.Checked != false)
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "BandExtension", "1");
+                }
+                else
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "BandExtension", "0");
+                }
+                if (checkBox_LFE.Checked != false)
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "LFE_SuperLowCut", "1");
+                }
+                else
+                {
+                    ini.WriteString("ATRAC9_SETTINGS", "LFE_SuperLowCut", "0");
+                }
             }
             else
             {
@@ -1798,7 +2236,7 @@
             Close();
         }
 
-        private void checkBox_lpcreate_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_lpcreate_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_lpcreate.Checked != false)
             {
@@ -1865,6 +2303,118 @@
                 checkBox_at9_looppoint.Enabled = true;
                 checkBox_at9_loopsound.Enabled = true;
             }
+        }
+
+        private void RadioButton_PSP_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox_at3_encmethod.Items.Clear();
+            comboBox_at3_encmethod.Items.Add("32kbps, mono");
+            comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("52kbps, mono");
+            comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("105kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("132kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("160kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("192kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("256kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("320kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("352kbps, stereo");
+            comboBox_at3_encmethod.SelectedIndex = 7;
+            bitrateAT3 = " -br 128";
+        }
+
+        private void RadioButton_PS3_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox_at3_encmethod.Items.Clear();
+            comboBox_at3_encmethod.Items.Add("32kbps, mono");
+            comboBox_at3_encmethod.Items.Add("48kbps, mono");
+            comboBox_at3_encmethod.Items.Add("57kbps, mono");
+            comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("72kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("114kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
+            comboBox_at3_encmethod.Items.Add("144kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("160kbps, stereo");
+            comboBox_at3_encmethod.Items.Add("192kbps, stereo / 6ch");
+            comboBox_at3_encmethod.Items.Add("256kbps, stereo / 6ch");
+            comboBox_at3_encmethod.Items.Add("320kbps, stereo / 6ch");
+            comboBox_at3_encmethod.Items.Add("384kbps, 6ch / 8ch");
+            comboBox_at3_encmethod.Items.Add("512kbps, 6ch");
+            comboBox_at3_encmethod.Items.Add("768kbps, 8ch");
+            comboBox_at3_encmethod.SelectedIndex = 10;
+            bitrateAT3 = " -br 192";
+        }
+
+        private void RadioButton_PSV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_at9_advanced.Checked != false)
+            {
+                bex = "";
+                wband = "";
+                LFE = "";
+                checkBox_bex.Checked = false;
+                checkBox_bex.Enabled = false;
+                checkBox_wband.Checked = false;
+                checkBox_wband.Enabled = false;
+                checkBox_LFE.Checked = false;
+                checkBox_LFE.Enabled = false;
+            }
+            comboBox_at9_bitrate.Items.Clear();
+            comboBox_at9_bitrate.Items.Add("48kbps, mono");
+            comboBox_at9_bitrate.Items.Add("60kbps, mono");
+            comboBox_at9_bitrate.Items.Add("72kbps, mono");
+            comboBox_at9_bitrate.Items.Add("84kbps, mono");
+            comboBox_at9_bitrate.Items.Add("96kbps, mono");
+            comboBox_at9_bitrate.Items.Add("120kbps, mono");
+            comboBox_at9_bitrate.Items.Add("144kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("168kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("192kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("256kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("320kbps, stereo");
+            comboBox_at9_bitrate.SelectedIndex = 7;
+            bitrateAT9 = " -br 168";
+        }
+
+        private void RadioButton_PS4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_at9_advanced.Checked != false)
+            {
+                checkBox_bex.Enabled = true;
+                checkBox_wband.Enabled = true;
+                checkBox_LFE.Enabled = true;
+            }
+            comboBox_at9_bitrate.Items.Clear();
+            comboBox_at9_bitrate.Items.Add("48kbps, mono");
+            comboBox_at9_bitrate.Items.Add("60kbps, mono");
+            comboBox_at9_bitrate.Items.Add("72kbps, mono");
+            comboBox_at9_bitrate.Items.Add("84kbps, mono");
+            comboBox_at9_bitrate.Items.Add("96kbps, mono");
+            comboBox_at9_bitrate.Items.Add("120kbps, mono");
+            comboBox_at9_bitrate.Items.Add("144kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("168kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("192kbps, stereo");
+            comboBox_at9_bitrate.Items.Add("240kbps, 4ch");
+            comboBox_at9_bitrate.Items.Add("256kbps, 4ch");
+            comboBox_at9_bitrate.Items.Add("300kbps, 5.1ch");
+            comboBox_at9_bitrate.Items.Add("320kbps, 5.1ch");
+            comboBox_at9_bitrate.Items.Add("384kbps, 5.1ch");
+            comboBox_at9_bitrate.Items.Add("420kbps, 7.1ch");
+            comboBox_at9_bitrate.SelectedIndex = 7;
+            bitrateAT9 = " -br 168";
+        }
+
+        private string RefleshParamAT3()
+        {
+            return "at3tool -e" + bitrateAT3 + looppointAT3 + loopstartAT3 + loopendAT3 + wholeloopAT3 + looptimeAT3 + looptimesAT3 + " $InFile $OutFile";
+        }
+
+        private string RefleshParamAT9()
+        {
+            return "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + wband + bex + LFE + " $InFile $OutFile";
         }
     }
 }

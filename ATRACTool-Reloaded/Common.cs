@@ -15,6 +15,23 @@ namespace ATRACTool_Reloaded
             public static CancellationTokenSource cts = null!;
 
             public static bool Result = false;
+
+            /// <summary>
+            /// psp at3tool path string (res\psp_at3tool.exe)
+            /// </summary>
+            public static string PSP_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\psp_at3tool.exe";
+            /// <summary>
+            /// ps3 at3tool path string (res\ps3_at3tool.exe)
+            /// </summary>
+            public static string PS3_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\ps3_at3tool.exe";
+            /// <summary>
+            /// psv at9tool path string (res\psv_at9tool.exe)
+            /// </summary>
+            public static string PSV_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\psv_at9tool.exe";
+            /// <summary>
+            /// ps4 at9tool path string (res\ps4_at9tool.exe)
+            /// </summary>
+            public static string PS4_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\ps4_at9tool.exe";
             /// <summary>
             /// デコードもしくはエンコードを判定するための変数
             /// </summary>
@@ -39,6 +56,7 @@ namespace ATRACTool_Reloaded
             public static string[] OpenFilePaths = null!;
             public static string SavePath = null!;
             public static string FolderSavePath = null!;
+            public static int WTAmethod = -1;
             public static string WTAFmt = null!;
 
             public static string DecodeParamAT3 = "at3tool -d $InFile $OutFile";

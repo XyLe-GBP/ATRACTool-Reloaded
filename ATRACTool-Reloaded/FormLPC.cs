@@ -59,34 +59,42 @@ namespace ATRACTool_Reloaded
 
         private void FormLPC_Load(object sender, EventArgs e)
         {
-            if (Common.Generic.lpcreate != false)
-            {
-                reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
-
-                switch (Common.Generic.ATRACFlag)
-                {
-                    case 0:
-                        checkBox_LoopEnable.Checked = true;
-                        checkBox_LoopEnable.Enabled = false;
-                        radioButton_at3.Checked = true;
-                        radioButton_at9.Checked = false;
-                        radioButton_at9.Enabled = false;
-                        button_Cancel.Enabled = false;
-                        break;
-                    case 1:
-                        checkBox_LoopEnable.Checked = true;
-                        checkBox_LoopEnable.Enabled = false;
-                        radioButton_at3.Checked = false;
-                        radioButton_at3.Enabled = false;
-                        radioButton_at9.Checked = true;
-                        button_Cancel.Enabled = false;
-                        break;
-                }
-            }
-            else
+            if (Common.Generic.OpenFilePaths.Length == 1)
             {
                 reader = new(Common.Generic.OpenFilePaths[0]);
             }
+            else
+            {
+                if (Common.Generic.lpcreate != false)
+                {
+                    reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
+
+                    switch (Common.Generic.ATRACFlag)
+                    {
+                        case 0:
+                            checkBox_LoopEnable.Checked = true;
+                            checkBox_LoopEnable.Enabled = false;
+                            radioButton_at3.Checked = true;
+                            radioButton_at9.Checked = false;
+                            radioButton_at9.Enabled = false;
+                            button_Cancel.Enabled = false;
+                            break;
+                        case 1:
+                            checkBox_LoopEnable.Checked = true;
+                            checkBox_LoopEnable.Enabled = false;
+                            radioButton_at3.Checked = false;
+                            radioButton_at3.Enabled = false;
+                            radioButton_at9.Checked = true;
+                            button_Cancel.Enabled = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    reader = new(Common.Generic.OpenFilePaths[0]);
+                }
+            }
+            
             wo.Init(reader);
             trackBar_trk.Minimum = 0;
             trackBar_trk.Maximum = (int)reader.TotalTime.TotalMilliseconds;

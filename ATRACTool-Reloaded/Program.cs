@@ -27,14 +27,24 @@ namespace ATRACTool_Reloaded
                     MessageBox.Show("Multiple launch of applications is not allowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\at3tool.exe"))
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\psp_at3tool.exe"))
                 {
-                    MessageBox.Show("The required file 'at3tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The required file 'psp_at3tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\at9tool.exe"))
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\ps3_at3tool.exe"))
                 {
-                    MessageBox.Show("The required file 'at9tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The required file 'ps3_at3tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\psv_at9tool.exe"))
+                {
+                    MessageBox.Show("The required file 'psv_at9tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\ps4_at9tool.exe"))
+                {
+                    MessageBox.Show("The required file 'ps4_at9tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

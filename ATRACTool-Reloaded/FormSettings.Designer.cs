@@ -36,8 +36,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton_PS3 = new System.Windows.Forms.RadioButton();
             this.label_at3_times = new System.Windows.Forms.Label();
+            this.radioButton_PSP = new System.Windows.Forms.RadioButton();
             this.textBox_at3_looptimes = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label_at3_nol = new System.Windows.Forms.Label();
             this.checkBox_at3_looptimes = new System.Windows.Forms.CheckBox();
             this.label_at3_samples = new System.Windows.Forms.Label();
@@ -50,8 +53,9 @@
             this.comboBox_at3_encmethod = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton_PS4 = new System.Windows.Forms.RadioButton();
+            this.radioButton_PSV = new System.Windows.Forms.RadioButton();
             this.label_at9_times = new System.Windows.Forms.Label();
-            this.label_at9_nol = new System.Windows.Forms.Label();
             this.textBox_at9_looptimes = new System.Windows.Forms.TextBox();
             this.label_at9_samples = new System.Windows.Forms.Label();
             this.textBox_at9_loopend = new System.Windows.Forms.TextBox();
@@ -68,7 +72,12 @@
             this.comboBox_at9_bitrate = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label_at9_loopend = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label_at9_nol = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox_LFE = new System.Windows.Forms.CheckBox();
+            this.checkBox_wband = new System.Windows.Forms.CheckBox();
+            this.checkBox_bex = new System.Windows.Forms.CheckBox();
             this.comboBox_at9_enctype = new System.Windows.Forms.ComboBox();
             this.label_at9_enctype = new System.Windows.Forms.Label();
             this.comboBox_at9_startband = new System.Windows.Forms.ComboBox();
@@ -123,8 +132,12 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.radioButton_PS3);
             this.groupBox1.Controls.Add(this.label_at3_times);
+            this.groupBox1.Controls.Add(this.radioButton_PSP);
             this.groupBox1.Controls.Add(this.textBox_at3_looptimes);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label_at3_nol);
             this.groupBox1.Controls.Add(this.checkBox_at3_looptimes);
             this.groupBox1.Controls.Add(this.label_at3_samples);
@@ -136,14 +149,29 @@
             this.groupBox1.Controls.Add(this.checkBox_at3_looppoint);
             this.groupBox1.Controls.Add(this.comboBox_at3_encmethod);
             this.groupBox1.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // radioButton_PS3
+            // 
+            resources.ApplyResources(this.radioButton_PS3, "radioButton_PS3");
+            this.radioButton_PS3.Name = "radioButton_PS3";
+            this.radioButton_PS3.UseVisualStyleBackColor = true;
+            this.radioButton_PS3.CheckedChanged += new System.EventHandler(this.RadioButton_PS3_CheckedChanged);
             // 
             // label_at3_times
             // 
             resources.ApplyResources(this.label_at3_times, "label_at3_times");
             this.label_at3_times.Name = "label_at3_times";
+            // 
+            // radioButton_PSP
+            // 
+            resources.ApplyResources(this.radioButton_PSP, "radioButton_PSP");
+            this.radioButton_PSP.Checked = true;
+            this.radioButton_PSP.Name = "radioButton_PSP";
+            this.radioButton_PSP.TabStop = true;
+            this.radioButton_PSP.UseVisualStyleBackColor = true;
+            this.radioButton_PSP.CheckedChanged += new System.EventHandler(this.RadioButton_PSP_CheckedChanged);
             // 
             // textBox_at3_looptimes
             // 
@@ -151,6 +179,11 @@
             this.textBox_at3_looptimes.Name = "textBox_at3_looptimes";
             this.textBox_at3_looptimes.TextChanged += new System.EventHandler(this.TextBox_at3_looptimes_TextChanged);
             this.textBox_at3_looptimes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_at3_looptimes_KeyPress);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
             // 
             // label_at3_nol
             // 
@@ -209,6 +242,7 @@
             // 
             // comboBox_at3_encmethod
             // 
+            resources.ApplyResources(this.comboBox_at3_encmethod, "comboBox_at3_encmethod");
             this.comboBox_at3_encmethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at3_encmethod.FormattingEnabled = true;
             this.comboBox_at3_encmethod.Items.AddRange(new object[] {
@@ -228,7 +262,6 @@
             resources.GetString("comboBox_at3_encmethod.Items13"),
             resources.GetString("comboBox_at3_encmethod.Items14"),
             resources.GetString("comboBox_at3_encmethod.Items15")});
-            resources.ApplyResources(this.comboBox_at3_encmethod, "comboBox_at3_encmethod");
             this.comboBox_at3_encmethod.Name = "comboBox_at3_encmethod";
             this.comboBox_at3_encmethod.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at3_encmethod_SelectedIndexChanged);
             // 
@@ -239,8 +272,10 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.radioButton_PS4);
+            this.groupBox2.Controls.Add(this.radioButton_PSV);
             this.groupBox2.Controls.Add(this.label_at9_times);
-            this.groupBox2.Controls.Add(this.label_at9_nol);
             this.groupBox2.Controls.Add(this.textBox_at9_looptimes);
             this.groupBox2.Controls.Add(this.label_at9_samples);
             this.groupBox2.Controls.Add(this.textBox_at9_loopend);
@@ -257,19 +292,31 @@
             this.groupBox2.Controls.Add(this.comboBox_at9_bitrate);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label_at9_loopend);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label_at9_nol);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // radioButton_PS4
+            // 
+            resources.ApplyResources(this.radioButton_PS4, "radioButton_PS4");
+            this.radioButton_PS4.Name = "radioButton_PS4";
+            this.radioButton_PS4.UseVisualStyleBackColor = true;
+            this.radioButton_PS4.CheckedChanged += new System.EventHandler(this.RadioButton_PS4_CheckedChanged);
+            // 
+            // radioButton_PSV
+            // 
+            resources.ApplyResources(this.radioButton_PSV, "radioButton_PSV");
+            this.radioButton_PSV.Checked = true;
+            this.radioButton_PSV.Name = "radioButton_PSV";
+            this.radioButton_PSV.TabStop = true;
+            this.radioButton_PSV.UseVisualStyleBackColor = true;
+            this.radioButton_PSV.CheckedChanged += new System.EventHandler(this.RadioButton_PSV_CheckedChanged);
             // 
             // label_at9_times
             // 
             resources.ApplyResources(this.label_at9_times, "label_at9_times");
             this.label_at9_times.Name = "label_at9_times";
-            // 
-            // label_at9_nol
-            // 
-            resources.ApplyResources(this.label_at9_nol, "label_at9_nol");
-            this.label_at9_nol.Name = "label_at9_nol";
             // 
             // textBox_at9_looptimes
             // 
@@ -345,13 +392,13 @@
             // 
             // comboBox_at9_sampling
             // 
+            resources.ApplyResources(this.comboBox_at9_sampling, "comboBox_at9_sampling");
             this.comboBox_at9_sampling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_sampling.FormattingEnabled = true;
             this.comboBox_at9_sampling.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_sampling.Items"),
             resources.GetString("comboBox_at9_sampling.Items1"),
             resources.GetString("comboBox_at9_sampling.Items2")});
-            resources.ApplyResources(this.comboBox_at9_sampling, "comboBox_at9_sampling");
             this.comboBox_at9_sampling.Name = "comboBox_at9_sampling";
             this.comboBox_at9_sampling.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at9_sampling_SelectedIndexChanged);
             // 
@@ -362,6 +409,7 @@
             // 
             // comboBox_at9_bitrate
             // 
+            resources.ApplyResources(this.comboBox_at9_bitrate, "comboBox_at9_bitrate");
             this.comboBox_at9_bitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_bitrate.FormattingEnabled = true;
             this.comboBox_at9_bitrate.Items.AddRange(new object[] {
@@ -374,7 +422,6 @@
             resources.GetString("comboBox_at9_bitrate.Items6"),
             resources.GetString("comboBox_at9_bitrate.Items7"),
             resources.GetString("comboBox_at9_bitrate.Items8")});
-            resources.ApplyResources(this.comboBox_at9_bitrate, "comboBox_at9_bitrate");
             this.comboBox_at9_bitrate.Name = "comboBox_at9_bitrate";
             this.comboBox_at9_bitrate.SelectedIndexChanged += new System.EventHandler(this.ComboBox_at9_bitrate_SelectedIndexChanged);
             // 
@@ -388,8 +435,22 @@
             resources.ApplyResources(this.label_at9_loopend, "label_at9_loopend");
             this.label_at9_loopend.Name = "label_at9_loopend";
             // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label_at9_nol
+            // 
+            resources.ApplyResources(this.label_at9_nol, "label_at9_nol");
+            this.label_at9_nol.Name = "label_at9_nol";
+            // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.checkBox_LFE);
+            this.groupBox3.Controls.Add(this.checkBox_wband);
+            this.groupBox3.Controls.Add(this.checkBox_bex);
             this.groupBox3.Controls.Add(this.comboBox_at9_enctype);
             this.groupBox3.Controls.Add(this.label_at9_enctype);
             this.groupBox3.Controls.Add(this.comboBox_at9_startband);
@@ -401,14 +462,34 @@
             this.groupBox3.Controls.Add(this.checkBox_at9_dualenc);
             this.groupBox3.Controls.Add(this.checkBox_at9_supframe);
             this.groupBox3.Controls.Add(this.checkBox_at9_advanced);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // checkBox_LFE
+            // 
+            resources.ApplyResources(this.checkBox_LFE, "checkBox_LFE");
+            this.checkBox_LFE.Name = "checkBox_LFE";
+            this.checkBox_LFE.UseVisualStyleBackColor = true;
+            this.checkBox_LFE.CheckedChanged += new System.EventHandler(this.CheckBox_LFE_CheckedChanged);
+            // 
+            // checkBox_wband
+            // 
+            resources.ApplyResources(this.checkBox_wband, "checkBox_wband");
+            this.checkBox_wband.Name = "checkBox_wband";
+            this.checkBox_wband.UseVisualStyleBackColor = true;
+            this.checkBox_wband.CheckedChanged += new System.EventHandler(this.CheckBox_wband_CheckedChanged);
+            // 
+            // checkBox_bex
+            // 
+            resources.ApplyResources(this.checkBox_bex, "checkBox_bex");
+            this.checkBox_bex.Name = "checkBox_bex";
+            this.checkBox_bex.UseVisualStyleBackColor = true;
+            this.checkBox_bex.CheckedChanged += new System.EventHandler(this.CheckBox_bex_CheckedChanged);
+            // 
             // comboBox_at9_enctype
             // 
-            this.comboBox_at9_enctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.comboBox_at9_enctype, "comboBox_at9_enctype");
+            this.comboBox_at9_enctype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_enctype.FormattingEnabled = true;
             this.comboBox_at9_enctype.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_enctype.Items"),
@@ -427,8 +508,8 @@
             // 
             // comboBox_at9_startband
             // 
-            this.comboBox_at9_startband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.comboBox_at9_startband, "comboBox_at9_startband");
+            this.comboBox_at9_startband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_startband.FormattingEnabled = true;
             this.comboBox_at9_startband.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_startband.Items"),
@@ -445,8 +526,8 @@
             // 
             // comboBox_at9_useband
             // 
-            this.comboBox_at9_useband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.comboBox_at9_useband, "comboBox_at9_useband");
+            this.comboBox_at9_useband.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_at9_useband.FormattingEnabled = true;
             this.comboBox_at9_useband.Items.AddRange(new object[] {
             resources.GetString("comboBox_at9_useband.Items"),
@@ -511,7 +592,7 @@
             resources.ApplyResources(this.checkBox_lpcreate, "checkBox_lpcreate");
             this.checkBox_lpcreate.Name = "checkBox_lpcreate";
             this.checkBox_lpcreate.UseVisualStyleBackColor = true;
-            this.checkBox_lpcreate.CheckedChanged += new System.EventHandler(this.checkBox_lpcreate_CheckedChanged);
+            this.checkBox_lpcreate.CheckedChanged += new System.EventHandler(this.CheckBox_lpcreate_CheckedChanged);
             // 
             // FormSettings
             // 
@@ -598,5 +679,14 @@
         private CheckBox checkBox_at9_supframe;
         private CheckBox checkBox_at9_advanced;
         private CheckBox checkBox_lpcreate;
+        private RadioButton radioButton_PS3;
+        private RadioButton radioButton_PSP;
+        private Label label6;
+        private RadioButton radioButton_PS4;
+        private RadioButton radioButton_PSV;
+        private Label label7;
+        private CheckBox checkBox_LFE;
+        private CheckBox checkBox_wband;
+        private CheckBox checkBox_bex;
     }
 }

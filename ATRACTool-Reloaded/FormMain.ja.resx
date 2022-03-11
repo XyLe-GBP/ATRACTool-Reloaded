@@ -147,10 +147,10 @@
     <value>ツール (&amp;T)</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>オーディオ形式変換 (&amp;C)</value>
+    <value>音声形式の変換 (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 22</value>
@@ -165,7 +165,7 @@
     <value>WAVEから別形式に変換</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
     <value>ループポイント作成</value>
