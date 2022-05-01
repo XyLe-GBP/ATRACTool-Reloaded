@@ -1258,12 +1258,12 @@ namespace ATRACTool_Reloaded
             {
                 case false:
                     {
-                        uri = new("https://github.com/XyLe-GBP/waifu2x-ncnn-vulkan-GUI-Edition-Reloaded/releases/download/v" + Generic.GitHubLatestVersion + "/atractool-rel-release.zip");
+                        uri = new("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases/download/v" + Generic.GitHubLatestVersion + "/atractool-rel-release.zip");
                     }
                     break;
                 case true:
                     {
-                        uri = new("https://github.com/XyLe-GBP/waifu2x-ncnn-vulkan-GUI-Edition-Reloaded/releases/download/v" + Generic.GitHubLatestVersion + "/atractool-rel-portable.zip");
+                        uri = new("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases/download/v" + Generic.GitHubLatestVersion + "/atractool-rel-portable.zip");
                     }
                     break;
             }
