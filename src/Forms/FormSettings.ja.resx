@@ -1,0 +1,433 @@
+﻿<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 15</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+ コマンドライン引数：</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 15</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>ATRAC9 コマンドライン引数：</value>
+  </data>
+  <data name="radioButton_PS3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>270, 25</value>
+  </data>
+  <data name="label_at3_times.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 108</value>
+  </data>
+  <data name="label_at3_times.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 15</value>
+  </data>
+  <data name="label_at3_times.Text" xml:space="preserve">
+    <value>回</value>
+  </data>
+  <data name="radioButton_PSP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <data name="textBox_at3_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 105</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 15</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>対象のコンソール：</value>
+  </data>
+  <data name="label_at3_nol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 108</value>
+  </data>
+  <data name="label_at3_nol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 15</value>
+  </data>
+  <data name="label_at3_nol.Text" xml:space="preserve">
+    <value>ループ回数：</value>
+  </data>
+  <data name="checkBox_at3_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 19</value>
+  </data>
+  <data name="checkBox_at3_looptimes.Text" xml:space="preserve">
+    <value>ループ回数を設定</value>
+  </data>
+  <data name="label_at3_samples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>490, 58</value>
+  </data>
+  <data name="label_at3_samples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 15</value>
+  </data>
+  <data name="label_at3_samples.Text" xml:space="preserve">
+    <value>サンプル</value>
+  </data>
+  <data name="textBox_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>395, 55</value>
+  </data>
+  <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 15</value>
+  </data>
+  <data name="label_at3_loopend.Text" xml:space="preserve">
+    <value>サンプル ~ LoopEnd:</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>558, 57</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 19</value>
+  </data>
+  <data name="checkBox_at3_loopsound.Text" xml:space="preserve">
+    <value>音源の最初から最後までをループさせる</value>
+  </data>
+  <data name="checkBox_at3_looppoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 19</value>
+  </data>
+  <data name="checkBox_at3_looppoint.Text" xml:space="preserve">
+    <value>ループポイントを設定</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items" xml:space="preserve">
+    <value>32kbps, モノラル</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items1" xml:space="preserve">
+    <value>48kbps, モノラル</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items2" xml:space="preserve">
+    <value>57kbps, モノラル</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items3" xml:space="preserve">
+    <value>64kbps, モノラル / ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items4" xml:space="preserve">
+    <value>72kbps, モノラル / ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items5" xml:space="preserve">
+    <value>96kbps, モノラル / ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items6" xml:space="preserve">
+    <value>114kbps, ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items7" xml:space="preserve">
+    <value>128kbps, モノラル / ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items8" xml:space="preserve">
+    <value>144kbps, ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items9" xml:space="preserve">
+    <value>160kbps, ステレオ</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items10" xml:space="preserve">
+    <value>192kbps, ステレオ / 6ch</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items11" xml:space="preserve">
+    <value>256kbps, ステレオ / 6ch</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Items12" xml:space="preserve">
+    <value>320kbps, ステレオ / 6ch</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>562, 24</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>479, 27</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 15</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>エンコード方式：</value>
+  </data>
+  <data name="radioButton_PS4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 27</value>
+  </data>
+  <data name="radioButton_PSV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 27</value>
+  </data>
+  <data name="label_at9_times.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 83</value>
+  </data>
+  <data name="label_at9_times.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 15</value>
+  </data>
+  <data name="label_at9_times.Text" xml:space="preserve">
+    <value>回</value>
+  </data>
+  <data name="textBox_at9_looptimes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 80</value>
+  </data>
+  <data name="label_at9_samples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>490, 56</value>
+  </data>
+  <data name="label_at9_samples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 15</value>
+  </data>
+  <data name="label_at9_samples.Text" xml:space="preserve">
+    <value>サンプル</value>
+  </data>
+  <data name="textBox_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>395, 53</value>
+  </data>
+  <data name="checkBox_at9_looptimes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 19</value>
+  </data>
+  <data name="checkBox_at9_looptimes.Text" xml:space="preserve">
+    <value>ループ回数を設定</value>
+  </data>
+  <data name="checkBox_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 19</value>
+  </data>
+  <data name="checkBox_at9_looplist.Text" xml:space="preserve">
+    <value>ループリストファイルを指定してループを設定</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>558, 55</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 19</value>
+  </data>
+  <data name="checkBox_at9_loopsound.Text" xml:space="preserve">
+    <value>音源の最初から最後までをループさせる</value>
+  </data>
+  <data name="checkBox_at9_looppoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 19</value>
+  </data>
+  <data name="checkBox_at9_looppoint.Text" xml:space="preserve">
+    <value>ループポイントを設定</value>
+  </data>
+  <data name="comboBox_at9_sampling.Location" type="System.Drawing.Point, System.Drawing">
+    <value>668, 26</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>564, 29</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 15</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>サンプリング周波数：</value>
+  </data>
+  <data name="comboBox_at9_bitrate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>448, 26</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 29</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 15</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>ビットレート：</value>
+  </data>
+  <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 15</value>
+  </data>
+  <data name="label_at9_loopend.Text" xml:space="preserve">
+    <value>サンプル ~ LoopEnd:</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 15</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>対象のコンソール：</value>
+  </data>
+  <data name="label_at9_nol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 83</value>
+  </data>
+  <data name="label_at9_nol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 15</value>
+  </data>
+  <data name="label_at9_nol.Text" xml:space="preserve">
+    <value>ループ回数：</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>ATRAC9 高度な設定</value>
+  </data>
+  <data name="checkBox_LFE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 95</value>
+  </data>
+  <data name="checkBox_LFE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 19</value>
+  </data>
+  <data name="checkBox_LFE.Text" xml:space="preserve">
+    <value>LFE Super Low Cut を有効にする</value>
+  </data>
+  <data name="checkBox_wband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>591, 39</value>
+  </data>
+  <data name="checkBox_wband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 19</value>
+  </data>
+  <data name="checkBox_wband.Text" xml:space="preserve">
+    <value>ワイドバンドエンコードモードを有効にする</value>
+  </data>
+  <data name="checkBox_bex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 19</value>
+  </data>
+  <data name="checkBox_bex.Text" xml:space="preserve">
+    <value>Band Extension を有効にする</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items" xml:space="preserve">
+    <value>量子化ノイズ勾配 極小</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items1" xml:space="preserve">
+    <value>量子化ノイズ勾配 小</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items2" xml:space="preserve">
+    <value>量子化ノイズ勾配 中</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items3" xml:space="preserve">
+    <value>量子化ノイズ勾配 大</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items4" xml:space="preserve">
+    <value>自動設定</value>
+  </data>
+  <data name="comboBox_at9_enctype.Items5" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="comboBox_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 14</value>
+  </data>
+  <data name="comboBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="label_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>282, 17</value>
+  </data>
+  <data name="label_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 15</value>
+  </data>
+  <data name="label_at9_enctype.Text" xml:space="preserve">
+    <value>エンコード方法：</value>
+  </data>
+  <data name="comboBox_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 68</value>
+  </data>
+  <data name="checkBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 19</value>
+  </data>
+  <data name="checkBox_at9_enctype.Text" xml:space="preserve">
+    <value>ATRACのエンコード方法を設定</value>
+  </data>
+  <data name="comboBox_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>435, 68</value>
+  </data>
+  <data name="label_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 71</value>
+  </data>
+  <data name="label_at9_useband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 15</value>
+  </data>
+  <data name="label_at9_useband.Text" xml:space="preserve">
+    <value>使用するバンドの数：</value>
+  </data>
+  <data name="label_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>368, 71</value>
+  </data>
+  <data name="label_at9_startband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 15</value>
+  </data>
+  <data name="label_at9_startband.Text" xml:space="preserve">
+    <value>開始バンド：</value>
+  </data>
+  <data name="checkBox_at9_advband.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 70</value>
+  </data>
+  <data name="checkBox_at9_advband.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 19</value>
+  </data>
+  <data name="checkBox_at9_advband.Text" xml:space="preserve">
+    <value>高度なバンドの設定を有効にする</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 39</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 19</value>
+  </data>
+  <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
+    <value>デュアルエンコードモードを有効にする</value>
+  </data>
+  <data name="checkBox_at9_supframe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>387, 39</value>
+  </data>
+  <data name="checkBox_at9_supframe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 19</value>
+  </data>
+  <data name="checkBox_at9_supframe.Text" xml:space="preserve">
+    <value>スーパーフレームエンコードを有効にする</value>
+  </data>
+  <data name="checkBox_at9_advanced.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 19</value>
+  </data>
+  <data name="checkBox_at9_advanced.Text" xml:space="preserve">
+    <value>高度な設定を有効にする</value>
+  </data>
+  <data name="checkBox_lpcreate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 19</value>
+  </data>
+  <data name="checkBox_lpcreate.Text" xml:space="preserve">
+    <value>変換時にループポイントを作成</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>変換設定</value>
+  </data>
+</root>
