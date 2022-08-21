@@ -45,6 +45,8 @@ namespace ATRACTool_Reloaded
             public static int ATRACFlag = -1;
             public static string ATRACExt = "";
             public static int TaskFlag = 0;
+            public static bool IsWave = false;
+            public static bool IsATRAC = false;
             /// <summary>
             /// 変換先の形式を判別するための変数
             /// </summary>

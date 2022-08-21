@@ -49,6 +49,11 @@
             this.checkBox_LoopEnable = new System.Windows.Forms.CheckBox();
             this.radioButton_at3 = new System.Windows.Forms.RadioButton();
             this.radioButton_at9 = new System.Windows.Forms.RadioButton();
+            this.label_File = new System.Windows.Forms.Label();
+            this.button_Prev = new System.Windows.Forms.Button();
+            this.button_Next = new System.Windows.Forms.Button();
+            this.label_Psamples = new System.Windows.Forms.Label();
+            this.label_Plength = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_trk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Start)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_End)).BeginInit();
@@ -172,6 +177,36 @@
             this.radioButton_at9.TabStop = true;
             this.radioButton_at9.UseVisualStyleBackColor = true;
             // 
+            // label_File
+            // 
+            resources.ApplyResources(this.label_File, "label_File");
+            this.label_File.AutoEllipsis = true;
+            this.label_File.Name = "label_File";
+            // 
+            // button_Prev
+            // 
+            resources.ApplyResources(this.button_Prev, "button_Prev");
+            this.button_Prev.Name = "button_Prev";
+            this.button_Prev.UseVisualStyleBackColor = true;
+            this.button_Prev.Click += new System.EventHandler(this.Button_Prev_Click);
+            // 
+            // button_Next
+            // 
+            resources.ApplyResources(this.button_Next, "button_Next");
+            this.button_Next.Name = "button_Next";
+            this.button_Next.UseVisualStyleBackColor = true;
+            this.button_Next.Click += new System.EventHandler(this.Button_Next_Click);
+            // 
+            // label_Psamples
+            // 
+            resources.ApplyResources(this.label_Psamples, "label_Psamples");
+            this.label_Psamples.Name = "label_Psamples";
+            // 
+            // label_Plength
+            // 
+            resources.ApplyResources(this.label_Plength, "label_Plength");
+            this.label_Plength.Name = "label_Plength";
+            // 
             // FormLPC
             // 
             this.AcceptButton = this.button_OK;
@@ -179,6 +214,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
             this.ControlBox = false;
+            this.Controls.Add(this.label_Plength);
+            this.Controls.Add(this.label_Psamples);
+            this.Controls.Add(this.button_Next);
+            this.Controls.Add(this.button_Prev);
+            this.Controls.Add(this.label_File);
             this.Controls.Add(this.radioButton_at9);
             this.Controls.Add(this.radioButton_at3);
             this.Controls.Add(this.checkBox_LoopEnable);
@@ -233,5 +273,10 @@
         private CheckBox checkBox_LoopEnable;
         private RadioButton radioButton_at3;
         private RadioButton radioButton_at9;
+        private Label label_File;
+        private Button button_Prev;
+        private Button button_Next;
+        private Label label_Psamples;
+        private Label label_Plength;
     }
 }

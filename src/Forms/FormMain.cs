@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Net;
 using System.Net.NetworkInformation;
 using ATRACTool_Reloaded.Localizable;
 
@@ -122,7 +121,7 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = Localization.Filters,
-                FilterIndex = 11,
+                FilterIndex = 12,
                 Title = Localization.OpenDialogTitle,
                 Multiselect = true,
                 RestoreDirectory = true
@@ -145,31 +144,45 @@ namespace ATRACTool_Reloaded
                     switch (file.Extension.ToUpper())
                     {
                         case ".WAV":
-                            label_Formattxt.Text = Localization.WAVEFormatCaption;
-                            toolStripDropDownButton_EF.Enabled = true;
-                            toolStripDropDownButton_EF.Visible = true;
-                            button_Decode.Enabled = false;
-                            button_Encode.Enabled = true;
-                            loopPointCreationToolStripMenuItem.Enabled = true;
+                            FormatSorter(true);
+                            break;
+                        case ".MP3":
+                            FormatSorter(true, true);
+                            break;
+                        case ".M4A":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".FLAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".ALAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AIFF":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OGG":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OPUS":
+                            FormatSorter(true, true);
+                            break;
+                        case ".WMA":
+                            FormatSorter(true, true);
                             break;
                         case ".AT3":
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                            toolStripDropDownButton_EF.Enabled = false;
-                            toolStripDropDownButton_EF.Visible = false;
-                            button_Decode.Enabled = true;
-                            button_Encode.Enabled = false;
-                            loopPointCreationToolStripMenuItem.Enabled = false;
+                            FormatSorter(false);
                             break;
                         case ".AT9":
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                            toolStripDropDownButton_EF.Enabled = false;
-                            toolStripDropDownButton_EF.Visible = false;
-                            button_Decode.Enabled = true;
-                            button_Encode.Enabled = false;
-                            loopPointCreationToolStripMenuItem.Enabled = false;
+                            FormatSorter(false);
                             break;
                     }
-                    
+
                     closeFileCToolStripMenuItem.Enabled = true;
                     return;
                 }
@@ -209,28 +222,51 @@ namespace ATRACTool_Reloaded
                             switch (fi.Extension.ToUpper())
                             {
                                 case ".WAV":
-                                    label_Formattxt.Text = Localization.WAVEFormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = true;
-                                    toolStripDropDownButton_EF.Visible = true;
-                                    button_Decode.Enabled = false;
-                                    button_Encode.Enabled = true;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(true);
+                                    break;
+                                case ".MP3":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".M4A":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".AAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".FLAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".ALAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".AIFF":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".OGG":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".OPUS":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".WMA":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
                                     break;
                                 case ".AT3":
                                     label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = false;
-                                    toolStripDropDownButton_EF.Visible = false;
-                                    button_Decode.Enabled = true;
-                                    button_Encode.Enabled = false;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(false);
                                     break;
                                 case ".AT9":
                                     label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = false;
-                                    toolStripDropDownButton_EF.Visible = false;
-                                    button_Decode.Enabled = true;
-                                    button_Encode.Enabled = false;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(false);
                                     break;
                             }
                         }
@@ -1226,6 +1262,24 @@ namespace ATRACTool_Reloaded
                     {
                         case ".WAV":
                             continue;
+                        case ".MP3":
+                            continue;
+                        case ".M4A":
+                            continue;
+                        case ".AAC":
+                            continue;
+                        case ".AIFF":
+                            continue;
+                        case ".ALAC":
+                            continue;
+                        case ".FLAC":
+                            continue;
+                        case ".OGG":
+                            continue;
+                        case ".OPUS":
+                            continue;
+                        case ".WMA":
+                            continue;
                         case ".AT3":
                             continue;
                         case ".AT9":
@@ -1253,28 +1307,42 @@ namespace ATRACTool_Reloaded
                     switch (file.Extension.ToUpper())
                     {
                         case ".WAV":
-                            label_Formattxt.Text = Localization.WAVEFormatCaption;
-                            toolStripDropDownButton_EF.Enabled = true;
-                            toolStripDropDownButton_EF.Visible = true;
-                            button_Decode.Enabled = false;
-                            button_Encode.Enabled = true;
-                            loopPointCreationToolStripMenuItem.Enabled = true;
+                            FormatSorter(true);
+                            break;
+                        case ".MP3":
+                            FormatSorter(true, true);
+                            break;
+                        case ".M4A":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".FLAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".ALAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AIFF":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OGG":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OPUS":
+                            FormatSorter(true, true);
+                            break;
+                        case ".WMA":
+                            FormatSorter(true, true);
                             break;
                         case ".AT3":
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                            toolStripDropDownButton_EF.Enabled = false;
-                            toolStripDropDownButton_EF.Visible = false;
-                            button_Decode.Enabled = true;
-                            button_Encode.Enabled = false;
-                            loopPointCreationToolStripMenuItem.Enabled = false;
+                            FormatSorter(false);
                             break;
                         case ".AT9":
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                            toolStripDropDownButton_EF.Enabled = false;
-                            toolStripDropDownButton_EF.Visible = false;
-                            button_Decode.Enabled = true;
-                            button_Encode.Enabled = false;
-                            loopPointCreationToolStripMenuItem.Enabled = false;
+                            FormatSorter(false);
                             break;
                     }
 
@@ -1317,28 +1385,51 @@ namespace ATRACTool_Reloaded
                             switch (fi.Extension.ToUpper())
                             {
                                 case ".WAV":
-                                    label_Formattxt.Text = Localization.WAVEFormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = true;
-                                    toolStripDropDownButton_EF.Visible = true;
-                                    button_Decode.Enabled = false;
-                                    button_Encode.Enabled = true;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(true);
+                                    break;
+                                case ".MP3":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".M4A":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".AAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".FLAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".ALAC":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".AIFF":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".OGG":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".OPUS":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
+                                    break;
+                                case ".WMA":
+                                    Ft = ".wav";
+                                    FormatSorter(true, true);
                                     break;
                                 case ".AT3":
                                     label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = false;
-                                    toolStripDropDownButton_EF.Visible = false;
-                                    button_Decode.Enabled = true;
-                                    button_Encode.Enabled = false;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(false);
                                     break;
                                 case ".AT9":
                                     label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                                    toolStripDropDownButton_EF.Enabled = false;
-                                    toolStripDropDownButton_EF.Visible = false;
-                                    button_Decode.Enabled = true;
-                                    button_Encode.Enabled = false;
-                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    FormatSorter(false);
                                     break;
                             }
                         }
@@ -1480,6 +1571,196 @@ namespace ATRACTool_Reloaded
             form.ProgressMsg = text;
             Application.DoEvents();
             Thread.Sleep(10);
+        }
+
+        /// <summary>
+        /// Waveではない音声ファイルをWaveに変換する
+        /// </summary>
+        private void AudioToWaveConvert()
+        {
+            if (Common.Generic.IsWave != true && Common.Generic.IsATRAC != true)
+            {
+                if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
+                {
+                    FileInfo file = new(Common.Generic.OpenFilePaths[0]);
+                    using Form formAtWST = new FormAtWSelectTarget();
+                    DialogResult dr = formAtWST.ShowDialog();
+                    if (dr != DialogResult.Cancel && dr != DialogResult.None)
+                    {
+                        Common.Generic.SavePath = file.Directory + @"\" + file.Name + @".wav";
+                        Common.Generic.ProgressMax = 1;
+
+                        Common.Generic.ProcessFlag = 2;
+
+                        Form formProgress = new FormProgress();
+                        formProgress.ShowDialog();
+                        formProgress.Dispose();
+
+                        if (Common.Generic.Result == false)
+                        {
+                            Common.Generic.cts.Dispose();
+                            MessageBox.Show(Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        FileInfo fi = new(Common.Generic.SavePath);
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
+                        {
+                            if (File.Exists(Common.Generic.SavePath))  // ファイルが既に存在する場合は削除してからMoveする
+                            {
+                                File.Delete(Common.Generic.SavePath);
+                                File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
+                                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                            }
+                            else
+                            {
+                                File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
+                                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                            }
+
+                            if (File.Exists(Common.Generic.SavePath)) // ファイルが生成されているかどうか
+                            {
+                                Common.Generic.OpenFilePaths[0] = Common.Generic.SavePath;
+                                label_Filepath.Text = Common.Generic.OpenFilePaths[0];
+                            }
+                            else // エラー
+                            {
+                                ResetStatus();
+                                MessageBox.Show(Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            return;
+                        }
+                        else // Error
+                        {
+                            ResetStatus();
+                            Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                            MessageBox.Show(Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        ResetStatus();
+                        return;
+                    }
+                }
+                else // 複数ファイル
+                {
+                    FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
+                    using Form formAtWST = new FormAtWSelectTarget();
+                    DialogResult dr = formAtWST.ShowDialog();
+                    if (dr != DialogResult.Cancel && dr != DialogResult.None)
+                    {
+                        Common.Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
+
+                        Common.Generic.ProcessFlag = 2;
+
+                        Form formProgress = new FormProgress();
+                        formProgress.ShowDialog();
+                        formProgress.Dispose();
+
+                        if (Common.Generic.Result == false)
+                        {
+                            Common.Generic.cts.Dispose();
+                            MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        int count = 0;
+                        foreach (var file in Common.Generic.OpenFilePaths)
+                        {
+                            FileInfo fi = new(file);
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav"))
+                            {
+                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
+                                {
+                                    File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                }
+                                else
+                                {
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                }
+                                
+                            }
+                            else // Error
+                            {
+                                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                                MessageBox.Show(this, Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                ResetStatus();
+                                return;
+                            }
+
+                            if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav")) // ファイル存在確認
+                            {
+                                Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav";
+                                count++;
+                            }
+                            else // エラー
+                            {
+                                return;
+                            }
+                        }
+                        Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+
+                        return;
+                    }
+                    else
+                    {
+                        ResetStatus();
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        /// ファイル形式に応じて動作を変更
+        /// </summary>
+        /// <param name="IsEncode">エンコード対象か否か</param>
+        /// <param name="IsNotWave">Waveファイルか否か</param>
+        private void FormatSorter(bool IsEncode, bool IsNotWave = false)
+        {
+            if (IsEncode != false)
+            {
+                if (IsNotWave != true) // Wave
+                {
+                    Common.Generic.IsWave = true;
+                    Common.Generic.IsATRAC = false;
+                    label_Formattxt.Text = Localization.WAVEFormatCaption;
+                    toolStripDropDownButton_EF.Enabled = true;
+                    toolStripDropDownButton_EF.Visible = true;
+                    button_Decode.Enabled = false;
+                    button_Encode.Enabled = true;
+                    loopPointCreationToolStripMenuItem.Enabled = true;
+                }
+                else // NotWave
+                {
+                    Common.Generic.IsWave = false;
+                    Common.Generic.IsATRAC = false;
+                    label_Formattxt.Text = Localization.WAVEConvertedFormatCaption;
+                    toolStripDropDownButton_EF.Enabled = true;
+                    toolStripDropDownButton_EF.Visible = true;
+                    button_Decode.Enabled = false;
+                    button_Encode.Enabled = true;
+                    loopPointCreationToolStripMenuItem.Enabled = true;
+                    AudioToWaveConvert();
+                }
+            }
+            else // ATRAC
+            {
+                Common.Generic.IsWave = false;
+                Common.Generic.IsATRAC = true;
+                toolStripDropDownButton_EF.Enabled = false;
+                toolStripDropDownButton_EF.Visible = false;
+                button_Decode.Enabled = true;
+                button_Encode.Enabled = false;
+                loopPointCreationToolStripMenuItem.Enabled = false;
+            }
         }
     }
 }

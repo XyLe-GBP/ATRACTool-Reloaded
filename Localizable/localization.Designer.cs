@@ -118,7 +118,7 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
-        ///   Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.alac)|*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|LAME (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|All Sup [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///   Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConverterFilters {
             get {
@@ -261,7 +261,7 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
-        ///   RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|All Supported Files|*.wav;*.at3;*.at9 に類似しているローカライズされた文字列を検索します。
+        ///   Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|All Supported Files|*.m4a;*.aac;*.aiff;*.alac;*.f [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Filters {
             get {
@@ -658,6 +658,15 @@ namespace ATRACTool_Reloaded.Localizable {
         internal static string UptodateCaption {
             get {
                 return ResourceManager.GetString("UptodateCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RIFF waveform Audio Format (Converted) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WAVEConvertedFormatCaption {
+            get {
+                return ResourceManager.GetString("WAVEConvertedFormatCaption", resourceCulture);
             }
         }
         

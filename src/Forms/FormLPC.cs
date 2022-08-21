@@ -8,11 +8,8 @@ namespace ATRACTool_Reloaded
     {
         private readonly WaveOut wo = new();
         private AudioFileReader reader = null!;
-        int bytePerSec;
-        long Sample;
-        long Start = 0, End = 0;
-        int position;
-        int length;
+        long Sample, Start = 0, End = 0;
+        int bytePerSec, position, length, btnpos;
         TimeSpan time;
         bool mouseDown = false;
 
@@ -25,10 +22,12 @@ namespace ATRACTool_Reloaded
             trackBar_End.Scroll += TrackBar_End_Scroll;
             trackBar_trk.MouseDown += TrackBar_trk_MouseDown;
             trackBar_trk.MouseUp += TrackBar_trk_MouseUp;
-            label_Samples.Text = Localization.SampleCaption + ": 0";
-            label_Length.Text = Localization.LengthCaption + ": 00:00:00";
-            label_LoopStartSamples.Text = "LoopStart: 0";
-            label_LoopEndSamples.Text = "LoopEnd: 0";
+            label_Samples.Text = Localization.SampleCaption + ":";
+            label_Psamples.Text = "0";
+            label_Length.Text = Localization.LengthCaption + ":";
+            label_Plength.Text = "00:00:00";
+            label_LoopStartSamples.Text = "";
+            label_LoopEndSamples.Text = "";
             timer_Reload.Interval = 1;
         }
 
@@ -64,12 +63,20 @@ namespace ATRACTool_Reloaded
             if (Common.Generic.OpenFilePaths.Length == 1)
             {
                 reader = new(Common.Generic.OpenFilePaths[0]);
+                FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
+                label_File.Text = fi.Name + fi.Extension;
+                button_Prev.Enabled = false;
+                button_Next.Enabled = false;
             }
             else
             {
                 if (Common.Generic.lpcreate != false)
                 {
                     reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
+                    FileInfo fi = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
+                    label_File.Text = fi.Name + fi.Extension;
+                    button_Prev.Enabled = false;
+                    button_Next.Enabled = false;
 
                     switch (Common.Generic.ATRACFlag)
                     {
@@ -94,6 +101,11 @@ namespace ATRACTool_Reloaded
                 else
                 {
                     reader = new(Common.Generic.OpenFilePaths[0]);
+                    FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
+                    label_File.Text = fi.Name + fi.Extension;
+                    button_Prev.Enabled = false;
+                    button_Next.Enabled = true;
+                    btnpos = 1;
                 }
             }
             
@@ -159,9 +171,11 @@ namespace ATRACTool_Reloaded
             {
                 reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_Start.Value);
             }
-            label_Length.Text = Localization.LengthCaption + ": " + time.ToString(@"hh\:mm\:ss");
-            StringBuilder str = new(Localization.SampleCaption + ": " + Sample.ToString());
-            label_Samples.Text = str.ToString();
+            label_Length.Text = Localization.LengthCaption + ":";
+            label_Plength.Text = time.ToString(@"hh\:mm\:ss");
+            StringBuilder str = new(Sample.ToString());
+            label_Samples.Text = Localization.SampleCaption + ":";
+            label_Psamples.Text = str.ToString();
         }
 
         private void Playback()
@@ -171,11 +185,6 @@ namespace ATRACTool_Reloaded
                 position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
                 time = new(0, 0, position);
                 Sample = reader.Position / reader.WaveFormat.BlockAlign;
-            }
-            if (wo.PlaybackState == PlaybackState.Stopped)
-            {
-                Invoke(new Action(() => button_Play.Text = Localization.PlayCaption));
-                reader.Position = 0;
             }
         }
 
@@ -200,6 +209,62 @@ namespace ATRACTool_Reloaded
             reader.Position = 0;
             wo.Dispose();
             reader.Close();
+        }
+
+        private void Button_Prev_Click(object sender, EventArgs e)
+        {
+            btnpos--;
+            FileInfo fi = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+            label_File.Text = fi.Name;
+
+            wo.Stop();
+            button_Play.Text = Localization.PlayCaption;
+            reader.Position = 0;
+            
+            if (btnpos == 1)
+            {
+                reader = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+                wo.Init(reader);
+                ResetAFR();
+                button_Prev.Enabled = false;
+                button_Next.Enabled = true;
+            }
+            else
+            {
+                reader = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+                wo.Init(reader);
+                ResetAFR();
+                button_Prev.Enabled = true;
+                button_Next.Enabled = true;
+            }
+        }
+
+        private void Button_Next_Click(object sender, EventArgs e)
+        {
+            btnpos++;
+            FileInfo fi = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+            label_File.Text = fi.Name;
+
+            wo.Stop();
+            button_Play.Text = Localization.PlayCaption;
+            reader.Position = 0;
+            
+            if (btnpos == Common.Generic.OpenFilePaths.Length)
+            {
+                reader = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+                wo.Init(reader);
+                ResetAFR();
+                button_Next.Enabled = false;
+                button_Prev.Enabled = true;
+            }
+            else
+            {
+                reader = new(Common.Generic.OpenFilePaths[btnpos - 1]);
+                wo.Init(reader);
+                ResetAFR();
+                button_Next.Enabled = true;
+                button_Prev.Enabled = true;
+            }
         }
 
         private void Button_Cancel_Click(object sender, EventArgs e)
@@ -268,6 +333,28 @@ namespace ATRACTool_Reloaded
             reader.CurrentTime = oldc;
             label_LoopEndSamples.Text = "LoopEnd: " + pos.ToString() + " " + Localization.SampleCaption;
             End = pos;
+        }
+
+        private void ResetAFR()
+        {
+            trackBar_trk.Minimum = 0;
+            trackBar_trk.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            trackBar_Start.Minimum = 0;
+            trackBar_Start.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            trackBar_End.Minimum = 0;
+            trackBar_End.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            trackBar_trk.TickFrequency = 1;
+            trackBar_Start.TickFrequency = 1;
+            trackBar_End.TickFrequency = 1;
+            numericUpDown_LoopStart.Minimum = 0;
+            numericUpDown_LoopStart.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopStart.Increment = 1;
+            numericUpDown_LoopEnd.Minimum = 0;
+            numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopEnd.Increment = 1;
+
+            int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
+            numericUpDown_LoopEnd.Value = tb;
         }
     }
 }

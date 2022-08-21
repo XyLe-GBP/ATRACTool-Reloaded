@@ -138,7 +138,7 @@
     <value>処理が中断されました。</value>
   </data>
   <data name="ConverterFilters" xml:space="preserve">
-    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.alac)|*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|LAME (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|All Supported Files|*.m4a;*.aac;*.aiff;*.alac;*.avi;*.flac;*.webm;*.mp3;*.mkv;*.mp4;*.m4v;*.wma;*.wmv;*.opus;*.mov;*.ogg;*.wav</value>
+    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.avi;*.flac;*.webm;*.mp3;*.mkv;*.mp4;*.m4v;*.wma;*.wmv;*.opus;*.mov;*.ogg;*.wav</value>
   </data>
   <data name="ConvertErrorCaption" xml:space="preserve">
     <value>形式変換に失敗しました。</value>
@@ -192,7 +192,7 @@
     <value>{0} KiB</value>
   </data>
   <data name="Filters" xml:space="preserve">
-    <value>RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|サポートされているすべての形式|*.wav;*.at3;*.at9</value>
+    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.flac;*.mp3;*.wma;*.opus;*.ogg;*.wav;*.at3;*.at9</value>
   </data>
   <data name="FolderSaveDialogTitle" xml:space="preserve">
     <value>保存先のフォルダを選択</value>
@@ -329,6 +329,9 @@ GitHubリポジトリのページを開きますか？</value>
   </data>
   <data name="UptodateCaption" xml:space="preserve">
     <value>既に最新バージョンのアプリケーションをお使いです。</value>
+  </data>
+  <data name="WAVEConvertedFormatCaption" xml:space="preserve">
+    <value>RIFF waveform Audio Format (変換済み)</value>
   </data>
   <data name="WAVEFilter" xml:space="preserve">
     <value>RIFF waveform Audio Format (*.wav)|*.wav;</value>

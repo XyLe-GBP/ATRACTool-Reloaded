@@ -67,17 +67,23 @@
     <value>キャンセル</value>
   </data>
   <data name="button_SetStart.Text" xml:space="preserve">
-    <value>LoopStartをセット</value>
+    <value>ループ開始地点を設定</value>
   </data>
   <data name="button_SetEnd.Text" xml:space="preserve">
-    <value>LoopEndをセット</value>
+    <value>ループ終了地点を設定</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 19</value>
+    <value>98, 19</value>
   </data>
   <data name="checkBox_LoopEnable.Text" xml:space="preserve">
-    <value>ループ有効</value>
+    <value>ループを有効化</value>
+  </data>
+  <data name="button_Prev.Text" xml:space="preserve">
+    <value>前の曲へ</value>
+  </data>
+  <data name="button_Next.Text" xml:space="preserve">
+    <value>次の曲へ</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ループポイント作成</value>
