@@ -7,7 +7,7 @@ Utility tool to convert Sony's ATRAC3/ATRAC3plus/ATRAC9(.AT3/.AT9) to Wave(.WAV)
 
 Or convert Wave sound to Sony's ATRAC3/ATRAC3plus/ATRAC9.  
 
-User interface functions are provided for SCEI ATRAC3plus Codec Tool (at3tool.exe) and SCEI ATRAC9 Codec Tool (at9tool.exe).
+**This application is a GUI application created with the aim of making the command line tools at3tool.exe and at9tool.exe intuitive to operate.**  
 
 **Download:**
 [Release build](https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases)
