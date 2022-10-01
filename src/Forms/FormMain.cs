@@ -14,6 +14,8 @@ namespace ATRACTool_Reloaded
         };
         private static readonly HttpClient appUpdatechecker = new(handler);
         #endregion
+        static FormSplash fs;
+        static object lockobj;
 
         public FormMain()
         {
@@ -30,80 +32,113 @@ namespace ATRACTool_Reloaded
                 Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
             }
 
-            using FormSplash splash = new();
-            splash.Show();
-            splash.Refresh();
+            lockobj = new object();
 
-            foreach (var files in Directory.GetFiles(Directory.GetCurrentDirectory() + @"\res", "*", SearchOption.AllDirectories))
+            lock (lockobj)
             {
-                FileInfo fi = new(files);
-                RefleshSplashForm(splash, string.Format(Localization.SplashFormFileCaption, fi.Name));
-            }
-
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
-            ResetStatus();
-
-            RefleshSplashForm(splash, Localization.SplashFormConfigCaption);
-
-            int ts = Common.Utils.GetIntForIniFile("OTHERS", "ToolStrip", 65535);
-            string prm1 = Common.Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param"), prm2 = Common.Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
-            if (ts != 65535)
-            {
-                switch (ts)
+                ThreadStart tds = new(StartThread);
+                Thread thread = new(tds)
                 {
-                    case 0:
-                        Common.Generic.ATRACFlag = 0;
-                        aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
-                        aTRAC9ToolStripMenuItem.Checked = false;
-                        toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
-                        break;
-                    case 1:
-                        Common.Generic.ATRACFlag = 1;
-                        aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
-                        aTRAC9ToolStripMenuItem.Checked = true;
-                        toolStripDropDownButton_EF.Text = "ATRAC9";
-                        break;
+                    Name = "Splash",
+                    IsBackground = true
+                };
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+
+                dmes d = new(ShowMessage);
+                if (fs != null)
+                {
+                    fs.Invoke(d, "Initializing...");
+                }
+                Thread.Sleep(500);
+                foreach (var files in Directory.GetFiles(Directory.GetCurrentDirectory() + @"\res", "*", SearchOption.AllDirectories))
+                {
+                    FileInfo fi = new(files);
+                    if (fs != null)
+                    {
+                        fs.Invoke(d, string.Format(Localization.SplashFormFileCaption, fi.Name));
+                        Thread.Sleep(10);
+                    }
+                }
+
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
+                ResetStatus();
+
+                if (fs != null)
+                {
+                    fs.Invoke(d, Localization.SplashFormConfigCaption);
+                    
+                }
+                int ts = Common.Utils.GetIntForIniFile("OTHERS", "ToolStrip", 65535);
+                string prm1 = Common.Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param"), prm2 = Common.Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                if (ts != 65535)
+                {
+                    switch (ts)
+                    {
+                        case 0:
+                            Common.Generic.ATRACFlag = 0;
+                            aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                            aTRAC9ToolStripMenuItem.Checked = false;
+                            toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                            break;
+                        case 1:
+                            Common.Generic.ATRACFlag = 1;
+                            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                            aTRAC9ToolStripMenuItem.Checked = true;
+                            toolStripDropDownButton_EF.Text = "ATRAC9";
+                            break;
+                    }
+                }
+                if (prm1 != "" || prm1 != null)
+                {
+                    Common.Generic.EncodeParamAT3 = prm1;
+                }
+                else
+                {
+                    Common.Generic.EncodeParamAT3 = "";
+                }
+                if (prm2 != "" || prm2 != null)
+                {
+                    Common.Generic.EncodeParamAT9 = prm2;
+                }
+                else
+                {
+                    Common.Generic.EncodeParamAT9 = "";
+                }
+                loopPointCreationToolStripMenuItem.Enabled = false;
+                Thread.Sleep(500);
+
+                if (fs != null)
+                {
+                    fs.Invoke(d, Localization.SplashFormUpdateCaption);
+                }
+                Thread.Sleep(500);
+                if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                {
+                    if (fs != null)
+                    {
+                        fs.Invoke(d, Localization.SplashFormUpdatingCaption);
+                    }
+                    File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
+                    string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+                    File.Delete(updpath + @"\updater.exe");
+                    File.Delete(updpath + @"\atractool-rel.zip");
+                    Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+
+                    if (fs != null)
+                    {
+                        fs.Invoke(d, Localization.SplashFormUpdatedCaption);
+                    }
+                    MessageBox.Show(Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    var update = Task.Run(() => CheckForUpdatesForInit());
+                    update.Wait();
                 }
             }
-            if (prm1 != "" || prm1 != null)
-            {
-                Common.Generic.EncodeParamAT3 = prm1;
-            }
-            else
-            {
-                Common.Generic.EncodeParamAT3 = "";
-            }
-            if (prm2 != "" || prm2 != null)
-            {
-                Common.Generic.EncodeParamAT9 = prm2;
-            }
-            else
-            {
-                Common.Generic.EncodeParamAT9 = "";
-            }
-            loopPointCreationToolStripMenuItem.Enabled = false;
 
-            RefleshSplashForm(splash, Localization.SplashFormUpdateCaption);
-
-            if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
-            {
-                RefleshSplashForm(splash, Localization.SplashFormUpdatingCaption);
-                File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
-                string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
-                File.Delete(updpath + @"\updater.exe");
-                File.Delete(updpath + @"\atractool-rel.zip");
-                Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
-
-                RefleshSplashForm(splash, Localization.SplashFormUpdatedCaption);
-                MessageBox.Show(Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                var update = Task.Run(() => CheckForUpdatesForInit());
-                update.Wait();
-            }
-
-            splash.Close();
+            CloseSplash();
             Activate();
         }
 
@@ -219,56 +254,6 @@ namespace ATRACTool_Reloaded
                         else
                         {
                             Ft = fi.Extension;
-                            switch (fi.Extension.ToUpper())
-                            {
-                                case ".WAV":
-                                    FormatSorter(true);
-                                    break;
-                                case ".MP3":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".M4A":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".FLAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".ALAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AIFF":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".OGG":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".OPUS":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".WMA":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AT3":
-                                    label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                                    FormatSorter(false);
-                                    break;
-                                case ".AT9":
-                                    label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                                    FormatSorter(false);
-                                    break;
-                            }
                         }
                         count++;
                     }
@@ -278,6 +263,49 @@ namespace ATRACTool_Reloaded
                     label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
 
                     closeFileCToolStripMenuItem.Enabled = true;
+
+                    switch (Ft.ToUpper())
+                    {
+                        case ".WAV":
+                            FormatSorter(true);
+                            break;
+                        case ".MP3":
+                            FormatSorter(true, true);
+                            break;
+                        case ".M4A":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".FLAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".ALAC":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AIFF":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OGG":
+                            FormatSorter(true, true);
+                            break;
+                        case ".OPUS":
+                            FormatSorter(true, true);
+                            break;
+                        case ".WMA":
+                            FormatSorter(true, true);
+                            break;
+                        case ".AT3":
+                            label_Formattxt.Text = Localization.ATRAC3FormatCaption;
+                            FormatSorter(false);
+                            break;
+                        case ".AT9":
+                            label_Formattxt.Text = Localization.ATRAC9FormatCaption;
+                            FormatSorter(false);
+                            break;
+                    }
+
                     return;
                 }
             }
@@ -1382,56 +1410,6 @@ namespace ATRACTool_Reloaded
                         else
                         {
                             Ft = fi.Extension;
-                            switch (fi.Extension.ToUpper())
-                            {
-                                case ".WAV":
-                                    FormatSorter(true);
-                                    break;
-                                case ".MP3":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".M4A":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".FLAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".ALAC":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AIFF":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".OGG":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".OPUS":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".WMA":
-                                    Ft = ".wav";
-                                    FormatSorter(true, true);
-                                    break;
-                                case ".AT3":
-                                    label_Formattxt.Text = Localization.ATRAC3FormatCaption;
-                                    FormatSorter(false);
-                                    break;
-                                case ".AT9":
-                                    label_Formattxt.Text = Localization.ATRAC9FormatCaption;
-                                    FormatSorter(false);
-                                    break;
-                            }
                         }
                         count++;
                     }
@@ -1441,6 +1419,58 @@ namespace ATRACTool_Reloaded
                     label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
 
                     closeFileCToolStripMenuItem.Enabled = true;
+
+                    switch (Ft.ToUpper())
+                    {
+                        case ".WAV":
+                            FormatSorter(true);
+                            break;
+                        case ".MP3":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".M4A":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".AAC":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".FLAC":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".ALAC":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".AIFF":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".OGG":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".OPUS":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".WMA":
+                            //Ft = ".wav";
+                            FormatSorter(true, true);
+                            break;
+                        case ".AT3":
+                            label_Formattxt.Text = Localization.ATRAC3FormatCaption;
+                            FormatSorter(false);
+                            break;
+                        case ".AT9":
+                            label_Formattxt.Text = Localization.ATRAC9FormatCaption;
+                            FormatSorter(false);
+                            break;
+                    }
+                    
                     return;
                 }
             }
@@ -1628,6 +1658,42 @@ namespace ATRACTool_Reloaded
                                 ResetStatus();
                                 MessageBox.Show(Localization.ConvertErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
+
+                            switch (Common.Generic.WTAmethod)
+                            {
+                                case 0:
+                                    Common.Utils.WriteStringForIniFile("ATRAC3_SETTINGS", "Console", "0");
+                                    Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "0");
+                                    Common.Generic.ATRACFlag = 0;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                                    aTRAC9ToolStripMenuItem.Checked = false;
+                                    toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                    break;
+                                case 1:
+                                    Common.Utils.WriteStringForIniFile("ATRAC3_SETTINGS", "Console", "1");
+                                    Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "0");
+                                    Common.Generic.ATRACFlag = 0;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                                    aTRAC9ToolStripMenuItem.Checked = false;
+                                    toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                    break;
+                                case 2:
+                                    Common.Utils.WriteStringForIniFile("ATRAC9_SETTINGS", "Console", "0");
+                                    Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "1");
+                                    Common.Generic.ATRACFlag = 1;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                    aTRAC9ToolStripMenuItem.Checked = true;
+                                    toolStripDropDownButton_EF.Text = "ATRAC9";
+                                    break;
+                                case 3:
+                                    Common.Utils.WriteStringForIniFile("ATRAC9_SETTINGS", "Console", "0");
+                                    Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "1");
+                                    Common.Generic.ATRACFlag = 1;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                    aTRAC9ToolStripMenuItem.Checked = true;
+                                    toolStripDropDownButton_EF.Text = "ATRAC9";
+                                    break;
+                            }
                             return;
                         }
                         else // Error
@@ -1703,6 +1769,42 @@ namespace ATRACTool_Reloaded
                         }
                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
 
+                        switch (Common.Generic.WTAmethod)
+                        {
+                            case 0:
+                                Common.Utils.WriteStringForIniFile("ATRAC3_SETTINGS", "Console", "0");
+                                Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "0");
+                                Common.Generic.ATRACFlag = 0;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                                aTRAC9ToolStripMenuItem.Checked = false;
+                                toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                break;
+                            case 1:
+                                Common.Utils.WriteStringForIniFile("ATRAC3_SETTINGS", "Console", "1");
+                                Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "0");
+                                Common.Generic.ATRACFlag = 0;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                                aTRAC9ToolStripMenuItem.Checked = false;
+                                toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                break;
+                            case 2:
+                                Common.Utils.WriteStringForIniFile("ATRAC9_SETTINGS", "Console", "0");
+                                Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "1");
+                                Common.Generic.ATRACFlag = 1;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                aTRAC9ToolStripMenuItem.Checked = true;
+                                toolStripDropDownButton_EF.Text = "ATRAC9";
+                                break;
+                            case 3:
+                                Common.Utils.WriteStringForIniFile("ATRAC9_SETTINGS", "Console", "0");
+                                Common.Utils.WriteStringForIniFile("OTHERS", "ToolStrip", "1");
+                                Common.Generic.ATRACFlag = 1;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                aTRAC9ToolStripMenuItem.Checked = true;
+                                toolStripDropDownButton_EF.Text = "ATRAC9";
+                                break;
+                        }
+
                         return;
                     }
                     else
@@ -1762,5 +1864,35 @@ namespace ATRACTool_Reloaded
                 loopPointCreationToolStripMenuItem.Enabled = false;
             }
         }
+
+        #region SplashScreenCommon
+        private static void StartThread()
+        {
+            fs = new FormSplash();
+            Application.Run(fs);
+        }
+
+
+        private static void CloseSplash()
+        {
+            dop d = new(CloseForm);
+            if (fs != null)
+            {
+                fs.Invoke(d);
+            }
+        }
+
+        private delegate void dop();
+        private static void CloseForm()
+        {
+            fs.Close();
+        }
+
+        private delegate void dmes(string message);
+        private static void ShowMessage(string message)
+        {
+            fs.label_log.Text = message;
+        }
+        #endregion
     }
 }

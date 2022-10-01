@@ -899,6 +899,7 @@ namespace ATRACTool_Reloaded
                         else
                         {
                             p.Report(Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length);
+                            int count = 0;
                             foreach (var file in Generic.OpenFilePaths)
                             {
                                 FileInfo fi = new(file);
@@ -912,6 +913,7 @@ namespace ATRACTool_Reloaded
 
                                 using var engine = new Engine();
                                 var task = MTK_ConvertAsync(engine, source, output, co);
+                                count++;
 
                                 while (task.IsCompleted != true)
                                 {

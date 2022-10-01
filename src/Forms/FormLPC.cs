@@ -142,6 +142,7 @@ namespace ATRACTool_Reloaded
                     wo.Play();
                     button_Play.Text = Localization.PauseCaption;
                     Task.Run(() => Playback());
+                    button_Stop.Enabled = true;
                     break;
                 case PlaybackState.Paused:
                     wo.Play();
@@ -161,6 +162,7 @@ namespace ATRACTool_Reloaded
                 wo.Stop();
                 button_Play.Text = Localization.PlayCaption;
                 reader.Position = 0;
+                button_Stop.Enabled = false;
             }
         }
 
@@ -170,6 +172,13 @@ namespace ATRACTool_Reloaded
             if (checkBox_LoopEnable.Checked == true && reader.CurrentTime >= TimeSpan.FromMilliseconds(trackBar_End.Value))
             {
                 reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_Start.Value);
+            }
+            if (reader.CurrentTime == reader.TotalTime)
+            {
+                wo.Stop();
+                button_Play.Text = Localization.PlayCaption;
+                reader.Position = 0;
+                button_Stop.Enabled = false;
             }
             label_Length.Text = Localization.LengthCaption + ":";
             label_Plength.Text = time.ToString(@"hh\:mm\:ss");
@@ -209,6 +218,7 @@ namespace ATRACTool_Reloaded
             reader.Position = 0;
             wo.Dispose();
             reader.Close();
+            reader.Dispose();
         }
 
         private void Button_Prev_Click(object sender, EventArgs e)
@@ -220,6 +230,7 @@ namespace ATRACTool_Reloaded
             wo.Stop();
             button_Play.Text = Localization.PlayCaption;
             reader.Position = 0;
+            button_Stop.Enabled = false;
             
             if (btnpos == 1)
             {
@@ -248,7 +259,8 @@ namespace ATRACTool_Reloaded
             wo.Stop();
             button_Play.Text = Localization.PlayCaption;
             reader.Position = 0;
-            
+            button_Stop.Enabled = false;
+
             if (btnpos == Common.Generic.OpenFilePaths.Length)
             {
                 reader = new(Common.Generic.OpenFilePaths[btnpos - 1]);
