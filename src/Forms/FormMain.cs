@@ -129,7 +129,7 @@ namespace ATRACTool_Reloaded
                     {
                         fs.Invoke(d, Localization.SplashFormUpdatedCaption);
                     }
-                    MessageBox.Show(Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(fs, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
