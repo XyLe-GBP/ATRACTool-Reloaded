@@ -24,6 +24,8 @@ int main()
 			, sext = common->TWStringToString(ext);
 
 		if (PathFileExists(common->StringToWString(sdrive + sdir + "updater.dat").c_str())) {
+			cout << "Updater - Application Update Utility v1.2" << endl;
+			cout << "Copyright (C) 2022 XyLe. All Rights Reserved.\n" << endl;
 
 			ifstream ifs(common->StringToWString(sdrive + sdir + "updater.dat").c_str());
 			if (!ifs) {
@@ -127,22 +129,11 @@ int main()
 				TCHAR* TExectablePath = common->ConvertTCHAR(ExectablePath.c_str());
 				TCHAR* TCurrent = common->ConvertTCHAR(Current.c_str());
 
-				/*STARTUPINFO si;
-				memset(&si, 0, sizeof(STARTUPINFO));
-				PROCESS_INFORMATION pi;
-				memset(&pi, 0, sizeof(PROCESS_INFORMATION));
-				si.dwFlags = STARTF_USESHOWWINDOW;
-				si.wShowWindow = SW_SHOW;
-				::CreateProcess(NULL, TExectablePath, NULL, NULL, FALSE, 0, NULL, TCurrent, &si, &pi);*/
-
 				ShellExecute(NULL, _T("open"), TExectablePath, NULL, TCurrent, SW_SHOWNORMAL);
 
 				SAFE_FREE(TExectablePath);
 				SAFE_FREE(TCurrent);
 				SAFE_DELETE(common);
-
-				//CloseHandle(pi.hThread);
-				//CloseHandle(pi.hProcess);
 
 				return 0;
 			}
@@ -154,6 +145,9 @@ int main()
 		}
 		else {
 			SAFE_DELETE(common);
+			cout << "Updater - Application Auto Update Utility v1.2" << endl;
+			cout << "Copyright (C) 2022 XyLe. All Rights Reserved." << endl;
+			MessageBox(NULL, TEXT("Update information file not found."), TEXT("Warning"), MB_ICONWARNING);
 			return -1;
 		}
 	}
