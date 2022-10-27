@@ -1,11 +1,13 @@
 ﻿using NAudio.Wave;
 using ATRACTool_Reloaded.Localizable;
 using System.Text;
+using static ATRACTool_Reloaded.Common;
 
 namespace ATRACTool_Reloaded
 {
     public partial class FormLPC : Form
     {
+        private readonly WaveIn wi = new();
         private readonly WaveOut wo = new();
         private AudioFileReader reader = null!;
         long Sample, Start = 0, End = 0;
@@ -64,7 +66,7 @@ namespace ATRACTool_Reloaded
             {
                 reader = new(Common.Generic.OpenFilePaths[0]);
                 FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                label_File.Text = fi.Name + fi.Extension;
+                label_File.Text = fi.Name;
                 button_Prev.Enabled = false;
                 button_Next.Enabled = false;
             }
@@ -74,7 +76,7 @@ namespace ATRACTool_Reloaded
                 {
                     reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
                     FileInfo fi = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
-                    label_File.Text = fi.Name + fi.Extension;
+                    label_File.Text = fi.Name;
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
 
@@ -102,7 +104,7 @@ namespace ATRACTool_Reloaded
                 {
                     reader = new(Common.Generic.OpenFilePaths[0]);
                     FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                    label_File.Text = fi.Name + fi.Extension;
+                    label_File.Text = fi.Name;
                     button_Prev.Enabled = false;
                     button_Next.Enabled = true;
                     btnpos = 1;
@@ -125,6 +127,7 @@ namespace ATRACTool_Reloaded
             numericUpDown_LoopEnd.Minimum = 0;
             numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             numericUpDown_LoopEnd.Increment = 1;
+            wo.Volume = volumeSlider1.Volume;
 
             int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
             numericUpDown_LoopEnd.Value = tb;
@@ -284,6 +287,49 @@ namespace ATRACTool_Reloaded
             Close();
         }
 
+        private void VolumeSlider1_VolumeChanged(object sender, EventArgs e)
+        {
+            wo.Volume = volumeSlider1.Volume;
+        }
+
+        private void Button_LS_Current_Click(object sender, EventArgs e)
+        {
+            trackBar_Start.Value = trackBar_trk.Value;
+            numericUpDown_LoopStart.Value = trackBar_Start.Value;
+        }
+
+        private void Button_LE_Current_Click(object sender, EventArgs e)
+        {
+            trackBar_End.Value = trackBar_trk.Value;
+            numericUpDown_LoopEnd.Value = trackBar_End.Value;
+        }
+
+        private void CheckBox_LoopEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_LoopEnable.Checked != false)
+            {
+                trackBar_Start.Enabled = true;
+                trackBar_End.Enabled = true;
+                numericUpDown_LoopStart.Enabled = true;
+                numericUpDown_LoopEnd.Enabled = true;
+                button_LS_Current.Enabled = true;
+                button_LE_Current.Enabled = true;
+                button_SetStart.Enabled = true;
+                button_SetEnd.Enabled = true;
+            }
+            else
+            {
+                trackBar_Start.Enabled = false;
+                trackBar_End.Enabled = false;
+                numericUpDown_LoopStart.Enabled = false;
+                numericUpDown_LoopEnd.Enabled = false;
+                button_LS_Current.Enabled = false;
+                button_LE_Current.Enabled = false;
+                button_SetStart.Enabled = false;
+                button_SetEnd.Enabled = false;
+            }
+        }
+
         private void Button_OK_Click(object sender, EventArgs e)
         {
             if (checkBox_LoopEnable.Checked == true)
@@ -295,25 +341,26 @@ namespace ATRACTool_Reloaded
                 }
                 wo.Stop();
 
-                Common.IniFile ini = new(@".\settings.ini");
                 if (radioButton_at3.Checked == true)
                 {
-                    ini.WriteString("ATRAC3_SETTINGS", "LoopSound", "0");
-                    ini.WriteString("ATRAC3_SETTINGS", "LoopPoint", "1");
-                    ini.WriteString("ATRAC3_SETTINGS", "LoopStart_Samples", Start.ToString());
-                    ini.WriteString("ATRAC3_SETTINGS", "LoopEnd_Samples", End.ToString());
-                    ini.WriteString("ATRAC3_SETTINGS", "Param", "");
-                    ini.WriteString("GENERIC", "LPCreateIndex", "0");
+                    Config.Entry["ATRAC3_LoopSound"].Value = "false";
+                    Config.Entry["ATRAC3_LoopPoint"].Value = "true";
+                    Config.Entry["ATRAC3_LoopStart_Samples"].Value = Start.ToString();
+                    Config.Entry["ATRAC3_LoopEnd_Samples"].Value = End.ToString();
+                    Config.Entry["ATRAC3_Params"].Value = "";
+                    Config.Entry["LPC_Create"].Value = "false";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "LoopSound", "0");
-                    ini.WriteString("ATRAC9_SETTINGS", "LoopPoint", "1");
-                    ini.WriteString("ATRAC9_SETTINGS", "LoopStart_Samples", Start.ToString());
-                    ini.WriteString("ATRAC9_SETTINGS", "LoopEnd_Samples", End.ToString());
-                    ini.WriteString("ATRAC9_SETTINGS", "Param", "");
-                    ini.WriteString("GENERIC", "LPCreateIndex", "0");
+                    Config.Entry["ATRAC9_LoopSound"].Value = "false";
+                    Config.Entry["ATRAC9_LoopPoint"].Value = "true";
+                    Config.Entry["ATRAC9_LoopStart_Samples"].Value = Start.ToString();
+                    Config.Entry["ATRAC9_LoopEnd_Samples"].Value = End.ToString();
+                    Config.Entry["ATRAC9_Params"].Value = "";
+                    Config.Entry["LPC_Create"].Value = "false";
                 }
+                Config.Save(xmlpath);
+
                 using FormSettings form = new();
                 form.ShowDialog();
 
@@ -364,8 +411,10 @@ namespace ATRACTool_Reloaded
             numericUpDown_LoopEnd.Minimum = 0;
             numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             numericUpDown_LoopEnd.Increment = 1;
+            wo.Volume = volumeSlider1.Volume;
 
             int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
+            numericUpDown_LoopStart.Value = 0;
             numericUpDown_LoopEnd.Value = tb;
         }
     }

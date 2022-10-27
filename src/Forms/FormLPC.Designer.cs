@@ -54,6 +54,10 @@
             this.button_Next = new System.Windows.Forms.Button();
             this.label_Psamples = new System.Windows.Forms.Label();
             this.label_Plength = new System.Windows.Forms.Label();
+            this.volumeSlider1 = new NAudio.Gui.VolumeSlider();
+            this.label_Volume = new System.Windows.Forms.Label();
+            this.button_LS_Current = new System.Windows.Forms.Button();
+            this.button_LE_Current = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_trk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Start)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_End)).BeginInit();
@@ -161,6 +165,7 @@
             resources.ApplyResources(this.checkBox_LoopEnable, "checkBox_LoopEnable");
             this.checkBox_LoopEnable.Name = "checkBox_LoopEnable";
             this.checkBox_LoopEnable.UseVisualStyleBackColor = true;
+            this.checkBox_LoopEnable.CheckedChanged += new System.EventHandler(this.CheckBox_LoopEnable_CheckedChanged);
             // 
             // radioButton_at3
             // 
@@ -179,8 +184,8 @@
             // 
             // label_File
             // 
-            resources.ApplyResources(this.label_File, "label_File");
             this.label_File.AutoEllipsis = true;
+            resources.ApplyResources(this.label_File, "label_File");
             this.label_File.Name = "label_File";
             // 
             // button_Prev
@@ -207,6 +212,31 @@
             resources.ApplyResources(this.label_Plength, "label_Plength");
             this.label_Plength.Name = "label_Plength";
             // 
+            // volumeSlider1
+            // 
+            resources.ApplyResources(this.volumeSlider1, "volumeSlider1");
+            this.volumeSlider1.Name = "volumeSlider1";
+            this.volumeSlider1.VolumeChanged += new System.EventHandler(this.VolumeSlider1_VolumeChanged);
+            // 
+            // label_Volume
+            // 
+            resources.ApplyResources(this.label_Volume, "label_Volume");
+            this.label_Volume.Name = "label_Volume";
+            // 
+            // button_LS_Current
+            // 
+            resources.ApplyResources(this.button_LS_Current, "button_LS_Current");
+            this.button_LS_Current.Name = "button_LS_Current";
+            this.button_LS_Current.UseVisualStyleBackColor = true;
+            this.button_LS_Current.Click += new System.EventHandler(this.Button_LS_Current_Click);
+            // 
+            // button_LE_Current
+            // 
+            resources.ApplyResources(this.button_LE_Current, "button_LE_Current");
+            this.button_LE_Current.Name = "button_LE_Current";
+            this.button_LE_Current.UseVisualStyleBackColor = true;
+            this.button_LE_Current.Click += new System.EventHandler(this.Button_LE_Current_Click);
+            // 
             // FormLPC
             // 
             this.AcceptButton = this.button_OK;
@@ -214,6 +244,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
             this.ControlBox = false;
+            this.Controls.Add(this.button_LE_Current);
+            this.Controls.Add(this.button_LS_Current);
+            this.Controls.Add(this.label_Volume);
+            this.Controls.Add(this.volumeSlider1);
             this.Controls.Add(this.label_Plength);
             this.Controls.Add(this.label_Psamples);
             this.Controls.Add(this.button_Next);
@@ -278,5 +312,9 @@
         private Button button_Next;
         private Label label_Psamples;
         private Label label_Plength;
+        private NAudio.Gui.VolumeSlider volumeSlider1;
+        private Label label_Volume;
+        private Button button_LS_Current;
+        private Button button_LE_Current;
     }
 }

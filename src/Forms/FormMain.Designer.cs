@@ -45,6 +45,7 @@
             this.exitXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMethodSettingsMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertAudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.audioToWAVEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,7 +161,8 @@
             // settingsSToolStripMenuItem
             // 
             this.settingsSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.convertSettingsToolStripMenuItem});
+            this.convertSettingsToolStripMenuItem,
+            this.saveMethodSettingsMToolStripMenuItem});
             this.settingsSToolStripMenuItem.Name = "settingsSToolStripMenuItem";
             resources.ApplyResources(this.settingsSToolStripMenuItem, "settingsSToolStripMenuItem");
             // 
@@ -169,6 +171,12 @@
             this.convertSettingsToolStripMenuItem.Name = "convertSettingsToolStripMenuItem";
             resources.ApplyResources(this.convertSettingsToolStripMenuItem, "convertSettingsToolStripMenuItem");
             this.convertSettingsToolStripMenuItem.Click += new System.EventHandler(this.ConvertSettingsToolStripMenuItem_Click);
+            // 
+            // saveMethodSettingsMToolStripMenuItem
+            // 
+            this.saveMethodSettingsMToolStripMenuItem.Name = "saveMethodSettingsMToolStripMenuItem";
+            resources.ApplyResources(this.saveMethodSettingsMToolStripMenuItem, "saveMethodSettingsMToolStripMenuItem");
+            this.saveMethodSettingsMToolStripMenuItem.Click += new System.EventHandler(this.PreferencesMToolStripMenuItem_Click);
             // 
             // toolsTToolStripMenuItem
             // 
@@ -346,5 +354,6 @@
         private ToolStripMenuItem audioToWAVEToolStripMenuItem;
         private ToolStripMenuItem wAVEToAudioToolStripMenuItem;
         private ToolStripMenuItem loopPointCreationToolStripMenuItem;
+        private ToolStripMenuItem saveMethodSettingsMToolStripMenuItem;
     }
 }

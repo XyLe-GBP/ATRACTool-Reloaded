@@ -57,619 +57,742 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;button_Stop.Name" xml:space="preserve">
-    <value>button_Stop</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Name" xml:space="preserve">
-    <value>trackBar_Start</value>
-  </data>
-  <data name="&gt;&gt;button_Next.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="button_Stop.Text" xml:space="preserve">
-    <value>Stop</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="trackBar_trk.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label_Length.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 198</value>
-  </data>
-  <data name="button_OK.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="button_Play.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopStart.Name" xml:space="preserve">
-    <value>numericUpDown_LoopStart</value>
-  </data>
-  <data name="button_Prev.Text" xml:space="preserve">
-    <value>Preview</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_File.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Plength.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="radioButton_at3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>777, 114</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEndSamples.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="button_Next.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="label_Psamples.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
   <data name="trackBar_trk.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 38</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Samples.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label_Plength.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="label_Plength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 213</value>
-  </data>
-  <data name="button_Next.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 43</value>
-  </data>
-  <data name="&gt;&gt;button_Stop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="button_Cancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="trackBar_End.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>685, 261</value>
-  </data>
-  <data name="&gt;&gt;checkBox_LoopEnable.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="label_Psamples.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label_LoopStartSamples.Text" xml:space="preserve">
-    <value>LoopStartSampleCaption</value>
-  </data>
-  <data name="&gt;&gt;button_SetStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="radioButton_at3.Text" xml:space="preserve">
-    <value>ATRAC3+</value>
-  </data>
-  <data name="label_Samples.Text" xml:space="preserve">
-    <value>SamplesCaption</value>
-  </data>
-  <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="label_File.Text" xml:space="preserve">
-    <value>FileCaption</value>
-  </data>
-  <data name="button_Play.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 43</value>
-  </data>
-  <data name="&gt;&gt;label_Plength.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopStart.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label_LoopStartSamples.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="button_Play.Text" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopEnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
-    <value>19</value>
-  </data>
-  <data name="label_LoopEndSamples.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBox_LoopEnable.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="trackBar_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 75</value>
-  </data>
-  <data name="&gt;&gt;checkBox_LoopEnable.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;button_Play.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEndSamples.Name" xml:space="preserve">
-    <value>label_LoopEndSamples</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 107</value>
-  </data>
-  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;label_Psamples.Name" xml:space="preserve">
-    <value>label_Psamples</value>
-  </data>
-  <data name="&gt;&gt;label_File.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="trackBar_Start.Size" type="System.Drawing.Size, System.Drawing">
-    <value>840, 33</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStartSamples.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="trackBar_End.Size" type="System.Drawing.Size, System.Drawing">
-    <value>840, 29</value>
-  </data>
-  <data name="&gt;&gt;button_Next.Name" xml:space="preserve">
-    <value>button_Next</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEndSamples.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label_LoopStartSamples.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.Name" xml:space="preserve">
-    <value>trackBar_trk</value>
-  </data>
-  <data name="radioButton_at9.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="numericUpDown_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 23</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Psamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 23</value>
-  </data>
-  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_SetEnd.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="button_SetStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 220</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopEnd.Name" xml:space="preserve">
-    <value>numericUpDown_LoopEnd</value>
-  </data>
-  <data name="numericUpDown_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 23</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;button_SetEnd.Name" xml:space="preserve">
-    <value>button_SetEnd</value>
-  </data>
-  <data name="numericUpDown_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>444, 260</value>
-  </data>
-  <data name="&gt;&gt;label_Psamples.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStartSamples.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;label_File.Name" xml:space="preserve">
-    <value>label_File</value>
-  </data>
-  <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopStart.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;button_Next.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>645, 18</value>
-  </data>
-  <data name="label_Samples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 159</value>
-  </data>
-  <data name="label_Psamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 175</value>
-  </data>
-  <data name="numericUpDown_LoopEnd.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;button_SetStart.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;label_Length.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="button_Prev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>199, 126</value>
-  </data>
-  <data name="&gt;&gt;label_Samples.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="trackBar_End.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Name" xml:space="preserve">
-    <value>radioButton_at9</value>
-  </data>
-  <data name="label_Samples.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;timer_Reload.Name" xml:space="preserve">
-    <value>timer_Reload</value>
-  </data>
-  <data name="button_SetEnd.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;label_Samples.ZOrder" xml:space="preserve">
-    <value>17</value>
   </data>
   <data name="trackBar_trk.Size" type="System.Drawing.Size, System.Drawing">
     <value>840, 42</value>
   </data>
-  <data name="&gt;&gt;label_LoopEndSamples.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Loop point creator</value>
-  </data>
-  <data name="&gt;&gt;checkBox_LoopEnable.Name" xml:space="preserve">
-    <value>checkBox_LoopEnable</value>
-  </data>
-  <data name="label_Psamples.Text" xml:space="preserve">
-    <value>Samples</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Name" xml:space="preserve">
-    <value>radioButton_at3</value>
-  </data>
-  <data name="button_SetStart.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
-    <value>button_Cancel</value>
-  </data>
-  <data name="button_Stop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>431, 126</value>
-  </data>
-  <data name="&gt;&gt;button_SetEnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Length.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 15</value>
-  </data>
-  <data name="label_LoopEndSamples.Text" xml:space="preserve">
-    <value>LoopEndSampleCaption</value>
-  </data>
-  <data name="radioButton_at9.Text" xml:space="preserve">
-    <value>ATRAC9</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStartSamples.Name" xml:space="preserve">
-    <value>label_LoopStartSamples</value>
-  </data>
-  <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 19</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="button_Next.Text" xml:space="preserve">
-    <value>Next</value>
-  </data>
   <data name="trackBar_trk.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;button_Stop.ZOrder" xml:space="preserve">
-    <value>20</value>
+  <data name="&gt;&gt;trackBar_trk.Name" xml:space="preserve">
+    <value>trackBar_trk</value>
   </data>
-  <data name="trackBar_Start.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStartSamples.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="numericUpDown_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>444, 224</value>
-  </data>
-  <data name="&gt;&gt;button_Play.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label_Length.Name" xml:space="preserve">
-    <value>label_Length</value>
-  </data>
-  <data name="button_SetEnd.Text" xml:space="preserve">
-    <value>Set LoopEnd</value>
-  </data>
-  <data name="label_Plength.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 30</value>
-  </data>
-  <data name="&gt;&gt;label_Psamples.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>864, 296</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.Type" xml:space="preserve">
+  <data name="&gt;&gt;trackBar_trk.Type" xml:space="preserve">
     <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label_Samples.Name" xml:space="preserve">
-    <value>label_Samples</value>
-  </data>
-  <data name="label_Psamples.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="radioButton_at9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>777, 139</value>
-  </data>
-  <data name="button_Next.Location" type="System.Drawing.Point, System.Drawing">
-    <value>582, 126</value>
-  </data>
-  <data name="&gt;&gt;button_Prev.Name" xml:space="preserve">
-    <value>button_Prev</value>
-  </data>
-  <data name="radioButton_at3.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="label_Length.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="checkBox_LoopEnable.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_LoopStartSamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 15</value>
-  </data>
-  <data name="label_Plength.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="button_Prev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 43</value>
-  </data>
-  <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 12pt</value>
-  </data>
-  <data name="&gt;&gt;button_Next.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="radioButton_at9.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_Plength.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 12pt</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_LoopEnd.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="trackBar_trk.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Samples.Parent" xml:space="preserve">
+  <data name="&gt;&gt;trackBar_trk.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="&gt;&gt;trackBar_trk.ZOrder" xml:space="preserve">
+    <value>19</value>
   </data>
   <data name="button_Play.Location" type="System.Drawing.Point, System.Drawing">
     <value>280, 126</value>
   </data>
-  <data name="label_LoopEndSamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 15</value>
+  <data name="button_Play.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 43</value>
+  </data>
+  <data name="button_Play.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="button_Play.Text" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="&gt;&gt;button_Play.Name" xml:space="preserve">
+    <value>button_Play</value>
+  </data>
+  <data name="&gt;&gt;button_Play.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Play.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_Play.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="button_Stop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>431, 126</value>
+  </data>
+  <data name="button_Stop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 43</value>
+  </data>
+  <data name="button_Stop.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="button_Stop.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="&gt;&gt;button_Stop.Name" xml:space="preserve">
+    <value>button_Stop</value>
+  </data>
+  <data name="&gt;&gt;button_Stop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button_Stop.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;button_SetEnd.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="&gt;&gt;button_Stop.ZOrder" xml:space="preserve">
+    <value>24</value>
   </data>
-  <data name="button_Prev.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>685, 261</value>
   </data>
-  <data name="button_SetStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 29</value>
+  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
-  <data name="label_Samples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 15</value>
+  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;numericUpDown_LoopEnd.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>777, 261</value>
-  </data>
-  <data name="label_Length.Text" xml:space="preserve">
-    <value>LengthCaption</value>
-  </data>
-  <data name="&gt;&gt;label_Length.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label_LoopEndSamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 270</value>
-  </data>
-  <data name="trackBar_End.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="button_OK.Text" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="&gt;&gt;button_OK.Name" xml:space="preserve">
     <value>button_OK</value>
   </data>
-  <data name="&gt;&gt;button_Play.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;label_Plength.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Prev.Type" xml:space="preserve">
+  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button_OK.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;trackBar_trk.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
+    <value>23</value>
   </data>
-  <data name="&gt;&gt;button_Play.Name" xml:space="preserve">
-    <value>button_Play</value>
+  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>777, 261</value>
   </data>
-  <data name="&gt;&gt;button_SetStart.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label_Psamples.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="&gt;&gt;trackBar_End.Name" xml:space="preserve">
-    <value>trackBar_End</value>
+  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="button_Stop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 43</value>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="button_SetStart.Text" xml:space="preserve">
-    <value>Set LoopStart</value>
+  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
+    <value>button_Cancel</value>
   </data>
-  <data name="label_Plength.Text" xml:space="preserve">
-    <value>Length</value>
-  </data>
-  <data name="button_SetEnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 29</value>
-  </data>
-  <data name="button_SetEnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>291, 255</value>
-  </data>
-  <data name="checkBox_LoopEnable.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="label_Length.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;button_SetStart.Name" xml:space="preserve">
-    <value>button_SetStart</value>
-  </data>
-  <data name="label_LoopEndSamples.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="radioButton_at3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="button_Stop.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;timer_Reload.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="trackBar_Start.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;label_Plength.Name" xml:space="preserve">
-    <value>label_Plength</value>
-  </data>
-  <data name="&gt;&gt;label_Length.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="checkBox_LoopEnable.Text" xml:space="preserve">
-    <value>Enable Loop</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
-  <data name="numericUpDown_LoopStart.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="label_Samples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="checkBox_LoopEnable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>305, 195</value>
+  <data name="label_Samples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 159</value>
   </data>
-  <data name="radioButton_at9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 19</value>
+  <data name="label_Samples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 15</value>
   </data>
-  <data name="label_LoopStartSamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 255</value>
+  <data name="label_Samples.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="label_Samples.Text" xml:space="preserve">
+    <value>SamplesCaption</value>
   </data>
-  <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
-    <value>18</value>
+  <data name="&gt;&gt;label_Samples.Name" xml:space="preserve">
+    <value>label_Samples</value>
   </data>
-  <data name="radioButton_at3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 19</value>
+  <data name="&gt;&gt;label_Samples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormLPC</value>
-  </data>
-  <data name="&gt;&gt;button_Prev.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="label_File.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;button_Prev.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_Samples.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_Samples.ZOrder" xml:space="preserve">
+    <value>21</value>
   </data>
   <metadata name="timer_Reload.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="label_Length.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Length.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 198</value>
+  </data>
+  <data name="label_Length.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 15</value>
+  </data>
+  <data name="label_Length.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label_Length.Text" xml:space="preserve">
+    <value>LengthCaption</value>
+  </data>
+  <data name="&gt;&gt;label_Length.Name" xml:space="preserve">
+    <value>label_Length</value>
+  </data>
+  <data name="&gt;&gt;label_Length.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Length.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_Length.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="trackBar_Start.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="trackBar_Start.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="trackBar_Start.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 75</value>
+  </data>
+  <data name="trackBar_Start.Size" type="System.Drawing.Size, System.Drawing">
+    <value>840, 33</value>
+  </data>
+  <data name="trackBar_Start.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;trackBar_Start.Name" xml:space="preserve">
+    <value>trackBar_Start</value>
+  </data>
+  <data name="&gt;&gt;trackBar_Start.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;trackBar_Start.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;trackBar_Start.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="trackBar_End.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="trackBar_End.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="trackBar_End.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="trackBar_End.Size" type="System.Drawing.Size, System.Drawing">
+    <value>840, 29</value>
+  </data>
+  <data name="trackBar_End.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;trackBar_End.Name" xml:space="preserve">
+    <value>trackBar_End</value>
+  </data>
+  <data name="&gt;&gt;trackBar_End.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;trackBar_End.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;trackBar_End.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="label_LoopStartSamples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_LoopStartSamples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 255</value>
+  </data>
+  <data name="label_LoopStartSamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 15</value>
+  </data>
+  <data name="label_LoopStartSamples.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label_LoopStartSamples.Text" xml:space="preserve">
+    <value>LoopStartSampleCaption</value>
+  </data>
+  <data name="&gt;&gt;label_LoopStartSamples.Name" xml:space="preserve">
+    <value>label_LoopStartSamples</value>
+  </data>
+  <data name="&gt;&gt;label_LoopStartSamples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_LoopStartSamples.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_LoopStartSamples.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="label_LoopEndSamples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_LoopEndSamples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 270</value>
+  </data>
+  <data name="label_LoopEndSamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 15</value>
+  </data>
+  <data name="label_LoopEndSamples.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label_LoopEndSamples.Text" xml:space="preserve">
+    <value>LoopEndSampleCaption</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEndSamples.Name" xml:space="preserve">
+    <value>label_LoopEndSamples</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEndSamples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEndSamples.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEndSamples.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="button_SetStart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_SetStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 220</value>
+  </data>
+  <data name="button_SetStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 29</value>
+  </data>
+  <data name="button_SetStart.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="button_SetStart.Text" xml:space="preserve">
+    <value>Set LoopStart</value>
+  </data>
+  <data name="&gt;&gt;button_SetStart.Name" xml:space="preserve">
+    <value>button_SetStart</value>
+  </data>
+  <data name="&gt;&gt;button_SetStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_SetStart.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_SetStart.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="button_SetEnd.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_SetEnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 255</value>
+  </data>
+  <data name="button_SetEnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 29</value>
+  </data>
+  <data name="button_SetEnd.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="button_SetEnd.Text" xml:space="preserve">
+    <value>Set LoopEnd</value>
+  </data>
+  <data name="&gt;&gt;button_SetEnd.Name" xml:space="preserve">
+    <value>button_SetEnd</value>
+  </data>
+  <data name="&gt;&gt;button_SetEnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_SetEnd.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_SetEnd.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="numericUpDown_LoopStart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="numericUpDown_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>444, 224</value>
+  </data>
+  <data name="numericUpDown_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 23</value>
+  </data>
+  <data name="numericUpDown_LoopStart.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopStart.Name" xml:space="preserve">
+    <value>numericUpDown_LoopStart</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopStart.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopStart.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="numericUpDown_LoopEnd.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="numericUpDown_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>444, 260</value>
+  </data>
+  <data name="numericUpDown_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 23</value>
+  </data>
+  <data name="numericUpDown_LoopEnd.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopEnd.Name" xml:space="preserve">
+    <value>numericUpDown_LoopEnd</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopEnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopEnd.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_LoopEnd.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="checkBox_LoopEnable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_LoopEnable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>761, 126</value>
+  </data>
+  <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 19</value>
+  </data>
+  <data name="checkBox_LoopEnable.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="checkBox_LoopEnable.Text" xml:space="preserve">
+    <value>Enable Loop</value>
+  </data>
+  <data name="&gt;&gt;checkBox_LoopEnable.Name" xml:space="preserve">
+    <value>checkBox_LoopEnable</value>
+  </data>
+  <data name="&gt;&gt;checkBox_LoopEnable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_LoopEnable.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBox_LoopEnable.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="radioButton_at3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_at3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>582, 235</value>
+  </data>
+  <data name="radioButton_at3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 19</value>
+  </data>
+  <data name="radioButton_at3.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="radioButton_at3.Text" xml:space="preserve">
+    <value>ATRAC3+</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at3.Name" xml:space="preserve">
+    <value>radioButton_at3</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="radioButton_at9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_at9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>582, 260</value>
+  </data>
+  <data name="radioButton_at9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 19</value>
+  </data>
+  <data name="radioButton_at9.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="radioButton_at9.Text" xml:space="preserve">
+    <value>ATRAC9</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at9.Name" xml:space="preserve">
+    <value>radioButton_at9</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at9.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioButton_at9.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 107</value>
+  </data>
+  <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>645, 18</value>
+  </data>
+  <data name="label_File.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="label_File.Text" xml:space="preserve">
+    <value>FileCaption</value>
+  </data>
+  <data name="&gt;&gt;label_File.Name" xml:space="preserve">
+    <value>label_File</value>
+  </data>
+  <data name="&gt;&gt;label_File.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_File.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="button_Prev.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 126</value>
+  </data>
+  <data name="button_Prev.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 43</value>
+  </data>
+  <data name="button_Prev.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="button_Prev.Text" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="&gt;&gt;button_Prev.Name" xml:space="preserve">
+    <value>button_Prev</value>
+  </data>
+  <data name="&gt;&gt;button_Prev.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Prev.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_Prev.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="button_Next.Location" type="System.Drawing.Point, System.Drawing">
+    <value>582, 126</value>
+  </data>
+  <data name="button_Next.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 43</value>
+  </data>
+  <data name="button_Next.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="button_Next.Text" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="&gt;&gt;button_Next.Name" xml:space="preserve">
+    <value>button_Next</value>
+  </data>
+  <data name="&gt;&gt;button_Next.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Next.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_Next.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 12pt</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label_Psamples.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_Psamples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 175</value>
+  </data>
+  <data name="label_Psamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 23</value>
+  </data>
+  <data name="label_Psamples.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label_Psamples.Text" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="label_Psamples.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_Psamples.Name" xml:space="preserve">
+    <value>label_Psamples</value>
+  </data>
+  <data name="&gt;&gt;label_Psamples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Psamples.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_Psamples.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label_Plength.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 12pt</value>
+  </data>
+  <data name="label_Plength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 213</value>
+  </data>
+  <data name="label_Plength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 30</value>
+  </data>
+  <data name="label_Plength.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label_Plength.Text" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="label_Plength.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_Plength.Name" xml:space="preserve">
+    <value>label_Plength</value>
+  </data>
+  <data name="&gt;&gt;label_Plength.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Plength.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_Plength.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="volumeSlider1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>728, 228</value>
+  </data>
+  <data name="volumeSlider1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 19</value>
+  </data>
+  <data name="volumeSlider1.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;volumeSlider1.Name" xml:space="preserve">
+    <value>volumeSlider1</value>
+  </data>
+  <data name="&gt;&gt;volumeSlider1.Type" xml:space="preserve">
+    <value>NAudio.Gui.VolumeSlider, NAudio.WinForms, Culture=neutral, PublicKeyToken=e279aa5131008a41</value>
+  </data>
+  <data name="&gt;&gt;volumeSlider1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;volumeSlider1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_Volume.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Volume.Location" type="System.Drawing.Point, System.Drawing">
+    <value>728, 210</value>
+  </data>
+  <data name="label_Volume.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 15</value>
+  </data>
+  <data name="label_Volume.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label_Volume.Text" xml:space="preserve">
+    <value>Volume:</value>
+  </data>
+  <data name="&gt;&gt;label_Volume.Name" xml:space="preserve">
+    <value>label_Volume</value>
+  </data>
+  <data name="&gt;&gt;label_Volume.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Volume.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_Volume.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="button_LS_Current.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_LS_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>264, 221</value>
+  </data>
+  <data name="button_LS_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 27</value>
+  </data>
+  <data name="button_LS_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="button_LS_Current.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="&gt;&gt;button_LS_Current.Name" xml:space="preserve">
+    <value>button_LS_Current</value>
+  </data>
+  <data name="&gt;&gt;button_LS_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_LS_Current.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_LS_Current.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_LE_Current.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_LE_Current.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_LE_Current.Location" type="System.Drawing.Point, System.Drawing">
+    <value>264, 256</value>
+  </data>
+  <data name="button_LE_Current.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 27</value>
+  </data>
+  <data name="button_LE_Current.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="button_LE_Current.Text" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="&gt;&gt;button_LE_Current.Name" xml:space="preserve">
+    <value>button_LE_Current</value>
+  </data>
+  <data name="&gt;&gt;button_LE_Current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_LE_Current.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_LE_Current.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>864, 296</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Loop point creator</value>
+  </data>
+  <data name="&gt;&gt;timer_Reload.Name" xml:space="preserve">
+    <value>timer_Reload</value>
+  </data>
+  <data name="&gt;&gt;timer_Reload.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormLPC</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

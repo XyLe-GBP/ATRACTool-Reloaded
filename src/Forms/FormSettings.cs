@@ -1,4 +1,5 @@
 ﻿using ATRACTool_Reloaded.Localizable;
+using static ATRACTool_Reloaded.Common;
 
 namespace ATRACTool_Reloaded
 {
@@ -40,46 +41,13 @@ namespace ATRACTool_Reloaded
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            Common.IniFile ini = new(@".\settings.ini");
-            int bitrateindexAT3 = ini.GetInt("ATRAC3_SETTINGS", "Bitrate", 65535),
-                bitrateindexAT9 = ini.GetInt("ATRAC9_SETTINGS", "Bitrate", 65535),
-                looppointindexAT3 = ini.GetInt("ATRAC3_SETTINGS", "LoopPoint", 65535),
-                looppointindexAT9 = ini.GetInt("ATRAC9_SETTINGS", "LoopPoint", 65535),
-                wholeloopindexAT3 = ini.GetInt("ATRAC3_SETTINGS", "LoopSound", 65535),
-                wholeloopindexAT9 = ini.GetInt("ATRAC9_SETTINGS", "LoopSound", 65535),
-                looptimeindexAT3 = ini.GetInt("ATRAC3_SETTINGS", "LoopTime", 65535),
-                looptimeindexAT9 = ini.GetInt("ATRAC9_SETTINGS", "LoopTime", 65535),
-                looplistindex = ini.GetInt("ATRAC9_SETTINGS", "LoopList", 65535),
-                samplingindex = ini.GetInt("ATRAC9_SETTINGS", "Sampling", 65535),
-                advancedindex = ini.GetInt("ATRAC9_SETTINGS", "Advanced", 65535),
-                enctypeindex = ini.GetInt("ATRAC9_SETTINGS", "EncodeType", 65535),
-                encindex = ini.GetInt("ATRAC9_SETTINGS", "EncodeTypeIndex", 65535),
-                dualencindex = ini.GetInt("ATRAC9_SETTINGS", "DualEncode", 65535),
-                supframeindex = ini.GetInt("ATRAC9_SETTINGS", "SuperFrameEncode", 65535),
-                advbandindex = ini.GetInt("ATRAC9_SETTINGS", "AdvancedBand", 65535),
-                nband = ini.GetInt("ATRAC9_SETTINGS", "NbandsIndex", 65535),
-                bext = ini.GetInt("ATRAC9_SETTINGS", "BandExtension", 65535),
-                wideband = ini.GetInt("ATRAC9_SETTINGS", "WideBand", 65535),
-                lfe = ini.GetInt("ATRAC9_SETTINGS", "LFE_SuperLowCut", 65535),
-                isband = ini.GetInt("ATRAC9_SETTINGS", "IsbandIndex", 65535),
-                lpcreate = ini.GetInt("GENERIC", "LPCreateIndex", 65535),
-                consoleAT3 = ini.GetInt("ATRAC3_SETTINGS", "Console", -1),
-                consoleAT9 = ini.GetInt("ATRAC9_SETTINGS", "Console", -1);
-            string loopstartindexAT3 = ini.GetString("ATRAC3_SETTINGS", "LoopStart_Samples", ""),
-                loopstartindexAT9 = ini.GetString("ATRAC9_SETTINGS", "LoopStart_Samples", ""),
-                loopendindexAT3 = ini.GetString("ATRAC3_SETTINGS", "LoopEnd_Samples", ""),
-                loopendindexAT9 = ini.GetString("ATRAC9_SETTINGS", "LoopEnd_Samples", ""),
-                looptimesindexAT3 = ini.GetString("ATRAC3_SETTINGS", "LoopTimes", ""),
-                looptimesindexAT9 = ini.GetString("ATRAC9_SETTINGS", "LoopTimes", ""),
-                looplistfile = ini.GetString("ATRAC9_SETTINGS", "LoopListFile", ""),
-                prmAT3 = ini.GetString("ATRAC3_SETTINGS", "Param", ""),
-                prmAT9 = ini.GetString("ATRAC9_SETTINGS", "Param", "");
+            Common.Config.Load(Common.xmlpath);
 
             comboBox_at9_enctype.SelectedIndex = 5;
             comboBox_at9_startband.SelectedIndex = 0;
             comboBox_at9_useband.SelectedIndex = 0;
 
-            if (Common.Generic.lpcreatev2 != false)
+            if (Generic.lpcreatev2 != false)
             {
                 checkBox_lpcreate.Enabled = false;
             }
@@ -88,73 +56,55 @@ namespace ATRACTool_Reloaded
                 checkBox_lpcreate.Enabled = true;
             }
 
-            if (lpcreate != 65535)
+            switch (bool.Parse(Config.Entry["LPC_Create"].Value))
             {
-                switch (lpcreate)
-                {
-                    case 0:
-                        checkBox_lpcreate.Checked = false;
-                        checkBox_at3_looppoint.Enabled = true;
-                        checkBox_at3_loopsound.Enabled = true;
-                        textBox_at3_loopend.Enabled = true;
-                        textBox_at3_loopstart.Enabled = true;
-                        textBox_at9_loopend.Enabled = true;
-                        textBox_at9_loopstart.Enabled = true;
-                        checkBox_at9_looppoint.Enabled = true;
-                        checkBox_at9_loopsound.Enabled = true;
-                        break;
-                    case 1:
-                        checkBox_lpcreate.Checked = true;
-                        checkBox_at3_looppoint.Checked = false;
-                        checkBox_at3_loopsound.Checked = false;
-                        checkBox_at3_looppoint.Enabled = false;
-                        checkBox_at3_loopsound.Enabled = false;
-                        textBox_at3_loopend.Text = null;
-                        textBox_at3_loopend.Enabled = false;
-                        textBox_at3_loopstart.Text = null;
-                        textBox_at3_loopstart.Enabled = false;
-                        textBox_at9_loopend.Text = null;
-                        textBox_at9_loopend.Enabled = false;
-                        textBox_at9_loopstart.Text = null;
-                        textBox_at9_loopstart.Enabled = false;
-                        checkBox_at9_looppoint.Checked = false;
-                        checkBox_at9_looppoint.Enabled = false;
-                        checkBox_at9_loopsound.Checked = false;
-                        checkBox_at9_loopsound.Enabled = false;
-                        looppointAT3 = "";
-                        loopstartAT3 = "";
-                        loopendAT3 = "";
-                        looppointAT9 = "";
-                        loopstartAT9 = "";
-                        loopendAT9 = "";
-                        ini.WriteString("ATRAC3_SETTINGS", "LoopPoint", "0");
-                        looppointindexAT3 = 0;
-                        ini.WriteString("ATRAC3_SETTINGS", "LoopStart_Samples", "");
-                        loopstartindexAT3 = "";
-                        ini.WriteString("ATRAC3_SETTINGS", "LoopEnd_Samples", "");
-                        loopendindexAT3 = "";
-                        ini.WriteString("ATRAC9_SETTINGS", "LoopPoint", "0");
-                        looppointindexAT9 = 0;
-                        ini.WriteString("ATRAC9_SETTINGS", "LoopStart_Samples", "");
-                        loopstartindexAT9 = "";
-                        ini.WriteString("ATRAC9_SETTINGS", "LoopEnd_Samples", "");
-                        loopendindexAT9 = "";
-                        break;
-                    default:
-                        checkBox_lpcreate.Checked = false;
-                        checkBox_at3_looppoint.Enabled = true;
-                        checkBox_at3_loopsound.Enabled = true;
-                        textBox_at3_loopend.Enabled = true;
-                        textBox_at3_loopstart.Enabled = true;
-                        textBox_at9_loopend.Enabled = true;
-                        textBox_at9_loopstart.Enabled = true;
-                        checkBox_at9_looppoint.Enabled = true;
-                        checkBox_at9_loopsound.Enabled = true;
-                        break;
-                }
+                case true:
+                    checkBox_lpcreate.Checked = true;
+                    checkBox_at3_looppoint.Checked = false;
+                    checkBox_at3_loopsound.Checked = false;
+                    checkBox_at3_looppoint.Enabled = false;
+                    checkBox_at3_loopsound.Enabled = false;
+                    textBox_at3_loopend.Text = null;
+                    textBox_at3_loopend.Enabled = false;
+                    textBox_at3_loopstart.Text = null;
+                    textBox_at3_loopstart.Enabled = false;
+                    textBox_at9_loopend.Text = null;
+                    textBox_at9_loopend.Enabled = false;
+                    textBox_at9_loopstart.Text = null;
+                    textBox_at9_loopstart.Enabled = false;
+                    checkBox_at9_looppoint.Checked = false;
+                    checkBox_at9_looppoint.Enabled = false;
+                    checkBox_at9_loopsound.Checked = false;
+                    checkBox_at9_loopsound.Enabled = false;
+                    looppointAT3 = "";
+                    loopstartAT3 = "";
+                    loopendAT3 = "";
+                    looppointAT9 = "";
+                    loopstartAT9 = "";
+                    loopendAT9 = "";
+                    Config.Entry["ATRAC3_LoopPoint"].Value = "false";
+                    Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
+                    Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
+                    Config.Entry["ATRAC9_LoopPoint"].Value = "false";
+                    Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
+                    Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
+                    Config.Save(xmlpath);
+                    Config.Load(xmlpath);
+                    break;
+                case false:
+                    checkBox_lpcreate.Checked = false;
+                    checkBox_at3_looppoint.Enabled = true;
+                    checkBox_at3_loopsound.Enabled = true;
+                    textBox_at3_loopend.Enabled = true;
+                    textBox_at3_loopstart.Enabled = true;
+                    textBox_at9_loopend.Enabled = true;
+                    textBox_at9_loopstart.Enabled = true;
+                    checkBox_at9_looppoint.Enabled = true;
+                    checkBox_at9_loopsound.Enabled = true;
+                    break;
             }
 
-            switch (consoleAT3)
+            switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
             {
                 case 0:
                     radioButton_PSP.Checked = true;
@@ -173,7 +123,7 @@ namespace ATRACTool_Reloaded
                     comboBox_at3_encmethod.Items.Add("256kbps, stereo");
                     comboBox_at3_encmethod.Items.Add("320kbps, stereo");
                     comboBox_at3_encmethod.Items.Add("352kbps, stereo");
-                    switch (bitrateindexAT3)
+                    switch (int.Parse(Config.Entry["ATRAC3_Bitrate"].Value))
                     {
                         case 0: // 32k
                             comboBox_at3_encmethod.SelectedIndex = 0;
@@ -256,7 +206,7 @@ namespace ATRACTool_Reloaded
                     comboBox_at3_encmethod.Items.Add("384kbps, 6ch / 8ch");
                     comboBox_at3_encmethod.Items.Add("512kbps, 6ch");
                     comboBox_at3_encmethod.Items.Add("768kbps, 8ch");
-                    switch (bitrateindexAT3)
+                    switch (int.Parse(Config.Entry["ATRAC3_Bitrate"].Value))
                     {
                         case 0: // 32k
                             comboBox_at3_encmethod.SelectedIndex = 0;
@@ -350,7 +300,7 @@ namespace ATRACTool_Reloaded
                     break;
             }
 
-            switch (consoleAT9)
+            switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
             {
                 case 0:
                     radioButton_PSV.Checked = true;
@@ -366,7 +316,7 @@ namespace ATRACTool_Reloaded
                     comboBox_at9_bitrate.Items.Add("192kbps, stereo");
                     comboBox_at9_bitrate.Items.Add("256kbps, stereo");
                     comboBox_at9_bitrate.Items.Add("320kbps, stereo");
-                    switch (bitrateindexAT9)
+                    switch (int.Parse(Config.Entry["ATRAC9_Bitrate"].Value))
                     {
                         case 0:
                             comboBox_at9_bitrate.SelectedIndex = 0;
@@ -436,7 +386,7 @@ namespace ATRACTool_Reloaded
                     comboBox_at9_bitrate.Items.Add("320kbps, 5.1ch");
                     comboBox_at9_bitrate.Items.Add("384kbps, 5.1ch");
                     comboBox_at9_bitrate.Items.Add("420kbps, 7.1ch");
-                    switch (bitrateindexAT9)
+                    switch (int.Parse(Config.Entry["ATRAC9_Bitrate"].Value))
                     {
                         case 0:
                             comboBox_at9_bitrate.SelectedIndex = 0;
@@ -523,7 +473,7 @@ namespace ATRACTool_Reloaded
                     break;
             }
 
-            switch (samplingindex)
+            switch (int.Parse(Config.Entry["ATRAC9_Sampling"].Value))
             {
                 case 0:
                     comboBox_at9_sampling.SelectedIndex = 0;
@@ -543,405 +493,407 @@ namespace ATRACTool_Reloaded
                     break;
             }
 
-            if (looppointindexAT3 != 65535)
-            {
-                if (looppointindexAT3 != 0)
-                {
-                    wholeloopAT3 = "";
-                    checkBox_at3_loopsound.Enabled = false;
 
-                    checkBox_at3_looppoint.Checked = true;
-                    looppointAT3 = " -loop";
-                    label_at3_loopstart.Enabled = true;
-                    label_at3_loopend.Enabled = true;
-                    label_at3_samples.Enabled = true;
-                    textBox_at3_loopstart.Enabled = true;
-                    textBox_at3_loopend.Enabled = true;
-                    if (loopstartindexAT3 != "")
+            switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
+            {
+                case true:
                     {
-                        loopstartAT3 = loopstartindexAT3;
-                        textBox_at3_loopstart.Text = loopstartAT3;
-                    }
-                    if (loopendindexAT3 != "")
-                    {
-                        loopendAT3 = loopendindexAT3;
-                        textBox_at3_loopend.Text = loopendAT3;
-                    }
-                }
-                else
-                {
-                    checkBox_at3_loopsound.Enabled = true;
+                        wholeloopAT3 = "";
+                        checkBox_at3_loopsound.Enabled = false;
 
-                    looppointAT3 = "";
-                    loopstartAT3 = "";
-                    loopendAT3 = "";
-                    checkBox_at3_looppoint.Checked = false;
-                    label_at3_loopstart.Enabled = false;
-                    label_at3_loopend.Enabled = false;
-                    label_at3_samples.Enabled = false;
-                    textBox_at3_loopstart.Enabled = false;
-                    textBox_at3_loopstart.Text = null;
-                    textBox_at3_loopend.Enabled = false;
-                    textBox_at3_loopend.Text = null;
-                }
-            }
-            else
-            {
-                checkBox_at3_loopsound.Enabled = true;
-
-                looppointAT3 = "";
-                loopstartAT3 = "";
-                loopendAT3 = "";
-                checkBox_at3_looppoint.Checked = false;
-                label_at3_loopstart.Enabled = false;
-                label_at3_loopend.Enabled = false;
-                label_at3_samples.Enabled = false;
-                textBox_at3_loopstart.Enabled = false;
-                textBox_at3_loopstart.Text = null;
-                textBox_at3_loopend.Enabled = false;
-                textBox_at3_loopend.Text = null;
-            }
-
-            if (looppointindexAT9 != 65535)
-            {
-                if (looppointindexAT9 != 0)
-                {
-                    checkBox_at9_loopsound.Enabled = false;
-                    checkBox_at9_looppoint.Checked = true;
-                    looppointAT9 = " -loop";
-                    label_at9_loopstart.Enabled = true;
-                    label_at9_loopend.Enabled = true;
-                    label_at9_samples.Enabled = true;
-                    textBox_at9_loopstart.Enabled = true;
-                    textBox_at9_loopend.Enabled = true;
-                    if (loopstartindexAT9 != "")
-                    {
-                        loopstartAT9 = loopstartindexAT9;
-                        textBox_at9_loopstart.Text = loopstartAT9;
-                    }
-                    if (loopendindexAT9 != "")
-                    {
-                        loopendAT9 = loopendindexAT9;
-                        textBox_at9_loopend.Text = loopendAT9;
-                    }
-                }
-                else
-                {
-                    looppointAT9 = "";
-                    loopstartAT9 = "";
-                    loopendAT9 = "";
-                    checkBox_at9_looppoint.Checked = false;
-                    label_at9_loopstart.Enabled = false;
-                    label_at9_loopend.Enabled = false;
-                    label_at9_samples.Enabled = false;
-                    textBox_at9_loopstart.Enabled = false;
-                    textBox_at9_loopstart.Text = null;
-                    textBox_at9_loopend.Enabled = false;
-                    textBox_at9_loopend.Text = null;
-                    checkBox_at9_loopsound.Enabled = true;
-                }
-            }
-            else
-            {
-                looppointAT9 = "";
-                loopstartAT9 = "";
-                loopendAT9 = "";
-                checkBox_at9_looppoint.Checked = false;
-                label_at9_loopstart.Enabled = false;
-                label_at9_loopend.Enabled = false;
-                label_at9_samples.Enabled = false;
-                textBox_at9_loopstart.Enabled = false;
-                textBox_at9_loopstart.Text = null;
-                textBox_at9_loopend.Enabled = false;
-                textBox_at9_loopend.Text = null;
-                checkBox_at9_loopsound.Enabled = true;
-            }
-
-            if (wholeloopindexAT3 != 65535)
-            {
-                if (wholeloopindexAT3 != 0)
-                {
-                    wholeloopAT3 = " -wholeloop";
-                    checkBox_at3_loopsound.Checked = true;
-                    checkBox_at3_looppoint.Enabled = false;
-                }
-                else
-                {
-                    wholeloopAT3 = "";
-                    checkBox_at3_loopsound.Checked = false;
-                    checkBox_at3_looppoint.Enabled = true;
-                }
-            }
-            else
-            {
-                wholeloopAT3 = "";
-                checkBox_at3_loopsound.Checked = false;
-                checkBox_at3_looppoint.Enabled = true;
-            }
-
-            if (wholeloopindexAT9 != 65535)
-            {
-                if (wholeloopindexAT9 != 0)
-                {
-                    wholeloopAT9 = " -wholeloop";
-                    checkBox_at9_loopsound.Checked = true;
-                    checkBox_at9_looppoint.Enabled = false;
-                }
-                else
-                {
-                    wholeloopAT9 = "";
-                    checkBox_at9_loopsound.Checked = false;
-                    checkBox_at9_looppoint.Enabled = true;
-                }
-            }
-            else
-            {
-                wholeloopAT9 = "";
-                checkBox_at9_loopsound.Checked = false;
-                checkBox_at9_looppoint.Enabled = true;
-            }
-
-            if (looptimeindexAT3 != 65535)
-            {
-                if (looptimeindexAT3 != 0)
-                {
-                    if (looptimesindexAT3 != "")
-                    {
-                        checkBox_at3_looptimes.Checked = true;
-                        looptimeAT3 = " -repeat";
-                        label_at3_nol.Enabled = true;
-                        label_at3_times.Enabled = true;
-                        textBox_at3_looptimes.Enabled = true;
-                        textBox_at3_looptimes.Text = looptimesindexAT3;
-                    }
-                    else
-                    {
-                        checkBox_at3_looptimes.Checked = true;
-                        looptimeAT3 = " -repeat";
-                        label_at3_nol.Enabled = true;
-                        label_at3_times.Enabled = true;
-                        textBox_at3_looptimes.Enabled = true;
-                        textBox_at3_looptimes.Text = looptimesindexAT3;
-                    }
-                }
-                else
-                {
-                    looptimeAT3 = "";
-                    looptimesAT3 = "";
-                    checkBox_at3_looptimes.Checked = false;
-                    label_at3_nol.Enabled = false;
-                    label_at3_times.Enabled = false;
-                    textBox_at3_looptimes.Enabled = false;
-                    textBox_at3_looptimes.Text = null;
-                }
-            }
-            else
-            {
-                looptimeAT3 = "";
-                looptimesAT3 = "";
-                checkBox_at3_looptimes.Checked = false;
-                label_at3_nol.Enabled = false;
-                label_at3_times.Enabled = false;
-                textBox_at3_looptimes.Enabled = false;
-                textBox_at3_looptimes.Text = null;
-            }
-
-            if (looptimeindexAT9 != 65535)
-            {
-                if (looptimeindexAT9 != 0)
-                {
-                    if (looptimesindexAT9 != "")
-                    {
-                        checkBox_at9_looptimes.Checked = true;
-                        looptimeAT9 = " -repeat";
-                        label_at9_nol.Enabled = true;
-                        label_at9_times.Enabled = true;
-                        textBox_at9_looptimes.Enabled = true;
-                        textBox_at9_looptimes.Text = looptimesindexAT3;
-                    }
-                    else
-                    {
-                        checkBox_at9_looptimes.Checked = true;
-                        looptimeAT9 = " -repeat";
-                        label_at9_nol.Enabled = true;
-                        label_at9_times.Enabled = true;
-                        textBox_at9_looptimes.Enabled = true;
-                        textBox_at9_looptimes.Text = looptimesindexAT3;
-                    }
-                }
-                else
-                {
-                    looptimeAT9 = "";
-                    looptimesAT9 = "";
-                    checkBox_at9_looptimes.Checked = false;
-                    label_at9_nol.Enabled = false;
-                    label_at9_times.Enabled = false;
-                    textBox_at9_looptimes.Enabled = false;
-                    textBox_at9_looptimes.Text = null;
-                }
-            }
-            else
-            {
-                looptimeAT9 = "";
-                looptimesAT9 = "";
-                checkBox_at9_looptimes.Checked = false;
-                label_at9_nol.Enabled = false;
-                label_at9_times.Enabled = false;
-                textBox_at9_looptimes.Enabled = false;
-                textBox_at9_looptimes.Text = null;
-            }
-
-            if (looplistindex != 65535)
-            {
-                if (looplistindex != 0)
-                {
-                    checkBox_at9_looplist.Checked = true;
-                    looplistAT9 = " -looplist";
-                    textBox_at9_looplist.Enabled = true;
-                    button_at9_looplist.Enabled = true;
-                    if (looplistfile != "")
-                    {
-                        textBox_at9_looplist.Text = looplistfile;
-                    }
-                    else
-                    {
-                        textBox_at9_looplist.Text = "";
-                    }
-                }
-                else
-                {
-                    checkBox_at9_looplist.Checked = false;
-                    looplistAT9 = "";
-                    textBox_at9_looplist.Enabled = false;
-                    textBox_at9_looplist.Text = null;
-                    button_at9_looplist.Enabled = false;
-                }
-            }
-            else
-            {
-                checkBox_at9_looplist.Checked = false;
-                looplistAT9 = "";
-                textBox_at9_looplist.Enabled = false;
-                textBox_at9_looplist.Text = null;
-                button_at9_looplist.Enabled = false;
-            }
-
-            if (advancedindex != 65535)
-            {
-                if (advancedindex != 0)
-                {
-                    checkBox_at9_enctype.Enabled = true;
-                    checkBox_at9_advband.Enabled = true;
-                    checkBox_at9_dualenc.Enabled = true;
-                    checkBox_at9_supframe.Enabled = true;
-                    if (enctypeindex != 65535)
-                    {
-                        if (enctypeindex != 0)
+                        checkBox_at3_looppoint.Checked = true;
+                        looppointAT3 = " -loop";
+                        label_at3_loopstart.Enabled = true;
+                        label_at3_loopend.Enabled = true;
+                        label_at3_samples.Enabled = true;
+                        textBox_at3_loopstart.Enabled = true;
+                        textBox_at3_loopend.Enabled = true;
+                        if (Common.Config.Entry["ATRAC3_LoopStart_Samples"].Value != "")
                         {
-                            checkBox_at9_enctype.Checked = true;
+                            loopstartAT3 = Common.Config.Entry["ATRAC3_LoopStart_Samples"].Value;
+                            textBox_at3_loopstart.Text = loopstartAT3;
+                        }
+                        if (Common.Config.Entry["ATRAC3_LoopEnd_Samples"].Value != "")
+                        {
+                            loopendAT3 = Common.Config.Entry["ATRAC3_LoopEnd_Samples"].Value;
+                            textBox_at3_loopend.Text = loopendAT3;
+                        }
+                        break;
+                    }
+                case false:
+                    {
+                        checkBox_at3_loopsound.Enabled = true;
+
+                        looppointAT3 = "";
+                        loopstartAT3 = "";
+                        loopendAT3 = "";
+                        checkBox_at3_looppoint.Checked = false;
+                        label_at3_loopstart.Enabled = false;
+                        label_at3_loopend.Enabled = false;
+                        label_at3_samples.Enabled = false;
+                        textBox_at3_loopstart.Enabled = false;
+                        textBox_at3_loopstart.Text = null;
+                        textBox_at3_loopend.Enabled = false;
+                        textBox_at3_loopend.Text = null;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC9_LoopPoint"].Value))
+            {
+                case true:
+                    {
+                        checkBox_at9_loopsound.Enabled = false;
+                        checkBox_at9_looppoint.Checked = true;
+                        looppointAT9 = " -loop";
+                        label_at9_loopstart.Enabled = true;
+                        label_at9_loopend.Enabled = true;
+                        label_at9_samples.Enabled = true;
+                        textBox_at9_loopstart.Enabled = true;
+                        textBox_at9_loopend.Enabled = true;
+                        if (Common.Config.Entry["ATRAC9_LoopStart_Samples"].Value != "")
+                        {
+                            loopstartAT9 = Common.Config.Entry["ATRAC9_LoopStart_Samples"].Value;
+                            textBox_at9_loopstart.Text = loopstartAT9;
+                        }
+                        if (Common.Config.Entry["ATRAC9_LoopEnd_Samples"].Value != "")
+                        {
+                            loopendAT9 = Common.Config.Entry["ATRAC9_LoopEnd_Samples"].Value;
+                            textBox_at9_loopend.Text = loopendAT9;
+                        }
+                        break;
+                    }
+                case false:
+                    {
+                        looppointAT9 = "";
+                        loopstartAT9 = "";
+                        loopendAT9 = "";
+                        checkBox_at9_looppoint.Checked = false;
+                        label_at9_loopstart.Enabled = false;
+                        label_at9_loopend.Enabled = false;
+                        label_at9_samples.Enabled = false;
+                        textBox_at9_loopstart.Enabled = false;
+                        textBox_at9_loopstart.Text = null;
+                        textBox_at9_loopend.Enabled = false;
+                        textBox_at9_loopend.Text = null;
+                        checkBox_at9_loopsound.Enabled = true;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC3_LoopSound"].Value))
+            {
+                case true:
+                    {
+                        wholeloopAT3 = " -wholeloop";
+                        checkBox_at3_loopsound.Checked = true;
+                        checkBox_at3_looppoint.Enabled = false;
+                        break;
+                    }
+                case false:
+                    {
+                        wholeloopAT3 = "";
+                        checkBox_at3_loopsound.Checked = false;
+                        checkBox_at3_looppoint.Enabled = true;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC9_LoopSound"].Value))
+            {
+                case true:
+                    {
+                        wholeloopAT9 = " -wholeloop";
+                        checkBox_at9_loopsound.Checked = true;
+                        checkBox_at9_looppoint.Enabled = false;
+                        break;
+                    }
+                case false:
+                    {
+                        wholeloopAT9 = "";
+                        checkBox_at9_loopsound.Checked = false;
+                        checkBox_at9_looppoint.Enabled = true;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC3_LoopTime"].Value))
+            {
+                case true:
+                    {
+                        if (Common.Config.Entry["ATRAC3_LoopTimes"].Value != "")
+                        {
+                            checkBox_at3_looptimes.Checked = true;
+                            looptimeAT3 = " -repeat";
+                            label_at3_nol.Enabled = true;
+                            label_at3_times.Enabled = true;
+                            textBox_at3_looptimes.Enabled = true;
+                            textBox_at3_looptimes.Text = Common.Config.Entry["ATRAC3_LoopTimes"].Value;
                         }
                         else
                         {
-                            checkBox_at9_enctype.Checked = false;
+                            checkBox_at3_looptimes.Checked = true;
+                            looptimeAT3 = " -repeat";
+                            label_at3_nol.Enabled = true;
+                            label_at3_times.Enabled = true;
+                            textBox_at3_looptimes.Enabled = true;
+                            textBox_at3_looptimes.Text = Common.Config.Entry["ATRAC3_LoopTimes"].Value;
                         }
+                        break;
                     }
-                    if (encindex != 65535)
+                case false:
                     {
-                        if (encindex != 0)
+                        looptimeAT3 = "";
+                        looptimesAT3 = "";
+                        checkBox_at3_looptimes.Checked = false;
+                        label_at3_nol.Enabled = false;
+                        label_at3_times.Enabled = false;
+                        textBox_at3_looptimes.Enabled = false;
+                        textBox_at3_looptimes.Text = null;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC9_LoopTime"].Value))
+            {
+                case true:
+                    {
+                        if (Common.Config.Entry["ATRAC9_LoopTimes"].Value != "")
                         {
-                            switch (encindex)
-                            {
-                                case 0:
-                                    comboBox_at9_enctype.SelectedIndex = 0;
-                                    enctypeAT9 = " -gradmode 0";
-                                    break;
-                                case 1:
-                                    comboBox_at9_enctype.SelectedIndex = 1;
-                                    enctypeAT9 = " -gradmode 1";
-                                    break;
-                                case 2:
-                                    comboBox_at9_enctype.SelectedIndex = 2;
-                                    enctypeAT9 = " -gradmode 2";
-                                    break;
-                                case 3:
-                                    comboBox_at9_enctype.SelectedIndex = 3;
-                                    enctypeAT9 = " -gradmode 3";
-                                    break;
-                                case 4:
-                                    comboBox_at9_enctype.SelectedIndex = 4;
-                                    enctypeAT9 = " -gradmode 4";
-                                    break;
-                                case 5:
-                                    comboBox_at9_enctype.SelectedIndex = 5;
-                                    enctypeAT9 = "";
-                                    break;
-                                default:
-                                    comboBox_at9_enctype.SelectedIndex = 5;
-                                    enctypeAT9 = "";
-                                    break;
-                            }
+                            checkBox_at9_looptimes.Checked = true;
+                            looptimeAT9 = " -repeat";
+                            label_at9_nol.Enabled = true;
+                            label_at9_times.Enabled = true;
+                            textBox_at9_looptimes.Enabled = true;
+                            textBox_at9_looptimes.Text = Common.Config.Entry["ATRAC9_LoopTimes"].Value;
                         }
                         else
                         {
-                            comboBox_at9_enctype.SelectedIndex = 5;
-                            enctypeAT9 = "";
+                            checkBox_at9_looptimes.Checked = true;
+                            looptimeAT9 = " -repeat";
+                            label_at9_nol.Enabled = true;
+                            label_at9_times.Enabled = true;
+                            textBox_at9_looptimes.Enabled = true;
+                            textBox_at9_looptimes.Text = Common.Config.Entry["ATRAC9_LoopTimes"].Value;
                         }
+                        break;
                     }
-                    else
+                case false:
                     {
-                        comboBox_at9_enctype.SelectedIndex = 5;
-                        enctypeAT9 = "";
+                        looptimeAT9 = "";
+                        looptimesAT9 = "";
+                        checkBox_at9_looptimes.Checked = false;
+                        label_at9_nol.Enabled = false;
+                        label_at9_times.Enabled = false;
+                        textBox_at9_looptimes.Enabled = false;
+                        textBox_at9_looptimes.Text = null;
+                        break;
                     }
-                    if (dualencindex != 65535)
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC9_LoopList"].Value))
+            {
+                case true:
                     {
-                        if (dualencindex != 0)
+                        checkBox_at9_looplist.Checked = true;
+                        looplistAT9 = " -looplist";
+                        textBox_at9_looplist.Enabled = true;
+                        button_at9_looplist.Enabled = true;
+                        if (Common.Config.Entry["ATRAC9_LoopListFile"].Value != "")
                         {
-                            checkBox_at9_dualenc.Checked = true;
-                            dualencAT9 = " -dual";
+                            textBox_at9_looplist.Text = Common.Config.Entry["ATRAC9_LoopListFile"].Value;
                         }
                         else
                         {
-                            checkBox_at9_dualenc.Checked = false;
-                            dualencAT9 = "";
+                            textBox_at9_looplist.Text = "";
                         }
+                        break;
                     }
-                    else
+                case false:
                     {
-                        checkBox_at9_dualenc.Checked = false;
-                        dualencAT9 = "";
+                        checkBox_at9_looplist.Checked = false;
+                        looplistAT9 = "";
+                        textBox_at9_looplist.Enabled = false;
+                        textBox_at9_looplist.Text = null;
+                        button_at9_looplist.Enabled = false;
+                        break;
                     }
-                    if (supframeindex != 65535)
+            }
+
+            switch (bool.Parse(Common.Config.Entry["ATRAC9_Advanced"].Value))
+            {
+                case true:
                     {
-                        if (supframeindex != 0)
+                        switch (int.Parse(Common.Config.Entry["ATRAC9_Console"].Value))
                         {
-                            checkBox_at9_supframe.Checked = true;
-                            supframeAT9 = " -supframeon";
-                        }
-                        else
-                        {
-                            checkBox_at9_supframe.Checked = false;
-                            supframeAT9 = " -supframeoff";
-                        }
-                    }
-                    else
-                    {
-                        checkBox_at9_supframe.Checked = false;
-                        supframeAT9 = " -supframeoff";
-                    }
-                    if (advbandindex != 65535)
-                    {
-                        if (advbandindex != 0)
-                        {
-                            checkBox_at9_advband.Checked = true;
-                            label_at9_useband.Enabled = true;
-                            comboBox_at9_useband.Enabled = true;
-                            label_at9_startband.Enabled = true;
-                            comboBox_at9_startband.Enabled = true;
-                            if (nband != 65535)
-                            {
-                                if (nband != 0)
+                            case 0:
                                 {
-                                    switch (nband)
+                                    checkBox_bex.Enabled = false;
+                                    checkBox_wband.Enabled = false;
+                                    checkBox_LFE.Enabled = false;
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    checkBox_bex.Enabled = true;
+                                    checkBox_wband.Enabled = true;
+                                    checkBox_LFE.Enabled = true;
+
+                                    switch (bool.Parse(Common.Config.Entry["ATRAC9_BandExtension"].Value))
+                                    {
+                                        case true:
+                                            {
+                                                checkBox_bex.Checked = true;
+                                                bex = " -bex";
+                                                break;
+                                            }
+                                        case false:
+                                            {
+                                                checkBox_bex.Checked = false;
+                                                bex = "";
+                                                break;
+                                            }
+                                    }
+
+                                    switch (bool.Parse(Common.Config.Entry["ATRAC9_WideBand"].Value))
+                                    {
+                                        case true:
+                                            {
+                                                checkBox_wband.Checked = true;
+                                                wband = " -wband";
+                                                break;
+                                            }
+                                        case false:
+                                            {
+                                                checkBox_wband.Checked = false;
+                                                wband = "";
+                                                break;
+                                            }
+                                    }
+
+                                    switch (bool.Parse(Common.Config.Entry["ATRAC9_LFE_SuperLowCut"].Value))
+                                    {
+                                        case true:
+                                            {
+                                                checkBox_LFE.Checked = true;
+                                                LFE = " -slc";
+                                                break;
+                                            }
+                                        case false:
+                                            {
+                                                checkBox_LFE.Checked = false;
+                                                LFE = "";
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            default:
+                                {
+                                    checkBox_bex.Enabled = false;
+                                    checkBox_wband.Enabled = false;
+                                    checkBox_LFE.Enabled = false;
+                                    break;
+                                }
+                        }
+                        checkBox_at9_advanced.Checked = true;
+                        checkBox_at9_enctype.Enabled = true;
+                        checkBox_at9_advband.Enabled = true;
+                        checkBox_at9_dualenc.Enabled = true;
+                        checkBox_at9_supframe.Enabled = true;
+                        
+                        switch (bool.Parse(Common.Config.Entry["ATRAC9_EncodeType"].Value))
+                        {
+                            case true:
+                                {
+                                    checkBox_at9_enctype.Checked = true;
+                                    label_at9_enctype.Enabled = true;
+                                    comboBox_at9_enctype.Enabled = true;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    checkBox_at9_enctype.Checked = false;
+                                    label_at9_enctype.Enabled = false;
+                                    comboBox_at9_enctype.Enabled = false;
+                                    break;
+                                }
+                        }
+
+                        switch (int.Parse(Common.Config.Entry["ATRAC9_EncodeTypeIndex"].Value))
+                        {
+                            case 0:
+                                comboBox_at9_enctype.SelectedIndex = 0;
+                                enctypeAT9 = " -gradmode 0";
+                                break;
+                            case 1:
+                                comboBox_at9_enctype.SelectedIndex = 1;
+                                enctypeAT9 = " -gradmode 1";
+                                break;
+                            case 2:
+                                comboBox_at9_enctype.SelectedIndex = 2;
+                                enctypeAT9 = " -gradmode 2";
+                                break;
+                            case 3:
+                                comboBox_at9_enctype.SelectedIndex = 3;
+                                enctypeAT9 = " -gradmode 3";
+                                break;
+                            case 4:
+                                comboBox_at9_enctype.SelectedIndex = 4;
+                                enctypeAT9 = " -gradmode 4";
+                                break;
+                            case 5:
+                                comboBox_at9_enctype.SelectedIndex = 5;
+                                enctypeAT9 = "";
+                                break;
+                            default:
+                                comboBox_at9_enctype.SelectedIndex = 5;
+                                enctypeAT9 = "";
+                                break;
+                        }
+
+                        switch (bool.Parse(Common.Config.Entry["ATRAC9_DualEncode"].Value))
+                        {
+                            case true:
+                                {
+                                    checkBox_at9_dualenc.Checked = true;
+                                    dualencAT9 = " -dual";
+                                    break;
+                                }
+                            case false:
+                                {
+                                    checkBox_at9_dualenc.Checked = false;
+                                    dualencAT9 = "";
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Common.Config.Entry["ATRAC9_SuperFrameEncode"].Value))
+                        {
+                            case true:
+                                {
+                                    checkBox_at9_supframe.Checked = true;
+                                    supframeAT9 = " -supframeon";
+                                    break;
+                                }
+                            case false:
+                                {
+                                    checkBox_at9_supframe.Checked = false;
+                                    supframeAT9 = " -supframeoff";
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Common.Config.Entry["ATRAC9_AdvancedBand"].Value))
+                        {
+                            case true:
+                                {
+                                    checkBox_at9_advband.Checked = true;
+                                    label_at9_useband.Enabled = true;
+                                    comboBox_at9_useband.Enabled = true;
+                                    label_at9_startband.Enabled = true;
+                                    comboBox_at9_startband.Enabled = true;
+                                    switch (int.Parse(Common.Config.Entry["ATRAC9_NbandsIndex"].Value))
                                     {
                                         case 0:
                                             comboBox_at9_useband.SelectedIndex = 0;
@@ -1012,23 +964,8 @@ namespace ATRACTool_Reloaded
                                             nbandAT9 = "";
                                             break;
                                     }
-                                }
-                                else
-                                {
-                                    comboBox_at9_useband.SelectedIndex = 15;
-                                    nbandAT9 = "";
-                                }
-                            }
-                            else
-                            {
-                                comboBox_at9_useband.SelectedIndex = 15;
-                                nbandAT9 = "";
-                            }
-                            if (isband != 65535)
-                            {
-                                if (isband != 0)
-                                {
-                                    switch (isband)
+
+                                    switch (int.Parse(Common.Config.Entry["ATRAC9_IsbandIndex"].Value))
                                     {
                                         case 0:
                                             comboBox_at9_startband.SelectedIndex = 0;
@@ -1043,125 +980,69 @@ namespace ATRACTool_Reloaded
                                             isbandAT9 = "";
                                             break;
                                     }
+
+                                    break;
                                 }
-                                else
+                            case false:
                                 {
-                                    comboBox_at9_startband.SelectedIndex = 0;
+                                    nbandAT9 = "";
                                     isbandAT9 = "";
+                                    checkBox_at9_advband.Checked = false;
+                                    label_at9_useband.Enabled = false;
+                                    comboBox_at9_useband.Enabled = false;
+                                    label_at9_startband.Enabled = false;
+                                    comboBox_at9_startband.Enabled = false;
+                                    break;
                                 }
-                            }
-                            else
-                            {
-                                comboBox_at9_startband.SelectedIndex = 0;
-                                isbandAT9 = "";
-                            }
                         }
-                        else
-                        {
-                            nbandAT9 = "";
-                            isbandAT9 = "";
-                            checkBox_at9_advband.Checked = false;
-                            label_at9_useband.Enabled = false;
-                            comboBox_at9_useband.Enabled = false;
-                            label_at9_startband.Enabled = false;
-                            comboBox_at9_startband.Enabled = false;
-                        }
+
+                        break;
                     }
-                    else
+                case false:
                     {
+                        enctypeAT9 = "";
                         nbandAT9 = "";
                         isbandAT9 = "";
+                        dualencAT9 = "";
+                        supframeAT9 = "";
+                        checkBox_at9_enctype.Checked = false;
+                        checkBox_at9_enctype.Enabled = false;
                         checkBox_at9_advband.Checked = false;
-                        label_at9_useband.Enabled = false;
+                        checkBox_at9_advband.Enabled = false;
+                        checkBox_at9_dualenc.Checked = false;
+                        checkBox_at9_dualenc.Enabled = false;
+                        checkBox_at9_supframe.Checked = false;
+                        checkBox_at9_supframe.Enabled = false;
+                        checkBox_bex.Checked = false;
+                        checkBox_bex.Enabled = false;
+                        checkBox_wband.Checked = false;
+                        checkBox_wband.Enabled = false;
+                        checkBox_LFE.Checked = false;
+                        checkBox_LFE.Enabled = false;
+                        comboBox_at9_enctype.Enabled = false;
                         comboBox_at9_useband.Enabled = false;
-                        label_at9_startband.Enabled = false;
                         comboBox_at9_startband.Enabled = false;
+                        label_at9_enctype.Enabled = false;
+                        label_at9_startband.Enabled = false;
+                        label_at9_useband.Enabled = false;
+                        break;
                     }
-                    if (bext != 65535)
-                    {
-                        bex = " -bex";
-                    }
-                    else
-                    {
-                        bex = "";
-                    }
-                    if (wideband != 65535)
-                    {
-                        wband = " -wband";
-                    }
-                    else
-                    {
-                        wband = "";
-                    }
-                    if (lfe != 65535)
-                    {
-                        LFE = " -slc";
-                    }
-                    else
-                    {
-                        LFE = "";
-                    }
-                }
-                else
-                {
-                    enctypeAT9 = "";
-                    nbandAT9 = "";
-                    isbandAT9 = "";
-                    dualencAT9 = "";
-                    supframeAT9 = "";
-                    checkBox_at9_enctype.Checked = false;
-                    checkBox_at9_enctype.Enabled = false;
-                    checkBox_at9_advband.Checked = false;
-                    checkBox_at9_advband.Enabled = false;
-                    checkBox_at9_dualenc.Checked = false;
-                    checkBox_at9_dualenc.Enabled = false;
-                    checkBox_at9_supframe.Checked = false;
-                    checkBox_at9_supframe.Enabled = false;
-                    comboBox_at9_enctype.Enabled = false;
-                    comboBox_at9_useband.Enabled = false;
-                    comboBox_at9_startband.Enabled = false;
-                    label_at9_enctype.Enabled = false;
-                    label_at9_startband.Enabled = false;
-                    label_at9_useband.Enabled = false;
-                }
-            }
-            else
-            {
-                enctypeAT9 = "";
-                nbandAT9 = "";
-                isbandAT9 = "";
-                dualencAT9 = "";
-                supframeAT9 = "";
-                checkBox_at9_enctype.Checked = false;
-                checkBox_at9_enctype.Enabled = false;
-                checkBox_at9_advband.Checked = false;
-                checkBox_at9_advband.Enabled = false;
-                checkBox_at9_dualenc.Checked = false;
-                checkBox_at9_dualenc.Enabled = false;
-                checkBox_at9_supframe.Checked = false;
-                checkBox_at9_supframe.Enabled = false;
-                comboBox_at9_enctype.Enabled = false;
-                comboBox_at9_useband.Enabled = false;
-                comboBox_at9_startband.Enabled = false;
-                label_at9_enctype.Enabled = false;
-                label_at9_startband.Enabled = false;
-                label_at9_useband.Enabled = false;
             }
 
-            if (prmAT3 != "")
+            if (Common.Config.Entry["ATRAC3_Params"].Value != "")
             {
-                textBox_at3_cmd.Text = prmAT3;
-                paramAT3 = prmAT3;
+                textBox_at3_cmd.Text = Common.Config.Entry["ATRAC3_Params"].Value;
+                paramAT3 = Common.Config.Entry["ATRAC3_Params"].Value;
             }
             else
             {
                 paramAT3 = RefleshParamAT3();
                 textBox_at3_cmd.Text = paramAT3;
             }
-            if (prmAT9 != "")
+            if (Common.Config.Entry["ATRAC9_Params"].Value != "")
             {
-                textBox_at9_cmd.Text = prmAT9;
-                paramAT9 = prmAT9;
+                textBox_at9_cmd.Text = Common.Config.Entry["ATRAC9_Params"].Value;
+                paramAT9 = Common.Config.Entry["ATRAC9_Params"].Value;
             }
             else
             {
@@ -1965,8 +1846,6 @@ namespace ATRACTool_Reloaded
 
         private void Button_OK_Click(object sender, EventArgs e)
         {
-            Common.IniFile ini = new(@".\settings.ini");
-
             if (paramAT3.Contains("$InFile $OutFile") != true || paramAT3.Contains("$InFile") != true || paramAT3.Contains("$OutFile") != true)
             {
                 MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2041,194 +1920,196 @@ namespace ATRACTool_Reloaded
 
             if (radioButton_PSP.Checked != false)
             {
-                ini.WriteString("ATRAC3_SETTINGS", "Console", "0");
+                Common.Config.Entry["ATRAC3_Console"].Value = "0";
             }
             else if (radioButton_PS3.Checked != false)
             {
-                ini.WriteString("ATRAC3_SETTINGS", "Console", "1");
+                Common.Config.Entry["ATRAC3_Console"].Value = "1";
             }
             else
             {
-                ini.WriteString("ATRAC3_SETTINGS", "Console", "-1");
+                Common.Config.Entry["ATRAC3_Console"].Value = "-1";
             }
 
             if (radioButton_PSV.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "Console", "0");
+                Common.Config.Entry["ATRAC9_Console"].Value = "0";
             }
             else if (radioButton_PS4.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "Console", "1");
+                Common.Config.Entry["ATRAC9_Console"].Value = "1";
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "Console", "-1");
+                Common.Config.Entry["ATRAC9_Console"].Value = "-1";
             }
 
-            ini.WriteString("ATRAC3_SETTINGS", "Bitrate", comboBox_at3_encmethod.SelectedIndex.ToString());
-            ini.WriteString("ATRAC9_SETTINGS", "Bitrate", comboBox_at9_bitrate.SelectedIndex.ToString());
-            ini.WriteString("ATRAC9_SETTINGS", "Sampling", comboBox_at9_sampling.SelectedIndex.ToString());
+            Common.Config.Entry["ATRAC3_Bitrate"].Value = comboBox_at3_encmethod.SelectedIndex.ToString();
+            Common.Config.Entry["ATRAC9_Bitrate"].Value = comboBox_at9_bitrate.SelectedIndex.ToString();
+            Common.Config.Entry["ATRAC9_Sampling"].Value = comboBox_at9_sampling.SelectedIndex.ToString();
 
             if (checkBox_at3_loopsound.Checked != false)
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopSound", "1");
+                Common.Config.Entry["ATRAC3_LoopSound"].Value = "true";
             }
             else
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopSound", "0");
+                Common.Config.Entry["ATRAC3_LoopSound"].Value = "false";
             }
             if (checkBox_at3_looppoint.Checked != false)
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopPoint", "1");
-                ini.WriteString("ATRAC3_SETTINGS", "LoopStart_Samples", textBox_at3_loopstart.Text);
-                ini.WriteString("ATRAC3_SETTINGS", "LoopEnd_Samples", textBox_at3_loopend.Text);
+                Common.Config.Entry["ATRAC3_LoopPoint"].Value = "true";
+                Common.Config.Entry["ATRAC3_LoopStart_Samples"].Value = textBox_at3_loopstart.Text;
+                Common.Config.Entry["ATRAC3_LoopEnd_Samples"].Value = textBox_at3_loopend.Text;
             }
             else
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopPoint", "0");
-                ini.WriteString("ATRAC3_SETTINGS", "LoopStart_Samples", "");
-                ini.WriteString("ATRAC3_SETTINGS", "LoopEnd_Samples", "");
+                Common.Config.Entry["ATRAC3_LoopPoint"].Value = "false";
+                Common.Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
+                Common.Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
             }
             if (checkBox_at3_looptimes.Checked != false)
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopTime", "1");
-                ini.WriteString("ATRAC3_SETTINGS", "LoopTimes", textBox_at3_looptimes.Text);
+                Common.Config.Entry["ATRAC3_LoopTime"].Value = "true";
+                Common.Config.Entry["ATRAC3_LoopTimes"].Value = textBox_at3_looptimes.Text;
             }
             else
             {
-                ini.WriteString("ATRAC3_SETTINGS", "LoopTime", "0");
-                ini.WriteString("ATRAC3_SETTINGS", "LoopTimes", "");
+                Common.Config.Entry["ATRAC3_LoopTime"].Value = "false";
+                Common.Config.Entry["ATRAC3_LoopTimes"].Value = "";
             }
 
             if (checkBox_at9_loopsound.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopSound", "1");
+                Common.Config.Entry["ATRAC9_LoopSound"].Value = "true";
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopSound", "0");
+                Common.Config.Entry["ATRAC9_LoopSound"].Value = "false";
             }
             if (checkBox_at9_looppoint.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopPoint", "1");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopStart_Samples", textBox_at9_loopstart.Text);
-                ini.WriteString("ATRAC9_SETTINGS", "LoopEnd_Samples", textBox_at9_loopend.Text);
+                Common.Config.Entry["ATRAC9_LoopPoint"].Value = "true";
+                Common.Config.Entry["ATRAC9_LoopStart_Samples"].Value = textBox_at9_loopstart.Text;
+                Common.Config.Entry["ATRAC9_LoopEnd_Samples"].Value = textBox_at9_loopend.Text;
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopPoint", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopStart_Samples", "");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopEnd_Samples", "");
+                Common.Config.Entry["ATRAC9_LoopPoint"].Value = "false";
+                Common.Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
+                Common.Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
             }
             if (checkBox_at9_looptimes.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopTime", "1");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopTimes", textBox_at9_looptimes.Text);
+                Common.Config.Entry["ATRAC9_LoopTime"].Value = "true";
+                Common.Config.Entry["ATRAC9_LoopTimes"].Value = textBox_at9_looptimes.Text;
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopTime", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopTimes", "");
+                Common.Config.Entry["ATRAC9_LoopTime"].Value = "false";
+                Common.Config.Entry["ATRAC9_LoopTimes"].Value = "";
             }
             if (checkBox_at9_looplist.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopList", "1");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopListFile", textBox_at9_looplist.Text);
+                Common.Config.Entry["ATRAC9_LoopTime"].Value = "true";
+                Common.Config.Entry["ATRAC9_LoopTimes"].Value = textBox_at9_looplist.Text;
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "LoopList", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "LoopListFile", "");
+                Common.Config.Entry["ATRAC9_LoopList"].Value = "false";
+                Common.Config.Entry["ATRAC9_LoopListFile"].Value = "";
             }
             if (checkBox_at9_advanced.Checked != false)
             {
-                ini.WriteString("ATRAC9_SETTINGS", "Advanced", "1");
+                Common.Config.Entry["ATRAC9_Advanced"].Value = "true";
                 if (checkBox_at9_enctype.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "EncodeType", "1");
-                    ini.WriteString("ATRAC9_SETTINGS", "EncodeTypeIndex", comboBox_at9_enctype.SelectedIndex.ToString());
+                    Common.Config.Entry["ATRAC9_EncodeType"].Value = "true";
+                    Common.Config.Entry["ATRAC9_EncodeTypeIndex"].Value = comboBox_at9_enctype.SelectedIndex.ToString();
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "EncodeType", "0");
-                    ini.WriteString("ATRAC9_SETTINGS", "EncodeTypeIndex", "");
+                    Common.Config.Entry["ATRAC9_EncodeType"].Value = "false";
+                    Common.Config.Entry["ATRAC9_EncodeTypeIndex"].Value = "5";
                 }
                 if (checkBox_at9_advband.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "AdvanceBand", "1");
-                    ini.WriteString("ATRAC9_SETTINGS", "NbandsIndex", comboBox_at9_useband.SelectedIndex.ToString());
-                    ini.WriteString("ATRAC9_SETTINGS", "IsbandIndex", comboBox_at9_startband.SelectedIndex.ToString());
+                    Common.Config.Entry["ATRAC9_AdvancedBand"].Value = "true";
+                    Common.Config.Entry["ATRAC9_NbandsIndex"].Value = comboBox_at9_useband.SelectedIndex.ToString();
+                    Common.Config.Entry["ATRAC9_IsbandIndex"].Value = comboBox_at9_startband.SelectedIndex.ToString();
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "AdvanceBand", "0");
-                    ini.WriteString("ATRAC9_SETTINGS", "NbandsIndex", "");
-                    ini.WriteString("ATRAC9_SETTINGS", "IsbandIndex", "");
+                    Common.Config.Entry["ATRAC9_AdvancedBand"].Value = "false";
+                    Common.Config.Entry["ATRAC9_NbandsIndex"].Value = "";
+                    Common.Config.Entry["ATRAC9_IsbandIndex"].Value = "";
                 }
                 if (checkBox_at9_dualenc.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "DualEncode", "1");
+                    Common.Config.Entry["ATRAC9_DualEncode"].Value = "true";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "DualEncode", "0");
+                    Common.Config.Entry["ATRAC9_DualEncode"].Value = "false";
                 }
                 if (checkBox_at9_supframe.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "SuperFrameEncode", "1");
+                    Common.Config.Entry["ATRAC9_SuperFrameEncode"].Value = "true";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "SuperFrameEncode", "0");
+                    Common.Config.Entry["ATRAC9_SuperFrameEncode"].Value = "false";
                 }
                 if (checkBox_wband.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "WideBand", "1");
+                    Common.Config.Entry["ATRAC9_WideBand"].Value = "true";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "WideBand", "0");
+                    Common.Config.Entry["ATRAC9_WideBand"].Value = "false";
                 }
                 if (checkBox_bex.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "BandExtension", "1");
+                    Common.Config.Entry["ATRAC9_BandExtension"].Value = "true";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "BandExtension", "0");
+                    Common.Config.Entry["ATRAC9_BandExtension"].Value = "false";
                 }
                 if (checkBox_LFE.Checked != false)
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "LFE_SuperLowCut", "1");
+                    Common.Config.Entry["ATRAC9_LFE_SuperLowCut"].Value = "true";
                 }
                 else
                 {
-                    ini.WriteString("ATRAC9_SETTINGS", "LFE_SuperLowCut", "0");
+                    Common.Config.Entry["ATRAC9_LFE_SuperLowCut"].Value = "false";
                 }
             }
             else
             {
-                ini.WriteString("ATRAC9_SETTINGS", "Advanced", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "EncodeType", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "EncodeTypeIndex", "");
-                ini.WriteString("ATRAC9_SETTINGS", "AdvanceBand", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "NbandsIndex", "");
-                ini.WriteString("ATRAC9_SETTINGS", "IsbandIndex", "");
-                ini.WriteString("ATRAC9_SETTINGS", "DualEncode", "0");
-                ini.WriteString("ATRAC9_SETTINGS", "SuperFrameEncode", "0");
+                Common.Config.Entry["ATRAC9_Advanced"].Value = "false";
+                Common.Config.Entry["ATRAC9_EncodeType"].Value = "false";
+                Common.Config.Entry["ATRAC9_EncodeTypeIndex"].Value = "";
+                Common.Config.Entry["ATRAC9_AdvancedBand"].Value = "false";
+                Common.Config.Entry["ATRAC9_NbandsIndex"].Value = "";
+                Common.Config.Entry["ATRAC9_IsbandIndex"].Value = "";
+                Common.Config.Entry["ATRAC9_DualEncode"].Value = "false";
+                Common.Config.Entry["ATRAC9_SuperFrameEncode"].Value = "false";
             }
 
             if (checkBox_lpcreate.Checked != false)
             {
-                ini.WriteString("GENERIC", "LPCreateIndex", "1");
+                Common.Config.Entry["LPC_Create"].Value = "true";
             }
             else
             {
-                ini.WriteString("GENERIC", "LPCreateIndex", "0");
+                Common.Config.Entry["LPC_Create"].Value = "false";
             }
 
-            ini.WriteString("ATRAC3_SETTINGS", "Param", paramAT3);
-            ini.WriteString("ATRAC9_SETTINGS", "Param", paramAT9);
+            Common.Config.Entry["ATRAC3_Params"].Value = paramAT3;
+            Common.Config.Entry["ATRAC9_Params"].Value = paramAT9;
+
+            Config.Save(xmlpath);
 
             Close();
         }

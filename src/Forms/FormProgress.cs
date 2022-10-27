@@ -88,6 +88,7 @@ namespace ATRACTool_Reloaded
 
         private static bool Decode_DoWork(IProgress<int> p, CancellationToken cToken)
         {
+            Config.Load(xmlpath);
             Process? ps = new();
             ProcessStartInfo pi = new();
 
@@ -102,7 +103,7 @@ namespace ATRACTool_Reloaded
                 {
                     case ".AT3":
                         {
-                            int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                            int console = int.Parse(Config.Entry["ATRAC3_Console"].Value);
                             switch (console)
                             {
                                 case 0: // PSP
@@ -178,7 +179,7 @@ namespace ATRACTool_Reloaded
                         break;
                     case ".AT9":
                         {
-                            int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                            int console = int.Parse(Config.Entry["ATRAC9_Console"].Value);
                             switch (console)
                             {
                                 case 0: // PSV
@@ -267,7 +268,7 @@ namespace ATRACTool_Reloaded
                     {
                         case ".AT3":
                             {
-                                int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                                int console = int.Parse(Config.Entry["ATRAC3_Console"].Value);
                                 switch (console)
                                 {
                                     case 0: // PSP
@@ -343,7 +344,7 @@ namespace ATRACTool_Reloaded
                             break;
                         case ".AT9":
                             {
-                                int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                                int console = int.Parse(Config.Entry["ATRAC9_Console"].Value);
                                 switch (console)
                                 {
                                     case 0: // PSV
@@ -427,6 +428,7 @@ namespace ATRACTool_Reloaded
 
         private static bool Encode_DoWork(IProgress<int> p, CancellationToken cToken)
         {
+            Config.Load(xmlpath);
             Process? ps = new();
             ProcessStartInfo pi = new();
 
@@ -441,12 +443,12 @@ namespace ATRACTool_Reloaded
                 {
                     case 0: // ATRAC3
                         {
-                            int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                            int console = int.Parse(Config.Entry["ATRAC3_Console"].Value);
                             switch (console)
                             {
                                 case 0: // PSP
                                     {
-                                        Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                        Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                         pi.FileName = Generic.PSP_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
                                         pi.UseShellExecute = false;
@@ -480,7 +482,7 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS3
                                     {
-                                        Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                        Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                         pi.FileName = Generic.PS3_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
                                         pi.UseShellExecute = false;
@@ -521,12 +523,12 @@ namespace ATRACTool_Reloaded
                         break;
                     case 1: // ATRAC9
                         {
-                            int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                            int console = int.Parse(Config.Entry["ATRAC9_Console"].Value);
                             switch (console)
                             {
                                 case 0: // PSV
                                     {
-                                        Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                        Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                         pi.FileName = Generic.PSV_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
                                         pi.UseShellExecute = false;
@@ -560,7 +562,7 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS4
                                     {
-                                        Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                        Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                         pi.FileName = Generic.PS4_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
                                         pi.UseShellExecute = false;
@@ -613,7 +615,7 @@ namespace ATRACTool_Reloaded
                     {
                         case 0: // ATRAC3
                             {
-                                int console = Utils.GetIntForIniFile("ATRAC3_SETTINGS", "Console");
+                                int console = int.Parse(Config.Entry["ATRAC3_Console"].Value);
                                 switch (console)
                                 {
                                     case 0: // PSP
@@ -625,7 +627,7 @@ namespace ATRACTool_Reloaded
                                                 using FormLPC form = new();
                                                 form.ShowDialog();
 
-                                                Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                             }
                                             Generic.ATRACExt = ".at3";
                                             pi.FileName = Generic.PSP_ATRAC3tool;
@@ -679,7 +681,7 @@ namespace ATRACTool_Reloaded
                                                 using FormLPC form = new();
                                                 form.ShowDialog();
 
-                                                Generic.EncodeParamAT3 = Utils.GetStringForIniFile("ATRAC3_SETTINGS", "Param");
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                             }
                                             Generic.ATRACExt = ".at3";
                                             pi.FileName = Generic.PS3_ATRAC3tool;
@@ -731,7 +733,7 @@ namespace ATRACTool_Reloaded
                             break;
                         case 1: // ATRAC9
                             {
-                                int console = Utils.GetIntForIniFile("ATRAC9_SETTINGS", "Console");
+                                int console = int.Parse(Config.Entry["ATRAC9_Console"].Value);
                                 switch (console)
                                 {
                                     case 0: // PSV
@@ -743,7 +745,7 @@ namespace ATRACTool_Reloaded
                                                 using FormLPC form = new();
                                                 form.ShowDialog();
 
-                                                Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                             }
                                             Generic.ATRACExt = ".at9";
                                             pi.FileName = Generic.PSV_ATRAC9tool;
@@ -797,7 +799,7 @@ namespace ATRACTool_Reloaded
                                                 using FormLPC form = new();
                                                 form.ShowDialog();
 
-                                                Generic.EncodeParamAT9 = Utils.GetStringForIniFile("ATRAC9_SETTINGS", "Param");
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                             }
                                             Generic.ATRACExt = ".at9";
                                             pi.FileName = Generic.PS4_ATRAC9tool;

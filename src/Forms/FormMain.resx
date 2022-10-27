@@ -308,6 +308,12 @@
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>Conversion settings (&amp;S)</value>
   </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 22</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
+    <value>Preferences (&amp;P)</value>
+  </data>
   <data name="settingsSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 20</value>
   </data>
@@ -6781,6 +6787,12 @@
     <value>convertSettingsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;convertSettingsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Name" xml:space="preserve">
+    <value>saveMethodSettingsMToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolsTToolStripMenuItem.Name" xml:space="preserve">

@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace ATRACTool_Reloaded
 {
-    internal class Common
+    public class Common
     {
-        internal class Generic
+        public static readonly string xmlpath = Directory.GetCurrentDirectory() + @"\app.config";
+        public class Generic
         {
             public static CancellationTokenSource cts = null!;
 
@@ -15,19 +18,19 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// psp at3tool path string (res\psp_at3tool.exe)
             /// </summary>
-            public static string PSP_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\psp_at3tool.exe";
+            public static readonly string PSP_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\psp_at3tool.exe";
             /// <summary>
             /// ps3 at3tool path string (res\ps3_at3tool.exe)
             /// </summary>
-            public static string PS3_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\ps3_at3tool.exe";
+            public static readonly string PS3_ATRAC3tool = Directory.GetCurrentDirectory() + @"\res\ps3_at3tool.exe";
             /// <summary>
             /// psv at9tool path string (res\psv_at9tool.exe)
             /// </summary>
-            public static string PSV_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\psv_at9tool.exe";
+            public static readonly string PSV_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\psv_at9tool.exe";
             /// <summary>
             /// ps4 at9tool path string (res\ps4_at9tool.exe)
             /// </summary>
-            public static string PS4_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\ps4_at9tool.exe";
+            public static readonly string PS4_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\ps4_at9tool.exe";
             /// <summary>
             /// デコードもしくはエンコードを判定するための変数
             /// </summary>
@@ -76,7 +79,7 @@ namespace ATRACTool_Reloaded
             public static string? GitHubLatestVersion;
         }
 
-        internal class Utils
+        public class Utils
         {
             /// <summary>
             /// Process.Start: Open URI for .NET
@@ -172,70 +175,26 @@ namespace ATRACTool_Reloaded
                 return;
             }
 
-            public static bool WriteStringForIniFile(string section, string key, string value, string file = @".\settings.ini")
-            {
-                IniFile ini = new(file);
-                ini.WriteString(section, key, value);
-                return true;
-            }
-
-            public static int GetIntForIniFile(string section, string key, int defaultvalue = 0, string file = @".\settings.ini")
-            {
-                IniFile ini = new(file);
-                int i = ini.GetInt(section, key, defaultvalue);
-                if (i != 0)
-                {
-                    return i;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public static string GetStringForIniFile(string section, string key, string file = @".\settings.ini")
-            {
-                IniFile ini = new(file);
-                string s = ini.GetString(section, key);
-                if (s != "")
-                {
-                    return s;
-                }
-                else
-                {
-                    return "";
-                }
-            }
-
             public static void SetWTAFormat(int WTAFlag)
             {
-                switch (WTAFlag)
+                Generic.WTAFmt = WTAFlag switch
                 {
-                    case 0: // AAC
-                        Generic.WTAFmt = ".m4a";
-                        break;
-                    case 1: // AIFF
-                        Generic.WTAFmt = ".aiff";
-                        break;
-                    case 2: // ALAC
-                        Generic.WTAFmt = ".alac";
-                        break;
-                    case 3: // FLAC
-                        Generic.WTAFmt = ".flac";
-                        break;
-                    case 4: // MP3
-                        Generic.WTAFmt = ".mp3";
-                        break;
-                    case 5: // WAV
-                        Generic.WTAFmt = ".wav";
-                        break;
-                    case 6: // OGG
-                        Generic.WTAFmt = ".ogg";
-                        break;
-                    default:
-                        Generic.WTAFmt = ".mp3";
-                        break;
-                }
+                    // AAC
+                    0 => ".m4a",
+                    // AIFF
+                    1 => ".aiff",
+                    // ALAC
+                    2 => ".alac",
+                    // FLAC
+                    3 => ".flac",
+                    // MP3
+                    4 => ".mp3",
+                    // WAV
+                    5 => ".wav",
+                    // OGG
+                    6 => ".ogg",
+                    _ => ".mp3",
+                };
             }
 
             public static string LogSplit(StreamReader streamReader)
@@ -250,6 +209,188 @@ namespace ATRACTool_Reloaded
                 {
                     return null!;
                 }
+            }
+
+            /// <summary>
+            /// 完了後に保存先のフォルダを開く
+            /// </summary>
+            /// <param name="Fullpath">フォルダのフルパス</param>
+            /// <param name="Flag">フラグ</param>
+            public static void ShowFolder(string Fullpath, bool Flag = true)
+            {
+                if (Flag != false)
+                {
+                    Process.Start("EXPLORER.EXE", @"/select,""" + Fullpath + @"""");
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            /// <summary>
+            /// 設定ファイルに全てを書き出す
+            /// </summary>
+            public static void InitConfig()
+            {
+                if (Config.Entry["ATRAC3_Console"].Value == null) // ATRAC3 コンソール (int)
+                {
+                    Config.Entry["ATRAC3_Console"].Value = "0";
+                }
+                if (Config.Entry["ATRAC9_Console"].Value == null) // ATRAC9 コンソール (int)
+                {
+                    Config.Entry["ATRAC9_Console"].Value = "0";
+                }
+                if (Config.Entry["ATRAC3_Bitrate"].Value == null) // ATRAC3 ビットレート (int)
+                {
+                    Config.Entry["ATRAC3_Bitrate"].Value = "7";
+                }
+                if (Config.Entry["ATRAC9_Bitrate"].Value == null) // ATRAC9 ビットレート (int)
+                {
+                    Config.Entry["ATRAC9_Bitrate"].Value = "7";
+                }
+                if (Config.Entry["ATRAC9_Sampling"].Value == null) // ATRAC9 サンプリング周波数 (int)
+                {
+                    Config.Entry["ATRAC9_Sampling"].Value = "2";
+                }
+                if (Config.Entry["ATRAC3_LoopSound"].Value == null)　// ATRAC3 ループ (bool)
+                {
+                    Config.Entry["ATRAC3_LoopSound"].Value = "false";
+                }
+                if (Config.Entry["ATRAC3_LoopPoint"].Value == null) // ATRAC3 ループポイント (bool)
+                {
+                    Config.Entry["ATRAC3_LoopPoint"].Value = "false";
+                }
+                if (Config.Entry["ATRAC3_LoopStart_Samples"].Value == null) // ATRAC3 ループスタート (string)
+                {
+                    Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
+                }
+                if (Config.Entry["ATRAC3_LoopEnd_Samples"].Value == null) // ATRAC3 ループエンド (string)
+                {
+                    Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
+                }
+                if (Config.Entry["ATRAC3_LoopTime"].Value == null) // ATRAC3 ループ回数指定 (bool)
+                {
+                    Config.Entry["ATRAC3_LoopTime"].Value = "false";
+                }
+                if (Config.Entry["ATRAC3_LoopTimes"].Value == null) // ATRAC3 ループ回数 (string)
+                {
+                    Config.Entry["ATRAC3_LoopTimes"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_LoopSound"].Value == null) // ATRAC9 ループ (bool)
+                {
+                    Config.Entry["ATRAC9_LoopSound"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_LoopPoint"].Value == null)  // ATRAC9 ループポイント (bool)
+                {
+                    Config.Entry["ATRAC9_LoopPoint"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_LoopStart_Samples"].Value == null) // ATRAC9 ループスタート (string)
+                {
+                    Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_LoopEnd_Samples"].Value == null) // ATRAC9 ループエンド (string)
+                {
+                    Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_LoopTime"].Value == null) // ATRAC9 ループ回数指定 (bool)
+                {
+                    Config.Entry["ATRAC9_LoopTime"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_LoopTimes"].Value == null) // ATRAC9 ループ回数 (string)
+                {
+                    Config.Entry["ATRAC9_LoopTimes"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_LoopList"].Value == null) // ATRAC9 ループリスト使用 (bool)
+                {
+                    Config.Entry["ATRAC9_LoopList"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_LoopListFile"].Value == null) // ATRAC9 ループリストファイル (string)
+                {
+                    Config.Entry["ATRAC9_LoopListFile"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_Advanced"].Value == null) // ATRAC9 高度な設定 (bool)
+                {
+                    Config.Entry["ATRAC9_Advanced"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_EncodeType"].Value == null) // ATARC9 エンコード方式指定 (bool)
+                {
+                    Config.Entry["ATRAC9_EncodeType"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_EncodeTypeIndex"].Value == null) // ATARC9 エンコード方式 (int)
+                {
+                    Config.Entry["ATRAC9_EncodeTypeIndex"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_AdvancedBand"].Value == null) // ATRAC9 高度なバンド (bool)
+                {
+                    Config.Entry["ATRAC9_AdvancedBand"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_NbandsIndex"].Value == null) // ATRAC9 NBand (int)
+                {
+                    Config.Entry["ATRAC9_NbandsIndex"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_IsbandIndex"].Value == null) // ATRAC9 Isband (int)
+                {
+                    Config.Entry["ATRAC9_IsbandIndex"].Value = "";
+                }
+                if (Config.Entry["ATRAC9_DualEncode"].Value == null) // ATRAC9 デュアルエンコードモード (bool)
+                {
+                    Config.Entry["ATRAC9_DualEncode"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_SuperFrameEncode"].Value == null) // ATRAC9 スーパーフレームエンコード (bool)
+                {
+                    Config.Entry["ATRAC9_SuperFrameEncode"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_WideBand"].Value == null) // ATRAC9 WideBand (bool)
+                {
+                    Config.Entry["ATRAC9_WideBand"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_BandExtension"].Value == null) // ATRAC9 BandExtension (bool)
+                {
+                    Config.Entry["ATRAC9_BandExtension"].Value = "false";
+                }
+                if (Config.Entry["ATRAC9_LFE_SuperLowCut"].Value == null) // ATRAC9 LFE (bool)
+                {
+                    Config.Entry["ATRAC9_LFE_SuperLowCut"].Value = "false";
+                }
+                if (Config.Entry["LPC_Create"].Value == null) // ループポイントクリエーター (bool)
+                {
+                    Config.Entry["LPC_Create"].Value = "false";
+                }
+                if (Config.Entry["ATRAC3_Params"].Value == null) // ATRAC3 引数 (string)
+                {
+                    Config.Entry["ATRAC3_Params"].Value = "at3tool -e -br 128 $InFile $OutFile";
+                }
+                if (Config.Entry["ATRAC9_Params"].Value == null) // ATRAC9 引数 (string)
+                {
+                    Config.Entry["ATRAC9_Params"].Value = "at9tool -e -br 168 -fs 48000 $InFile $OutFile";
+                }
+                if (Config.Entry["Save_IsManual"].Value == null) // ファイル保存方法 (bool)
+                {
+                    Config.Entry["Save_IsManual"].Value = "false";
+                }
+                if (Config.Entry["Save_Isfolder"].Value == null) // ファイル保存フォルダ (string)
+                {
+                    Config.Entry["Save_Isfolder"].Value = "";
+                }
+                if (Config.Entry["Save_IsSubfolder"].Value == null) // サブフォルダ作成 (bool)
+                {
+                    Config.Entry["Save_IsSubfolder"].Value = "false";
+                }
+                if (Config.Entry["Save_Subfolder_Suffix"].Value == null) // サブフォルダ接尾辞 (string)
+                {
+                    Config.Entry["Save_Subfolder_Suffix"].Value = "";
+                }
+                if (Config.Entry["ShowFolder"].Value == null) // 変換後にフォルダを表示 (bool)
+                {
+                    Config.Entry["ShowFolder"].Value = "true";
+                }
+                if (Config.Entry["ToolStrip"].Value == null) // ts (int)
+                {
+                    Config.Entry["ToolStrip"].Value = "0";
+                }
+                Config.Save(xmlpath);
             }
         }
 
@@ -285,68 +426,140 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        internal class IniFile
+        public class Config
         {
-            [DllImport("kernel32.dll")]
-            private static extern uint GetPrivateProfileString(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnedString, uint nSize, string lpFileName);
-
-            [DllImport("kernel32.dll")]
-            private static extern uint GetPrivateProfileInt(string lpAppName, string lpKeyName, int nDefault, string lpFileName);
-
-            [DllImport("kernel32.dll", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            private static extern bool WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFileName);
-
             /// <summary>
-            /// Ini ファイルのファイルパスを取得、設定します。
+            /// ルートエントリ
             /// </summary>
-            public string FilePath { get; set; }
-
-            /// <summary>
-            /// インスタンスを初期化します。
-            /// </summary>
-            /// <param name="filePath">Ini ファイルのファイルパス</param>
-            public IniFile(string filePath)
+            public static ConfigEntry Entry = new() { Key = "ConfigRoot" };
+            public static void Load(string filename)
             {
-                FilePath = filePath;
+                if (!File.Exists(filename))
+                    return;
+                var xmlSerializer = new XmlSerializer(typeof(ConfigEntry));
+                using var streamReader = new StreamReader(filename, Encoding.UTF8);
+                using var xmlReader = XmlReader.Create(streamReader, new XmlReaderSettings() { CheckCharacters = false });
+                Entry = (ConfigEntry)xmlSerializer.Deserialize(xmlReader)!; // （3）
             }
-            /// <summary>
-            /// Ini ファイルから文字列を取得します。
-            /// </summary>
-            /// <param name="section">セクション名</param>
-            /// <param name="key">項目名</param>
-            /// <param name="defaultValue">値が取得できない場合の初期値</param>
-            /// <returns></returns>
-            public string GetString(string section, string key, string defaultValue = "")
+            public static void Save(string filename)
             {
-                var sb = new StringBuilder(1024);
-                var r = GetPrivateProfileString(section, key, defaultValue, sb, (uint)sb.Capacity, FilePath);
-                return sb.ToString();
-            }
-            /// <summary>
-            /// Ini ファイルから整数を取得します。
-            /// </summary>
-            /// <param name="section">セクション名</param>
-            /// <param name="key">項目名</param>
-            /// <param name="defaultValue">値が取得できない場合の初期値</param>
-            /// <returns></returns>
-            public int GetInt(string section, string key, int defaultValue = 0)
-            {
-                return (int)GetPrivateProfileInt(section, key, defaultValue, FilePath);
-            }
-            /// <summary>
-            /// Ini ファイルに文字列を書き込みます。
-            /// </summary>
-            /// <param name="section">セクション名</param>
-            /// <param name="key">項目名</param>
-            /// <param name="value">書き込む値</param>
-            /// <returns></returns>
-            public bool WriteString(string section, string key, string value)
-            {
-                return WritePrivateProfileString(section, key, value, FilePath);
+                var serializer = new XmlSerializer(typeof(ConfigEntry));
+                using var streamWriter = new StreamWriter(filename, false, Encoding.UTF8);
+                serializer.Serialize(streamWriter, Entry);
             }
         }
 
-        
+        /// <summary>
+        /// ConfigEntryクラス。設定の1レコード
+        /// </summary>
+        public class ConfigEntry
+        {
+            /// <summary>
+            /// 設定レコードののキー
+            /// </summary>
+            public string Key { get; set; }
+            /// <summary>
+            /// 設定レコードの値
+            /// </summary>
+            public string Value { get; set; }
+            /// <summary>
+            /// 子アイテム
+            /// </summary>
+            public List<ConfigEntry>? Children { get; set; }
+            /// <summary>
+            /// キーを指定して子アイテムからConfigEntryを取得します。
+            /// </summary>
+            /// <param name="key"></param>
+            /// <returns></returns>
+            public ConfigEntry Get(string key)
+            {
+                var entry = Children?.FirstOrDefault(rec => rec.Key == key);
+                if (entry == null)
+                {
+                    if (Children == null)
+                        Children = new List<ConfigEntry>();
+                    entry = new ConfigEntry() { Key = key };
+                    Children.Add(entry);
+                }
+                return entry;
+            }
+            /// <summary>
+            /// 子アイテムにConfigEntryを追加します。
+            /// </summary>
+            /// <param name="key">キー</param>
+            /// <param name="o">設定値</param>
+            public void Add(string key, string? o)
+            {
+                ConfigEntry? entry = Children?.FirstOrDefault(rec => rec.Key == key);
+                if (entry != null)
+                    entry.Value = o;
+                else
+                {
+                    if (Children == null)
+                        Children = new List<ConfigEntry>();
+                    entry = new ConfigEntry() { Key = key, Value = o };
+                    Children.Add(entry);
+                }
+            }
+            /// <summary>
+            /// 子アイテムからConfigEntryを取得します。存在しなければ新しいConfigEntryが作成されます。
+            /// </summary>
+            /// <param name="key">キー</param>
+            /// <returns></returns>
+            public ConfigEntry this[string key]
+            {
+                set => Add(key, null);
+                get => Get(key);
+            }
+            /// <summary>
+            /// 子アイテムからConfigEntryを取得します。存在しなければ新しいConfigEntryが作成されます。
+            /// </summary>
+            /// <param name="keys">キー、カンマで区切って階層指定します</param>
+            /// <returns></returns>
+            public ConfigEntry this[params string[] keys]
+            {
+                set
+                {
+                    ConfigEntry entry = this;
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        entry = entry[keys[i]];
+                    }
+                }
+                get
+                {
+                    ConfigEntry entry = this;
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        entry = entry[keys[i]];
+                    }
+                    return entry;
+                }
+            }
+
+            /// <summary>
+            /// 指定したキーが子アイテムに存在するか調べます。再帰的調査はされません。
+            /// </summary>
+            /// <param name="key">キー</param>
+            /// <returns>キーが存在すればTrue</returns>
+            public bool Exists(string key) => Children?.Any(c => c.Key == key) ?? false;
+            /// <summary>
+            /// 指定したキーが子アイテムに存在するか調べます。階層をまたいだ指定をします。
+            /// </summary>
+            /// <param name="keys">キー、カンマで区切って階層指定します。</param>
+            /// <returns>キーが存在すればTrue</returns>
+            public bool Exists(params string[] keys)
+            {
+                ConfigEntry entry = this;
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    if (entry.Exists(keys[i]) == false)
+                        return false;
+                    entry = entry[keys[i]];
+                }
+                return true;
+            }
+        }
+
     }
 }
