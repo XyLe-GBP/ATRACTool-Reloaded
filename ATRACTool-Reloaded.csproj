@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.25.2220.1001</AssemblyVersion>
-    <FileVersion>1.25.2220.1001</FileVersion>
+    <AssemblyVersion>1.26.2220.1027</AssemblyVersion>
+    <FileVersion>1.26.2220.1027</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
