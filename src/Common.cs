@@ -51,6 +51,10 @@ namespace ATRACTool_Reloaded
             public static bool IsWave = false;
             public static bool IsATRAC = false;
             /// <summary>
+            /// ファイルをWaveに変換したかどうかを判別するための変数
+            /// </summary>
+            public static bool IsATW = false;
+            /// <summary>
             /// 変換先の形式を判別するための変数
             /// </summary>
             public static int WTAFlag = -1;
@@ -227,6 +231,52 @@ namespace ATRACTool_Reloaded
                 {
                     return;
                 }
+            }
+
+            /// <summary>
+            /// 該当ファイルが存在する場合は削除
+            /// </summary>
+            /// <param name="path">ファイルの場所</param>
+            public static void CheckExistsFile(string path)
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            /// <summary>
+            /// IsATWがtrueならWaveに変換したファイルを削除
+            /// </summary>
+            /// <param name="flag">Generic.IsATW</param>
+            public static void ATWCheck(bool flag)
+            {
+                switch (flag)
+                {
+                    case true:
+                        {
+                            foreach (var file in Generic.OpenFilePaths)
+                            {
+                                if (File.Exists(file))
+                                {
+                                    File.Delete(file);
+                                }
+                                
+                            }
+                            break;
+                        }
+                    case false:
+                        {
+                            break;
+                        }
+                }
+                Generic.IsATW = false;
+                return;
             }
 
             /// <summary>

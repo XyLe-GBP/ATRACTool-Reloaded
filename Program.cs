@@ -47,6 +47,11 @@ namespace ATRACTool_Reloaded
                     MessageBox.Show("The required file 'ps4_at9tool.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\res\updater.exe"))
+                {
+                    MessageBox.Show("The required file 'updater.exe' does not exist.\nClose the application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();

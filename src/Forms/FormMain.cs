@@ -160,6 +160,8 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void OpenFileOToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Utils.ATWCheck(Generic.IsATW);
+
             OpenFileDialog ofd = new()
             {
                 FileName = "",
@@ -320,6 +322,7 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                ResetStatus();
                 return;
             }
         }
@@ -532,6 +535,7 @@ namespace ATRACTool_Reloaded
                 {
                     case true: // ŒÅ’èêŠ‚É•Û‘¶
                         {
+                            FileInfo fi = new(Generic.OpenFilePaths[0]);
                             string suffix = "";
                             switch (bool.Parse(Config.Entry["Save_IsSubfolder"].Value))
                             {
@@ -543,23 +547,21 @@ namespace ATRACTool_Reloaded
                                         }
                                         if (suffix != "")
                                         {
-                                            if (Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
-                                            {
-                                                MessageBox.Show(this, "Folder '" + Config.Entry["Save_Isfolder"].Value + @"\" + suffix + "'is already exists.", Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                            }
-                                            else
+                                            if (!Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
                                             {
                                                 Directory.CreateDirectory(Config.Entry["Save_Isfolder"].Value + @"\" + suffix);
                                             }
                                         }
 
-                                        Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + Utils.SFDRandomNumber() + ".wav";
+                                        Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                        Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav";
                                         Generic.ProgressMax = 1;
                                         break;
                                     }
                                 case false:
                                     {
-                                        Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + Utils.SFDRandomNumber() + ".wav";
+                                        Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                        Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav";
                                         Generic.ProgressMax = 1;
                                         break;
                                     }
@@ -611,23 +613,43 @@ namespace ATRACTool_Reloaded
                                         }
                                         if (suffix != "")
                                         {
-                                            if (Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
-                                            {
-                                                MessageBox.Show(this, "Folder '" + Config.Entry["Save_Isfolder"].Value + @"\" + suffix + "'is already exists.", Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                            }
-                                            else
+                                            if (!Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
                                             {
                                                 Directory.CreateDirectory(Config.Entry["Save_Isfolder"].Value + @"\" + suffix);
                                             }
                                         }
 
                                         Generic.FolderSavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix;
+                                        if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                                        {
+                                            DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                            if (dr == DialogResult.Yes)
+                                            {
+                                                Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }
                                         Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
                                         break;
                                     }
                                 case false:
                                     {
                                         Generic.FolderSavePath = Config.Entry["Save_Isfolder"].Value;
+                                        if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                                        {
+                                            DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                            if (dr == DialogResult.Yes)
+                                            {
+                                                Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }
                                         Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
                                         break;
                                     }
@@ -676,7 +698,7 @@ namespace ATRACTool_Reloaded
             formProgress.ShowDialog();
             formProgress.Dispose();
 
-            if (Common.Generic.Result == false)
+            if (Common.Generic.Result == false) // ’†’f
             {
                 Common.Generic.cts.Dispose();
                 MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -684,16 +706,20 @@ namespace ATRACTool_Reloaded
             }
             else
             {
-                if (Common.Generic.OpenFilePaths.Length == 1)
+                if (Common.Generic.OpenFilePaths.Length == 1) // ’Pˆê
                 {
                     FileInfo fi = new(Common.Generic.SavePath);
                     Common.Generic.cts.Dispose();
                     if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
                     {
+                        if (File.Exists(Common.Generic.SavePath))
+                        {
+                            File.Delete(Common.Generic.SavePath);
+                        }
                         File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
                         if (File.Exists(Common.Generic.SavePath))
                         {
-                            if (fi.Length != 0)
+                            if (fi.Length != 0) // OK
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.DecodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -701,7 +727,7 @@ namespace ATRACTool_Reloaded
                                 Utils.ShowFolder(Common.Generic.SavePath, bool.Parse(Config.Entry["ShowFolder"].Value));
                                 return;
                             }
-                            else
+                            else // Error
                             {
                                 File.Delete(Common.Generic.SavePath);
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
@@ -710,7 +736,7 @@ namespace ATRACTool_Reloaded
                                 return;
                             }
                         }
-                        else
+                        else // Exception
                         {
                             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                             MessageBox.Show(this, Localization.DecodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -718,7 +744,7 @@ namespace ATRACTool_Reloaded
                             return;
                         }
                     }
-                    else
+                    else // Exception
                     {
                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                         MessageBox.Show(this, Localization.DecodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -726,7 +752,7 @@ namespace ATRACTool_Reloaded
                         return;
                     }
                 }
-                else
+                else // •¡”
                 {
                     Common.Generic.cts.Dispose();
                     foreach (var file in Common.Generic.OpenFilePaths)
@@ -734,10 +760,14 @@ namespace ATRACTool_Reloaded
                         FileInfo fi = new(file);
                         if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav")))
                         {
+                            if (File.Exists(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, ".wav")))
+                            {
+                                File.Delete(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, ".wav"));
+                            }
                             File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".wav"), Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, ".wav"));
                             continue;
                         }
-                        else
+                        else // Error
                         {
                             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                             MessageBox.Show(this, Localization.DecodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -746,7 +776,7 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
-                    if (Common.Generic.OpenFilePaths.Length == Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length)
+                    if (Common.Generic.OpenFilePaths.Length == Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length) // OK
                     {
                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                         MessageBox.Show(this, Localization.DecodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -754,7 +784,7 @@ namespace ATRACTool_Reloaded
                         Utils.ShowFolder(Common.Generic.FolderSavePath, bool.Parse(Config.Entry["ShowFolder"].Value));
                         return;
                     }
-                    else
+                    else // Error
                     {
                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                         MessageBox.Show(this, Localization.DecodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -854,6 +884,7 @@ namespace ATRACTool_Reloaded
                         }
                         else // ŒÅ’èêŠ‚É•Û‘¶
                         {
+                            FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
                             string suffix = "";
                             switch (bool.Parse(Config.Entry["Save_IsSubfolder"].Value))
                             {
@@ -865,11 +896,7 @@ namespace ATRACTool_Reloaded
                                         }
                                         if (suffix != "")
                                         {
-                                            if (Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
-                                            {
-                                                MessageBox.Show(this, "Folder '" + Config.Entry["Save_Isfolder"].Value + @"\" + suffix + "'is already exists.", Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                            }
-                                            else
+                                            if (!Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
                                             {
                                                 Directory.CreateDirectory(Config.Entry["Save_Isfolder"].Value + @"\" + suffix);
                                             }
@@ -878,11 +905,13 @@ namespace ATRACTool_Reloaded
                                         switch (Generic.ATRACFlag)
                                         {
                                             case 0:
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + Utils.SFDRandomNumber() + ".at3";
+                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at3");
+                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at3";
                                                 Generic.ProgressMax = 1;
                                                 break;
                                             case 1:
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + Utils.SFDRandomNumber() + ".at9";
+                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9");
+                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9";
                                                 Generic.ProgressMax = 1;
                                                 break;
                                         }
@@ -893,11 +922,13 @@ namespace ATRACTool_Reloaded
                                         switch (Generic.ATRACFlag)
                                         {
                                             case 0:
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + Utils.SFDRandomNumber() + ".at3";
+                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at3");
+                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at3";
                                                 Generic.ProgressMax = 1;
                                                 break;
                                             case 1:
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + Utils.SFDRandomNumber() + ".at9";
+                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9");
+                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9";
                                                 Generic.ProgressMax = 1;
                                                 break;
                                         }
@@ -953,23 +984,43 @@ namespace ATRACTool_Reloaded
                                         }
                                         if (suffix != "")
                                         {
-                                            if (Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
-                                            {
-                                                MessageBox.Show(this, "Folder '" + Config.Entry["Save_Isfolder"].Value + @"\" + suffix + "'is already exists.", Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                                            }
-                                            else
+                                            if (!Directory.Exists(Config.Entry["Save_Isfolder"].Value + @"\" + suffix))
                                             {
                                                 Directory.CreateDirectory(Config.Entry["Save_Isfolder"].Value + @"\" + suffix);
                                             }
                                         }
 
                                         Generic.FolderSavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix;
+                                        if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                                        {
+                                            DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                            if (dr == DialogResult.Yes)
+                                            {
+                                                Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }
                                         Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
                                         break;
                                     }
                                 case false:
                                     {
                                         Generic.FolderSavePath = Config.Entry["Save_Isfolder"].Value;
+                                        if (Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                                        {
+                                            DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                            if (dr == DialogResult.Yes)
+                                            {
+                                                Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath);
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }
                                         Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
                                         break;
                                     }
@@ -998,16 +1049,20 @@ namespace ATRACTool_Reloaded
                     }
                     else
                     {
-                        if (Common.Generic.OpenFilePaths.Length == 1)
+                        if (Common.Generic.OpenFilePaths.Length == 1) // ’Pˆê
                         {
                             FileInfo fi = new(Common.Generic.SavePath);
                             Common.Generic.cts.Dispose();
                             if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name))
                             {
+                                if (File.Exists(Common.Generic.SavePath))
+                                {
+                                    File.Delete(Common.Generic.SavePath);
+                                }
                                 File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name, Common.Generic.SavePath);
                                 if (File.Exists(Common.Generic.SavePath))
                                 {
-                                    if (fi.Length != 0)
+                                    if (fi.Length != 0) // OK
                                     {
                                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                         MessageBox.Show(this, Localization.EncodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1015,7 +1070,7 @@ namespace ATRACTool_Reloaded
                                         Utils.ShowFolder(Common.Generic.SavePath, bool.Parse(Config.Entry["ShowFolder"].Value));
                                         return;
                                     }
-                                    else
+                                    else // Error
                                     {
                                         File.Delete(Common.Generic.SavePath);
                                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
@@ -1024,7 +1079,7 @@ namespace ATRACTool_Reloaded
                                         return;
                                     }
                                 }
-                                else
+                                else // Exception
                                 {
                                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                     MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1032,7 +1087,7 @@ namespace ATRACTool_Reloaded
                                     return;
                                 }
                             }
-                            else
+                            else // Exception
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1040,7 +1095,7 @@ namespace ATRACTool_Reloaded
                                 return;
                             }
                         }
-                        else
+                        else // •¡”
                         {
                             Common.Generic.cts.Dispose();
                             foreach (var file in Common.Generic.OpenFilePaths)
@@ -1048,6 +1103,10 @@ namespace ATRACTool_Reloaded
                                 FileInfo fi = new(file);
                                 if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt)))
                                 {
+                                    if (File.Exists(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt)))
+                                    {
+                                        File.Delete(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt));
+                                    }
                                     File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt), Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt));
                                     if (File.Exists(Common.Generic.FolderSavePath + @"\" + fi.Name.Replace(fi.Extension, Common.Generic.ATRACExt)))
                                     {
@@ -1062,7 +1121,7 @@ namespace ATRACTool_Reloaded
                                             continue;
                                         }
                                     }
-                                    else
+                                    else // Error
                                     {
                                         Common.Utils.DeleteDirectoryFiles(Common.Generic.FolderSavePath + @"\");
                                         Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
@@ -1071,7 +1130,7 @@ namespace ATRACTool_Reloaded
                                         return;
                                     }
                                 }
-                                else
+                                else // Exception
                                 {
                                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                     MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1080,7 +1139,7 @@ namespace ATRACTool_Reloaded
                                 }
                             }
 
-                            if (Common.Generic.OpenFilePaths.Length == Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length)
+                            if (Common.Generic.OpenFilePaths.Length == Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length) // OK
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.EncodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1088,7 +1147,7 @@ namespace ATRACTool_Reloaded
                                 Utils.ShowFolder(Common.Generic.FolderSavePath, bool.Parse(Config.Entry["ShowFolder"].Value));
                                 return;
                             }
-                            else if (Common.Generic.OpenFilePaths.Length > Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length && Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0)
+                            else if (Common.Generic.OpenFilePaths.Length > Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length && Directory.GetFiles(Common.Generic.FolderSavePath, "*", SearchOption.AllDirectories).Length != 0) // ˆê•”•ÏŠ·Ž¸”s
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.EncodePartialCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1096,7 +1155,7 @@ namespace ATRACTool_Reloaded
                                 Utils.ShowFolder(Common.Generic.FolderSavePath, bool.Parse(Config.Entry["ShowFolder"].Value));
                                 return;
                             }
-                            else
+                            else // Error
                             {
                                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                                 MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1131,6 +1190,7 @@ namespace ATRACTool_Reloaded
 
         private void ResetStatus()
         {
+            Utils.ATWCheck(Generic.IsATW);
             Common.Generic.OpenFilePaths = null!;
             Common.Generic.ProcessFlag = -1;
             Common.Generic.ProgressMax = -1;
@@ -1485,6 +1545,8 @@ namespace ATRACTool_Reloaded
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
+            Utils.ATWCheck(Generic.IsATW);
+
             if (e.Data != null)
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -1689,6 +1751,7 @@ namespace ATRACTool_Reloaded
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+            Utils.ATWCheck(Generic.IsATW);
             Directory.Delete(Directory.GetCurrentDirectory() + @"\_temp");
         }
 
@@ -1910,6 +1973,7 @@ namespace ATRACTool_Reloaded
                     }
                     else
                     {
+                        Generic.IsATW = false;
                         ResetStatus();
                         return;
                     }
@@ -2018,6 +2082,7 @@ namespace ATRACTool_Reloaded
                     }
                     else
                     {
+                        Generic.IsATW = false;
                         ResetStatus();
                         return;
                     }
@@ -2042,6 +2107,7 @@ namespace ATRACTool_Reloaded
                 {
                     Common.Generic.IsWave = true;
                     Common.Generic.IsATRAC = false;
+                    Generic.IsATW = false;
                     label_Formattxt.Text = Localization.WAVEFormatCaption;
                     toolStripDropDownButton_EF.Enabled = true;
                     toolStripDropDownButton_EF.Visible = true;
@@ -2053,6 +2119,7 @@ namespace ATRACTool_Reloaded
                 {
                     Common.Generic.IsWave = false;
                     Common.Generic.IsATRAC = false;
+                    Generic.IsATW = true;
                     label_Formattxt.Text = Localization.WAVEConvertedFormatCaption;
                     toolStripDropDownButton_EF.Enabled = true;
                     toolStripDropDownButton_EF.Visible = true;
@@ -2066,6 +2133,7 @@ namespace ATRACTool_Reloaded
             {
                 Common.Generic.IsWave = false;
                 Common.Generic.IsATRAC = true;
+                Generic.IsATW = false;
                 toolStripDropDownButton_EF.Enabled = false;
                 toolStripDropDownButton_EF.Visible = false;
                 button_Decode.Enabled = true;

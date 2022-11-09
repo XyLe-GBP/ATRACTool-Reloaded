@@ -2,6 +2,7 @@
 using ATRACTool_Reloaded.Localizable;
 using System.Text;
 using static ATRACTool_Reloaded.Common;
+using NAudio.Wave.SampleProviders;
 
 namespace ATRACTool_Reloaded
 {
@@ -9,6 +10,7 @@ namespace ATRACTool_Reloaded
     {
         private readonly WaveIn wi = new();
         private readonly WaveOut wo = new();
+        private NotifyingSampleProvider osp = null!;
         private AudioFileReader reader = null!;
         long Sample, Start = 0, End = 0;
         int bytePerSec, position, length, btnpos;
@@ -66,7 +68,7 @@ namespace ATRACTool_Reloaded
             {
                 reader = new(Common.Generic.OpenFilePaths[0]);
                 FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                label_File.Text = fi.Name;
+                label_File.Text = fi.Name + "[ " + reader.WaveFormat.BitsPerSample + "-bit, " + reader.WaveFormat.SampleRate + "Hz ]";
                 button_Prev.Enabled = false;
                 button_Next.Enabled = false;
             }
@@ -194,6 +196,7 @@ namespace ATRACTool_Reloaded
         {
             while (wo.PlaybackState != PlaybackState.Stopped)
             {
+
                 position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
                 time = new(0, 0, position);
                 Sample = reader.Position / reader.WaveFormat.BlockAlign;
@@ -218,10 +221,13 @@ namespace ATRACTool_Reloaded
 
         private void FormLPC_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (timer_Reload.Enabled == true) timer_Reload.Enabled = false;
             reader.Position = 0;
+            wi.Dispose();
+            wo.Stop();
             wo.Dispose();
             reader.Close();
-            reader.Dispose();
+            reader = null!;
         }
 
         private void Button_Prev_Click(object sender, EventArgs e)
@@ -233,6 +239,7 @@ namespace ATRACTool_Reloaded
             wo.Stop();
             button_Play.Text = Localization.PlayCaption;
             reader.Position = 0;
+            reader.Close();
             button_Stop.Enabled = false;
             
             if (btnpos == 1)
@@ -262,6 +269,7 @@ namespace ATRACTool_Reloaded
             wo.Stop();
             button_Play.Text = Localization.PlayCaption;
             reader.Position = 0;
+            reader.Close();
             button_Stop.Enabled = false;
 
             if (btnpos == Common.Generic.OpenFilePaths.Length)
