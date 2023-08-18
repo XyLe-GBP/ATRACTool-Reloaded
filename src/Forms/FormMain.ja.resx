@@ -1,4 +1,64 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema 
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -59,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label_Sizetxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>365, 45</value>
+    <value>365, 35</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 15</value>
@@ -68,10 +128,13 @@
     <value>サイズ：</value>
   </data>
   <data name="label_Formattxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 45</value>
+    <value>46, 35</value>
   </data>
   <data name="label_Filepath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 25</value>
+    <value>57, 17</value>
+  </data>
+  <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>752, 15</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 15</value>
@@ -92,10 +155,10 @@
     <value>Yu Gothic UI, 14.25pt</value>
   </data>
   <data name="label_NotReaded.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 44</value>
+    <value>3, 5</value>
   </data>
   <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>548, 51</value>
+    <value>818, 297</value>
   </data>
   <data name="label_NotReaded.Text" xml:space="preserve">
     <value>ここにファイルをドラッグアンドドロップするか
@@ -135,10 +198,16 @@
     <value>設定 (&amp;C)</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>変換設定 (&amp;S)</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
+    <value>詳細設定 (&amp;P)</value>
   </data>
   <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 20</value>
@@ -147,7 +216,7 @@
     <value>ツール (&amp;T)</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>174, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>音声形式の変換 (&amp;C)</value>
@@ -165,7 +234,7 @@
     <value>WAVEから別形式に変換</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>174, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
     <value>ループポイント作成</value>

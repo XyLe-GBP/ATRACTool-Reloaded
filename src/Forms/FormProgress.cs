@@ -624,7 +624,7 @@ namespace ATRACTool_Reloaded
                                             {
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
-                                                using FormLPC form = new();
+                                                using FormLPC form = new(true);
                                                 form.ShowDialog();
 
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
@@ -678,7 +678,7 @@ namespace ATRACTool_Reloaded
                                             {
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
-                                                using FormLPC form = new();
+                                                using FormLPC form = new(true);
                                                 form.ShowDialog();
 
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
@@ -742,7 +742,7 @@ namespace ATRACTool_Reloaded
                                             {
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
-                                                using FormLPC form = new();
+                                                using FormLPC form = new(true);
                                                 form.ShowDialog();
 
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
@@ -796,7 +796,7 @@ namespace ATRACTool_Reloaded
                                             {
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
-                                                using FormLPC form = new();
+                                                using FormLPC form = new(true);
                                                 form.ShowDialog();
 
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;

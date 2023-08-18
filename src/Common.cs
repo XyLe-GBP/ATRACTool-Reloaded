@@ -70,6 +70,7 @@ namespace ATRACTool_Reloaded
             public static string EncodeParamAT9 = "";
 
             public static StreamReader Log = null!;
+            public static Exception GlobalException = null!;
 
             /// <summary>
             /// ダウンロード機能用変数
@@ -416,6 +417,42 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["ATRAC9_Params"].Value = "at9tool -e -br 168 -fs 48000 $InFile $OutFile";
                 }
+
+                // 設定ダイアログ
+
+                if (Config.Entry["Check_Update"].Value == null) // アップデートを確認 (bool)
+                {
+                    Config.Entry["Check_Update"].Value = "true";
+                }
+                if (Config.Entry["SplashImage"].Value == null) // スプラッシュスクリーン画像 (bool)
+                {
+                    Config.Entry["SplashImage"].Value = "false";
+                }
+                if (Config.Entry["SplashImage_Path"].Value == null) // スプラッシュスクリーン画像パス (string)
+                {
+                    Config.Entry["SplashImage_Path"].Value = "";
+                }
+                if (Config.Entry["Oldmode"].Value == null) // 従来のモード (bool)
+                {
+                    Config.Entry["Oldmode"].Value = "false";
+                }
+                if (Config.Entry["HideSplash"].Value == null) // スプラッシュスクリーンを無効化 (bool)
+                {
+                    Config.Entry["HideSplash"].Value = "false";
+                }
+                if (Config.Entry["FasterATRAC"].Value == null) // ATRAC即時変換 (bool)
+                {
+                    Config.Entry["FasterATRAC"].Value = "false";
+                }
+                if (Config.Entry["FixedConvert"].Value == null) // 形式固定 (bool)
+                {
+                    Config.Entry["FixedConvert"].Value = "false";
+                }
+                if (Config.Entry["ConvertType"].Value == null) // 形式固定有効化時の形式 (int)
+                {
+                    Config.Entry["ConvertType"].Value = "";
+                }
+
                 if (Config.Entry["Save_IsManual"].Value == null) // ファイル保存方法 (bool)
                 {
                     Config.Entry["Save_IsManual"].Value = "false";

@@ -28,262 +28,263 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLPC));
-            this.trackBar_trk = new System.Windows.Forms.TrackBar();
-            this.button_Play = new System.Windows.Forms.Button();
-            this.button_Stop = new System.Windows.Forms.Button();
-            this.button_OK = new System.Windows.Forms.Button();
-            this.button_Cancel = new System.Windows.Forms.Button();
-            this.label_Samples = new System.Windows.Forms.Label();
-            this.timer_Reload = new System.Windows.Forms.Timer(this.components);
-            this.label_Length = new System.Windows.Forms.Label();
-            this.trackBar_Start = new System.Windows.Forms.TrackBar();
-            this.trackBar_End = new System.Windows.Forms.TrackBar();
-            this.label_LoopStartSamples = new System.Windows.Forms.Label();
-            this.label_LoopEndSamples = new System.Windows.Forms.Label();
-            this.button_SetStart = new System.Windows.Forms.Button();
-            this.button_SetEnd = new System.Windows.Forms.Button();
-            this.numericUpDown_LoopStart = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_LoopEnd = new System.Windows.Forms.NumericUpDown();
-            this.checkBox_LoopEnable = new System.Windows.Forms.CheckBox();
-            this.radioButton_at3 = new System.Windows.Forms.RadioButton();
-            this.radioButton_at9 = new System.Windows.Forms.RadioButton();
-            this.label_File = new System.Windows.Forms.Label();
-            this.button_Prev = new System.Windows.Forms.Button();
-            this.button_Next = new System.Windows.Forms.Button();
-            this.label_Psamples = new System.Windows.Forms.Label();
-            this.label_Plength = new System.Windows.Forms.Label();
-            this.volumeSlider1 = new NAudio.Gui.VolumeSlider();
-            this.label_Volume = new System.Windows.Forms.Label();
-            this.button_LS_Current = new System.Windows.Forms.Button();
-            this.button_LE_Current = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_trk)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Start)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_End)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LoopStart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LoopEnd)).BeginInit();
-            this.SuspendLayout();
+            trackBar_trk = new TrackBar();
+            button_Play = new Button();
+            button_Stop = new Button();
+            button_OK = new Button();
+            button_Cancel = new Button();
+            label_Samples = new Label();
+            timer_Reload = new System.Windows.Forms.Timer(components);
+            label_Length = new Label();
+            trackBar_Start = new TrackBar();
+            trackBar_End = new TrackBar();
+            label_LoopStartSamples = new Label();
+            label_LoopEndSamples = new Label();
+            button_SetStart = new Button();
+            button_SetEnd = new Button();
+            numericUpDown_LoopStart = new NumericUpDown();
+            numericUpDown_LoopEnd = new NumericUpDown();
+            checkBox_LoopEnable = new CheckBox();
+            radioButton_at3 = new RadioButton();
+            radioButton_at9 = new RadioButton();
+            label_File = new Label();
+            button_Prev = new Button();
+            button_Next = new Button();
+            label_Psamples = new Label();
+            label_Plength = new Label();
+            volumeSlider1 = new NAudio.Gui.VolumeSlider();
+            label_Volume = new Label();
+            button_LS_Current = new Button();
+            button_LE_Current = new Button();
+            ((System.ComponentModel.ISupportInitialize)trackBar_trk).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar_Start).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar_End).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopStart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopEnd).BeginInit();
+            SuspendLayout();
             // 
             // trackBar_trk
             // 
-            resources.ApplyResources(this.trackBar_trk, "trackBar_trk");
-            this.trackBar_trk.Name = "trackBar_trk";
-            this.trackBar_trk.TickStyle = System.Windows.Forms.TickStyle.Both;
+            resources.ApplyResources(trackBar_trk, "trackBar_trk");
+            trackBar_trk.Name = "trackBar_trk";
+            trackBar_trk.TickStyle = TickStyle.Both;
             // 
             // button_Play
             // 
-            resources.ApplyResources(this.button_Play, "button_Play");
-            this.button_Play.Name = "button_Play";
-            this.button_Play.UseVisualStyleBackColor = true;
-            this.button_Play.Click += new System.EventHandler(this.Button_Play_Click);
+            resources.ApplyResources(button_Play, "button_Play");
+            button_Play.Name = "button_Play";
+            button_Play.UseVisualStyleBackColor = true;
+            button_Play.Click += Button_Play_Click;
             // 
             // button_Stop
             // 
-            resources.ApplyResources(this.button_Stop, "button_Stop");
-            this.button_Stop.Name = "button_Stop";
-            this.button_Stop.UseVisualStyleBackColor = true;
-            this.button_Stop.Click += new System.EventHandler(this.Button_Stop_Click);
+            resources.ApplyResources(button_Stop, "button_Stop");
+            button_Stop.Name = "button_Stop";
+            button_Stop.UseVisualStyleBackColor = true;
+            button_Stop.Click += Button_Stop_Click;
             // 
             // button_OK
             // 
-            resources.ApplyResources(this.button_OK, "button_OK");
-            this.button_OK.Name = "button_OK";
-            this.button_OK.UseVisualStyleBackColor = true;
-            this.button_OK.Click += new System.EventHandler(this.Button_OK_Click);
+            resources.ApplyResources(button_OK, "button_OK");
+            button_OK.Name = "button_OK";
+            button_OK.UseVisualStyleBackColor = true;
+            button_OK.Click += Button_OK_Click;
             // 
             // button_Cancel
             // 
-            resources.ApplyResources(this.button_Cancel, "button_Cancel");
-            this.button_Cancel.Name = "button_Cancel";
-            this.button_Cancel.UseVisualStyleBackColor = true;
-            this.button_Cancel.Click += new System.EventHandler(this.Button_Cancel_Click);
+            resources.ApplyResources(button_Cancel, "button_Cancel");
+            button_Cancel.Name = "button_Cancel";
+            button_Cancel.UseVisualStyleBackColor = true;
+            button_Cancel.Click += Button_Cancel_Click;
             // 
             // label_Samples
             // 
-            resources.ApplyResources(this.label_Samples, "label_Samples");
-            this.label_Samples.Name = "label_Samples";
+            resources.ApplyResources(label_Samples, "label_Samples");
+            label_Samples.Name = "label_Samples";
             // 
             // timer_Reload
             // 
-            this.timer_Reload.Tick += new System.EventHandler(this.Timer_Reload_Tick);
+            timer_Reload.Tick += Timer_Reload_Tick;
             // 
             // label_Length
             // 
-            resources.ApplyResources(this.label_Length, "label_Length");
-            this.label_Length.Name = "label_Length";
+            resources.ApplyResources(label_Length, "label_Length");
+            label_Length.Name = "label_Length";
             // 
             // trackBar_Start
             // 
-            resources.ApplyResources(this.trackBar_Start, "trackBar_Start");
-            this.trackBar_Start.Name = "trackBar_Start";
-            this.trackBar_Start.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            resources.ApplyResources(trackBar_Start, "trackBar_Start");
+            trackBar_Start.Name = "trackBar_Start";
+            trackBar_Start.TickStyle = TickStyle.TopLeft;
             // 
             // trackBar_End
             // 
-            resources.ApplyResources(this.trackBar_End, "trackBar_End");
-            this.trackBar_End.Name = "trackBar_End";
+            resources.ApplyResources(trackBar_End, "trackBar_End");
+            trackBar_End.Name = "trackBar_End";
             // 
             // label_LoopStartSamples
             // 
-            resources.ApplyResources(this.label_LoopStartSamples, "label_LoopStartSamples");
-            this.label_LoopStartSamples.Name = "label_LoopStartSamples";
+            resources.ApplyResources(label_LoopStartSamples, "label_LoopStartSamples");
+            label_LoopStartSamples.Name = "label_LoopStartSamples";
             // 
             // label_LoopEndSamples
             // 
-            resources.ApplyResources(this.label_LoopEndSamples, "label_LoopEndSamples");
-            this.label_LoopEndSamples.Name = "label_LoopEndSamples";
+            resources.ApplyResources(label_LoopEndSamples, "label_LoopEndSamples");
+            label_LoopEndSamples.Name = "label_LoopEndSamples";
             // 
             // button_SetStart
             // 
-            resources.ApplyResources(this.button_SetStart, "button_SetStart");
-            this.button_SetStart.Name = "button_SetStart";
-            this.button_SetStart.UseVisualStyleBackColor = true;
-            this.button_SetStart.Click += new System.EventHandler(this.Button_SetStart_Click);
+            resources.ApplyResources(button_SetStart, "button_SetStart");
+            button_SetStart.Name = "button_SetStart";
+            button_SetStart.UseVisualStyleBackColor = true;
+            button_SetStart.Click += Button_SetStart_Click;
             // 
             // button_SetEnd
             // 
-            resources.ApplyResources(this.button_SetEnd, "button_SetEnd");
-            this.button_SetEnd.Name = "button_SetEnd";
-            this.button_SetEnd.UseVisualStyleBackColor = true;
-            this.button_SetEnd.Click += new System.EventHandler(this.Button_SetEnd_Click);
+            resources.ApplyResources(button_SetEnd, "button_SetEnd");
+            button_SetEnd.Name = "button_SetEnd";
+            button_SetEnd.UseVisualStyleBackColor = true;
+            button_SetEnd.Click += Button_SetEnd_Click;
             // 
             // numericUpDown_LoopStart
             // 
-            resources.ApplyResources(this.numericUpDown_LoopStart, "numericUpDown_LoopStart");
-            this.numericUpDown_LoopStart.Name = "numericUpDown_LoopStart";
-            this.numericUpDown_LoopStart.ValueChanged += new System.EventHandler(this.NumericUpDown_LoopStart_ValueChanged);
+            resources.ApplyResources(numericUpDown_LoopStart, "numericUpDown_LoopStart");
+            numericUpDown_LoopStart.Name = "numericUpDown_LoopStart";
+            numericUpDown_LoopStart.ValueChanged += NumericUpDown_LoopStart_ValueChanged;
             // 
             // numericUpDown_LoopEnd
             // 
-            resources.ApplyResources(this.numericUpDown_LoopEnd, "numericUpDown_LoopEnd");
-            this.numericUpDown_LoopEnd.Name = "numericUpDown_LoopEnd";
-            this.numericUpDown_LoopEnd.ValueChanged += new System.EventHandler(this.NumericUpDown_LoopEnd_ValueChanged);
+            resources.ApplyResources(numericUpDown_LoopEnd, "numericUpDown_LoopEnd");
+            numericUpDown_LoopEnd.Name = "numericUpDown_LoopEnd";
+            numericUpDown_LoopEnd.ValueChanged += NumericUpDown_LoopEnd_ValueChanged;
             // 
             // checkBox_LoopEnable
             // 
-            resources.ApplyResources(this.checkBox_LoopEnable, "checkBox_LoopEnable");
-            this.checkBox_LoopEnable.Name = "checkBox_LoopEnable";
-            this.checkBox_LoopEnable.UseVisualStyleBackColor = true;
-            this.checkBox_LoopEnable.CheckedChanged += new System.EventHandler(this.CheckBox_LoopEnable_CheckedChanged);
+            resources.ApplyResources(checkBox_LoopEnable, "checkBox_LoopEnable");
+            checkBox_LoopEnable.Name = "checkBox_LoopEnable";
+            checkBox_LoopEnable.UseVisualStyleBackColor = true;
+            checkBox_LoopEnable.CheckedChanged += CheckBox_LoopEnable_CheckedChanged;
             // 
             // radioButton_at3
             // 
-            resources.ApplyResources(this.radioButton_at3, "radioButton_at3");
-            this.radioButton_at3.Checked = true;
-            this.radioButton_at3.Name = "radioButton_at3";
-            this.radioButton_at3.TabStop = true;
-            this.radioButton_at3.UseVisualStyleBackColor = true;
+            resources.ApplyResources(radioButton_at3, "radioButton_at3");
+            radioButton_at3.Checked = true;
+            radioButton_at3.Name = "radioButton_at3";
+            radioButton_at3.TabStop = true;
+            radioButton_at3.UseVisualStyleBackColor = true;
+            radioButton_at3.CheckedChanged += radioButton_at3_CheckedChanged;
             // 
             // radioButton_at9
             // 
-            resources.ApplyResources(this.radioButton_at9, "radioButton_at9");
-            this.radioButton_at9.Name = "radioButton_at9";
-            this.radioButton_at9.TabStop = true;
-            this.radioButton_at9.UseVisualStyleBackColor = true;
+            resources.ApplyResources(radioButton_at9, "radioButton_at9");
+            radioButton_at9.Name = "radioButton_at9";
+            radioButton_at9.TabStop = true;
+            radioButton_at9.UseVisualStyleBackColor = true;
+            radioButton_at9.CheckedChanged += radioButton_at9_CheckedChanged;
             // 
             // label_File
             // 
-            this.label_File.AutoEllipsis = true;
-            resources.ApplyResources(this.label_File, "label_File");
-            this.label_File.Name = "label_File";
+            label_File.AutoEllipsis = true;
+            resources.ApplyResources(label_File, "label_File");
+            label_File.Name = "label_File";
             // 
             // button_Prev
             // 
-            resources.ApplyResources(this.button_Prev, "button_Prev");
-            this.button_Prev.Name = "button_Prev";
-            this.button_Prev.UseVisualStyleBackColor = true;
-            this.button_Prev.Click += new System.EventHandler(this.Button_Prev_Click);
+            resources.ApplyResources(button_Prev, "button_Prev");
+            button_Prev.Name = "button_Prev";
+            button_Prev.UseVisualStyleBackColor = true;
+            button_Prev.Click += Button_Prev_Click;
             // 
             // button_Next
             // 
-            resources.ApplyResources(this.button_Next, "button_Next");
-            this.button_Next.Name = "button_Next";
-            this.button_Next.UseVisualStyleBackColor = true;
-            this.button_Next.Click += new System.EventHandler(this.Button_Next_Click);
+            resources.ApplyResources(button_Next, "button_Next");
+            button_Next.Name = "button_Next";
+            button_Next.UseVisualStyleBackColor = true;
+            button_Next.Click += Button_Next_Click;
             // 
             // label_Psamples
             // 
-            resources.ApplyResources(this.label_Psamples, "label_Psamples");
-            this.label_Psamples.Name = "label_Psamples";
+            resources.ApplyResources(label_Psamples, "label_Psamples");
+            label_Psamples.Name = "label_Psamples";
             // 
             // label_Plength
             // 
-            resources.ApplyResources(this.label_Plength, "label_Plength");
-            this.label_Plength.Name = "label_Plength";
+            resources.ApplyResources(label_Plength, "label_Plength");
+            label_Plength.Name = "label_Plength";
             // 
             // volumeSlider1
             // 
-            resources.ApplyResources(this.volumeSlider1, "volumeSlider1");
-            this.volumeSlider1.Name = "volumeSlider1";
-            this.volumeSlider1.VolumeChanged += new System.EventHandler(this.VolumeSlider1_VolumeChanged);
+            resources.ApplyResources(volumeSlider1, "volumeSlider1");
+            volumeSlider1.Name = "volumeSlider1";
+            volumeSlider1.VolumeChanged += VolumeSlider1_VolumeChanged;
             // 
             // label_Volume
             // 
-            resources.ApplyResources(this.label_Volume, "label_Volume");
-            this.label_Volume.Name = "label_Volume";
+            resources.ApplyResources(label_Volume, "label_Volume");
+            label_Volume.Name = "label_Volume";
             // 
             // button_LS_Current
             // 
-            resources.ApplyResources(this.button_LS_Current, "button_LS_Current");
-            this.button_LS_Current.Name = "button_LS_Current";
-            this.button_LS_Current.UseVisualStyleBackColor = true;
-            this.button_LS_Current.Click += new System.EventHandler(this.Button_LS_Current_Click);
+            resources.ApplyResources(button_LS_Current, "button_LS_Current");
+            button_LS_Current.Name = "button_LS_Current";
+            button_LS_Current.UseVisualStyleBackColor = true;
+            button_LS_Current.Click += Button_LS_Current_Click;
             // 
             // button_LE_Current
             // 
-            resources.ApplyResources(this.button_LE_Current, "button_LE_Current");
-            this.button_LE_Current.Name = "button_LE_Current";
-            this.button_LE_Current.UseVisualStyleBackColor = true;
-            this.button_LE_Current.Click += new System.EventHandler(this.Button_LE_Current_Click);
+            resources.ApplyResources(button_LE_Current, "button_LE_Current");
+            button_LE_Current.Name = "button_LE_Current";
+            button_LE_Current.UseVisualStyleBackColor = true;
+            button_LE_Current.Click += Button_LE_Current_Click;
             // 
             // FormLPC
             // 
-            this.AcceptButton = this.button_OK;
+            AcceptButton = button_OK;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.button_Cancel;
-            this.ControlBox = false;
-            this.Controls.Add(this.button_LE_Current);
-            this.Controls.Add(this.button_LS_Current);
-            this.Controls.Add(this.label_Volume);
-            this.Controls.Add(this.volumeSlider1);
-            this.Controls.Add(this.label_Plength);
-            this.Controls.Add(this.label_Psamples);
-            this.Controls.Add(this.button_Next);
-            this.Controls.Add(this.button_Prev);
-            this.Controls.Add(this.label_File);
-            this.Controls.Add(this.radioButton_at9);
-            this.Controls.Add(this.radioButton_at3);
-            this.Controls.Add(this.checkBox_LoopEnable);
-            this.Controls.Add(this.numericUpDown_LoopEnd);
-            this.Controls.Add(this.numericUpDown_LoopStart);
-            this.Controls.Add(this.trackBar_End);
-            this.Controls.Add(this.button_SetEnd);
-            this.Controls.Add(this.button_SetStart);
-            this.Controls.Add(this.label_LoopEndSamples);
-            this.Controls.Add(this.label_LoopStartSamples);
-            this.Controls.Add(this.trackBar_trk);
-            this.Controls.Add(this.label_Length);
-            this.Controls.Add(this.label_Samples);
-            this.Controls.Add(this.button_Cancel);
-            this.Controls.Add(this.button_OK);
-            this.Controls.Add(this.button_Stop);
-            this.Controls.Add(this.button_Play);
-            this.Controls.Add(this.trackBar_Start);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "FormLPC";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLPC_FormClosed);
-            this.Load += new System.EventHandler(this.FormLPC_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormLPC_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_trk)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Start)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_End)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LoopStart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_LoopEnd)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = button_Cancel;
+            ControlBox = false;
+            Controls.Add(button_LE_Current);
+            Controls.Add(button_LS_Current);
+            Controls.Add(label_Volume);
+            Controls.Add(volumeSlider1);
+            Controls.Add(label_Plength);
+            Controls.Add(label_Psamples);
+            Controls.Add(button_Next);
+            Controls.Add(button_Prev);
+            Controls.Add(label_File);
+            Controls.Add(radioButton_at9);
+            Controls.Add(radioButton_at3);
+            Controls.Add(checkBox_LoopEnable);
+            Controls.Add(numericUpDown_LoopEnd);
+            Controls.Add(numericUpDown_LoopStart);
+            Controls.Add(trackBar_End);
+            Controls.Add(button_SetEnd);
+            Controls.Add(button_SetStart);
+            Controls.Add(label_LoopEndSamples);
+            Controls.Add(label_LoopStartSamples);
+            Controls.Add(trackBar_trk);
+            Controls.Add(label_Length);
+            Controls.Add(label_Samples);
+            Controls.Add(button_Cancel);
+            Controls.Add(button_OK);
+            Controls.Add(button_Stop);
+            Controls.Add(button_Play);
+            Controls.Add(trackBar_Start);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Name = "FormLPC";
+            FormClosed += FormLPC_FormClosed;
+            Load += FormLPC_Load;
+            Paint += FormLPC_Paint;
+            ((System.ComponentModel.ISupportInitialize)trackBar_trk).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar_Start).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar_End).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopStart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopEnd).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

@@ -154,6 +154,27 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   Unique splash screen images are reflected when the application is restarted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CustomSplashCaption {
+            get {
+                return ResourceManager.GetString("CustomSplashCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image size is incorrect.
+        ///Width: 800 or 400px
+        ///Height: 480 or 240px
+        ///Only files that meet the above criteria can be specified. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CustomSplashSizeErrorCaption {
+            get {
+                return ResourceManager.GetString("CustomSplashSizeErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Failed to decode the ATRAC file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DecodeErrorCaption {
@@ -560,6 +581,24 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   Path not specified. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SpecificPathErrorCaption {
+            get {
+                return ResourceManager.GetString("SpecificPathErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   suffix is not specified. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SpecificSubfolderErrorCaption {
+            get {
+                return ResourceManager.GetString("SpecificSubfolderErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Getting application configuration information... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SplashFormConfigCaption {
@@ -601,6 +640,15 @@ namespace ATRACTool_Reloaded.Localizable {
         internal static string SplashFormUpdatingCaption {
             get {
                 return ResourceManager.GetString("SplashFormUpdatingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The path to the splash screen image is not specified. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SplashPathErrorCaption {
+            get {
+                return ResourceManager.GetString("SplashPathErrorCaption", resourceCulture);
             }
         }
         

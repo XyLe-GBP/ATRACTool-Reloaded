@@ -28,242 +28,260 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton_nml = new System.Windows.Forms.RadioButton();
-            this.radioButton_spc = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox_Path = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button_OK = new System.Windows.Forms.Button();
-            this.button_Cancel = new System.Windows.Forms.Button();
-            this.button_Browse = new System.Windows.Forms.Button();
-            this.button_Clear = new System.Windows.Forms.Button();
-            this.checkBox_Subfolder = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox_suffix = new System.Windows.Forms.TextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBox_ShowFolder = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPreferencesSettings));
+            radioButton_nml = new RadioButton();
+            radioButton_spc = new RadioButton();
+            groupBox1 = new GroupBox();
+            textBox_Path = new TextBox();
+            label1 = new Label();
+            button_OK = new Button();
+            button_Cancel = new Button();
+            button_Browse = new Button();
+            button_Clear = new Button();
+            checkBox_Subfolder = new CheckBox();
+            label2 = new Label();
+            textBox_suffix = new TextBox();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            button_Splashimg = new Button();
+            textBox_Splashimg = new TextBox();
+            checkBox_Splashimg = new CheckBox();
+            checkBox_Checkupdate = new CheckBox();
+            tabPage2 = new TabPage();
+            checkBox_ShowFolder = new CheckBox();
+            tabPage3 = new TabPage();
+            comboBox_Fixconvert = new ComboBox();
+            checkBox_Fixconvert = new CheckBox();
+            checkBox_FasterATRAC = new CheckBox();
+            checkBox_Hidesplash = new CheckBox();
+            checkBox_Oldmode = new CheckBox();
+            groupBox1.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            SuspendLayout();
             // 
             // radioButton_nml
             // 
-            this.radioButton_nml.AutoSize = true;
-            this.radioButton_nml.Location = new System.Drawing.Point(6, 22);
-            this.radioButton_nml.Name = "radioButton_nml";
-            this.radioButton_nml.Size = new System.Drawing.Size(181, 19);
-            this.radioButton_nml.TabIndex = 0;
-            this.radioButton_nml.TabStop = true;
-            this.radioButton_nml.Text = "Always ask for a save location";
-            this.radioButton_nml.UseVisualStyleBackColor = true;
-            this.radioButton_nml.CheckedChanged += new System.EventHandler(this.RadioButton_nml_CheckedChanged);
+            resources.ApplyResources(radioButton_nml, "radioButton_nml");
+            radioButton_nml.Name = "radioButton_nml";
+            radioButton_nml.TabStop = true;
+            radioButton_nml.UseVisualStyleBackColor = true;
+            radioButton_nml.CheckedChanged += RadioButton_nml_CheckedChanged;
             // 
             // radioButton_spc
             // 
-            this.radioButton_spc.AutoSize = true;
-            this.radioButton_spc.Location = new System.Drawing.Point(198, 22);
-            this.radioButton_spc.Name = "radioButton_spc";
-            this.radioButton_spc.Size = new System.Drawing.Size(160, 19);
-            this.radioButton_spc.TabIndex = 1;
-            this.radioButton_spc.TabStop = true;
-            this.radioButton_spc.Text = "Output to specified folder";
-            this.radioButton_spc.UseVisualStyleBackColor = true;
-            this.radioButton_spc.CheckedChanged += new System.EventHandler(this.RadioButton_spc_CheckedChanged);
+            resources.ApplyResources(radioButton_spc, "radioButton_spc");
+            radioButton_spc.Name = "radioButton_spc";
+            radioButton_spc.TabStop = true;
+            radioButton_spc.UseVisualStyleBackColor = true;
+            radioButton_spc.CheckedChanged += RadioButton_spc_CheckedChanged;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton_spc);
-            this.groupBox1.Controls.Add(this.radioButton_nml);
-            this.groupBox1.Location = new System.Drawing.Point(7, 8);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(365, 55);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Behavior when saving a file";
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Controls.Add(radioButton_spc);
+            groupBox1.Controls.Add(radioButton_nml);
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
             // 
             // textBox_Path
             // 
-            this.textBox_Path.Enabled = false;
-            this.textBox_Path.Location = new System.Drawing.Point(47, 69);
-            this.textBox_Path.Name = "textBox_Path";
-            this.textBox_Path.ReadOnly = true;
-            this.textBox_Path.Size = new System.Drawing.Size(230, 23);
-            this.textBox_Path.TabIndex = 3;
+            resources.ApplyResources(textBox_Path, "textBox_Path");
+            textBox_Path.Name = "textBox_Path";
+            textBox_Path.ReadOnly = true;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(7, 72);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Path:";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // button_OK
             // 
-            this.button_OK.Location = new System.Drawing.Point(232, 217);
-            this.button_OK.Name = "button_OK";
-            this.button_OK.Size = new System.Drawing.Size(75, 23);
-            this.button_OK.TabIndex = 5;
-            this.button_OK.Text = "OK";
-            this.button_OK.UseVisualStyleBackColor = true;
-            this.button_OK.Click += new System.EventHandler(this.Button_OK_Click);
+            resources.ApplyResources(button_OK, "button_OK");
+            button_OK.Name = "button_OK";
+            button_OK.UseVisualStyleBackColor = true;
+            button_OK.Click += Button_OK_Click;
             // 
             // button_Cancel
             // 
-            this.button_Cancel.Location = new System.Drawing.Point(313, 217);
-            this.button_Cancel.Name = "button_Cancel";
-            this.button_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.button_Cancel.TabIndex = 6;
-            this.button_Cancel.Text = "Cancel";
-            this.button_Cancel.UseVisualStyleBackColor = true;
-            this.button_Cancel.Click += new System.EventHandler(this.Button_Cancel_Click);
+            resources.ApplyResources(button_Cancel, "button_Cancel");
+            button_Cancel.Name = "button_Cancel";
+            button_Cancel.UseVisualStyleBackColor = true;
+            button_Cancel.Click += Button_Cancel_Click;
             // 
             // button_Browse
             // 
-            this.button_Browse.Enabled = false;
-            this.button_Browse.Location = new System.Drawing.Point(283, 69);
-            this.button_Browse.Name = "button_Browse";
-            this.button_Browse.Size = new System.Drawing.Size(26, 23);
-            this.button_Browse.TabIndex = 7;
-            this.button_Browse.Text = "...";
-            this.button_Browse.UseVisualStyleBackColor = true;
-            this.button_Browse.Click += new System.EventHandler(this.Button_Browse_Click);
+            resources.ApplyResources(button_Browse, "button_Browse");
+            button_Browse.Name = "button_Browse";
+            button_Browse.UseVisualStyleBackColor = true;
+            button_Browse.Click += Button_Browse_Click;
             // 
             // button_Clear
             // 
-            this.button_Clear.Enabled = false;
-            this.button_Clear.Location = new System.Drawing.Point(315, 69);
-            this.button_Clear.Name = "button_Clear";
-            this.button_Clear.Size = new System.Drawing.Size(57, 23);
-            this.button_Clear.TabIndex = 8;
-            this.button_Clear.Text = "Clear";
-            this.button_Clear.UseVisualStyleBackColor = true;
-            this.button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
+            resources.ApplyResources(button_Clear, "button_Clear");
+            button_Clear.Name = "button_Clear";
+            button_Clear.UseVisualStyleBackColor = true;
+            button_Clear.Click += Button_Clear_Click;
             // 
             // checkBox_Subfolder
             // 
-            this.checkBox_Subfolder.AutoSize = true;
-            this.checkBox_Subfolder.Enabled = false;
-            this.checkBox_Subfolder.Location = new System.Drawing.Point(13, 98);
-            this.checkBox_Subfolder.Name = "checkBox_Subfolder";
-            this.checkBox_Subfolder.Size = new System.Drawing.Size(117, 19);
-            this.checkBox_Subfolder.TabIndex = 9;
-            this.checkBox_Subfolder.Text = "Create subfolders";
-            this.checkBox_Subfolder.UseVisualStyleBackColor = true;
-            this.checkBox_Subfolder.CheckedChanged += new System.EventHandler(this.CheckBox_Subfolder_CheckedChanged);
+            resources.ApplyResources(checkBox_Subfolder, "checkBox_Subfolder");
+            checkBox_Subfolder.Name = "checkBox_Subfolder";
+            checkBox_Subfolder.UseVisualStyleBackColor = true;
+            checkBox_Subfolder.CheckedChanged += CheckBox_Subfolder_CheckedChanged;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(7, 124);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 15);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Subfolder suffix:";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // textBox_suffix
             // 
-            this.textBox_suffix.Enabled = false;
-            this.textBox_suffix.Location = new System.Drawing.Point(101, 121);
-            this.textBox_suffix.Name = "textBox_suffix";
-            this.textBox_suffix.Size = new System.Drawing.Size(271, 23);
-            this.textBox_suffix.TabIndex = 11;
+            resources.ApplyResources(textBox_suffix, "textBox_suffix");
+            textBox_suffix.Name = "textBox_suffix";
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(2, 1);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(390, 210);
-            this.tabControl1.TabIndex = 12;
+            resources.ApplyResources(tabControl1, "tabControl1");
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(382, 182);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "General";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(tabPage1, "tabPage1");
+            tabPage1.Controls.Add(button_Splashimg);
+            tabPage1.Controls.Add(textBox_Splashimg);
+            tabPage1.Controls.Add(checkBox_Splashimg);
+            tabPage1.Controls.Add(checkBox_Checkupdate);
+            tabPage1.Name = "tabPage1";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // button_Splashimg
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(155, 81);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "No options.";
+            resources.ApplyResources(button_Splashimg, "button_Splashimg");
+            button_Splashimg.Name = "button_Splashimg";
+            button_Splashimg.UseVisualStyleBackColor = true;
+            button_Splashimg.Click += Button_Splashimg_Click;
+            // 
+            // textBox_Splashimg
+            // 
+            resources.ApplyResources(textBox_Splashimg, "textBox_Splashimg");
+            textBox_Splashimg.Name = "textBox_Splashimg";
+            textBox_Splashimg.ReadOnly = true;
+            // 
+            // checkBox_Splashimg
+            // 
+            resources.ApplyResources(checkBox_Splashimg, "checkBox_Splashimg");
+            checkBox_Splashimg.Name = "checkBox_Splashimg";
+            checkBox_Splashimg.UseVisualStyleBackColor = true;
+            checkBox_Splashimg.CheckedChanged += CheckBox_Splashimg_CheckedChanged;
+            // 
+            // checkBox_Checkupdate
+            // 
+            resources.ApplyResources(checkBox_Checkupdate, "checkBox_Checkupdate");
+            checkBox_Checkupdate.Checked = true;
+            checkBox_Checkupdate.CheckState = CheckState.Checked;
+            checkBox_Checkupdate.Name = "checkBox_Checkupdate";
+            checkBox_Checkupdate.UseVisualStyleBackColor = true;
+            checkBox_Checkupdate.CheckedChanged += CheckBox_Checkupdate_CheckedChanged;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.checkBox_ShowFolder);
-            this.tabPage2.Controls.Add(this.textBox_Path);
-            this.tabPage2.Controls.Add(this.textBox_suffix);
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Controls.Add(this.checkBox_Subfolder);
-            this.tabPage2.Controls.Add(this.button_Browse);
-            this.tabPage2.Controls.Add(this.button_Clear);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(382, 182);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "IO";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(tabPage2, "tabPage2");
+            tabPage2.Controls.Add(checkBox_ShowFolder);
+            tabPage2.Controls.Add(textBox_Path);
+            tabPage2.Controls.Add(textBox_suffix);
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Controls.Add(label2);
+            tabPage2.Controls.Add(label1);
+            tabPage2.Controls.Add(checkBox_Subfolder);
+            tabPage2.Controls.Add(button_Browse);
+            tabPage2.Controls.Add(button_Clear);
+            tabPage2.Name = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // checkBox_ShowFolder
             // 
-            this.checkBox_ShowFolder.AutoSize = true;
-            this.checkBox_ShowFolder.Checked = true;
-            this.checkBox_ShowFolder.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ShowFolder.Location = new System.Drawing.Point(13, 151);
-            this.checkBox_ShowFolder.Name = "checkBox_ShowFolder";
-            this.checkBox_ShowFolder.Size = new System.Drawing.Size(241, 19);
-            this.checkBox_ShowFolder.TabIndex = 12;
-            this.checkBox_ShowFolder.Text = "Open destination folder after completion";
-            this.checkBox_ShowFolder.UseVisualStyleBackColor = true;
+            resources.ApplyResources(checkBox_ShowFolder, "checkBox_ShowFolder");
+            checkBox_ShowFolder.Checked = true;
+            checkBox_ShowFolder.CheckState = CheckState.Checked;
+            checkBox_ShowFolder.Name = "checkBox_ShowFolder";
+            checkBox_ShowFolder.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            resources.ApplyResources(tabPage3, "tabPage3");
+            tabPage3.Controls.Add(comboBox_Fixconvert);
+            tabPage3.Controls.Add(checkBox_Fixconvert);
+            tabPage3.Controls.Add(checkBox_FasterATRAC);
+            tabPage3.Controls.Add(checkBox_Hidesplash);
+            tabPage3.Controls.Add(checkBox_Oldmode);
+            tabPage3.Name = "tabPage3";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // comboBox_Fixconvert
+            // 
+            resources.ApplyResources(comboBox_Fixconvert, "comboBox_Fixconvert");
+            comboBox_Fixconvert.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_Fixconvert.FormattingEnabled = true;
+            comboBox_Fixconvert.Items.AddRange(new object[] { resources.GetString("comboBox_Fixconvert.Items"), resources.GetString("comboBox_Fixconvert.Items1"), resources.GetString("comboBox_Fixconvert.Items2"), resources.GetString("comboBox_Fixconvert.Items3") });
+            comboBox_Fixconvert.Name = "comboBox_Fixconvert";
+            comboBox_Fixconvert.SelectedIndexChanged += ComboBox_Fixconvert_SelectedIndexChanged;
+            // 
+            // checkBox_Fixconvert
+            // 
+            resources.ApplyResources(checkBox_Fixconvert, "checkBox_Fixconvert");
+            checkBox_Fixconvert.Name = "checkBox_Fixconvert";
+            checkBox_Fixconvert.UseVisualStyleBackColor = true;
+            checkBox_Fixconvert.CheckedChanged += CheckBox_Fixconvert_CheckedChanged;
+            // 
+            // checkBox_FasterATRAC
+            // 
+            resources.ApplyResources(checkBox_FasterATRAC, "checkBox_FasterATRAC");
+            checkBox_FasterATRAC.Name = "checkBox_FasterATRAC";
+            checkBox_FasterATRAC.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_Hidesplash
+            // 
+            resources.ApplyResources(checkBox_Hidesplash, "checkBox_Hidesplash");
+            checkBox_Hidesplash.Name = "checkBox_Hidesplash";
+            checkBox_Hidesplash.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_Oldmode
+            // 
+            resources.ApplyResources(checkBox_Oldmode, "checkBox_Oldmode");
+            checkBox_Oldmode.Name = "checkBox_Oldmode";
+            checkBox_Oldmode.UseVisualStyleBackColor = true;
             // 
             // FormPreferencesSettings
             // 
-            this.AcceptButton = this.button_OK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.button_Cancel;
-            this.ClientSize = new System.Drawing.Size(394, 251);
-            this.ControlBox = false;
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button_Cancel);
-            this.Controls.Add(this.button_OK);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.Name = "FormPreferencesSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Preferences";
-            this.Load += new System.EventHandler(this.FormPreferencesSettings_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            this.ResumeLayout(false);
-
+            AcceptButton = button_OK;
+            resources.ApplyResources(this, "$this");
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = button_Cancel;
+            ControlBox = false;
+            Controls.Add(tabControl1);
+            Controls.Add(button_Cancel);
+            Controls.Add(button_OK);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            Name = "FormPreferencesSettings";
+            Load += FormPreferencesSettings_Load;
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -284,6 +302,15 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private CheckBox checkBox_ShowFolder;
-        private Label label3;
+        private CheckBox checkBox_Checkupdate;
+        private TabPage tabPage3;
+        private CheckBox checkBox_Hidesplash;
+        private CheckBox checkBox_Oldmode;
+        private Button button_Splashimg;
+        private TextBox textBox_Splashimg;
+        private CheckBox checkBox_Splashimg;
+        private CheckBox checkBox_FasterATRAC;
+        private ComboBox comboBox_Fixconvert;
+        private CheckBox checkBox_Fixconvert;
     }
 }

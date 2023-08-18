@@ -117,4 +117,107 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="radioButton_nml.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 19</value>
+  </data>
+  <data name="radioButton_nml.Text" xml:space="preserve">
+    <value>毎回保存場所を確認する</value>
+  </data>
+  <data name="radioButton_spc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 19</value>
+  </data>
+  <data name="radioButton_spc.Text" xml:space="preserve">
+    <value>指定したフォルダに保存</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>ファイルの保存方法</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 15</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>パス：</value>
+  </data>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="button_Clear.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="checkBox_Subfolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 19</value>
+  </data>
+  <data name="checkBox_Subfolder.Text" xml:space="preserve">
+    <value>サブフォルダーを作成する</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 15</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>サブフォルダ名：</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>一般</value>
+  </data>
+  <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>231, 19</value>
+  </data>
+  <data name="checkBox_Splashimg.Text" xml:space="preserve">
+    <value>独自のスプラッシュスクリーン画像を設定する</value>
+  </data>
+  <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 19</value>
+  </data>
+  <data name="checkBox_Checkupdate.Text" xml:space="preserve">
+    <value>アプリケーション起動時にアップデートを確認する</value>
+  </data>
+  <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 19</value>
+  </data>
+  <data name="checkBox_ShowFolder.Text" xml:space="preserve">
+    <value>処理が完了したら保存先のフォルダを表示する</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items" xml:space="preserve">
+    <value>[ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+の場合PSPに適合)</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items1" xml:space="preserve">
+    <value>[ATRAC3+/ATRAC9] 48kHz (ATRAC3+の場合PS3に適合)</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items2" xml:space="preserve">
+    <value>[ATRAC9] 12kHz</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
+    <value>[ATRAC9] 24kHz</value>
+  </data>
+  <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>249, 19</value>
+  </data>
+  <data name="checkBox_Fixconvert.Text" xml:space="preserve">
+    <value>Waveファイルに変換した際の形式を固定する：</value>
+  </data>
+  <data name="checkBox_FasterATRAC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 19</value>
+  </data>
+  <data name="checkBox_FasterATRAC.Text" xml:space="preserve">
+    <value>ATRACを読み込んだ際に即時変換を実行する</value>
+  </data>
+  <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 19</value>
+  </data>
+  <data name="checkBox_Hidesplash.Text" xml:space="preserve">
+    <value>スプラッシュスクリーンを表示しない</value>
+  </data>
+  <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 19</value>
+  </data>
+  <data name="checkBox_Oldmode.Text" xml:space="preserve">
+    <value>従来のモードを有効にする</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
 </root>

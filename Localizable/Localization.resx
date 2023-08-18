@@ -150,6 +150,15 @@ Do you want to continue?</value>
   <data name="CurrentCaption" xml:space="preserve">
     <value>Current version:</value>
   </data>
+  <data name="CustomSplashCaption" xml:space="preserve">
+    <value>Unique splash screen images are reflected when the application is restarted.</value>
+  </data>
+  <data name="CustomSplashSizeErrorCaption" xml:space="preserve">
+    <value>Image size is incorrect.
+Width: 800 or 400px
+Height: 480 or 240px
+Only files that meet the above criteria can be specified.</value>
+  </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>Failed to decode the ATRAC file.</value>
   </data>
@@ -292,6 +301,12 @@ Please make appropriate settings from the menu 'Conversion Settings'.</value>
     <value>The application can be updated.
 Do you want to open the GitHub?</value>
   </data>
+  <data name="SpecificPathErrorCaption" xml:space="preserve">
+    <value>Path not specified.</value>
+  </data>
+  <data name="SpecificSubfolderErrorCaption" xml:space="preserve">
+    <value>suffix is not specified.</value>
+  </data>
   <data name="SplashFormConfigCaption" xml:space="preserve">
     <value>Getting application configuration information...</value>
   </data>
@@ -306,6 +321,9 @@ Do you want to open the GitHub?</value>
   </data>
   <data name="SplashFormUpdatingCaption" xml:space="preserve">
     <value>Updating...</value>
+  </data>
+  <data name="SplashPathErrorCaption" xml:space="preserve">
+    <value>The path to the splash screen image is not specified.</value>
   </data>
   <data name="StatusCaption" xml:space="preserve">
     <value>Converting {0} of {1} files</value>

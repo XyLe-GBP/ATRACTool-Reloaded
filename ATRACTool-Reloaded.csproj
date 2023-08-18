@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <RootNamespace>ATRACTool_Reloaded</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.27.2220.1109</AssemblyVersion>
-    <FileVersion>1.27.2220.1109</FileVersion>
+    <AssemblyVersion>1.28.2320.818</AssemblyVersion>
+    <FileVersion>1.28.2320.818</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
-    <Copyright>Copyright © 2022 - XyLe. All Rights Reserved.</Copyright>
+    <Copyright>Copyright © 2023 - XyLe. All Rights Reserved.</Copyright>
     <PackageTags>ATRAC, ATRAC3, ATRAC9, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
   </PropertyGroup>
