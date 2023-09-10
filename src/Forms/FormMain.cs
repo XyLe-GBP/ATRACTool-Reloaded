@@ -239,8 +239,6 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void OpenFileOToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.ATWCheck(Generic.IsATW);
-
             OpenFileDialog ofd = new()
             {
                 FileName = "",
@@ -253,6 +251,10 @@ namespace ATRACTool_Reloaded
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
+                closeFileCToolStripMenuItem.PerformClick();
+
+                Utils.ATWCheck(Generic.IsATW);
+
                 List<string> lst = new();
                 foreach (string files in ofd.FileNames)
                 {
@@ -1959,6 +1961,7 @@ namespace ATRACTool_Reloaded
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+            ActivateOrDeactivateLPC(false);
             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             Utils.ATWCheck(Generic.IsATW);
             Directory.Delete(Directory.GetCurrentDirectory() + @"\_temp");

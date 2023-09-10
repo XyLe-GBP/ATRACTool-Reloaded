@@ -14,7 +14,8 @@ namespace ATRACTool_Reloaded
         private ISampleProvider isp = null!;
         WaveFileReader reader;
         //private AudioFileReader reader = null!;
-        long Sample, Start = 0, End = 0;
+        long Sample, SampleF, OldSampleF, Start = 0, End = 0;
+        float[] samplef;
         float[] SampleF_L, SampleF_R;
         int bytePerSec, position, length, btnpos;
         TimeSpan time;
@@ -59,6 +60,23 @@ namespace ATRACTool_Reloaded
         private void TrackBar_trk_Scroll(object? sender, EventArgs e)
         {
             reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_trk.Value);
+            if (wo.PlaybackState == PlaybackState.Playing)
+            {
+                if (reader.Position < OldSampleF)
+                {
+                    SampleF = wo.GetPosition() + reader.Position - OldSampleF;
+                    wo.Play();
+                }
+                else if (reader.Position > OldSampleF)
+                {
+                    SampleF = OldSampleF - reader.Position;
+                    wo.Play();
+                }
+            }
+            else
+            {
+                SampleF = reader.Position;
+            }
         }
 
         private void TrackBar_trk_MouseUp(object? sender, MouseEventArgs e)
@@ -250,13 +268,17 @@ namespace ATRACTool_Reloaded
                 time = new(0, 0, position);
                 if (wo.PlaybackState == PlaybackState.Paused)
                 {
-                    Sample = reader.Position / reader.WaveFormat.BlockAlign;
+                    //if (!mouseDown) SampleF = wo.GetPosition() / reader.BlockAlign;
+                    if (mouseDown) OldSampleF = SampleF;
+                    Sample = reader.Position / reader.BlockAlign;
                 }
                 else
                 {
                     //SampleF_L = new float[reader.Length / reader.WaveFormat.BlockAlign];
                     //float[] smpl = reader.ReadNextSampleFrame();
-                    Sample = reader.Position / reader.WaveFormat.BlockAlign;
+                    if (!mouseDown) SampleF = wo.GetPosition() / reader.BlockAlign;
+                    if (mouseDown) OldSampleF = SampleF;
+                    Sample = reader.Position / reader.BlockAlign;
                 }
 
             }
