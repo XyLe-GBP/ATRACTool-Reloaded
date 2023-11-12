@@ -18,7 +18,7 @@
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
@@ -273,7 +273,7 @@
     <value>True</value>
   </data>
   <data name="label_Length.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 198</value>
+    <value>12, 208</value>
   </data>
   <data name="label_Length.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 15</value>
@@ -660,7 +660,7 @@
     <value>6</value>
   </data>
   <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 12pt</value>
+    <value>Yu Gothic UI, 14.25pt, style=Bold</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_Psamples.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -670,7 +670,7 @@
     <value>15, 175</value>
   </data>
   <data name="label_Psamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 23</value>
+    <value>259, 33</value>
   </data>
   <data name="label_Psamples.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -694,10 +694,10 @@
     <value>5</value>
   </data>
   <data name="label_Plength.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 12pt</value>
+    <value>Yu Gothic UI Semibold, 14.25pt, style=Bold</value>
   </data>
   <data name="label_Plength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 213</value>
+    <value>15, 223</value>
   </data>
   <data name="label_Plength.Size" type="System.Drawing.Size, System.Drawing">
     <value>259, 30</value>

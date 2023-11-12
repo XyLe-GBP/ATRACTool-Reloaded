@@ -2,8 +2,6 @@
 using ATRACTool_Reloaded.Localizable;
 using System.Text;
 using static ATRACTool_Reloaded.Common;
-using NAudio.Wave.SampleProviders;
-using System.Diagnostics;
 
 namespace ATRACTool_Reloaded
 {
@@ -11,15 +9,11 @@ namespace ATRACTool_Reloaded
     {
         private readonly WaveIn wi = new();
         private readonly WaveOut wo = new();
-        private ISampleProvider isp = null!;
         WaveFileReader reader;
-        //private AudioFileReader reader = null!;
-        long Sample, SampleF, OldSampleF, Start = 0, End = 0;
-        float[] samplef;
-        float[] SampleF_L, SampleF_R;
+        long Sample, Start = 0, End = 0;
         int bytePerSec, position, length, btnpos;
         TimeSpan time;
-        bool mouseDown = false;
+        bool mouseDown = false, stopflag = false;
 
         public FormLPC(bool IsEnabledBtn)
         {
@@ -60,23 +54,7 @@ namespace ATRACTool_Reloaded
         private void TrackBar_trk_Scroll(object? sender, EventArgs e)
         {
             reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_trk.Value);
-            if (wo.PlaybackState == PlaybackState.Playing)
-            {
-                if (reader.Position < OldSampleF)
-                {
-                    SampleF = wo.GetPosition() + reader.Position - OldSampleF;
-                    wo.Play();
-                }
-                else if (reader.Position > OldSampleF)
-                {
-                    SampleF = OldSampleF - reader.Position;
-                    wo.Play();
-                }
-            }
-            else
-            {
-                SampleF = reader.Position;
-            }
+            Sample = reader.Position;
         }
 
         private void TrackBar_trk_MouseUp(object? sender, MouseEventArgs e)
@@ -175,7 +153,8 @@ namespace ATRACTool_Reloaded
                     timer_Reload.Enabled = true;
                     wo.Play();
                     button_Play.Text = Localization.PauseCaption;
-                    Task.Run(() => Playback());
+                    Task.Run(Playback);
+                    stopflag = false;
                     button_Stop.Enabled = true;
                     break;
                 case PlaybackState.Paused:
@@ -193,6 +172,7 @@ namespace ATRACTool_Reloaded
         {
             if (wo.PlaybackState != PlaybackState.Stopped)
             {
+                stopflag = true;
                 wo.Stop();
                 button_Play.Text = Localization.PlayCaption;
                 reader.Position = 0;
@@ -207,13 +187,32 @@ namespace ATRACTool_Reloaded
             {
                 reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_Start.Value);
             }
+
             if (reader.CurrentTime == reader.TotalTime)
             {
+                stopflag = true;
+                Sample = reader.SampleCount;
                 wo.Stop();
                 button_Play.Text = Localization.PlayCaption;
                 reader.Position = 0;
                 button_Stop.Enabled = false;
             }
+            else if (reader.Position == 0 || trackBar_trk.Value == 0)
+            {
+                if (!stopflag)
+                {
+                    wo.Stop();
+                    button_Stop.Enabled = false;
+                    Sample = 0;
+                    reader.Position = 0;
+                    wo.Play();
+                    button_Play.Text = Localization.PauseCaption;
+                    Task.Run(Playback);
+                    button_Stop.Enabled = true;
+                }
+            }
+
+
             label_Length.Text = Localization.LengthCaption + ":";
             label_Plength.Text = time.ToString(@"hh\:mm\:ss");
             StringBuilder str = new(Sample.ToString());
@@ -223,78 +222,13 @@ namespace ATRACTool_Reloaded
 
         private void Playback()
         {
-            //long rp = 0;
             while (wo.PlaybackState != PlaybackState.Stopped)
             {
-                /*long FasterPos = wo.GetPosition() / wo.OutputWaveFormat.BlockAlign;
-                long ReaderPos = reader.Position / reader.WaveFormat.BlockAlign;
-                int ct = (int)reader.CurrentTime.TotalMilliseconds;
-                if (wo.PlaybackState == PlaybackState.Paused)
-                {
-                    if (mouseDown)
-                    {
-                        Sample = ReaderPos;
-                        rp = ReaderPos;
-                    }
-                }
-                if (wo.PlaybackState == PlaybackState.Playing)
-                {
-                    if (mouseDown)
-                    {
-                        if (ct == 0)
-                        {
-                            wo.Stop();
-                        }
-                        Sample = ReaderPos;
-                        rp = ReaderPos;
-                    }
-                    else
-                    {
-                        if (rp < FasterPos)
-                        {
-                            Sample = FasterPos - rp;
-                        }
-                        else if (rp > FasterPos)
-                        {
-                            Sample = FasterPos + rp;
-                        }
-                        else
-                        {
-                            Sample = FasterPos + rp;
-                        }
-                    }
-                }*/
                 position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
                 time = new(0, 0, position);
-                if (wo.PlaybackState == PlaybackState.Paused)
-                {
-                    //if (!mouseDown) SampleF = wo.GetPosition() / reader.BlockAlign;
-                    if (mouseDown) OldSampleF = SampleF;
-                    Sample = reader.Position / reader.BlockAlign;
-                }
-                else
-                {
-                    //SampleF_L = new float[reader.Length / reader.WaveFormat.BlockAlign];
-                    //float[] smpl = reader.ReadNextSampleFrame();
-                    if (!mouseDown) SampleF = wo.GetPosition() / reader.BlockAlign;
-                    if (mouseDown) OldSampleF = SampleF;
-                    Sample = reader.Position / reader.BlockAlign;
-                }
-
+                Sample = reader.Position / reader.BlockAlign + wo.GetPosition() / reader.BlockAlign;
             }
-        }
-
-        private void SampleCalc()
-        {
-            SampleF_L = new float[reader.Length / reader.WaveFormat.BlockAlign];
-            SampleF_R = new float[reader.Length / reader.WaveFormat.BlockAlign];
-
-            for (int i = 0; i < SampleF_L.Length; i++)
-            {
-                float[] smpl = reader.ReadNextSampleFrame();
-                SampleF_L[i] = smpl[0];
-                SampleF_R[i] = smpl[1];
-            }
+            //Sample = 0;
         }
 
         private void FormLPC_Paint(object sender, PaintEventArgs e)
@@ -562,7 +496,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void radioButton_at3_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_at3_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_LoopEnable.Checked && radioButton_at3.Checked)
             {
@@ -575,7 +509,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void radioButton_at9_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_at9_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_LoopEnable.Checked && radioButton_at9.Checked)
             {

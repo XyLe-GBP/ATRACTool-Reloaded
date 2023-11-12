@@ -174,7 +174,7 @@
             radioButton_at3.Name = "radioButton_at3";
             radioButton_at3.TabStop = true;
             radioButton_at3.UseVisualStyleBackColor = true;
-            radioButton_at3.CheckedChanged += radioButton_at3_CheckedChanged;
+            radioButton_at3.CheckedChanged += RadioButton_at3_CheckedChanged;
             // 
             // radioButton_at9
             // 
@@ -182,7 +182,7 @@
             radioButton_at9.Name = "radioButton_at9";
             radioButton_at9.TabStop = true;
             radioButton_at9.UseVisualStyleBackColor = true;
-            radioButton_at9.CheckedChanged += radioButton_at9_CheckedChanged;
+            radioButton_at9.CheckedChanged += RadioButton_at9_CheckedChanged;
             // 
             // label_File
             // 
