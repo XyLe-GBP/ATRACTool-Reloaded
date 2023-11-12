@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.28.2320.910</AssemblyVersion>
-    <FileVersion>1.28.2320.910</FileVersion>
+    <AssemblyVersion>1.29.2320.1112</AssemblyVersion>
+    <FileVersion>1.29.2320.1112</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
-    <PackageReference Include="NAudio" Version="2.1.0" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
