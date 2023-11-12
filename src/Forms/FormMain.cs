@@ -125,34 +125,43 @@ namespace ATRACTool_Reloaded
                         loopPointCreationToolStripMenuItem.Enabled = false;
                     }
 
-                    if (bool.Parse(Config.Entry["Check_Update"].Value))
+                    try
                     {
-                        fs?.Invoke(d, Localization.SplashFormUpdateCaption);
-                        Thread.Sleep(500);
-                        if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                        if (bool.Parse(Config.Entry["Check_Update"].Value))
                         {
-                            fs?.Invoke(d, Localization.SplashFormUpdatingCaption);
-                            File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
-                            string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
-                            File.Delete(updpath + @"\updater.exe");
-                            File.Delete(updpath + @"\atractool-rel.zip");
-                            Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+                            fs?.Invoke(d, Localization.SplashFormUpdateCaption);
+                            Thread.Sleep(500);
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                            {
+                                fs?.Invoke(d, Localization.SplashFormUpdatingCaption);
+                                File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
+                                string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+                                DirectoryInfo di = new(updpath + @"\updater-temp");
+                                Common.Utils.RemoveReadonlyAttribute(di);
+                                File.Delete(updpath + @"\updater.exe");
+                                File.Delete(updpath + @"\atractool-rel.zip");
+                                Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
 
-                            fs?.Invoke(d, Localization.SplashFormUpdatedCaption);
-                            MessageBox.Show(fs, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                fs?.Invoke(d, Localization.SplashFormUpdatedCaption);
+                                MessageBox.Show(fs, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                var update = Task.Run(() => CheckForUpdatesForInit());
+                                update.Wait();
+                            }
                         }
                         else
                         {
-                            var update = Task.Run(() => CheckForUpdatesForInit());
-                            update.Wait();
+                            fs?.Invoke(d, "Skip Update");
+                            Thread.Sleep(500);
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        fs?.Invoke(d, "Skip Update");
-                        Thread.Sleep(500);
+                        MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
+                    
                     fs?.Invoke(d, "Starting...");
                     Thread.Sleep(1000);
                 }
@@ -204,20 +213,29 @@ namespace ATRACTool_Reloaded
 
                 if (bool.Parse(Config.Entry["Check_Update"].Value))
                 {
-                    if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                    try
                     {
-                        File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
-                        string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
-                        File.Delete(updpath + @"\updater.exe");
-                        File.Delete(updpath + @"\atractool-rel.zip");
-                        Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                        {
+                            File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
+                            string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+                            DirectoryInfo di = new(updpath + @"\updater-temp");
+                            Common.Utils.RemoveReadonlyAttribute(di);
+                            File.Delete(updpath + @"\updater.exe");
+                            File.Delete(updpath + @"\atractool-rel.zip");
+                            Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
 
-                        MessageBox.Show(this, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(this, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            var update = Task.Run(() => CheckForUpdatesForInit());
+                            update.Wait();
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        var update = Task.Run(() => CheckForUpdatesForInit());
-                        update.Wait();
+                        MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
