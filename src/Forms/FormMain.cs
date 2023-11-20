@@ -42,6 +42,12 @@ namespace ATRACTool_Reloaded
 
             Common.Config.Load(Common.xmlpath);
 
+            if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+            {
+                TopMost = true;
+                TopMost = false;
+            }
+
             if (!bool.Parse(Config.Entry["HideSplash"].Value)) // Splash
             {
                 lockobj = new object();
