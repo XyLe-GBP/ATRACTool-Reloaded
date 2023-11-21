@@ -27,13 +27,15 @@ namespace ATRACTool_Reloaded
 
         // 初期化
 
+        /// <summary>
+        /// フォームのロード
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
             FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
-            if (ver.FileVersion != null)
-            {
-                Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
-            }
+            Text = "ATRACTool Rel";
 
             if (!File.Exists(Common.xmlpath))
             {
@@ -167,7 +169,7 @@ namespace ATRACTool_Reloaded
                     {
                         MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    
+
                     fs?.Invoke(d, "Starting...");
                     Thread.Sleep(1000);
                 }
@@ -246,6 +248,14 @@ namespace ATRACTool_Reloaded
                 }
             }
 
+            if (ver.FileVersion != null)
+            {
+                Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
+            }
+            else
+            {
+                Text = "ATRACTool Rel";
+            }
             Activate();
 
             if (Generic.GlobalException is not null)
@@ -432,17 +442,32 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// ファイルを閉じる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseFileCToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ActivateOrDeactivateLPC(false);
             ResetStatus();
         }
 
+        /// <summary>
+        /// 終了
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitXToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// 変換設定ダイアログ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConvertSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSettings formSettings = new();
@@ -475,13 +500,11 @@ namespace ATRACTool_Reloaded
             };
         }
 
-        private void ConvertAudioToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-
-        }
-
+        /// <summary>
+        /// バージョン情報ダイアログの表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AboutATRACToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAbout formAbout = new();
@@ -489,6 +512,11 @@ namespace ATRACTool_Reloaded
             formAbout.Dispose();
         }
 
+        /// <summary>
+        /// アップデート確認
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void CheckForUpdatesUToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (NetworkInterface.GetIsNetworkAvailable())
@@ -499,7 +527,7 @@ namespace ATRACTool_Reloaded
 
                     using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
                     using StreamReader hsr = new(hcs);
-                    hv = await Task.Run(() => hsr.ReadToEndAsync());
+                    hv = await Task.Run(hsr.ReadToEndAsync);
                     Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
 
                     FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
@@ -515,6 +543,11 @@ namespace ATRACTool_Reloaded
                                     using FormUpdateApplicationType fuat = new();
                                     fuat.ShowDialog();
 
+                                    if (File.Exists(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip"))
+                                    {
+                                        File.Delete(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip");
+                                    }
+
                                     Common.Generic.ProcessFlag = 4;
                                     Common.Generic.ProgressMax = 100;
                                     using FormProgress form = new();
@@ -528,6 +561,20 @@ namespace ATRACTool_Reloaded
                                     }
 
                                     string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+
+                                    if (File.Exists(updpath + @"\updater.exe"))
+                                    {
+                                        File.Delete(updpath + @"\updater.exe");
+                                    }
+                                    if (Directory.Exists(updpath + @"\updater-temp"))
+                                    {
+                                        Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+                                    }
+                                    if (File.Exists(updpath + @"\atractool-rel.zip"))
+                                    {
+                                        File.Delete(updpath + @"\atractool-rel.zip");
+                                    }
+
                                     File.Move(Directory.GetCurrentDirectory() + @"\res\updater.exe", updpath + @"\updater.exe");
                                     string wtext;
                                     switch (Common.Generic.ApplicationPortable)
@@ -592,6 +639,132 @@ namespace ATRACTool_Reloaded
             else
             {
                 MessageBox.Show(this, Localization.NetworkNotConnectedCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// (Task) アプリケーション起動時のアップデート確認
+        /// </summary>
+        /// <returns></returns>
+        private async Task CheckForUpdatesForInit()
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                try
+                {
+                    string hv = null!;
+
+                    using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
+                    using StreamReader hsr = new(hcs);
+                    hv = await Task.Run(() => hsr.ReadToEndAsync());
+                    Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
+
+                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+
+                    if (ver.FileVersion != null)
+                    {
+                        switch (ver.FileVersion.ToString().CompareTo(hv[8..].Replace("\n", "")))
+                        {
+                            case -1:
+                                DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                if (dr == DialogResult.Yes)
+                                {
+                                    using FormUpdateApplicationType fuat = new();
+                                    fuat.ShowDialog();
+
+                                    if (File.Exists(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip"))
+                                    {
+                                        File.Delete(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip");
+                                    }
+
+                                    Common.Generic.ProcessFlag = 4;
+                                    Common.Generic.ProgressMax = 100;
+                                    using FormProgress form = new();
+                                    form.ShowDialog();
+
+                                    if (Common.Generic.Result == false)
+                                    {
+                                        Common.Generic.cts.Dispose();
+                                        MessageBox.Show(Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        return;
+                                    }
+                                    string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+
+                                    if (File.Exists(updpath + @"\updater.exe"))
+                                    {
+                                        File.Delete(updpath + @"\updater.exe");
+                                    }
+                                    if (Directory.Exists(updpath + @"\updater-temp"))
+                                    {
+                                        Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+                                    }
+                                    if (File.Exists(updpath + @"\atractool-rel.zip"))
+                                    {
+                                        File.Delete(updpath + @"\atractool-rel.zip");
+                                    }
+
+                                    File.Move(Directory.GetCurrentDirectory() + @"\res\updater.exe", updpath + @"\updater.exe");
+                                    string wtext;
+                                    switch (Common.Generic.ApplicationPortable)
+                                    {
+                                        case false:
+                                            {
+                                                wtext = Directory.GetCurrentDirectory() + "\r\nrelease";
+                                            }
+                                            break;
+                                        case true:
+                                            {
+                                                wtext = Directory.GetCurrentDirectory() + "\r\nportable";
+                                            }
+                                            break;
+                                    }
+                                    File.WriteAllText(updpath + @"\updater.txt", wtext);
+                                    File.Move(updpath + @"\updater.txt", updpath + @"\updater.dat");
+                                    if (File.Exists(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip"))
+                                    {
+                                        File.Move(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip", updpath + @"\atractool-rel.zip");
+                                    }
+
+                                    ProcessStartInfo pi = new()
+                                    {
+                                        FileName = updpath + @"\updater.exe",
+                                        Arguments = null,
+                                        UseShellExecute = true,
+                                        WindowStyle = ProcessWindowStyle.Normal,
+                                    };
+                                    Process.Start(pi);
+                                    Close();
+                                    return;
+                                }
+                                else
+                                {
+                                    DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    if (dr2 == DialogResult.Yes)
+                                    {
+                                        Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                }
+                            case 0:
+                                break;
+                            case 1:
+                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString());
+                        }
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
+            else
+            {
                 return;
             }
         }
@@ -1284,6 +1457,31 @@ namespace ATRACTool_Reloaded
 
         }
 
+        /// <summary>
+        /// 詳細設定ダイアログ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PreferencesMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using Form FSS = new FormPreferencesSettings();
+            FSS.ShowDialog();
+        }
+
+        /// <summary>
+        /// 旧関数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoopPointCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using FormLPC form = new(true);
+            form.ShowDialog();
+        }
+
+        /// <summary>
+        /// ファイルを読み込んだ際のボタン等の動作
+        /// </summary>
         private void ReadStatus()
         {
             AllowDrop = false;
@@ -1298,6 +1496,9 @@ namespace ATRACTool_Reloaded
             label_Formattxt.Visible = true;
         }
 
+        /// <summary>
+        /// ファイルを閉じたときにUIや変数をリセットする
+        /// </summary>
         private void ResetStatus()
         {
             AllowDrop = true;
@@ -1328,6 +1529,11 @@ namespace ATRACTool_Reloaded
             closeFileCToolStripMenuItem.Enabled = false;
         }
 
+        /// <summary>
+        /// サポートされている任意のファイルをWaveに変換する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AudioToWAVEToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new()
@@ -1610,6 +1816,11 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// Waveファイルをサポートされている任意のオーディオに変換する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WAVEToAudioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new()
@@ -1770,6 +1981,11 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// ドラッグアンドドロップ処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1778,13 +1994,18 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// ドラッグアンドドロップでファイルを読み込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
             Utils.ATWCheck(Generic.IsATW);
 
             if (e.Data != null)
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop)!;
 
                 foreach (var check in files)
                 {
@@ -1983,122 +2204,17 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// フォーム終了後の後処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             ActivateOrDeactivateLPC(false);
             Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             Utils.ATWCheck(Generic.IsATW);
             Directory.Delete(Directory.GetCurrentDirectory() + @"\_temp");
-        }
-
-        private void LoopPointCreationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using FormLPC form = new(true);
-            form.ShowDialog();
-        }
-
-        private async Task CheckForUpdatesForInit()
-        {
-            if (NetworkInterface.GetIsNetworkAvailable())
-            {
-                try
-                {
-                    string hv = null!;
-
-                    using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
-                    using StreamReader hsr = new(hcs);
-                    hv = await Task.Run(() => hsr.ReadToEndAsync());
-                    Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
-
-                    FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
-
-                    if (ver.FileVersion != null)
-                    {
-                        switch (ver.FileVersion.ToString().CompareTo(hv[8..].Replace("\n", "")))
-                        {
-                            case -1:
-                                DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                if (dr == DialogResult.Yes)
-                                {
-                                    using FormUpdateApplicationType fuat = new();
-                                    fuat.ShowDialog();
-
-                                    Common.Generic.ProcessFlag = 4;
-                                    Common.Generic.ProgressMax = 100;
-                                    using FormProgress form = new();
-                                    form.ShowDialog();
-
-                                    if (Common.Generic.Result == false)
-                                    {
-                                        Common.Generic.cts.Dispose();
-                                        MessageBox.Show(Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        return;
-                                    }
-
-                                    string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
-                                    File.Move(Directory.GetCurrentDirectory() + @"\res\updater.exe", updpath + @"\updater.exe");
-                                    string wtext;
-                                    switch (Common.Generic.ApplicationPortable)
-                                    {
-                                        case false:
-                                            {
-                                                wtext = Directory.GetCurrentDirectory() + "\r\nrelease";
-                                            }
-                                            break;
-                                        case true:
-                                            {
-                                                wtext = Directory.GetCurrentDirectory() + "\r\nportable";
-                                            }
-                                            break;
-                                    }
-                                    File.WriteAllText(updpath + @"\updater.txt", wtext);
-                                    File.Move(updpath + @"\updater.txt", updpath + @"\updater.dat");
-                                    if (File.Exists(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip"))
-                                    {
-                                        File.Move(Directory.GetCurrentDirectory() + @"\res\atractool-rel.zip", updpath + @"\atractool-rel.zip");
-                                    }
-
-                                    ProcessStartInfo pi = new()
-                                    {
-                                        FileName = updpath + @"\updater.exe",
-                                        Arguments = null,
-                                        UseShellExecute = true,
-                                        WindowStyle = ProcessWindowStyle.Normal,
-                                    };
-                                    Process.Start(pi);
-                                    Close();
-                                    return;
-                                }
-                                else
-                                {
-                                    DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                    if (dr2 == DialogResult.Yes)
-                                    {
-                                        Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
-                                        return;
-                                    }
-                                    else
-                                    {
-                                        return;
-                                    }
-                                }
-                            case 0:
-                                break;
-                            case 1:
-                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString());
-                        }
-                        return;
-                    }
-                }
-                catch (Exception)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
         }
 
         /// <summary>
@@ -2646,12 +2762,10 @@ namespace ATRACTool_Reloaded
         }
         #endregion
 
-        private void PreferencesMToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using Form FSS = new FormPreferencesSettings();
-            FSS.ShowDialog();
-        }
-
+        /// <summary>
+        /// LPCの処理
+        /// </summary>
+        /// <param name="flag">フラグ (true or false)</param>
         private void ActivateOrDeactivateLPC(bool flag)
         {
             if (Generic.OpenFilePaths is null) { return; }

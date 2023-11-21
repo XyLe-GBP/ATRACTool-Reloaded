@@ -29,6 +29,9 @@ int main()
 			, sfname = common->TWStringToString(fname)
 			, sext = common->TWStringToString(ext);
 
+		HWND handle = FindWindow(_T("ATRACTool Rel"), NULL);
+		PostMessage(handle, WM_CLOSE, 0, 0);
+
 		if (PathFileExists(common->StringToWString(sdrive + sdir + "updater.dat").c_str())) {
 			cout << "PathFileExists: '" + sdrive + sdir + "updater.dat' OK" << endl;
 			ifstream ifs(common->StringToWString(sdrive + sdir + "updater.dat").c_str());
