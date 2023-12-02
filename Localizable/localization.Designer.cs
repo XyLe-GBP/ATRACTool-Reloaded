@@ -273,6 +273,15 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   ATRAC3 / 3+ and ATRAC9, or ATRAC3 / 3+ and ATRAC9 formats and other formats cannot be loaded simultaneously. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FileMixedWithATRACCaption {
+            get {
+                return ResourceManager.GetString("FileMixedWithATRACCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} KiB に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FileSizeCaption {

@@ -197,6 +197,9 @@ Also, please check if the file system of the conversion source is correct.</valu
   <data name="FileMixedErrorCaption" xml:space="preserve">
     <value>Files with different extensions cannot be loaded at the same time.</value>
   </data>
+  <data name="FileMixedWithATRACCaption" xml:space="preserve">
+    <value>ATRAC3 / 3+ and ATRAC9, or ATRAC3 / 3+ and ATRAC9 formats and other formats cannot be loaded simultaneously.</value>
+  </data>
   <data name="FileSizeCaption" xml:space="preserve">
     <value>{0} KiB</value>
   </data>

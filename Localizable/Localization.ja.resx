@@ -197,6 +197,9 @@
     <value>形式が異なるファイルの同時読み込みはサポートされていません。
 全て同じ形式のファイルのみ、同時読み込みが可能です。</value>
   </data>
+  <data name="FileMixedWithATRACCaption" xml:space="preserve">
+    <value>ATRAC3 / 3+とATRAC9、またはATRAC3 / 3+及びATRAC9形式とその他の形式のファイルを同時に読み込むことはできません。</value>
+  </data>
   <data name="FileSizeCaption" xml:space="preserve">
     <value>{0} KiB</value>
   </data>
