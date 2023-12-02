@@ -14,6 +14,8 @@ namespace ATRACTool_Reloaded
         int bytePerSec, position, length, btnpos;
         TimeSpan time;
         bool mouseDown = false, stopflag = false;
+        float ScaleWidthTrk = 0f, ScaleWidthStart = 0f, ScaleWidthEnd = 0f;
+        Point labelTrk = new(15, 90), labelStart = new(15,130), labelEnd = new(15,10);
 
         public FormLPC(bool IsEnabledBtn)
         {
@@ -32,6 +34,9 @@ namespace ATRACTool_Reloaded
             trackBar_End.Scroll += TrackBar_End_Scroll;
             trackBar_trk.MouseDown += TrackBar_trk_MouseDown;
             trackBar_trk.MouseUp += TrackBar_trk_MouseUp;
+            label_trk.Text = "0";
+            label_start.Text = "0";
+            label_end.Text = "0";
             label_Samples.Text = Localization.SampleCaption + ":";
             label_Psamples.Text = "0";
             label_Length.Text = Localization.LengthCaption + ":";
@@ -43,16 +48,26 @@ namespace ATRACTool_Reloaded
 
         private void TrackBar_End_Scroll(object? sender, EventArgs e)
         {
+            label_end.Text = trackBar_End.Value.ToString();
+            SetTrackbarEnd();
+            //label_end.Location = new Point(labelEnd.X + (int)((trackBar_End.Value - trackBar_End.Minimum) * ScaleWidthEnd) - trackBar_End.Location.X - labelEnd.X, labelEnd.Y);
             numericUpDown_LoopEnd.Value = trackBar_End.Value;
         }
 
         private void TrackBar_Start_Scroll(object? sender, EventArgs e)
         {
+            label_start.Text = trackBar_Start.Value.ToString();
+            SetTrackbarStart();
+            //label_start.Location = new Point(labelStart.X + (int)((trackBar_Start.Value - trackBar_Start.Minimum) * ScaleWidthStart) - trackBar_Start.Location.X - labelStart.X, labelStart.Y);
             numericUpDown_LoopStart.Value = trackBar_Start.Value;
         }
 
         private void TrackBar_trk_Scroll(object? sender, EventArgs e)
         {
+            label_trk.Text = trackBar_trk.Value.ToString();
+            SetTrackbarTrack();
+            //label_trk.Location = new Point(labelTrk.X + (int)((trackBar_trk.Value - trackBar_trk.Minimum) * ScaleWidthTrk) - trackBar_trk.Location.X - labelTrk.X, labelTrk.Y);
+
             reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_trk.Value);
             Sample = reader.Position;
         }
@@ -127,6 +142,10 @@ namespace ATRACTool_Reloaded
             trackBar_Start.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             trackBar_End.Minimum = 0;
             trackBar_End.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            ScaleWidthTrk = (float)trackBar_trk.Size.Width / ((float)trackBar_trk.Maximum - (float)trackBar_trk.Minimum);
+            ScaleWidthStart = (float)trackBar_Start.Size.Width / ((float)trackBar_Start.Maximum - (float)trackBar_Start.Minimum);
+            ScaleWidthEnd = (float)trackBar_End.Size.Width / ((float)trackBar_End.Maximum - (float)trackBar_End.Minimum);
+            trackBar_End.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             trackBar_trk.TickFrequency = 1;
             trackBar_Start.TickFrequency = 1;
             trackBar_End.TickFrequency = 1;
@@ -137,6 +156,10 @@ namespace ATRACTool_Reloaded
             numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
             numericUpDown_LoopEnd.Increment = 1;
             wo.Volume = volumeSlider1.Volume;
+
+            label_trk.Text = "";
+            label_start.Text = "";
+            label_end.Text = "";
 
             int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
             numericUpDown_LoopEnd.Value = tb;
@@ -177,6 +200,7 @@ namespace ATRACTool_Reloaded
                 button_Play.Text = Localization.PlayCaption;
                 reader.Position = 0;
                 button_Stop.Enabled = false;
+                Resettrackbarlabels();
             }
         }
 
@@ -186,6 +210,7 @@ namespace ATRACTool_Reloaded
             if (checkBox_LoopEnable.Checked == true && reader.CurrentTime >= TimeSpan.FromMilliseconds(trackBar_End.Value))
             {
                 reader.CurrentTime = TimeSpan.FromMilliseconds(trackBar_Start.Value);
+                Sample = reader.Position / reader.BlockAlign;
             }
 
             if (reader.CurrentTime == reader.TotalTime)
@@ -196,6 +221,7 @@ namespace ATRACTool_Reloaded
                 button_Play.Text = Localization.PlayCaption;
                 reader.Position = 0;
                 button_Stop.Enabled = false;
+                Resettrackbarlabels();
             }
             else if (reader.Position == 0 || trackBar_trk.Value == 0)
             {
@@ -212,7 +238,13 @@ namespace ATRACTool_Reloaded
                 }
             }
 
-
+            SetTrackbarTrack();
+            SetTrackbarStart();
+            SetTrackbarEnd();
+            
+            label_trk.Text = trackBar_trk.Value.ToString();
+            label_start.Text = trackBar_Start.Value.ToString();
+            label_end.Text = trackBar_End.Value.ToString();
             label_Length.Text = Localization.LengthCaption + ":";
             label_Plength.Text = time.ToString(@"hh\:mm\:ss");
             StringBuilder str = new(Sample.ToString());
@@ -299,6 +331,7 @@ namespace ATRACTool_Reloaded
             reader.Position = 0;
             reader.Close();
             button_Stop.Enabled = false;
+            Resettrackbarlabels();
 
             if (btnpos == Common.Generic.OpenFilePaths.Length)
             {
@@ -473,6 +506,8 @@ namespace ATRACTool_Reloaded
             int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
             numericUpDown_LoopStart.Value = 0;
             numericUpDown_LoopEnd.Value = tb;
+
+            Resettrackbarlabels();
         }
 
         private static bool CheckLoopSoundEnabled(bool IsAT9)
@@ -533,6 +568,81 @@ namespace ATRACTool_Reloaded
             button_LE_Current.Enabled = false;
             button_SetStart.Enabled = false;
             button_SetEnd.Enabled = false;
+        }
+
+        private void trackBar_trk_CursorChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Resettrackbarlabels()
+        {
+            ScaleWidthTrk = (float)trackBar_trk.Size.Width / ((float)trackBar_trk.Maximum - (float)trackBar_trk.Minimum);
+            ScaleWidthStart = (float)trackBar_Start.Size.Width / ((float)trackBar_Start.Maximum - (float)trackBar_Start.Minimum);
+            ScaleWidthEnd = (float)trackBar_End.Size.Width / ((float)trackBar_End.Maximum - (float)trackBar_End.Minimum);
+            labelTrk = new(15, 90);
+            labelStart = new(15, 130);
+            labelEnd = new(15, 10);
+        }
+
+        private void SetTrackbarTrack()
+        {
+            if (trackBar_trk.Value < trackBar_trk.Maximum / 2)
+            {
+                label_trk.Location = new Point(labelTrk.X + (int)((trackBar_trk.Value - trackBar_trk.Minimum) * ScaleWidthTrk) - trackBar_trk.Location.X - labelTrk.X + 9, labelTrk.Y);
+            }
+            else if (trackBar_trk.Value > trackBar_trk.Maximum / 2)
+            {
+                label_trk.Location = new Point(labelTrk.X + (int)((trackBar_trk.Value - trackBar_trk.Minimum) * ScaleWidthTrk) - trackBar_trk.Location.X - labelTrk.X - 9, labelTrk.Y);
+            }
+            else if (trackBar_trk.Value == trackBar_trk.Maximum / 2)
+            {
+                label_trk.Location = new Point(labelTrk.X + (int)((trackBar_trk.Value - trackBar_trk.Minimum) * ScaleWidthTrk) - trackBar_trk.Location.X - labelTrk.X, labelTrk.Y);
+            }
+            else
+            {
+                label_trk.Location = new Point(labelTrk.X + (int)((trackBar_trk.Value - trackBar_trk.Minimum) * ScaleWidthTrk) - trackBar_trk.Location.X - labelTrk.X, labelTrk.Y);
+            }
+        }
+
+        private void SetTrackbarStart()
+        {
+            if (trackBar_Start.Value < trackBar_Start.Maximum / 2)
+            {
+                label_start.Location = new Point(labelStart.X + (int)((trackBar_Start.Value - trackBar_Start.Minimum) * ScaleWidthStart) - trackBar_Start.Location.X - labelStart.X + 9, labelStart.Y);
+            }
+            else if (trackBar_Start.Value > trackBar_Start.Maximum / 2)
+            {
+                label_start.Location = new Point(labelStart.X + (int)((trackBar_Start.Value - trackBar_Start.Minimum) * ScaleWidthStart) - trackBar_Start.Location.X - labelStart.X - 9, labelStart.Y);
+            }
+            else if (trackBar_Start.Value == trackBar_Start.Maximum / 2)
+            {
+                label_start.Location = new Point(labelStart.X + (int)((trackBar_Start.Value - trackBar_Start.Minimum) * ScaleWidthStart) - trackBar_Start.Location.X - labelStart.X, labelStart.Y);
+            }
+            else
+            {
+                label_start.Location = new Point(labelStart.X + (int)((trackBar_Start.Value - trackBar_Start.Minimum) * ScaleWidthStart) - trackBar_Start.Location.X - labelStart.X, labelStart.Y);
+            }
+        }
+
+        private void SetTrackbarEnd()
+        {
+            if (trackBar_End.Value < trackBar_End.Maximum / 2)
+            {
+                label_end.Location = new Point(labelEnd.X + (int)((trackBar_End.Value - trackBar_End.Minimum) * ScaleWidthEnd) - trackBar_End.Location.X - labelEnd.X + 9, labelEnd.Y);
+            }
+            else if (trackBar_End.Value > trackBar_End.Maximum / 2)
+            {
+                label_end.Location = new Point(labelEnd.X + (int)((trackBar_End.Value - trackBar_End.Minimum) * ScaleWidthEnd) - trackBar_End.Location.X - labelEnd.X - 9, labelEnd.Y);
+            }
+            else if (trackBar_End.Value == trackBar_End.Maximum / 2)
+            {
+                label_end.Location = new Point(labelEnd.X + (int)((trackBar_End.Value - trackBar_End.Minimum) * ScaleWidthEnd) - trackBar_End.Location.X - labelEnd.X, labelEnd.Y);
+            }
+            else
+            {
+                label_end.Location = new Point(labelEnd.X + (int)((trackBar_End.Value - trackBar_End.Minimum) * ScaleWidthEnd) - trackBar_End.Location.X - labelEnd.X, labelEnd.Y);
+            }
         }
     }
 }

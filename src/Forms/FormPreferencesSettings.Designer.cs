@@ -50,6 +50,7 @@
             tabPage2 = new TabPage();
             checkBox_ShowFolder = new CheckBox();
             tabPage3 = new TabPage();
+            checkBox_ForceConvertWaveOnly = new CheckBox();
             comboBox_Fixconvert = new ComboBox();
             checkBox_Fixconvert = new CheckBox();
             checkBox_FasterATRAC = new CheckBox();
@@ -216,6 +217,7 @@
             // tabPage3
             // 
             resources.ApplyResources(tabPage3, "tabPage3");
+            tabPage3.Controls.Add(checkBox_ForceConvertWaveOnly);
             tabPage3.Controls.Add(comboBox_Fixconvert);
             tabPage3.Controls.Add(checkBox_Fixconvert);
             tabPage3.Controls.Add(checkBox_FasterATRAC);
@@ -223,6 +225,12 @@
             tabPage3.Controls.Add(checkBox_Oldmode);
             tabPage3.Name = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ForceConvertWaveOnly
+            // 
+            resources.ApplyResources(checkBox_ForceConvertWaveOnly, "checkBox_ForceConvertWaveOnly");
+            checkBox_ForceConvertWaveOnly.Name = "checkBox_ForceConvertWaveOnly";
+            checkBox_ForceConvertWaveOnly.UseVisualStyleBackColor = true;
             // 
             // comboBox_Fixconvert
             // 
@@ -312,5 +320,6 @@
         private CheckBox checkBox_FasterATRAC;
         private ComboBox comboBox_Fixconvert;
         private CheckBox checkBox_Fixconvert;
+        private CheckBox checkBox_ForceConvertWaveOnly;
     }
 }

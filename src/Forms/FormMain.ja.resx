@@ -18,7 +18,7 @@
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
@@ -158,7 +158,7 @@
     <value>3, 5</value>
   </data>
   <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>818, 297</value>
+    <value>836, 357</value>
   </data>
   <data name="label_NotReaded.Text" xml:space="preserve">
     <value>ここにファイルをドラッグアンドドロップするか
@@ -198,13 +198,13 @@
     <value>設定 (&amp;C)</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>140, 22</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>変換設定 (&amp;S)</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>140, 22</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
     <value>詳細設定 (&amp;P)</value>

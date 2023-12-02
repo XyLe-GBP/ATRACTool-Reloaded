@@ -256,6 +256,8 @@ namespace ATRACTool_Reloaded
             {
                 Text = "ATRACTool Rel";
             }
+
+            panel_Main.BackgroundImage = Resources.SIEv2;
             Activate();
 
             if (Generic.GlobalException is not null)
@@ -305,7 +307,14 @@ namespace ATRACTool_Reloaded
                     switch (file.Extension.ToUpper())
                     {
                         case ".WAV":
-                            FormatSorter(true);
+                            if (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
+                            {
+                                FormatSorter(true, true);
+                            }
+                            else
+                            {
+                                FormatSorter(true);
+                            }
                             break;
                         case ".MP3":
                             FormatSorter(true, true);
@@ -350,6 +359,7 @@ namespace ATRACTool_Reloaded
                 else // Multiple
                 {
                     long FS = 0;
+
                     foreach (string file in Common.Generic.OpenFilePaths)
                     {
                         FileInfo fi = new(file);
@@ -357,7 +367,8 @@ namespace ATRACTool_Reloaded
                     }
 
                     string Ft = "";
-                    int count = 0;
+                    int count = 0, wavcount = 0;
+                    List<string> multiextlst = new();
 
                     foreach (var file in Common.Generic.OpenFilePaths)
                     {
@@ -365,22 +376,92 @@ namespace ATRACTool_Reloaded
 
                         if (count != 0)
                         {
-                            if (Ft != fi.Extension)
+                            if (Ft == ".AT3" || Ft == ".AT9")
                             {
-                                MessageBox.Show(this, Localization.FileMixedErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                closeFileCToolStripMenuItem.Enabled = false;
-                                toolStripDropDownButton_EF.Enabled = false;
-                                toolStripDropDownButton_EF.Visible = false;
-                                button_Decode.Enabled = false;
-                                button_Encode.Enabled = false;
-                                loopPointCreationToolStripMenuItem.Enabled = false;
-                                return;
+                                if (Ft != fi.Extension.ToUpper())
+                                {
+                                    MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    closeFileCToolStripMenuItem.Enabled = false;
+                                    toolStripDropDownButton_EF.Enabled = false;
+                                    toolStripDropDownButton_EF.Visible = false;
+                                    button_Decode.Enabled = false;
+                                    button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                                {
+                                    MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    closeFileCToolStripMenuItem.Enabled = false;
+                                    toolStripDropDownButton_EF.Enabled = false;
+                                    toolStripDropDownButton_EF.Visible = false;
+                                    button_Decode.Enabled = false;
+                                    button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    return;
+                                }
+                                if (count == Generic.OpenFilePaths.Length - 1)
+                                {
+                                    if (wavcount == Generic.OpenFilePaths.Length - 1)
+                                    {
+                                        if (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
+                                        {
+                                            Ft = ".NOT";
+                                        }
+                                        else
+                                        {
+                                            Ft = ".WAV";
+                                        }
+                                            
+                                    }
+                                    else
+                                    {
+                                        Ft = ".NOT";
+                                    }
+                                }
+                                else
+                                {
+                                    if (fi.Extension.ToUpper() == Ft)
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                        wavcount++;
+                                    }
+                                    else if (fi.Extension.ToUpper() != Ft)
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                    }
+                                    else
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                    }
+                                }
+                                
                             }
                         }
                         else
                         {
-                            Ft = fi.Extension;
+                            if (fi.Extension.ToUpper() == ".WAV")
+                            {
+                                Ft = fi.Extension.ToUpper();
+                                multiextlst.Add(file);
+                                wavcount++;
+                                count++;
+                                continue;
+                            }
+                            else if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                            {
+                                Ft = fi.Extension.ToUpper();
+                            }
+                            else
+                            {
+                                Ft = fi.Extension.ToUpper();
+                                multiextlst.Add(file);
+                            }
                         }
+                        
                         count++;
                     }
 
@@ -395,31 +476,7 @@ namespace ATRACTool_Reloaded
                         case ".WAV":
                             FormatSorter(true);
                             break;
-                        case ".MP3":
-                            FormatSorter(true, true);
-                            break;
-                        case ".M4A":
-                            FormatSorter(true, true);
-                            break;
-                        case ".AAC":
-                            FormatSorter(true, true);
-                            break;
-                        case ".FLAC":
-                            FormatSorter(true, true);
-                            break;
-                        case ".ALAC":
-                            FormatSorter(true, true);
-                            break;
-                        case ".AIFF":
-                            FormatSorter(true, true);
-                            break;
-                        case ".OGG":
-                            FormatSorter(true, true);
-                            break;
-                        case ".OPUS":
-                            FormatSorter(true, true);
-                            break;
-                        case ".WMA":
+                        case ".NOT":
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
@@ -437,6 +494,7 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                ActivateOrDeactivateLPC(false);
                 ResetStatus();
                 return;
             }
@@ -1503,6 +1561,8 @@ namespace ATRACTool_Reloaded
         {
             AllowDrop = true;
             Utils.ATWCheck(Generic.IsATW);
+            Generic.IsWave = false;
+            Generic.IsATRAC = false;
             Common.Generic.OpenFilePaths = null!;
             Common.Generic.ProcessFlag = -1;
             Common.Generic.ProgressMax = -1;
@@ -2059,7 +2119,14 @@ namespace ATRACTool_Reloaded
                     switch (file.Extension.ToUpper())
                     {
                         case ".WAV":
-                            FormatSorter(true);
+                            if (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
+                            {
+                                FormatSorter(true, true);
+                            }
+                            else
+                            {
+                                FormatSorter(true);
+                            }
                             break;
                         case ".MP3":
                             FormatSorter(true, true);
@@ -2101,7 +2168,7 @@ namespace ATRACTool_Reloaded
                     closeFileCToolStripMenuItem.Enabled = true;
                     return;
                 }
-                else
+                else // 複数ファイル
                 {
                     long FS = 0;
                     foreach (string file in files)
@@ -2111,7 +2178,8 @@ namespace ATRACTool_Reloaded
                     }
 
                     string Ft = "";
-                    int count = 0;
+                    int count = 0, wavcount = 0;
+                    List<string> multiextlst = new();
 
                     foreach (var file in Common.Generic.OpenFilePaths)
                     {
@@ -2119,22 +2187,92 @@ namespace ATRACTool_Reloaded
 
                         if (count != 0)
                         {
-                            if (Ft != fi.Extension)
+                            if (Ft == ".AT3" || Ft == ".AT9")
                             {
-                                MessageBox.Show(this, Localization.FileMixedErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                closeFileCToolStripMenuItem.Enabled = false;
-                                toolStripDropDownButton_EF.Enabled = false;
-                                toolStripDropDownButton_EF.Visible = false;
-                                button_Decode.Enabled = false;
-                                button_Encode.Enabled = false;
-                                loopPointCreationToolStripMenuItem.Enabled = false;
-                                return;
+                                if (Ft != fi.Extension.ToUpper())
+                                {
+                                    MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    closeFileCToolStripMenuItem.Enabled = false;
+                                    toolStripDropDownButton_EF.Enabled = false;
+                                    toolStripDropDownButton_EF.Visible = false;
+                                    button_Decode.Enabled = false;
+                                    button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                                {
+                                    MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    closeFileCToolStripMenuItem.Enabled = false;
+                                    toolStripDropDownButton_EF.Enabled = false;
+                                    toolStripDropDownButton_EF.Visible = false;
+                                    button_Decode.Enabled = false;
+                                    button_Encode.Enabled = false;
+                                    loopPointCreationToolStripMenuItem.Enabled = false;
+                                    return;
+                                }
+                                if (count == Generic.OpenFilePaths.Length - 1)
+                                {
+                                    if (wavcount == Generic.OpenFilePaths.Length - 1)
+                                    {
+                                        if (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
+                                        {
+                                            Ft = ".NOT";
+                                        }
+                                        else
+                                        {
+                                            Ft = ".WAV";
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        Ft = ".NOT";
+                                    }
+                                }
+                                else
+                                {
+                                    if (fi.Extension.ToUpper() == Ft)
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                        wavcount++;
+                                    }
+                                    else if (fi.Extension.ToUpper() != Ft)
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                    }
+                                    else
+                                    {
+                                        Ft = fi.Extension.ToUpper();
+                                    }
+                                }
+
                             }
                         }
                         else
                         {
-                            Ft = fi.Extension;
+                            if (fi.Extension.ToUpper() == ".WAV")
+                            {
+                                Ft = fi.Extension.ToUpper();
+                                multiextlst.Add(file);
+                                wavcount++;
+                                count++;
+                                continue;
+                            }
+                            else if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                            {
+                                Ft = fi.Extension.ToUpper();
+                            }
+                            else
+                            {
+                                Ft = fi.Extension.ToUpper();
+                                multiextlst.Add(file);
+                            }
                         }
+
                         count++;
                     }
 
@@ -2149,40 +2287,7 @@ namespace ATRACTool_Reloaded
                         case ".WAV":
                             FormatSorter(true);
                             break;
-                        case ".MP3":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".M4A":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".AAC":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".FLAC":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".ALAC":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".AIFF":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".OGG":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".OPUS":
-                            //Ft = ".wav";
-                            FormatSorter(true, true);
-                            break;
-                        case ".WMA":
-                            //Ft = ".wav";
+                        case ".NOT":
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
@@ -2434,6 +2539,7 @@ namespace ATRACTool_Reloaded
                 }
                 else // 複数ファイル
                 {
+                    Generic.IsOpenMulti = true;
                     if (bool.Parse(Config.Entry["FixedConvert"].Value)) // Fix
                     {
                         FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
@@ -2459,16 +2565,16 @@ namespace ATRACTool_Reloaded
                         foreach (var file in Common.Generic.OpenFilePaths)
                         {
                             FileInfo fi = new(file);
-                            if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav"))
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))
                             {
-                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
+                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
                                 {
-                                    File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
-                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                    File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                 }
                                 else
                                 {
-                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                 }
 
                             }
@@ -2480,9 +2586,9 @@ namespace ATRACTool_Reloaded
                                 return false;
                             }
 
-                            if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav")) // ファイル存在確認
+                            if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
                             {
-                                Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav";
+                                Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
                                 count++;
                             }
                             else // エラー
@@ -2562,16 +2668,16 @@ namespace ATRACTool_Reloaded
                             foreach (var file in Common.Generic.OpenFilePaths)
                             {
                                 FileInfo fi = new(file);
-                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav"))
+                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))
                                 {
-                                    if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
+                                    if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
                                     {
-                                        File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
-                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                        File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                     }
                                     else
                                     {
-                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav");
+                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                     }
 
                                 }
@@ -2583,9 +2689,9 @@ namespace ATRACTool_Reloaded
                                     return false;
                                 }
 
-                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav")) // ファイル存在確認
+                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
                                 {
-                                    Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + ".wav";
+                                    Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
                                     count++;
                                 }
                                 else // エラー
@@ -2785,6 +2891,11 @@ namespace ATRACTool_Reloaded
                     FLPC.Close();
                 }
             }
+
+        }
+
+        private void label_NotReaded_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -103,6 +103,16 @@ namespace ATRACTool_Reloaded
                         break;
                 }
 
+                switch (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
+                {
+                    case true:
+                        checkBox_ForceConvertWaveOnly.Checked = true;
+                        break;
+                    case false:
+                        checkBox_ForceConvertWaveOnly.Checked = false;
+                        break;
+                }
+
                 switch (bool.Parse(Config.Entry["Save_IsManual"].Value))
                 {
                     case true:
@@ -330,6 +340,15 @@ namespace ATRACTool_Reloaded
             {
                 Config.Entry["FixedConvert"].Value = "true";
                 Config.Entry["ConvertType"].Value = comboBox_Fixconvert.SelectedIndex.ToString();
+            }
+
+            if (checkBox_ForceConvertWaveOnly.Checked != true)
+            {
+                Config.Entry["ForceConvertWaveOnly"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["ForceConvertWaveOnly"].Value = "true";
             }
 
             if (radioButton_nml.Checked != true)

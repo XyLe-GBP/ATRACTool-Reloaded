@@ -59,6 +59,8 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static int WTAFlag = -1;
             public static string[] OpenFilePaths = null!;
+            //public static string[] OpenFilePathsWithMultiExt = null!;
+            public static bool IsOpenMulti = false;
             public static string SavePath = null!;
             public static string FolderSavePath = null!;
             public static int WTAmethod = -1;
@@ -287,7 +289,6 @@ namespace ATRACTool_Reloaded
                                 {
                                     File.Delete(file);
                                 }
-                                
                             }
                             break;
                         }
@@ -296,8 +297,21 @@ namespace ATRACTool_Reloaded
                             break;
                         }
                 }
+                Generic.IsOpenMulti = false;
                 Generic.IsATW = false;
                 return;
+            }
+
+            public static string ATWSuffix()
+            {
+                return Generic.WTAmethod switch
+                {
+                    0 => "_44k",
+                    1 => "_48k",
+                    2 => "_12k",
+                    3 => "_24k",
+                    _ => "",
+                };
             }
 
             /// <summary>
@@ -471,6 +485,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["ConvertType"].Value == null) // 形式固定有効化時の形式 (int)
                 {
                     Config.Entry["ConvertType"].Value = "";
+                }
+                if (Config.Entry["ForceConvertWaveOnly"].Value == null) // waveファイルのみの読み込みでも変換を強制する (bool)
+                {
+                    Config.Entry["ForceConvertWaveOnly"].Value = "false";
                 }
 
                 if (Config.Entry["Save_IsManual"].Value == null) // ファイル保存方法 (bool)

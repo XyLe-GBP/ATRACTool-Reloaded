@@ -118,6 +118,7 @@
             // 
             resources.ApplyResources(label_NotReaded, "label_NotReaded");
             label_NotReaded.Name = "label_NotReaded";
+            label_NotReaded.Click += label_NotReaded_Click;
             // 
             // menuStrip1
             // 

@@ -18,7 +18,7 @@
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
@@ -180,6 +180,12 @@
   </data>
   <data name="tabPage3.Text" xml:space="preserve">
     <value>高度</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 19</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.Text" xml:space="preserve">
+    <value>waveファイルのみの読み込みでも変換を強制する</value>
   </data>
   <data name="comboBox_Fixconvert.Items" xml:space="preserve">
     <value>[ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+の場合PSPに適合)</value>

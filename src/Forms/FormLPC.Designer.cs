@@ -58,6 +58,9 @@
             label_Volume = new Label();
             button_LS_Current = new Button();
             button_LE_Current = new Button();
+            label_start = new Label();
+            label_trk = new Label();
+            label_end = new Label();
             ((System.ComponentModel.ISupportInitialize)trackBar_trk).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Start).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_End).BeginInit();
@@ -70,6 +73,7 @@
             resources.ApplyResources(trackBar_trk, "trackBar_trk");
             trackBar_trk.Name = "trackBar_trk";
             trackBar_trk.TickStyle = TickStyle.Both;
+            trackBar_trk.CursorChanged += trackBar_trk_CursorChanged;
             // 
             // button_Play
             // 
@@ -186,8 +190,8 @@
             // 
             // label_File
             // 
-            label_File.AutoEllipsis = true;
             resources.ApplyResources(label_File, "label_File");
+            label_File.AutoEllipsis = true;
             label_File.Name = "label_File";
             // 
             // button_Prev
@@ -239,6 +243,21 @@
             button_LE_Current.UseVisualStyleBackColor = true;
             button_LE_Current.Click += Button_LE_Current_Click;
             // 
+            // label_start
+            // 
+            resources.ApplyResources(label_start, "label_start");
+            label_start.Name = "label_start";
+            // 
+            // label_trk
+            // 
+            resources.ApplyResources(label_trk, "label_trk");
+            label_trk.Name = "label_trk";
+            // 
+            // label_end
+            // 
+            resources.ApplyResources(label_end, "label_end");
+            label_end.Name = "label_end";
+            // 
             // FormLPC
             // 
             AcceptButton = button_OK;
@@ -246,6 +265,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = button_Cancel;
             ControlBox = false;
+            Controls.Add(label_end);
+            Controls.Add(label_trk);
+            Controls.Add(label_start);
             Controls.Add(button_LE_Current);
             Controls.Add(button_LS_Current);
             Controls.Add(label_Volume);
@@ -317,5 +339,8 @@
         private Label label_Volume;
         private Button button_LS_Current;
         private Button button_LE_Current;
+        private Label label_start;
+        private Label label_trk;
+        private Label label_end;
     }
 }

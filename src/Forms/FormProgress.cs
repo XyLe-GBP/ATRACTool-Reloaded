@@ -906,7 +906,7 @@ namespace ATRACTool_Reloaded
                             {
                                 FileInfo fi = new(file);
                                 var source = new MediaFile { Filename = file };
-                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav" };
 
                                 var co = new ConversionOptions
                                 {
@@ -976,7 +976,7 @@ namespace ATRACTool_Reloaded
                             {
                                 FileInfo fi = new(file);
                                 var source = new MediaFile { Filename = file };
-                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav" };
 
                                 var co = new ConversionOptions
                                 {
@@ -1045,7 +1045,7 @@ namespace ATRACTool_Reloaded
                             {
                                 FileInfo fi = new(file);
                                 var source = new MediaFile { Filename = file };
-                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav" };
 
                                 var co = new ConversionOptions
                                 {
@@ -1114,7 +1114,7 @@ namespace ATRACTool_Reloaded
                             {
                                 FileInfo fi = new(file);
                                 var source = new MediaFile { Filename = file };
-                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + ".wav" };
+                                var output = new MediaFile { Filename = Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav" };
 
                                 var co = new ConversionOptions
                                 {

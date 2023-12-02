@@ -204,7 +204,7 @@
     <value>35, 17</value>
   </data>
   <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>828, 15</value>
+    <value>794, 15</value>
   </data>
   <data name="label_Filepath.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -279,10 +279,10 @@
     <value>5</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 336</value>
+    <value>2, 395</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>870, 54</value>
+    <value>835, 54</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -306,10 +306,10 @@
     <value>Yu Gothic UI, 20.25pt</value>
   </data>
   <data name="label_NotReaded.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 9</value>
+    <value>2, 0</value>
   </data>
   <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>871, 293</value>
+    <value>835, 362</value>
   </data>
   <data name="label_NotReaded.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -381,19 +381,19 @@
     <value>Config (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>155, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
     <value>Audio to WAVE</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>155, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>WAVE to Audio</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>178, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>AudioConverter (&amp;C)</value>
@@ -402,7 +402,7 @@
     <value>False</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>178, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
     <value>Loop point creation</value>
@@ -438,7 +438,7 @@
     <value>0, 0</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>874, 24</value>
+    <value>839, 24</value>
   </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -472,7 +472,7 @@
     <value>0, 0</value>
   </data>
   <data name="button_Decode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 50</value>
+    <value>410, 50</value>
   </data>
   <data name="button_Decode.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -502,10 +502,10 @@
     <value>Yu Gothic UI, 14.25pt</value>
   </data>
   <data name="button_Encode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>444, 0</value>
+    <value>429, 0</value>
   </data>
   <data name="button_Encode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 50</value>
+    <value>410, 50</value>
   </data>
   <data name="button_Encode.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -565,10 +565,10 @@
     <value>Select Encoding method</value>
   </data>
   <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 449</value>
+    <value>0, 499</value>
   </data>
   <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>874, 22</value>
+    <value>839, 22</value>
   </data>
   <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -589,10 +589,10 @@
     <value>3</value>
   </data>
   <data name="panel_Control.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 396</value>
+    <value>0, 450</value>
   </data>
   <data name="panel_Control.Size" type="System.Drawing.Size, System.Drawing">
-    <value>874, 50</value>
+    <value>839, 50</value>
   </data>
   <data name="panel_Control.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -619,7 +619,7 @@
     <value>0, 27</value>
   </data>
   <data name="panel_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>874, 308</value>
+    <value>839, 362</value>
   </data>
   <data name="panel_Main.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -643,7 +643,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>874, 471</value>
+    <value>839, 521</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
