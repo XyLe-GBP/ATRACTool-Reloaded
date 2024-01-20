@@ -28,172 +28,169 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button_OK = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.SuspendLayout();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            pictureBox1 = new PictureBox();
+            button_OK = new Button();
+            label5 = new Label();
+            linkLabel1 = new LinkLabel();
+            label6 = new Label();
+            pictureBox2 = new PictureBox();
+            linkLabel2 = new LinkLabel();
+            linkLabel3 = new LinkLabel();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(27, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(432, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ATRACTool Reloaded - Open source ATRAC conversion utility.";
+            label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic UI", 12F);
+            label1.Location = new Point(27, 20);
+            label1.Name = "label1";
+            label1.Size = new Size(432, 21);
+            label1.TabIndex = 0;
+            label1.Text = "ATRACTool Reloaded - Open source ATRAC conversion utility.";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(100, 154);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(291, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "SCEI ATRAC3plus Codec Tool, SCEI ATRAC9 Codec Tool";
+            label2.AutoSize = true;
+            label2.Location = new Point(100, 154);
+            label2.Name = "label2";
+            label2.Size = new Size(291, 15);
+            label2.TabIndex = 1;
+            label2.Text = "SCEI ATRAC3plus Codec Tool, SCEI ATRAC9 Codec Tool";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 184);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(461, 15);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "at3tool.exe: Copyright © 2010 - Sony Computer Entertainment Inc. All Rights Reser" +
-    "ved.";
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 184);
+            label3.Name = "label3";
+            label3.Size = new Size(461, 15);
+            label3.TabIndex = 2;
+            label3.Text = "at3tool.exe: Copyright © 2010 - Sony Computer Entertainment Inc. All Rights Reserved.";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 199);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(461, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "at9tool.exe: Copyright © 2012 - Sony Computer Entertainment Inc. All Rights Reser" +
-    "ved.";
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 199);
+            label4.Name = "label4";
+            label4.Size = new Size(461, 15);
+            label4.TabIndex = 3;
+            label4.Text = "at9tool.exe: Copyright © 2012 - Sony Computer Entertainment Inc. All Rights Reserved.";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::ATRACTool_Reloaded.Properties.Resources.SIE;
-            this.pictureBox1.Location = new System.Drawing.Point(115, 50);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(258, 93);
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Image = Properties.Resources.SIE;
+            pictureBox1.Location = new Point(115, 50);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(258, 93);
+            pictureBox1.TabIndex = 4;
+            pictureBox1.TabStop = false;
             // 
             // button_OK
             // 
-            this.button_OK.Location = new System.Drawing.Point(398, 379);
-            this.button_OK.Name = "button_OK";
-            this.button_OK.Size = new System.Drawing.Size(75, 23);
-            this.button_OK.TabIndex = 5;
-            this.button_OK.Text = "Done!";
-            this.button_OK.UseVisualStyleBackColor = true;
-            this.button_OK.Click += new System.EventHandler(this.button_OK_Click);
+            button_OK.Location = new Point(398, 379);
+            button_OK.Name = "button_OK";
+            button_OK.Size = new Size(75, 23);
+            button_OK.TabIndex = 5;
+            button_OK.Text = "Done!";
+            button_OK.UseVisualStyleBackColor = true;
+            button_OK.Click += button_OK_Click;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(44, 248);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 15);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "This tool uses the";
+            label5.AutoSize = true;
+            label5.Location = new Point(44, 248);
+            label5.Name = "label5";
+            label5.Size = new Size(98, 15);
+            label5.TabIndex = 6;
+            label5.Text = "This tool uses the";
             // 
             // linkLabel1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(139, 248);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(76, 15);
-            this.linkLabel1.TabIndex = 7;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "MediaToolKit";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            linkLabel1.AutoSize = true;
+            linkLabel1.Location = new Point(139, 248);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(76, 15);
+            linkLabel1.TabIndex = 7;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "MediaToolKit";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(211, 248);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(220, 15);
-            this.label6.TabIndex = 8;
-            this.label6.Text = ". by AydinAdn, FFmpeg wrapper for .NET";
+            label6.AutoSize = true;
+            label6.Location = new Point(211, 248);
+            label6.Name = "label6";
+            label6.Size = new Size(220, 15);
+            label6.TabIndex = 8;
+            label6.Text = ". by AydinAdn, FFmpeg wrapper for .NET";
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(35, 295);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(84, 84);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 9;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
+            pictureBox2.Location = new Point(27, 276);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(128, 128);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 9;
+            pictureBox2.TabStop = false;
+            pictureBox2.Paint += pictureBox2_Paint;
             // 
             // linkLabel2
             // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.linkLabel2.Location = new System.Drawing.Point(155, 325);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(107, 21);
-            this.linkLabel2.TabIndex = 10;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "XyLe\'s GitHub";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            linkLabel2.AutoSize = true;
+            linkLabel2.Font = new Font("Yu Gothic UI", 12F);
+            linkLabel2.Location = new Point(190, 325);
+            linkLabel2.Name = "linkLabel2";
+            linkLabel2.Size = new Size(107, 21);
+            linkLabel2.TabIndex = 10;
+            linkLabel2.TabStop = true;
+            linkLabel2.Text = "XyLe's GitHub";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel3
             // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.linkLabel3.Location = new System.Drawing.Point(315, 325);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(65, 21);
-            this.linkLabel3.TabIndex = 11;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Website";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            linkLabel3.AutoSize = true;
+            linkLabel3.Font = new Font("Yu Gothic UI", 12F);
+            linkLabel3.Location = new Point(326, 325);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(65, 21);
+            linkLabel3.TabIndex = 11;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Website";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // FormAbout
             // 
-            this.AcceptButton = this.button_OK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(489, 416);
-            this.ControlBox = false;
-            this.Controls.Add(this.linkLabel3);
-            this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.button_OK);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "FormAbout";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About ATRACTool Reloaded";
-            this.Load += new System.EventHandler(this.FormAbout_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AcceptButton = button_OK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(489, 416);
+            ControlBox = false;
+            Controls.Add(linkLabel3);
+            Controls.Add(linkLabel2);
+            Controls.Add(pictureBox2);
+            Controls.Add(label6);
+            Controls.Add(linkLabel1);
+            Controls.Add(label5);
+            Controls.Add(button_OK);
+            Controls.Add(pictureBox1);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "FormAbout";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "About ATRACTool Reloaded";
+            Load += FormAbout_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

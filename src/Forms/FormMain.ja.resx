@@ -170,23 +170,11 @@
   <data name="fileFToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイル (&amp;F)</value>
   </data>
-  <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
   <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを開く (&amp;O)</value>
   </data>
-  <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
   <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを閉じる (&amp;C)</value>
-  </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 6</value>
-  </data>
-  <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
   </data>
   <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
     <value>終了 (&amp;X)</value>

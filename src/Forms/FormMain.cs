@@ -16,9 +16,9 @@ namespace ATRACTool_Reloaded
         };
         private static readonly HttpClient appUpdatechecker = new(handler);
         #endregion
-        FormLPC FLPC;
-        static FormSplash fs;
-        static object lockobj;
+        FormLPC? FLPC;
+        static FormSplash? fs;
+        static object? lockobj;
 
         public FormMain()
         {
@@ -65,7 +65,7 @@ namespace ATRACTool_Reloaded
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
 
-                    dmes d = new(ShowMessage);
+                    Dmes d = new(ShowMessage);
                     fs?.Invoke(d, "Initializing...");
                     Thread.Sleep(1000);
                     foreach (var files in Directory.GetFiles(Directory.GetCurrentDirectory() + @"\res", "*", SearchOption.AllDirectories))
@@ -2848,23 +2848,20 @@ namespace ATRACTool_Reloaded
 
         private static void CloseSplash()
         {
-            dop d = new(CloseForm);
-            if (fs != null)
-            {
-                fs.Invoke(d);
-            }
+            Dop d = new(CloseForm);
+            fs?.Invoke(d);
         }
 
-        private delegate void dop();
+        private delegate void Dop();
         private static void CloseForm()
         {
-            fs.Close();
+            fs?.Close();
         }
 
-        private delegate void dmes(string message);
+        private delegate void Dmes(string message);
         private static void ShowMessage(string message)
         {
-            fs.label_log.Text = message;
+            fs!.label_log.Text = message;
         }
         #endregion
 

@@ -1,4 +1,64 @@
-﻿<root>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema 
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -57,8 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button_OK.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="button_Cancel.Text" xml:space="preserve">
     <value>キャンセル</value>
+  </data>
+  <data name="button_Cancel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_at3_cmd.ToolTip" xml:space="preserve">
+    <value>現在のコマンドライン引数が表示されます。
+必要に応じて、独自の引数を指定することも可能です。</value>
+  </data>
+  <data name="textBox_at9_cmd.ToolTip" xml:space="preserve">
+    <value>現在のコマンドライン引数が表示されます。
+必要に応じて、独自の引数を指定することも可能です。</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
@@ -67,14 +141,26 @@
   <data name="label1.Text" xml:space="preserve">
     <value>ATRAC3 / ATRAC3+ コマンドライン引数：</value>
   </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 15</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>ATRAC9 コマンドライン引数：</value>
   </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton_PS3.Location" type="System.Drawing.Point, System.Drawing">
     <value>270, 25</value>
+  </data>
+  <data name="radioButton_PS3.ToolTip" xml:space="preserve">
+    <value>PS3向けのエンコード処理を指定します。</value>
   </data>
   <data name="label_at3_times.Location" type="System.Drawing.Point, System.Drawing">
     <value>245, 108</value>
@@ -85,17 +171,29 @@
   <data name="label_at3_times.Text" xml:space="preserve">
     <value>回</value>
   </data>
+  <data name="label_at3_times.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton_PSP.Location" type="System.Drawing.Point, System.Drawing">
     <value>102, 25</value>
   </data>
+  <data name="radioButton_PSP.ToolTip" xml:space="preserve">
+    <value>PSP向けのエンコード処理を指定します。</value>
+  </data>
   <data name="textBox_at3_looptimes.Location" type="System.Drawing.Point, System.Drawing">
     <value>200, 105</value>
+  </data>
+  <data name="textBox_at3_looptimes.ToolTip" xml:space="preserve">
+    <value>音源のループする回数を指定します。</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 15</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>対象のコンソール：</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label_at3_nol.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 108</value>
@@ -106,11 +204,17 @@
   <data name="label_at3_nol.Text" xml:space="preserve">
     <value>ループ回数：</value>
   </data>
+  <data name="label_at3_nol.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_at3_looptimes.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 19</value>
   </data>
   <data name="checkBox_at3_looptimes.Text" xml:space="preserve">
     <value>ループ回数を設定</value>
+  </data>
+  <data name="checkBox_at3_looptimes.ToolTip" xml:space="preserve">
+    <value>有効にすると、音源をループする回数を指定できます。</value>
   </data>
   <data name="label_at3_samples.Location" type="System.Drawing.Point, System.Drawing">
     <value>490, 58</value>
@@ -121,14 +225,29 @@
   <data name="label_at3_samples.Text" xml:space="preserve">
     <value>サンプル</value>
   </data>
+  <data name="label_at3_samples.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="textBox_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
     <value>395, 55</value>
+  </data>
+  <data name="textBox_at3_loopend.ToolTip" xml:space="preserve">
+    <value>ループ終了地点のサンプル値を指定します。</value>
+  </data>
+  <data name="textBox_at3_loopstart.ToolTip" xml:space="preserve">
+    <value>ループ開始地点のサンプル値を指定します。</value>
   </data>
   <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 15</value>
   </data>
   <data name="label_at3_loopend.Text" xml:space="preserve">
     <value>サンプル ~ LoopEnd:</value>
+  </data>
+  <data name="label_at3_loopend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_at3_loopstart.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_at3_loopsound.Location" type="System.Drawing.Point, System.Drawing">
     <value>558, 57</value>
@@ -139,11 +258,19 @@
   <data name="checkBox_at3_loopsound.Text" xml:space="preserve">
     <value>音源の最初から最後までをループさせる</value>
   </data>
+  <data name="checkBox_at3_loopsound.ToolTip" xml:space="preserve">
+    <value>有効にすると、音源の始点から終点をループさせます。
+このオプションを有効にすると、'ループポイントを設定'
+オプションは強制的に無効になります。</value>
+  </data>
   <data name="checkBox_at3_looppoint.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 19</value>
   </data>
   <data name="checkBox_at3_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
+  </data>
+  <data name="checkBox_at3_looppoint.ToolTip" xml:space="preserve">
+    <value>ATRAC3にループを設定します。</value>
   </data>
   <data name="comboBox_at3_encmethod.Items" xml:space="preserve">
     <value>32kbps, モノラル</value>
@@ -187,6 +314,13 @@
   <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
     <value>562, 24</value>
   </data>
+  <data name="comboBox_at3_encmethod.ToolTip" xml:space="preserve">
+    <value>エンコードのビットレート、及びチャンネル数を指定します。
+PSP、PS3で形式が異なります。
+
+読み込んだファイル形式がこのリストの形式と異なる場合
+変換に失敗します。</value>
+  </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>479, 27</value>
   </data>
@@ -196,11 +330,23 @@
   <data name="label3.Text" xml:space="preserve">
     <value>エンコード方式：</value>
   </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton_PS4.Location" type="System.Drawing.Point, System.Drawing">
     <value>245, 27</value>
   </data>
+  <data name="radioButton_PS4.ToolTip" xml:space="preserve">
+    <value>PS4向けのエンコード処理を指定します。</value>
+  </data>
   <data name="radioButton_PSV.Location" type="System.Drawing.Point, System.Drawing">
     <value>101, 27</value>
+  </data>
+  <data name="radioButton_PSV.ToolTip" xml:space="preserve">
+    <value>PSVita向けのエンコード処理を指定します。</value>
   </data>
   <data name="label_at9_times.Location" type="System.Drawing.Point, System.Drawing">
     <value>245, 83</value>
@@ -211,8 +357,14 @@
   <data name="label_at9_times.Text" xml:space="preserve">
     <value>回</value>
   </data>
+  <data name="label_at9_times.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="textBox_at9_looptimes.Location" type="System.Drawing.Point, System.Drawing">
     <value>200, 80</value>
+  </data>
+  <data name="textBox_at9_looptimes.ToolTip" xml:space="preserve">
+    <value>音源のループする回数を指定します。</value>
   </data>
   <data name="label_at9_samples.Location" type="System.Drawing.Point, System.Drawing">
     <value>490, 56</value>
@@ -223,8 +375,20 @@
   <data name="label_at9_samples.Text" xml:space="preserve">
     <value>サンプル</value>
   </data>
+  <data name="label_at9_samples.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="textBox_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
     <value>395, 53</value>
+  </data>
+  <data name="textBox_at9_loopend.ToolTip" xml:space="preserve">
+    <value>ループ終了地点のサンプル値を指定します。</value>
+  </data>
+  <data name="textBox_at9_loopstart.ToolTip" xml:space="preserve">
+    <value>ループ開始地点のサンプル値を指定します。</value>
+  </data>
+  <data name="label_at9_loopstart.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_at9_looptimes.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 19</value>
@@ -232,11 +396,23 @@
   <data name="checkBox_at9_looptimes.Text" xml:space="preserve">
     <value>ループ回数を設定</value>
   </data>
+  <data name="checkBox_at9_looptimes.ToolTip" xml:space="preserve">
+    <value>有効にすると、音源をループする回数を指定できます。</value>
+  </data>
+  <data name="button_at9_looplist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_at9_looplist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 19</value>
   </data>
   <data name="checkBox_at9_looplist.Text" xml:space="preserve">
     <value>ループリストファイルを指定してループを設定</value>
+  </data>
+  <data name="checkBox_at9_looplist.ToolTip" xml:space="preserve">
+    <value>リストファイルを使用してループを指定します。</value>
   </data>
   <data name="checkBox_at9_loopsound.Location" type="System.Drawing.Point, System.Drawing">
     <value>558, 55</value>
@@ -247,14 +423,30 @@
   <data name="checkBox_at9_loopsound.Text" xml:space="preserve">
     <value>音源の最初から最後までをループさせる</value>
   </data>
+  <data name="checkBox_at9_loopsound.ToolTip" xml:space="preserve">
+    <value>有効にすると、音源の始点から終点をループさせます。
+このオプションを有効にすると、'ループポイントを設定'
+オプションは強制的に無効になります。
+</value>
+  </data>
   <data name="checkBox_at9_looppoint.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 19</value>
   </data>
   <data name="checkBox_at9_looppoint.Text" xml:space="preserve">
     <value>ループポイントを設定</value>
   </data>
+  <data name="checkBox_at9_looppoint.ToolTip" xml:space="preserve">
+    <value>ATRAC9にループを設定します。</value>
+  </data>
   <data name="comboBox_at9_sampling.Location" type="System.Drawing.Point, System.Drawing">
     <value>668, 26</value>
+  </data>
+  <data name="comboBox_at9_sampling.ToolTip" xml:space="preserve">
+    <value>エンコードのサンプリング周波数を指定します。
+
+読み込んだファイル形式がこのリストの形式と異なる場合
+変換に失敗します。
+</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>564, 29</value>
@@ -265,8 +457,18 @@
   <data name="label5.Text" xml:space="preserve">
     <value>サンプリング周波数：</value>
   </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="comboBox_at9_bitrate.Location" type="System.Drawing.Point, System.Drawing">
     <value>448, 26</value>
+  </data>
+  <data name="comboBox_at9_bitrate.ToolTip" xml:space="preserve">
+    <value>エンコードのビットレート、及びチャンネル数を指定します。
+PSVita、PS4で形式が異なります。
+
+読み込んだファイル形式がこのリストの形式と異なる場合
+変換に失敗します。</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>384, 29</value>
@@ -277,17 +479,26 @@
   <data name="label4.Text" xml:space="preserve">
     <value>ビットレート：</value>
   </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 15</value>
   </data>
   <data name="label_at9_loopend.Text" xml:space="preserve">
     <value>サンプル ~ LoopEnd:</value>
   </data>
+  <data name="label_at9_loopend.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 15</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>対象のコンソール：</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label_at9_nol.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 83</value>
@@ -298,8 +509,14 @@
   <data name="label_at9_nol.Text" xml:space="preserve">
     <value>ループ回数：</value>
   </data>
+  <data name="label_at9_nol.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>ATRAC9 高度な設定</value>
+  </data>
+  <data name="groupBox3.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_LFE.Location" type="System.Drawing.Point, System.Drawing">
     <value>190, 95</value>
@@ -310,6 +527,9 @@
   <data name="checkBox_LFE.Text" xml:space="preserve">
     <value>LFE Super Low Cut を有効にする</value>
   </data>
+  <data name="checkBox_LFE.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_wband.Location" type="System.Drawing.Point, System.Drawing">
     <value>591, 39</value>
   </data>
@@ -319,11 +539,17 @@
   <data name="checkBox_wband.Text" xml:space="preserve">
     <value>ワイドバンドエンコードモードを有効にする</value>
   </data>
+  <data name="checkBox_wband.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_bex.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 19</value>
   </data>
   <data name="checkBox_bex.Text" xml:space="preserve">
     <value>Band Extension を有効にする</value>
+  </data>
+  <data name="checkBox_bex.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="comboBox_at9_enctype.Items" xml:space="preserve">
     <value>量子化ノイズ勾配 極小</value>
@@ -349,6 +575,9 @@
   <data name="comboBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 23</value>
   </data>
+  <data name="comboBox_at9_enctype.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="label_at9_enctype.Location" type="System.Drawing.Point, System.Drawing">
     <value>282, 17</value>
   </data>
@@ -358,8 +587,14 @@
   <data name="label_at9_enctype.Text" xml:space="preserve">
     <value>エンコード方法：</value>
   </data>
+  <data name="label_at9_enctype.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="comboBox_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
     <value>313, 68</value>
+  </data>
+  <data name="comboBox_at9_startband.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 19</value>
@@ -367,8 +602,14 @@
   <data name="checkBox_at9_enctype.Text" xml:space="preserve">
     <value>ATRACのエンコード方法を設定</value>
   </data>
+  <data name="checkBox_at9_enctype.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="comboBox_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
     <value>435, 68</value>
+  </data>
+  <data name="comboBox_at9_useband.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label_at9_useband.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 71</value>
@@ -379,6 +620,9 @@
   <data name="label_at9_useband.Text" xml:space="preserve">
     <value>使用するバンドの数：</value>
   </data>
+  <data name="label_at9_useband.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="label_at9_startband.Location" type="System.Drawing.Point, System.Drawing">
     <value>368, 71</value>
   </data>
@@ -387,6 +631,9 @@
   </data>
   <data name="label_at9_startband.Text" xml:space="preserve">
     <value>開始バンド：</value>
+  </data>
+  <data name="label_at9_startband.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_at9_advband.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 70</value>
@@ -397,6 +644,9 @@
   <data name="checkBox_at9_advband.Text" xml:space="preserve">
     <value>高度なバンドの設定を有効にする</value>
   </data>
+  <data name="checkBox_at9_advband.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_at9_dualenc.Location" type="System.Drawing.Point, System.Drawing">
     <value>190, 39</value>
   </data>
@@ -405,6 +655,9 @@
   </data>
   <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
     <value>デュアルエンコードモードを有効にする</value>
+  </data>
+  <data name="checkBox_at9_dualenc.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_at9_supframe.Location" type="System.Drawing.Point, System.Drawing">
     <value>387, 39</value>
@@ -415,11 +668,17 @@
   <data name="checkBox_at9_supframe.Text" xml:space="preserve">
     <value>スーパーフレームエンコードを有効にする</value>
   </data>
+  <data name="checkBox_at9_supframe.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_at9_advanced.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 19</value>
   </data>
   <data name="checkBox_at9_advanced.Text" xml:space="preserve">
     <value>高度な設定を有効にする</value>
+  </data>
+  <data name="checkBox_at9_advanced.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_lpcreate.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 19</value>
@@ -427,7 +686,13 @@
   <data name="checkBox_lpcreate.Text" xml:space="preserve">
     <value>変換時にループポイントを作成</value>
   </data>
+  <data name="checkBox_lpcreate.ToolTip" xml:space="preserve">
+    <value>有効にすると、変換時にループポイントクリエーターダイアログを表示させ、ループポイントの作成ができます。</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>変換設定</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -16,7 +16,12 @@ This application has been published and can be run without installing the .NET r
 
 ※If for some reason you want to use the portable version, you will need to install the runtime.
 
-[.NET Desktop Runtime 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
+version 1.30 or later  
+[.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)  
+version 1.28 or later  
+[.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)  
+version 1.27 or earlier  
+[.NET Desktop Runtime 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)  
 
 **The SCEI ATRAC3plus Codec TOOL (at3tool.exe) uses <code>MSVCR80.DLL</code>.**  
 
