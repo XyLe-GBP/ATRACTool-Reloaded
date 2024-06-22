@@ -134,6 +134,11 @@
   <data name="ATRAC9FormatCaption" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 9</value>
   </data>
+  <data name="ATRACPlaybackEnabledSpecLocationWarning" xml:space="preserve">
+    <value>ATRACの再生オプションが有効の場合、'指定したフォルダに保存'オプションは利用できません。
+
+通常の方式で保存を行います。</value>
+  </data>
   <data name="CancelledCaption" xml:space="preserve">
     <value>処理が中断されました。</value>
   </data>
@@ -160,6 +165,11 @@
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>ATRACのデコードに失敗しました。</value>
+  </data>
+  <data name="DecodePartialCaption" xml:space="preserve">
+    <value>一部ATRACのデコードに失敗しました。
+'変換設定'の設定を見直ししてください。
+また、変換元のファイル方式が正しいかどうかを確認してください。</value>
   </data>
   <data name="DecodeSuccessCaption" xml:space="preserve">
     <value>ATRACのデコードが完了しました。</value>

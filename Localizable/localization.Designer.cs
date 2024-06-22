@@ -109,6 +109,16 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   If the ATRAC playback option is enabled, the &apos;Save to specified folder&apos; option is not available.
+        ///The normal method of saving is used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ATRACPlaybackEnabledSpecLocationWarning {
+            get {
+                return ResourceManager.GetString("ATRACPlaybackEnabledSpecLocationWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The process has been aborted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CancelledCaption {
@@ -180,6 +190,17 @@ namespace ATRACTool_Reloaded.Localizable {
         internal static string DecodeErrorCaption {
             get {
                 return ResourceManager.GetString("DecodeErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Some ATRAC decoding failed.
+        ///Please review the settings in &apos;Conversion Settings&apos;.
+        ///Also, please check if the file system of the conversion source is correct. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DecodePartialCaption {
+            get {
+                return ResourceManager.GetString("DecodePartialCaption", resourceCulture);
             }
         }
         

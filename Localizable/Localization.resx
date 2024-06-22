@@ -135,6 +135,10 @@ Do you want to continue?</value>
   <data name="ATRAC9FormatCaption" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 9</value>
   </data>
+  <data name="ATRACPlaybackEnabledSpecLocationWarning" xml:space="preserve">
+    <value>If the ATRAC playback option is enabled, the 'Save to specified folder' option is not available.
+The normal method of saving is used.</value>
+  </data>
   <data name="CancelledCaption" xml:space="preserve">
     <value>The process has been aborted.</value>
   </data>
@@ -161,6 +165,11 @@ Only files that meet the above criteria can be specified.</value>
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>Failed to decode the ATRAC file.</value>
+  </data>
+  <data name="DecodePartialCaption" xml:space="preserve">
+    <value>Some ATRAC decoding failed.
+Please review the settings in 'Conversion Settings'.
+Also, please check if the file system of the conversion source is correct.</value>
   </data>
   <data name="DecodeSuccessCaption" xml:space="preserve">
     <value>Successfully decoded the ATRAC file.</value>
