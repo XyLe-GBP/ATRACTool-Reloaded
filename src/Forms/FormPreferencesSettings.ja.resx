@@ -124,14 +124,29 @@
   <data name="radioButton_nml.Text" xml:space="preserve">
     <value>毎回保存場所を確認する</value>
   </data>
+  <data name="radioButton_nml.ToolTip" xml:space="preserve">
+    <value>保存時に毎回場所を確認します。</value>
+  </data>
   <data name="radioButton_spc.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 19</value>
   </data>
   <data name="radioButton_spc.Text" xml:space="preserve">
     <value>指定したフォルダに保存</value>
   </data>
+  <data name="radioButton_spc.ToolTip" xml:space="preserve">
+    <value>指定した場所に固定して保存します。
+'一般-&gt;ATRAC読み込み時に再生機能を有効にする'オプションが有効の場合、
+このオプションを指定しても無視されます。
+(エンコード操作時のみ有効になります。)</value>
+  </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>ファイルの保存方法</value>
+  </data>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Path.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 15</value>
@@ -139,11 +154,26 @@
   <data name="label1.Text" xml:space="preserve">
     <value>パス：</value>
   </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_OK.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="button_Cancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="button_Cancel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Browse.ToolTip" xml:space="preserve">
+    <value>パスを参照</value>
+  </data>
   <data name="button_Clear.Text" xml:space="preserve">
     <value>削除</value>
+  </data>
+  <data name="button_Clear.ToolTip" xml:space="preserve">
+    <value>パスを削除</value>
   </data>
   <data name="checkBox_Subfolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 19</value>
@@ -151,14 +181,55 @@
   <data name="checkBox_Subfolder.Text" xml:space="preserve">
     <value>サブフォルダーを作成する</value>
   </data>
+  <data name="checkBox_Subfolder.ToolTip" xml:space="preserve">
+    <value>指定したパス内にサブフォルダを作成します。</value>
+  </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 15</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>サブフォルダ名：</value>
   </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_suffix.ToolTip" xml:space="preserve">
+    <value>サブフォルダの名前を入力</value>
+  </data>
+  <data name="tabControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="tabPage1.Text" xml:space="preserve">
     <value>一般</value>
+  </data>
+  <data name="tabPage1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 19</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
+    <value>ATRAC読み込み時に再生機能を有効にする</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
+    <value>ATRAC形式を読み込み時に再生インターフェース機能を有効にします。
+このオプションを有効化している場合、'IO-&gt;指定したフォルダに保存'オプションは無視されます。</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 19</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
+    <value>再生時のサンプル値の更新を滑らかにする (実験的機能)</value>
+  </data>
+  <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
+    <value>再生時のサンプル値の更新を滑らかにします。
+この機能は実験的であり、予期せぬ不具合が発生する可能性があります。</value>
+  </data>
+  <data name="button_Splashimg.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Splashimg.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
     <value>231, 19</value>
@@ -166,11 +237,21 @@
   <data name="checkBox_Splashimg.Text" xml:space="preserve">
     <value>独自のスプラッシュスクリーン画像を設定する</value>
   </data>
+  <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
+    <value>独自のスプラッシュスクリーン画像を設定します。
+JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピクセルである必要があります。</value>
+  </data>
   <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 19</value>
   </data>
   <data name="checkBox_Checkupdate.Text" xml:space="preserve">
     <value>アプリケーション起動時にアップデートを確認する</value>
+  </data>
+  <data name="checkBox_Checkupdate.ToolTip" xml:space="preserve">
+    <value>アプリケーション起動時にアップデートを確認します。</value>
+  </data>
+  <data name="tabPage2.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>243, 19</value>
@@ -178,14 +259,26 @@
   <data name="checkBox_ShowFolder.Text" xml:space="preserve">
     <value>処理が完了したら保存先のフォルダを表示する</value>
   </data>
+  <data name="checkBox_ShowFolder.ToolTip" xml:space="preserve">
+    <value>処理が完了したら保存先のフォルダを開きます。</value>
+  </data>
   <data name="tabPage3.Text" xml:space="preserve">
     <value>高度</value>
   </data>
+  <data name="tabPage3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 19</value>
+    <value>261, 19</value>
   </data>
   <data name="checkBox_ForceConvertWaveOnly.Text" xml:space="preserve">
-    <value>waveファイルのみの読み込みでも変換を強制する</value>
+    <value>Waveファイルのみの読み込みでも変換を強制する</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.ToolTip" xml:space="preserve">
+    <value>Waveファイルのみを読み込んだ場合でも、変換作業を強制します。
+通常、Waveファイルのみ読み込んだ場合、そのままアプリケーションに読み込まれますが、
+このオプションを有効化すると強制的に変換を行ってから読み込みを行います。
+これはサンプルレートがそれぞれ異なるWaveファイルを同時に読み込み変換したい場合に役立つ可能性があります。</value>
   </data>
   <data name="comboBox_Fixconvert.Items" xml:space="preserve">
     <value>[ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+の場合PSPに適合)</value>
@@ -199,11 +292,19 @@
   <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
     <value>[ATRAC9] 24kHz</value>
   </data>
+  <data name="comboBox_Fixconvert.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>249, 19</value>
+    <value>251, 19</value>
   </data>
   <data name="checkBox_Fixconvert.Text" xml:space="preserve">
-    <value>Waveファイルに変換した際の形式を固定する：</value>
+    <value>Waveファイルに変換する際の形式を固定する：</value>
+  </data>
+  <data name="checkBox_Fixconvert.ToolTip" xml:space="preserve">
+    <value>Wave変換時、常に変換形式を固定して変換します。
+このオプションを有効化すると、変換前に形式の確認が行われず、常にここで指定した形式を使用して変換を行います。
+使用するターゲットが予め決まっている場合などに役立つ可能性があります。</value>
   </data>
   <data name="checkBox_FasterATRAC.Size" type="System.Drawing.Size, System.Drawing">
     <value>246, 19</value>
@@ -211,11 +312,19 @@
   <data name="checkBox_FasterATRAC.Text" xml:space="preserve">
     <value>ATRACを読み込んだ際に即時変換を実行する</value>
   </data>
+  <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
+    <value>ATRACを読み込んだ際に即時変換を実行します。
+このオプションを有効化した場合、'一般-&gt;ATRAC読み込み時に再生機能を有効にする'オプションは無視されます。</value>
+  </data>
   <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 19</value>
   </data>
   <data name="checkBox_Hidesplash.Text" xml:space="preserve">
     <value>スプラッシュスクリーンを表示しない</value>
+  </data>
+  <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
+    <value>アプリケーション起動時にスプラッシュスクリーンを表示しません。
+アプリケーション起動の高速化を行いたい場合等に役に立つ可能性があります。</value>
   </data>
   <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 19</value>
@@ -223,7 +332,15 @@
   <data name="checkBox_Oldmode.Text" xml:space="preserve">
     <value>従来のモードを有効にする</value>
   </data>
+  <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
+    <value>従来のモードを有効化します。
+このモードはループポイントクリエーターを独立して動作させますが
+通常、このモードを有効にする必要はありません。</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>詳細設定</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

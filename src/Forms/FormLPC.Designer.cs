@@ -61,6 +61,8 @@
             label_start = new Label();
             label_trk = new Label();
             label_end = new Label();
+            panSlider1 = new NAudio.Gui.PanSlider();
+            label_Pan = new Label();
             ((System.ComponentModel.ISupportInitialize)trackBar_trk).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Start).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_End).BeginInit();
@@ -190,8 +192,8 @@
             // 
             // label_File
             // 
-            resources.ApplyResources(label_File, "label_File");
             label_File.AutoEllipsis = true;
+            resources.ApplyResources(label_File, "label_File");
             label_File.Name = "label_File";
             // 
             // button_Prev
@@ -258,6 +260,18 @@
             resources.ApplyResources(label_end, "label_end");
             label_end.Name = "label_end";
             // 
+            // panSlider1
+            // 
+            resources.ApplyResources(panSlider1, "panSlider1");
+            panSlider1.Name = "panSlider1";
+            panSlider1.Pan = 0F;
+            panSlider1.PanChanged += PanSlider1_PanChanged;
+            // 
+            // label_Pan
+            // 
+            resources.ApplyResources(label_Pan, "label_Pan");
+            label_Pan.Name = "label_Pan";
+            // 
             // FormLPC
             // 
             AcceptButton = button_OK;
@@ -265,6 +279,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = button_Cancel;
             ControlBox = false;
+            Controls.Add(label_Pan);
+            Controls.Add(panSlider1);
             Controls.Add(label_end);
             Controls.Add(label_trk);
             Controls.Add(label_start);
@@ -342,5 +358,7 @@
         private Label label_start;
         private Label label_trk;
         private Label label_end;
+        private NAudio.Gui.PanSlider panSlider1;
+        private Label label_Pan;
     }
 }

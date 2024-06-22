@@ -59,10 +59,13 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static int WTAFlag = -1;
             public static string[] OpenFilePaths = null!;
+            public static string[] pATRACOpenFilePaths = null!;
             //public static string[] OpenFilePathsWithMultiExt = null!;
             public static bool IsOpenMulti = false;
             public static string SavePath = null!;
             public static string FolderSavePath = null!;
+            public static string pATRACSavePath = null!;
+            public static string pATRACFolderSavePath = null!;
             public static int WTAmethod = -1;
             public static string WTAFmt = null!;
 
@@ -457,6 +460,14 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["Check_Update"].Value == null) // アップデートを確認 (bool)
                 {
                     Config.Entry["Check_Update"].Value = "true";
+                }
+                if (Config.Entry["SmoothSamples"].Value == null) // サンプル値の更新を滑らかにする (bool)
+                {
+                    Config.Entry["SmoothSamples"].Value = "true";
+                }
+                if (Config.Entry["PlaybackATRAC"].Value == null) // ATRAC読み込み時の再生インターフェースの有効 (bool)
+                {
+                    Config.Entry["PlaybackATRAC"].Value = "true";
                 }
                 if (Config.Entry["SplashImage"].Value == null) // スプラッシュスクリーン画像 (bool)
                 {

@@ -31,6 +31,26 @@ namespace ATRACTool_Reloaded
                         break;
                 }
 
+                switch (bool.Parse(Config.Entry["SmoothSamples"].Value))
+                {
+                    case true:
+                        checkBox_Smoothsamples.Checked = true;
+                        break;
+                    case false:
+                        checkBox_Smoothsamples.Checked = false;
+                        break;
+                }
+
+                switch (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
+                {
+                    case true:
+                        checkBox_EnableATRACPlayback.Checked = true;
+                        break;
+                    case false:
+                        checkBox_EnableATRACPlayback.Checked = false;
+                        break;
+                }
+
                 switch (bool.Parse(Config.Entry["SplashImage"].Value))
                 {
                     case true:
@@ -291,6 +311,24 @@ namespace ATRACTool_Reloaded
             else
             {
                 Config.Entry["Check_Update"].Value = "true";
+            }
+
+            if (checkBox_Smoothsamples.Checked != true)
+            {
+                Config.Entry["SmoothSamples"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["SmoothSamples"].Value = "true";
+            }
+
+            if (checkBox_EnableATRACPlayback.Checked != true)
+            {
+                Config.Entry["PlaybackATRAC"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["PlaybackATRAC"].Value = "true";
             }
 
             if (checkBox_Splashimg.Checked != true)

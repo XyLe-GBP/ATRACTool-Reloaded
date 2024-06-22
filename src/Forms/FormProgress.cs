@@ -97,7 +97,15 @@ namespace ATRACTool_Reloaded
             if (length == 1)
             {
                 FileInfo fi = new(Generic.OpenFilePaths[0]);
-                FileInfo fi2 = new(Generic.SavePath);
+                FileInfo fi2;
+                if (bool.Parse(Config.Entry["PlaybackATRAC"].Value) && Generic.IsATRAC)
+                {
+                    fi2 = new(Generic.pATRACSavePath);
+                }
+                else
+                {
+                    fi2 = new(Generic.SavePath);
+                }
 
                 switch (fi.Extension.ToUpper())
                 {

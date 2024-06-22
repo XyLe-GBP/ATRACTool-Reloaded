@@ -40,51 +40,56 @@
             pictureBox2 = new PictureBox();
             linkLabel2 = new LinkLabel();
             linkLabel3 = new LinkLabel();
+            label7 = new Label();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Yu Gothic UI", 12F);
-            label1.Location = new Point(27, 20);
+            label1.Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(432, 21);
+            label1.Size = new Size(465, 51);
             label1.TabIndex = 0;
-            label1.Text = "ATRACTool Reloaded - Open source ATRAC conversion utility.";
+            label1.Text = "ATRACTool Reloaded\r\nOpen source ATRAC conversion utility.";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(100, 154);
+            label2.Font = new Font("Yu Gothic UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label2.Location = new Point(12, 169);
             label2.Name = "label2";
-            label2.Size = new Size(291, 15);
+            label2.Size = new Size(465, 15);
             label2.TabIndex = 1;
             label2.Text = "SCEI ATRAC3plus Codec Tool, SCEI ATRAC9 Codec Tool";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(12, 184);
+            label3.Font = new Font("Yu Gothic UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label3.Location = new Point(12, 194);
             label3.Name = "label3";
-            label3.Size = new Size(461, 15);
+            label3.Size = new Size(465, 15);
             label3.TabIndex = 2;
             label3.Text = "at3tool.exe: Copyright © 2010 - Sony Computer Entertainment Inc. All Rights Reserved.";
+            label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(12, 199);
+            label4.Font = new Font("Yu Gothic UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label4.Location = new Point(12, 209);
             label4.Name = "label4";
-            label4.Size = new Size(461, 15);
+            label4.Size = new Size(465, 15);
             label4.TabIndex = 3;
             label4.Text = "at9tool.exe: Copyright © 2012 - Sony Computer Entertainment Inc. All Rights Reserved.";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.SIE;
-            pictureBox1.Location = new Point(115, 50);
+            pictureBox1.Location = new Point(115, 66);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(258, 93);
             pictureBox1.TabIndex = 4;
@@ -92,7 +97,7 @@
             // 
             // button_OK
             // 
-            button_OK.Location = new Point(398, 379);
+            button_OK.Location = new Point(398, 403);
             button_OK.Name = "button_OK";
             button_OK.Size = new Size(75, 23);
             button_OK.TabIndex = 5;
@@ -103,7 +108,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(44, 248);
+            label5.Location = new Point(44, 272);
             label5.Name = "label5";
             label5.Size = new Size(98, 15);
             label5.TabIndex = 6;
@@ -112,7 +117,7 @@
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(139, 248);
+            linkLabel1.Location = new Point(139, 272);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(76, 15);
             linkLabel1.TabIndex = 7;
@@ -123,7 +128,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(211, 248);
+            label6.Location = new Point(211, 272);
             label6.Name = "label6";
             label6.Size = new Size(220, 15);
             label6.TabIndex = 8;
@@ -131,7 +136,7 @@
             // 
             // pictureBox2
             // 
-            pictureBox2.Location = new Point(27, 276);
+            pictureBox2.Location = new Point(27, 300);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(128, 128);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -143,7 +148,7 @@
             // 
             linkLabel2.AutoSize = true;
             linkLabel2.Font = new Font("Yu Gothic UI", 12F);
-            linkLabel2.Location = new Point(190, 325);
+            linkLabel2.Location = new Point(190, 349);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(107, 21);
             linkLabel2.TabIndex = 10;
@@ -155,7 +160,7 @@
             // 
             linkLabel3.AutoSize = true;
             linkLabel3.Font = new Font("Yu Gothic UI", 12F);
-            linkLabel3.Location = new Point(326, 325);
+            linkLabel3.Location = new Point(326, 349);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(65, 21);
             linkLabel3.TabIndex = 11;
@@ -163,13 +168,35 @@
             linkLabel3.Text = "Website";
             linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
+            // label7
+            // 
+            label7.Font = new Font("Yu Gothic UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label7.Location = new Point(12, 225);
+            label7.Name = "label7";
+            label7.Size = new Size(465, 15);
+            label7.TabIndex = 12;
+            label7.Text = "ATRACTool.exe and ATRACTool-Reloaded.exe: Copyright © 2024 - XyLe. All Rights Reserved.";
+            label7.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            label8.Font = new Font("Yu Gothic UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            label8.Location = new Point(12, 240);
+            label8.Name = "label8";
+            label8.Size = new Size(465, 15);
+            label8.TabIndex = 13;
+            label8.Text = "ApplicationUpdater (updater.exe): Copyright © 2023 - XyLe. All Rights Reserved.";
+            label8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // FormAbout
             // 
             AcceptButton = button_OK;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(489, 416);
+            ClientSize = new Size(489, 441);
             ControlBox = false;
+            Controls.Add(label8);
+            Controls.Add(label7);
             Controls.Add(linkLabel3);
             Controls.Add(linkLabel2);
             Controls.Add(pictureBox2);
@@ -207,5 +234,7 @@
         private PictureBox pictureBox2;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel3;
+        private Label label7;
+        private Label label8;
     }
 }
