@@ -192,8 +192,8 @@ Please review the settings in 'Conversion Settings'.
 Also, please make sure that the file system from which you are converting is correct.</value>
   </data>
   <data name="EncodemethodErrorCaption" xml:space="preserve">
-    <value>The encoding method is not specified.
-Please select either 'ATRAC3' or 'ATRAC9'.</value>
+    <value>You have not selected the correct encoding method.
+Please select 'ATRAC3 / ATRAC3+', 'ATRAC9' or 'Walkman'.</value>
   </data>
   <data name="EncodePartialCaption" xml:space="preserve">
     <value>Some ATRAC encoding failed.
@@ -357,6 +357,9 @@ Do you want to download?</value>
   </data>
   <data name="UptodateCaption" xml:space="preserve">
     <value>You are using the latest version of the application.</value>
+  </data>
+  <data name="WalkmanFilter" xml:space="preserve">
+    <value>Adaptive TRansform Acoustic Coding 3 / 3+ (*.oma)|*.oma;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.omg)|*.omg;|Adaptive TRansform Acoustic Coding 3 / 3+ Advanced Lossless (*.oma)|*.oma;|ATRAC3 / 3+ Video Clip (*.kdr)|*.kdr;</value>
   </data>
   <data name="WAVEConvertedFormatCaption" xml:space="preserve">
     <value>RIFF waveform Audio Format (Converted)</value>

@@ -255,8 +255,8 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
-        ///   The encoding method is not specified.
-        ///Please select either &apos;ATRAC3&apos; or &apos;ATRAC9&apos;. に類似しているローカライズされた文字列を検索します。
+        ///   You have not selected the correct encoding method.
+        ///Please select &apos;ATRAC3 / ATRAC3+&apos;, &apos;ATRAC9&apos; or &apos;Walkman&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string EncodemethodErrorCaption {
             get {
@@ -736,6 +736,15 @@ namespace ATRACTool_Reloaded.Localizable {
         internal static string UptodateCaption {
             get {
                 return ResourceManager.GetString("UptodateCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Adaptive TRansform Acoustic Coding 3 / 3+ (*.oma)|*.oma;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.omg)|*.omg;|Adaptive TRansform Acoustic Coding 3 / 3+ Advanced Lossless (*.oma)|*.oma;|ATRAC3 / 3+ Video Clip (*.kdr)|*.kdr; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WalkmanFilter {
+            get {
+                return ResourceManager.GetString("WalkmanFilter", resourceCulture);
             }
         }
         

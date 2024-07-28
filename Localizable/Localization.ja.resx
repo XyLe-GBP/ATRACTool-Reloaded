@@ -193,7 +193,7 @@
   </data>
   <data name="EncodemethodErrorCaption" xml:space="preserve">
     <value>エンコード方式が正しく選択されていません。
-'ATRAC3 / ATRAC3+'もしくは'ATRAC9'のどちらかを選択してください。</value>
+'ATRAC3 / ATRAC3+'か'ATRAC9'もしくは'Walkman'のいずれかを選択してください。</value>
   </data>
   <data name="EncodePartialCaption" xml:space="preserve">
     <value>一部ATRACのエンコードに失敗しました。
@@ -360,6 +360,9 @@ GitHubリポジトリのページを開きますか？</value>
   </data>
   <data name="UptodateCaption" xml:space="preserve">
     <value>既に最新バージョンのアプリケーションをお使いです。</value>
+  </data>
+  <data name="WalkmanFilter" xml:space="preserve">
+    <value>Adaptive TRansform Acoustic Coding 3 / 3+ (*.oma)|*.oma;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.omg)|*.omg;|Adaptive TRansform Acoustic Coding 3 / 3+ Advanced Lossless (*.oma)|*.oma;|ATRAC3 / 3+ Video Clip (*.kdr)|*.kdr;</value>
   </data>
   <data name="WAVEConvertedFormatCaption" xml:space="preserve">
     <value>RIFF waveform Audio Format (変換済み)</value>
