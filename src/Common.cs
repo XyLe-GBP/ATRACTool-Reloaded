@@ -32,6 +32,10 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static readonly string PS4_ATRAC9tool = Directory.GetCurrentDirectory() + @"\res\ps4_at9tool.exe";
             /// <summary>
+            /// walkman traconv path string (res\traconv.exe)
+            /// </summary>
+            public static readonly string Walkman_TraConv = Directory.GetCurrentDirectory() + @"\res\traconv.exe";
+            /// <summary>
             /// デコードもしくはエンコードを判定するための変数
             /// </summary>
             public static int ProcessFlag = -1;
@@ -43,13 +47,14 @@ namespace ATRACTool_Reloaded
             public static bool lpcreatev2 = false;
             public static int files = 0;
             /// <summary>
-            /// AT3もしくはAT9のどちらかを判定するための変数
+            /// AT3,AT9,Walkmanのどれかを判定するための変数
             /// </summary>
             public static int ATRACFlag = -1;
             public static string ATRACExt = "";
             public static int TaskFlag = 0;
             public static bool IsWave = false;
             public static bool IsATRAC = false;
+            public static bool IsWalkman = false;
             /// <summary>
             /// ファイルをWaveに変換したかどうかを判別するための変数
             /// </summary>
@@ -71,8 +76,13 @@ namespace ATRACTool_Reloaded
 
             public static string DecodeParamAT3 = "at3tool -d $InFile $OutFile";
             public static string DecodeParamAT9 = "at9tool -d $InFile $OutFile";
+            public static string DecodeParamWalkman = "traconv --Convert $InFile $OutFile";
             public static string EncodeParamAT3 = "";
             public static string EncodeParamAT9 = "";
+            public static string EncodeParamWalkman = "";
+            public static string WalkmanEveryFilter = "";
+            public static string WalkmanMultiConvFmt = "";
+            public static string WalkmanMultiConvExt = "";
 
             public static StreamReader Log = null!;
             public static Exception GlobalException = null!;
@@ -318,6 +328,103 @@ namespace ATRACTool_Reloaded
             }
 
             /// <summary>
+            /// 32bit環境、または64bit環境で64bitアプリケーションのインストールした場合
+            /// </summary>
+            /// <returns></returns>
+            public static bool OpenMGCheck64()
+            {
+                List<string> ret = new List<string>();
+
+                string uninstall_path = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
+                Microsoft.Win32.RegistryKey uninstall = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path, false)!;
+                if (uninstall != null)
+                {
+                    foreach (string subKey in uninstall.GetSubKeyNames())
+                    {
+                        string appName = null!;
+                        Microsoft.Win32.RegistryKey appkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path + "\\" + subKey, false)!;
+
+                        if (appkey.GetValue("DisplayName") != null)
+                            appName = appkey.GetValue("DisplayName")!.ToString()!;
+                        else
+                            appName = subKey;
+
+                        ret.Add(appName);
+                    }
+
+                    foreach (var item in ret)
+                    {
+                        if (item is not null && item.Contains("Sony Media Library Earth"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            /// <summary>
+            /// 64bit環境で32bitアプリケーションをインストールした場合
+            /// </summary>
+            /// <returns></returns>
+            public static bool OpenMGCheck64_32()
+            {
+                List<string> ret = new List<string>();
+
+                string uninstall_path = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
+                Microsoft.Win32.RegistryKey uninstall = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path, false)!;
+                if (uninstall != null)
+                {
+                    foreach (string subKey in uninstall.GetSubKeyNames())
+                    {
+                        string appName = null!;
+                        Microsoft.Win32.RegistryKey appkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path + "\\" + subKey, false)!;
+
+                        if (appkey.GetValue("DisplayName") != null)
+                            appName = appkey.GetValue("DisplayName")!.ToString()!;
+                        else
+                            appName = subKey;
+
+                        ret.Add(appName);
+                    }
+
+                    foreach (var item in ret)
+                    {
+                        if (item is not null && item.Contains("Sony Media Library Earth"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public static void PictureboxImageDispose(PictureBox pictureBox)
+            {
+                if (pictureBox.Image is not null)
+                {
+                    pictureBox.Image.Dispose();
+                    pictureBox.Image = null;
+                }
+            }
+
+            /// <summary>
             /// 設定ファイルに全てを書き出す
             /// </summary>
             public static void InitConfig()
@@ -453,6 +560,134 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["ATRAC9_Params"].Value == null) // ATRAC9 引数 (string)
                 {
                     Config.Entry["ATRAC9_Params"].Value = "at9tool -e -br 168 -fs 48000 $InFile $OutFile";
+                }
+                if (Config.Entry["Walkman_Params"].Value == null) // Walkman 引数 (string)
+                {
+                    Config.Entry["Walkman_Params"].Value = "traconv --Convert --FileType OMA --BitRate -1 --Output $OutFile $InFile";
+                }
+                if (Config.Entry["Walkman_EveryFmt"].Value == null) // Walkman 常に形式固定
+                {
+                    Config.Entry["Walkman_EveryFmt"].Value = "false";
+                }
+                if (Config.Entry["Walkman_EveryFmt_OutputFmt"].Value == null) // Walkman 出力フォーマット
+                {
+                    Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = "1";
+                }
+                if (Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value == null) // Walkman デコードフォーマット
+                {
+                    Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value = "0";
+                }
+                if (Config.Entry["Walkman_FixSongInformation"].Value == null) // Walkman 楽曲情報固定
+                {
+                    Config.Entry["Walkman_FixSongInformation"].Value = "false";
+                }
+                if (Config.Entry["Walkman_Bitrate"].Value == null) // Walkman ビットレート
+                {
+                    Config.Entry["Walkman_Bitrate"].Value = "";
+                }
+                if (Config.Entry["Walkman_Title"].Value == null) // Walkman タイトル
+                {
+                    Config.Entry["Walkman_Title"].Value = "";
+                }
+                if (Config.Entry["Walkman_SortTitle"].Value == null) // Walkman SortTitle
+                {
+                    Config.Entry["Walkman_SortTitle"].Value = "";
+                }
+                if (Config.Entry["Walkman_SubTitle"].Value == null) // Walkman SubTitle
+                {
+                    Config.Entry["Walkman_SubTitle"].Value = "";
+                }
+                if (Config.Entry["Walkman_SortSubTitle"].Value == null) // Walkman SortSubTitle
+                {
+                    Config.Entry["Walkman_SortSubTitle"].Value = "";
+                }
+                if (Config.Entry["Walkman_Artist"].Value == null) // Walkman Artist
+                {
+                    Config.Entry["Walkman_Artist"].Value = "";
+                }
+                if (Config.Entry["Walkman_SortArtist"].Value == null) // Walkman SortArtist
+                {
+                    Config.Entry["Walkman_SortArtist"].Value = "";
+                }
+                if (Config.Entry["Walkman_ArtistURL"].Value == null) // Walkman ArtistURL
+                {
+                    Config.Entry["Walkman_ArtistURL"].Value = "";
+                }
+                if (Config.Entry["Walkman_Album"].Value == null) // Walkman Album
+                {
+                    Config.Entry["Walkman_Album"].Value = "";
+                }
+                if (Config.Entry["Walkman_SortAlbum"].Value == null) // Walkman SortAlbum
+                {
+                    Config.Entry["Walkman_SortAlbum"].Value = "";
+                }
+                if (Config.Entry["Walkman_AlbumArtist"].Value == null) // Walkman AlbumArtist
+                {
+                    Config.Entry["Walkman_AlbumArtist"].Value = "";
+                }
+                if (Config.Entry["Walkman_SortAlbumArtist"].Value == null) // Walkman SortAlbumArtist
+                {
+                    Config.Entry["Walkman_SortAlbumArtist"].Value = "";
+                }
+                if (Config.Entry["Walkman_Genre"].Value == null) // Walkman Genre
+                {
+                    Config.Entry["Walkman_Genre"].Value = "";
+                }
+                if (Config.Entry["Walkman_Composer"].Value == null) // Walkman Composer
+                {
+                    Config.Entry["Walkman_Composer"].Value = "";
+                }
+                if (Config.Entry["Walkman_Lyricist"].Value == null) // Walkman Lyricist
+                {
+                    Config.Entry["Walkman_Lyricist"].Value = "";
+                }
+                if (Config.Entry["Walkman_TrackNumber"].Value == null) // Walkman TrackNumber
+                {
+                    Config.Entry["Walkman_TrackNumber"].Value = "";
+                }
+                if (Config.Entry["Walkman_TotalTracks"].Value == null) // Walkman TotalTracks
+                {
+                    Config.Entry["Walkman_TotalTracks"].Value = "";
+                }
+                if (Config.Entry["Walkman_Release"].Value == null) // Walkman Release
+                {
+                    Config.Entry["Walkman_Release"].Value = "";
+                }
+                if (Config.Entry["Walkman_Import"].Value == null) // Walkman Import
+                {
+                    Config.Entry["Walkman_Import"].Value = "";
+                }
+                if (Config.Entry["Walkman_Duration"].Value == null) // Walkman Duration
+                {
+                    Config.Entry["Walkman_Duration"].Value = "";
+                }
+                if (Config.Entry["Walkman_MilliSecond"].Value == null) // Walkman MilliSecond
+                {
+                    Config.Entry["Walkman_MilliSecond"].Value = "";
+                }
+                if (Config.Entry["Walkman_Lyrics"].Value == null) // Walkman Lyrics
+                {
+                    Config.Entry["Walkman_Lyrics"].Value = "";
+                }
+                if (Config.Entry["Walkman_LyricsMode"].Value == null) // Walkman LyricsMode
+                {
+                    Config.Entry["Walkman_LyricsMode"].Value = "3";
+                }
+                if (Config.Entry["Walkman_LinerNotes"].Value == null) // Walkman LinerNotes
+                {
+                    Config.Entry["Walkman_LinerNotes"].Value = "";
+                }
+                if (Config.Entry["Walkman_LinerNotesMode"].Value == null) // Walkman LinerNotesMode
+                {
+                    Config.Entry["Walkman_LinerNotesMode"].Value = "3";
+                }
+                if (Config.Entry["Walkman_Jacket"].Value == null) // Walkman Jacket
+                {
+                    Config.Entry["Walkman_Jacket"].Value = "";
+                }
+                if (Config.Entry["Walkman_JacketMode"].Value == null) // Walkman JacketMode
+                {
+                    Config.Entry["Walkman_JacketMode"].Value = "3";
                 }
 
                 // 設定ダイアログ

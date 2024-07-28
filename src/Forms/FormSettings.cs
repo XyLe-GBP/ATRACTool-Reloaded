@@ -34,6 +34,36 @@ namespace ATRACTool_Reloaded
         private string LFE = null!;
         private string paramAT9 = "at9tool -e";
 
+        private string walkmanfmt = null!;
+        private string title = null!;
+        private string sorttitle = null!;
+        private string sortsubtitle = null!;
+        private string subtitle = null!;
+        private string artist = null!;
+        private string sortartist = null!;
+        private string album = null!;
+        private string sortalbum = null!;
+        private string albumartist = null!;
+        private string sortalbumartist = null!;
+        private string genre = null!;
+        private string composer = null!;
+        private string lyricist = null!;
+        private string lyrics = null!;
+        private string lyricsmode = null!;
+        private string linernotes = null!;
+        private string linernotesmode = null!;
+        private string jacketmode = null!;
+        private string jacket = null!;
+        private string tracknumber = null!;
+        private string totaltracks = null!;
+        private string duration = null!;
+        private string milliseconds = null!;
+        private string bitrates = null!;
+        private string release = null!;
+        private string import = null!;
+
+        private string paramWalkman = "traconv";
+
         public FormSettings()
         {
             InitializeComponent();
@@ -46,6 +76,12 @@ namespace ATRACTool_Reloaded
             comboBox_at9_enctype.SelectedIndex = 5;
             comboBox_at9_startband.SelectedIndex = 0;
             comboBox_at9_useband.SelectedIndex = 0;
+            comboBox_DecodeFormats.SelectedIndex = 0;
+            comboBox_OutputFormats.SelectedIndex = 1;
+            comboBox_Lyricsmode.SelectedIndex = 3;
+            comboBox_Linermode.SelectedIndex = 3;
+            comboBox_Jacketmode.SelectedIndex = 3;
+            radioButton_each.Checked = true;
 
             if (Generic.lpcreatev2 != false)
             {
@@ -801,7 +837,7 @@ namespace ATRACTool_Reloaded
                         checkBox_at9_advband.Enabled = true;
                         checkBox_at9_dualenc.Enabled = true;
                         checkBox_at9_supframe.Enabled = true;
-                        
+
                         switch (bool.Parse(Common.Config.Entry["ATRAC9_EncodeType"].Value))
                         {
                             case true:
@@ -1049,6 +1085,362 @@ namespace ATRACTool_Reloaded
                 paramAT9 = RefleshParamAT9();
                 textBox_at9_cmd.Text = paramAT9;
             }
+            if (Common.Config.Entry["Walkman_Params"].Value != "")
+            {
+                textBox_cmd_walkman.Text = Common.Config.Entry["Walkman_Params"].Value;
+                paramWalkman = Common.Config.Entry["Walkman_Params"].Value;
+            }
+            else
+            {
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramAT9;
+            }
+
+
+            // Walkman Tabs
+
+            if (bool.Parse(Config.Entry["Walkman_EveryFmt"].Value))
+            {
+                checkBox_everyFormats.Checked = true;
+                label_Decodeformat.Enabled = false;
+                label_Outputformat.Enabled = false;
+                comboBox_DecodeFormats.Enabled = false;
+                comboBox_OutputFormats.Enabled = false;
+            }
+            else
+            {
+                checkBox_everyFormats.Checked = false;
+                label_Decodeformat.Enabled = true;
+                label_Outputformat.Enabled = true;
+                comboBox_DecodeFormats.Enabled = true;
+                comboBox_OutputFormats.Enabled = true;
+            }
+
+            if (Config.Entry["Walkman_EveryFmt_OutputFmt"].Value is not null)
+            {
+                comboBox_OutputFormats.SelectedIndex = int.Parse(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value);
+            }
+            else
+            {
+                comboBox_OutputFormats.SelectedIndex = 1;
+            }
+
+            if (Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value is not null)
+            {
+                comboBox_DecodeFormats.SelectedIndex = int.Parse(Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value);
+            }
+            else
+            {
+                comboBox_DecodeFormats.SelectedIndex = 0;
+            }
+
+            if (bool.Parse(Config.Entry["Walkman_FixSongInformation"].Value))
+            {
+                radioButton_each.Checked = false;
+                radioButton_specified.Checked = true;
+                groupBox_walkman_others.Enabled = true;
+            }
+            else
+            {
+                radioButton_each.Checked = true;
+                radioButton_specified.Checked = false;
+                groupBox_walkman_others.Enabled = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Bitrate"].Value))
+            {
+                bitrates = " --Bitrate -1";
+                textBox_Bitrates.Text = "-1";
+            }
+            else
+            {
+                textBox_Bitrates.Text = Config.Entry["Walkman_Bitrate"].Value;
+                bitrates = " --Bitrate " + textBox_Bitrates.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Title"].Value))
+            {
+                title = "";
+                textBox_Title.Text = "";
+            }
+            else
+            {
+                textBox_Title.Text = Config.Entry["Walkman_Title"].Value;
+                title = " --Title " + textBox_Title.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortTitle"].Value))
+            {
+                sorttitle = "";
+                textBox_SortTitle.Text = "";
+            }
+            else
+            {
+                textBox_SortTitle.Text = Config.Entry["Walkman_SortTitle"].Value;
+                sorttitle = " --SortTitle " + textBox_SortTitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SubTitle"].Value))
+            {
+                subtitle = "";
+                textBox_Subtitle.Text = "";
+            }
+            else
+            {
+                textBox_Subtitle.Text = Config.Entry["Walkman_SubTitle"].Value;
+                subtitle = " --Subtitle" + textBox_Subtitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortSubTitle"].Value))
+            {
+                sortsubtitle = "";
+                textBox_SortSubtitle.Text = "";
+            }
+            else
+            {
+                textBox_SortSubtitle.Text = Config.Entry["Walkman_SortSubTitle"].Value;
+                sortsubtitle = " --SortSubtitle " + textBox_SortSubtitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Artist"].Value))
+            {
+                artist = "";
+                textBox_Artist.Text = "";
+            }
+            else
+            {
+                textBox_Artist.Text = Config.Entry["Walkman_Artist"].Value;
+                artist = " --Artist " + textBox_Artist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortArtist"].Value))
+            {
+                sortartist = "";
+                textBox_SortArtist.Text = "";
+            }
+            else
+            {
+                textBox_SortArtist.Text = Config.Entry["Walkman_SortArtist"].Value;
+                sortartist = " --SortArtist" + textBox_SortArtist.Text;
+            }
+
+            /*if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_ArtistURL"].Value))
+            {
+                artisturl = "";
+                textBox_ArtistURL.Text = "";
+            }
+            else
+            {
+                textBox_ArtistURL.Text = Config.Entry["Walkman_ArtistURL"].Value;
+                artisturl = textBox_ArtistURL.Text;
+            }*/
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Album"].Value))
+            {
+                album = "";
+                textBox_Album.Text = "";
+            }
+            else
+            {
+                textBox_Album.Text = Config.Entry["Walkman_Album"].Value;
+                album = " --Album " + textBox_Album.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortAlbum"].Value))
+            {
+                sortalbum = "";
+                textBox_SortAlbum.Text = "";
+            }
+            else
+            {
+                textBox_SortAlbum.Text = Config.Entry["Walkman_SortAlbum"].Value;
+                sortalbum = " --SortAlbum " + textBox_SortAlbum.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_AlbumArtist"].Value))
+            {
+                albumartist = "";
+                textBox_AlbumArtist.Text = "";
+            }
+            else
+            {
+                textBox_AlbumArtist.Text = Config.Entry["Walkman_AlbumArtist"].Value;
+                albumartist = " --AlbumArtist " + textBox_AlbumArtist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortAlbumArtist"].Value))
+            {
+                sortalbumartist = "";
+                textBox_SortAlbumArtist.Text = "";
+            }
+            else
+            {
+                textBox_SortAlbumArtist.Text = Config.Entry["Walkman_SortAlbumArtist"].Value;
+                sortalbumartist = " --SortAlbumArtist " + textBox_SortAlbumArtist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Genre"].Value))
+            {
+                genre = "";
+                textBox_Genre.Text = "";
+            }
+            else
+            {
+                textBox_Genre.Text = Config.Entry["Walkman_Genre"].Value;
+                genre = " --Genre " + textBox_Genre.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Composer"].Value))
+            {
+                composer = "";
+                textBox_Composer.Text = "";
+            }
+            else
+            {
+                textBox_Composer.Text = Config.Entry["Walkman_Composer"].Value;
+                composer = " --Composer " + textBox_Composer.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Lyricist"].Value))
+            {
+                lyricist = "";
+                textBox_Lyricist.Text = "";
+            }
+            else
+            {
+                textBox_Lyricist.Text = Config.Entry["Walkman_Lyricist"].Value;
+                lyricist = " --Lyricist " + textBox_Lyricist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_TrackNumber"].Value))
+            {
+                tracknumber = "";
+                textBox_TrackNumber.Text = "";
+            }
+            else
+            {
+                textBox_TrackNumber.Text = Config.Entry["Walkman_TrackNumber"].Value;
+                tracknumber = " --TrackNumber " + textBox_TrackNumber.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_TotalTracks"].Value))
+            {
+                totaltracks = "";
+                textBox_TotalTracks.Text = "";
+            }
+            else
+            {
+                textBox_TotalTracks.Text = Config.Entry["Walkman_TotalTracks"].Value;
+                totaltracks = " --TotalTracks " + textBox_TotalTracks.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Release"].Value))
+            {
+                release = " --Release " + DateTime.Now.ToShortDateString().ToString();
+                dateTimePicker_Release.Value = DateTime.Now;
+            }
+            else
+            {
+                dateTimePicker_Release.Value = DateTime.Parse(Config.Entry["Walkman_Release"].Value);
+                release = " --Release " + dateTimePicker_Release.Value.ToShortDateString().ToString();
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Import"].Value))
+            {
+                import = " --Import " + DateTime.Now.ToShortDateString().ToString();
+                dateTimePicker_Import.Value = DateTime.Now;
+            }
+            else
+            {
+                dateTimePicker_Import.Value = DateTime.Parse(Config.Entry["Walkman_Import"].Value);
+                import = " --Import " + dateTimePicker_Import.Value.ToShortDateString().ToString();
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Duration"].Value))
+            {
+                duration = "";
+                textBox_Duration.Text = "";
+            }
+            else
+            {
+                textBox_Duration.Text = Config.Entry["Walkman_Duration"].Value;
+                duration = " --Duration " + textBox_Duration.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_MilliSecond"].Value))
+            {
+                milliseconds = "";
+                textBox_MilliSecond.Text = "";
+            }
+            else
+            {
+                textBox_MilliSecond.Text = Config.Entry["Walkman_MilliSecond"].Value;
+                milliseconds = " --MilliSecond " + textBox_MilliSecond.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Lyrics"].Value))
+            {
+                lyrics = "";
+                label_Lyricspath.Text = "";
+            }
+            else
+            {
+                lyrics = Config.Entry["Walkman_Lyrics"].Value;
+                label_Lyricspath.Text = Config.Entry["Walkman_Lyrics"].Value.Replace(" --Lyrics \"", "").Replace("\"", "");
+            }
+
+            if (Config.Entry["Walkman_LyricsMode"].Value is not null)
+            {
+                comboBox_Lyricsmode.SelectedIndex = int.Parse(Config.Entry["Walkman_LyricsMode"].Value);
+            }
+            else
+            {
+                comboBox_Lyricsmode.SelectedIndex = 3;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_LinerNotes"].Value))
+            {
+                linernotes = "";
+                label_Linerpath.Text = "";
+            }
+            else
+            {
+                linernotes = Config.Entry["Walkman_LinerNotes"].Value;
+                label_Linerpath.Text = Config.Entry["Walkman_LinerNotes"].Value.Replace(" --LinerNotes \"", "").Replace("\"", ""); ;
+            }
+
+            if (Config.Entry["Walkman_LinerNotesMode"].Value is not null)
+            {
+                comboBox_Linermode.SelectedIndex = int.Parse(Config.Entry["Walkman_LinerNotesMode"].Value);
+            }
+            else
+            {
+                comboBox_Linermode.SelectedIndex = 3;
+            }
+
+            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Jacket"].Value))
+            {
+                jacket = "";
+                label_Jacketpath.Text = "";
+            }
+            else
+            {
+                jacket = Config.Entry["Walkman_Jacket"].Value;
+                label_Jacketpath.Text = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
+                pictureBox_Jacket.ImageLocation = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
+            }
+
+            if (Config.Entry["Walkman_JacketMode"].Value is not null)
+            {
+                comboBox_Jacketmode.SelectedIndex = int.Parse(Config.Entry["Walkman_JacketMode"].Value);
+            }
+            else
+            {
+                comboBox_Jacketmode.SelectedIndex = 3;
+            }
+
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
         }
 
         // ATRAC3
@@ -1199,7 +1591,7 @@ namespace ATRACTool_Reloaded
             {
                 throw new Exception("An error occured.");
             }
-            
+
             paramAT3 = RefleshParamAT3();
             textBox_at3_cmd.Text = paramAT3;
         }
@@ -1610,7 +2002,7 @@ namespace ATRACTool_Reloaded
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
-            { 
+            {
                 textBox_at9_looplist.Text = ofd.FileName;
                 looplistfileAT9 = " " + ofd.FileName;
             }
@@ -1862,6 +2254,13 @@ namespace ATRACTool_Reloaded
                 return;
             }
 
+            if (paramWalkman.Contains("$OutFile $InFile") != true || paramWalkman.Contains("$InFile") != true || paramWalkman.Contains("$OutFile") != true)
+            {
+                MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+                return;
+            }
 
             if (checkBox_at3_looppoint.Checked != false)
             {
@@ -1885,7 +2284,7 @@ namespace ATRACTool_Reloaded
                     return;
                 }
             }
-            
+
             if (checkBox_at9_looppoint.Checked != false)
             {
                 if (textBox_at9_loopstart.TextLength == 0)
@@ -2106,11 +2505,246 @@ namespace ATRACTool_Reloaded
                 Common.Config.Entry["LPC_Create"].Value = "false";
             }
 
+            if (checkBox_everyFormats.Checked)
+            {
+                Config.Entry["Walkman_EveryFmt"].Value = "true";
+            }
+            else
+            {
+                Config.Entry["Walkman_EveryFmt"].Value = "false";
+            }
+
+            Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value = comboBox_DecodeFormats.SelectedIndex.ToString();
+            Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = comboBox_OutputFormats.SelectedIndex.ToString();
+            switch (comboBox_OutputFormats.SelectedIndex)
+            {
+                case 0:
+                    Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
+                    break;
+                case 1:
+                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                    break;
+                case 2:
+                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
+                    break;
+                case 3:
+                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
+                    break;
+                case 4:
+                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
+                    break;
+                case 5:
+                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
+                    break;
+                case 6:
+                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
+                    break;
+                case 7:
+                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
+                    break;
+                case 8:
+                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
+                    break;
+            }
+
+            if (radioButton_each.Checked)
+            {
+                Config.Entry["Walkman_FixSongInformation"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["Walkman_FixSongInformation"].Value = "true";
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Bitrates.Text))
+            {
+                Config.Entry["Walkman_Bitrate"].Value = "-1";
+            }
+            else
+            {
+                Config.Entry["Walkman_Bitrate"].Value = textBox_Bitrates.Text;
+            }
+
+            // Walkman Tags
+            if (string.IsNullOrWhiteSpace(textBox_Title.Text))
+            {
+                Config.Entry["Walkman_Title"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Title"].Value = textBox_Title.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_SortTitle.Text))
+            {
+                Config.Entry["Walkman_SortTitle"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SortTitle"].Value = textBox_SortTitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Subtitle.Text))
+            {
+                Config.Entry["Walkman_SubTitle"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SubTitle"].Value = textBox_Subtitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_SortSubtitle.Text))
+            {
+                Config.Entry["Walkman_SortSubTitle"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SortSubTitle"].Value = textBox_SortSubtitle.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Artist.Text))
+            {
+                Config.Entry["Walkman_Artist"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Artist"].Value = textBox_Artist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_SortArtist.Text))
+            {
+                Config.Entry["Walkman_SortArtist"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SortArtist"].Value = textBox_SortArtist.Text;
+            }
+
+            /*if (string.IsNullOrWhiteSpace(textBox_ArtistURL.Text))
+            {
+                Config.Entry["Walkman_ArtistURL"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_ArtistURL"].Value = textBox_ArtistURL.Text;
+            }*/
+
+            if (string.IsNullOrWhiteSpace(textBox_Album.Text))
+            {
+                Config.Entry["Walkman_Album"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Album"].Value = textBox_Album.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_SortAlbum.Text))
+            {
+                Config.Entry["Walkman_SortAlbum"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SortAlbum"].Value = textBox_SortAlbum.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_AlbumArtist.Text))
+            {
+                Config.Entry["Walkman_AlbumArtist"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_AlbumArtist"].Value = textBox_AlbumArtist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_SortAlbumArtist.Text))
+            {
+                Config.Entry["Walkman_SortAlbumArtist"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_SortAlbumArtist"].Value = textBox_SortAlbumArtist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Genre.Text))
+            {
+                Config.Entry["Walkman_Genre"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Genre"].Value = textBox_Genre.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Composer.Text))
+            {
+                Config.Entry["Walkman_Composer"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Composer"].Value = textBox_Composer.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_Lyricist.Text))
+            {
+                Config.Entry["Walkman_Lyricist"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Lyricist"].Value = textBox_Lyricist.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_TrackNumber.Text))
+            {
+                Config.Entry["Walkman_TrackNumber"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_TrackNumber"].Value = textBox_TrackNumber.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_TotalTracks.Text))
+            {
+                Config.Entry["Walkman_TotalTracks"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_TotalTracks"].Value = textBox_TotalTracks.Text;
+            }
+
+            Config.Entry["Walkman_Release"].Value = dateTimePicker_Release.Value.ToShortDateString();
+            Config.Entry["Walkman_Import"].Value = dateTimePicker_Import.Value.ToShortDateString();
+
+            if (string.IsNullOrWhiteSpace(textBox_Duration.Text))
+            {
+                Config.Entry["Walkman_Duration"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_Duration"].Value = textBox_Duration.Text;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox_MilliSecond.Text))
+            {
+                Config.Entry["Walkman_MilliSecond"].Value = "";
+            }
+            else
+            {
+                Config.Entry["Walkman_MilliSecond"].Value = textBox_MilliSecond.Text;
+            }
+
+            Config.Entry["Walkman_Lyrics"].Value = lyrics;
+            Config.Entry["Walkman_LyricsMode"].Value = comboBox_Lyricsmode.SelectedIndex.ToString();
+            Config.Entry["Walkman_LinerNotes"].Value = linernotes;
+            Config.Entry["Walkman_LinerMode"].Value = comboBox_Linermode.SelectedIndex.ToString();
+            Config.Entry["Walkman_Jacket"].Value = jacket;
+            Config.Entry["Walkman_JacketMode"].Value = comboBox_Jacketmode.SelectedIndex.ToString();
+
             Common.Config.Entry["ATRAC3_Params"].Value = paramAT3;
             Common.Config.Entry["ATRAC9_Params"].Value = paramAT9;
+            Config.Entry["Walkman_Params"].Value = paramWalkman;
 
             Config.Save(xmlpath);
 
+            Utils.PictureboxImageDispose(pictureBox_Jacket);
             Close();
         }
 
@@ -2298,6 +2932,644 @@ namespace ATRACTool_Reloaded
         private string RefleshParamAT9()
         {
             return "at9tool -e" + bitrateAT9 + samplingAT9 + looppointAT9 + loopstartAT9 + loopendAT9 + wholeloopAT9 + looptimeAT9 + looptimesAT9 + looplistAT9 + looplistfileAT9 + supframeAT9 + dualencAT9 + enctypeAT9 + nbandAT9 + isbandAT9 + wband + bex + LFE + " $InFile $OutFile";
+        }
+
+        private string RefleshParamWalkman()
+        {
+            return "traconv --Convert" + walkmanfmt + bitrates + title + sorttitle + subtitle + sortsubtitle + artist + sortartist + album + sortalbum + albumartist + sortalbumartist + genre + composer + lyricist + tracknumber + totaltracks + release + import + duration + milliseconds + lyrics + lyricsmode + linernotes + linernotesmode + jacket + jacketmode + " --Output $OutFile $InFile";
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        // Walkman Functions
+
+        private void checkBox_everyFormats_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_everyFormats.Checked)
+            {
+                label_Decodeformat.Enabled = false;
+                label_Outputformat.Enabled = false;
+                comboBox_DecodeFormats.Enabled = false;
+                comboBox_OutputFormats.Enabled = false;
+            }
+            else
+            {
+                label_Decodeformat.Enabled = true;
+                label_Outputformat.Enabled = true;
+                comboBox_DecodeFormats.Enabled = true;
+                comboBox_OutputFormats.Enabled = true;
+            }
+        }
+
+        private void radioButton_each_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_each.Checked)
+            {
+                groupBox_walkman_others.Enabled = false;
+            }
+            else
+            {
+                groupBox_walkman_others.Enabled = true;
+            }
+        }
+
+        private void radioButton_specified_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_specified.Checked)
+            {
+                groupBox_walkman_others.Enabled = true;
+            }
+            else
+            {
+                groupBox_walkman_others.Enabled = false;
+            }
+        }
+
+        private void comboBox_DecodeFormats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_DecodeFormats.SelectedIndex)
+            {
+                case 0:
+                    walkmanfmt = " --FileType WAV";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 1:
+                    walkmanfmt = " --FileType AACL";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 2:
+                    walkmanfmt = " --FileType AACH";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+            }
+        }
+
+        private void comboBox_OutputFormats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_OutputFormats.SelectedIndex)
+            {
+                case 0:
+                    walkmanfmt = " --FileType PCM";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 1:
+                    walkmanfmt = " --FileType OMA3";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 2:
+                    walkmanfmt = " --FileType OMG3";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 3:
+                    walkmanfmt = " --FileType AAL3";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 4:
+                    walkmanfmt = " --FileType KDR3";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 5:
+                    walkmanfmt = " --FileType OMAP";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 6:
+                    walkmanfmt = " --FileType OMGP";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 7:
+                    walkmanfmt = " --FileType AALP";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+                case 8:
+                    walkmanfmt = " --FileType KDRP";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                    break;
+            }
+        }
+
+        private void textBox_Bitrates_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Bitrates.Text))
+            {
+                bitrates = " --Bitrate -1";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                bitrates = " --Bitrate " + textBox_Bitrates.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Bitrates_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_TrackNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_TrackNumber.Text))
+            {
+                tracknumber = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                tracknumber = " --TrackNumber " + textBox_TrackNumber.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_TotalTracks_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_TotalTracks.Text))
+            {
+                totaltracks = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                totaltracks = " --TotalTracks " + textBox_TotalTracks.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Duration_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Duration.Text))
+            {
+                duration = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                duration = " --Duration " + textBox_Duration.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_MilliSecond_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_MilliSecond.Text))
+            {
+                milliseconds = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                milliseconds = " --MilliSecond " + textBox_MilliSecond.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_TrackNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_TotalTracks_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Duration_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_MilliSecond_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void button_Lyricspath_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new()
+            {
+                FileName = "",
+                InitialDirectory = "",
+                Filter = "Lyrics file (*.lrc)|*.lrc;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
+                FilterIndex = 0,
+                Title = "Open Lyrics file",
+                Multiselect = true,
+                RestoreDirectory = true
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                label_Lyricspath.Text = ofd.FileName;
+                lyrics = " --Lyrics \"" + ofd.FileName + "\"";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                label_Lyricspath.Text = "";
+                lyrics = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void comboBox_Lyricsmode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_Lyricsmode.SelectedIndex)
+            {
+                case 0:
+                    lyricsmode = " --LyricsMode Delete";
+                    break;
+                case 1:
+                    lyricsmode = " --LyricsMode Text";
+                    break;
+                case 2:
+                    lyricsmode = " --LyricsMode Picture";
+                    break;
+                case 3:
+                    lyricsmode = " --LyricsMode Auto";
+                    break;
+                case 4:
+                    lyricsmode = " --LyricsMode Hybrid";
+                    break;
+                default:
+                    break;
+            }
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private void button_Linerpath_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new()
+            {
+                FileName = "",
+                InitialDirectory = "",
+                Filter = "Text file (*.txt)|*.txt;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
+                FilterIndex = 0,
+                Title = "Open Liner Notes file",
+                Multiselect = true,
+                RestoreDirectory = true
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                label_Linerpath.Text = ofd.FileName;
+                linernotes = " --LinerNotes \"" + ofd.FileName + "\"";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                label_Linerpath.Text = "";
+                linernotes = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void comboBox_Linermode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_Linermode.SelectedIndex)
+            {
+                case 0:
+                    linernotesmode = " --LinerNotesMode Delete";
+                    break;
+                case 1:
+                    linernotesmode = " --LinerNotesMode Text";
+                    break;
+                case 2:
+                    linernotesmode = " --LinerNotesMode Picture";
+                    break;
+                case 3:
+                    linernotesmode = " --LinerNotesMode Auto";
+                    break;
+                case 4:
+                    linernotesmode = " --LinerNotesMode Hybrid";
+                    break;
+                default:
+                    break;
+            }
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private void button_Jacketpath_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new()
+            {
+                FileName = "",
+                InitialDirectory = "",
+                Filter = "JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
+                FilterIndex = 0,
+                Title = "Open Jacket image",
+                Multiselect = true,
+                RestoreDirectory = true
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox_Jacket.ImageLocation = ofd.FileName;
+                label_Jacketpath.Text = ofd.FileName;
+                jacket = " --Jacket \"" + ofd.FileName + "\"";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                Utils.PictureboxImageDispose(pictureBox_Jacket);
+                label_Jacketpath.Text = "";
+                jacket = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void comboBox_Jacketmode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_Jacketmode.SelectedIndex)
+            {
+                case 0:
+                    jacketmode = " --JacketMode Delete";
+                    break;
+                case 1:
+                    jacketmode = " --JacketMode Text";
+                    break;
+                case 2:
+                    jacketmode = " --JacketMode Picture";
+                    break;
+                case 3:
+                    jacketmode = " --JacketMode Auto";
+                    break;
+                default:
+                    break;
+            }
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        // Tags
+
+        private void textBox_Title_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Title.Text))
+            {
+                title = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                title = " --Title " + textBox_Title.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_SortTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_SortTitle.Text))
+            {
+                sorttitle = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                sorttitle = " --SortTitle " + textBox_SortTitle.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Subtitle_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Subtitle.Text))
+            {
+                subtitle = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                subtitle = " --Subtitle " + textBox_Subtitle.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_SortSubtitle_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_SortSubtitle.Text))
+            {
+                sortsubtitle = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                sortsubtitle = " --SortSubtitle " + textBox_SortSubtitle.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Artist_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Artist.Text))
+            {
+                artist = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                artist = " --Artist " + textBox_Artist.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_SortArtist_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_SortArtist.Text))
+            {
+                sortartist = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                sortartist = " --SortArtist " + textBox_SortArtist.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Album_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Album.Text))
+            {
+                album = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                album = " --Album " + textBox_Album.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_SortAlbum_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_SortAlbum.Text))
+            {
+                sortalbum = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                sortalbum = " --SortAlbum " + textBox_SortAlbum.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_AlbumArtist_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_AlbumArtist.Text))
+            {
+                albumartist = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                albumartist = " --AlbumArtist " + textBox_AlbumArtist.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_SortAlbumArtist_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_SortAlbumArtist.Text))
+            {
+                sortalbumartist = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                sortalbumartist = " --SortAlbumArtist " + textBox_SortAlbumArtist.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Genre_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Genre.Text))
+            {
+                genre = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                genre = " --Genre " + textBox_Genre.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Composer_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Composer.Text))
+            {
+                composer = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                composer = " --Composer " + textBox_Composer.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void textBox_Lyricist_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_Lyricist.Text))
+            {
+                lyricist = "";
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+            else
+            {
+                lyricist = " --Lyricist " + textBox_Lyricist.Text;
+                paramWalkman = RefleshParamWalkman();
+                textBox_cmd_walkman.Text = paramWalkman;
+            }
+        }
+
+        private void dateTimePicker_Release_ValueChanged(object sender, EventArgs e)
+        {
+            release = " --Release " + dateTimePicker_Release.Value.ToShortDateString();
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private void dateTimePicker_Import_ValueChanged(object sender, EventArgs e)
+        {
+            import = " --Import " + dateTimePicker_Import.Value.ToShortDateString();
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
         }
     }
 }

@@ -344,8 +344,6 @@
         private NumericUpDown numericUpDown_LoopStart;
         private NumericUpDown numericUpDown_LoopEnd;
         private CheckBox checkBox_LoopEnable;
-        private RadioButton radioButton_at3;
-        private RadioButton radioButton_at9;
         private Label label_File;
         private Button button_Prev;
         private Button button_Next;
@@ -360,5 +358,7 @@
         private Label label_end;
         private NAudio.Gui.PanSlider panSlider1;
         private Label label_Pan;
+        public RadioButton radioButton_at3;
+        public RadioButton radioButton_at9;
     }
 }

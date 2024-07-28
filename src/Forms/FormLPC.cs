@@ -795,5 +795,21 @@ namespace ATRACTool_Reloaded
             }
             panSmplProvider.Pan = panSlider1.Pan;
         }
+
+        public void ATRACRadioButtonChanger(bool flag)
+        {
+            switch (flag)
+            {
+                case true:
+                    radioButton_at3.Enabled = true;
+                    radioButton_at9.Enabled = true;
+                    break;
+                case false:
+                    radioButton_at3.Enabled = false;
+                    radioButton_at9.Enabled = false;
+                    break;
+            }
+
+        }
     }
 }

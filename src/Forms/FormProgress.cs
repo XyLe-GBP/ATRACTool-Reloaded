@@ -607,6 +607,39 @@ namespace ATRACTool_Reloaded
                             }
                         }
                         break;
+                    case 2: // Walkman
+                        {
+                            pi.FileName = Generic.Walkman_TraConv;
+                            pi.Arguments = Generic.EncodeParamWalkman.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("traconv ", "");
+                            pi.UseShellExecute = false;
+                            pi.RedirectStandardOutput = true;
+                            pi.CreateNoWindow = true;
+
+                            ps = Process.Start(pi);
+
+                            if (ps is null) { return false; }
+
+                            Generic.Log = ps.StandardOutput;
+
+                            while (!ps.HasExited)
+                            {
+                                int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                if (cToken.IsCancellationRequested == true)
+                                {
+                                    if (!ps.HasExited)
+                                    {
+                                        ps.Kill();
+                                    }
+                                    ps.Close();
+
+                                    return false;
+                                }
+                                p.Report(files);
+                                continue;
+                            }
+                            break;
+                        }
                     default:
                         return false;
                 }
@@ -856,7 +889,51 @@ namespace ATRACTool_Reloaded
                                         break;
                                 }
 
+                                break;
+                            }
+                        case 2: // Walkman
+                            {
+                                Generic.ATRACExt = ".";
+                                pi.FileName = Generic.Walkman_TraConv;
+                                pi.Arguments = Generic.EncodeParamWalkman.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".") + "\"").Replace("traconv ", "");
+                                pi.UseShellExecute = false;
+                                pi.RedirectStandardOutput = true;
+                                pi.CreateNoWindow = true;
 
+                                ps = Process.Start(pi);
+
+                                if (ps is null) { return false; }
+
+                                var log = ps.StandardOutput;
+
+                                FileInfo fi2 = new(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Generic.ATRACExt));
+
+                                while (!ps.HasExited)
+                                {
+                                    int files = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\_temp", "*").Length;
+
+                                    if (cToken.IsCancellationRequested == true)
+                                    {
+                                        if (!ps.HasExited)
+                                        {
+                                            ps.Kill();
+                                        }
+                                        ps.Close();
+
+                                        return false;
+                                    }
+                                    p.Report(files);
+                                    continue;
+                                }
+
+                                if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Generic.ATRACExt)))
+                                {
+                                    if (fi2.Length == 0 && log != null)
+                                    {
+                                        string text = "'" + fi.Name + "' " + Utils.LogSplit(log);
+                                        MessageBox.Show(string.Format("{0}", text), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
                             }
                             break;
                         default:
@@ -1349,7 +1426,7 @@ namespace ATRACTool_Reloaded
         {
             if (Generic.cts != null)
             {
-                if (Generic.downloadClient.IsBusy)
+                if (Generic.downloadClient is not null && Generic.downloadClient.IsBusy)
                 {
                     DialogResult dr = MessageBox.Show(Localization.DownloadAbortConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (dr == DialogResult.Yes)

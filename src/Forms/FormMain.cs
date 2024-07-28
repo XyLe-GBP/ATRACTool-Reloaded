@@ -91,7 +91,7 @@ namespace ATRACTool_Reloaded
                     fs?.Invoke(d, Localization.SplashFormConfigCaption);
 
                     int ts = int.Parse(Config.Entry["ToolStrip"].Value);
-                    string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value;
+                    string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
                     if (ts != 65535)
                     {
                         switch (ts)
@@ -100,13 +100,25 @@ namespace ATRACTool_Reloaded
                                 Common.Generic.ATRACFlag = 0;
                                 aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
                                 aTRAC9ToolStripMenuItem.Checked = false;
+                                walkmanToolStripMenuItem.Checked = false;
                                 toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                EncodeMethodIsATRAC(true);
                                 break;
                             case 1:
                                 Common.Generic.ATRACFlag = 1;
                                 aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
                                 aTRAC9ToolStripMenuItem.Checked = true;
+                                walkmanToolStripMenuItem.Checked = false;
                                 toolStripDropDownButton_EF.Text = "ATRAC9";
+                                EncodeMethodIsATRAC(true);
+                                break;
+                            case 2:
+                                Common.Generic.ATRACFlag = 2;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                aTRAC9ToolStripMenuItem.Checked = false;
+                                walkmanToolStripMenuItem.Checked = true;
+                                toolStripDropDownButton_EF.Text = "Walkman";
+                                EncodeMethodIsATRAC(false);
                                 break;
                         }
                     }
@@ -126,6 +138,53 @@ namespace ATRACTool_Reloaded
                     {
                         Common.Generic.EncodeParamAT9 = "";
                     }
+                    if (prm3 != "" || prm3 != null)
+                    {
+                        Common.Generic.EncodeParamWalkman = prm3;
+                    }
+                    else
+                    {
+                        Common.Generic.EncodeParamWalkman = "";
+                    }
+                    if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                    {
+                        Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                    }
+                    else
+                    {
+                        switch (int.Parse(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                        {
+                            case 0:
+                                Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
+                                break;
+                            case 1:
+                                Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                                break;
+                            case 2:
+                                Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
+                                break;
+                            case 3:
+                                Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
+                                break;
+                            case 4:
+                                Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
+                                break;
+                            case 5:
+                                Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
+                                break;
+                            case 6:
+                                Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
+                                break;
+                            case 7:
+                                Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
+                                break;
+                            case 8:
+                                Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
+                                break;
+                        }
+                    }
+
+
                     loopPointCreationToolStripMenuItem.Enabled = false;
                     Thread.Sleep(1000);
 
@@ -189,7 +248,7 @@ namespace ATRACTool_Reloaded
                 ResetStatus();
 
                 int ts = int.Parse(Config.Entry["ToolStrip"].Value);
-                string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value;
+                string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
                 if (ts != 65535)
                 {
                     switch (ts)
@@ -198,13 +257,25 @@ namespace ATRACTool_Reloaded
                             Common.Generic.ATRACFlag = 0;
                             aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
                             aTRAC9ToolStripMenuItem.Checked = false;
+                            walkmanToolStripMenuItem.Checked = false;
                             toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                            EncodeMethodIsATRAC(true);
                             break;
                         case 1:
                             Common.Generic.ATRACFlag = 1;
                             aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
                             aTRAC9ToolStripMenuItem.Checked = true;
+                            walkmanToolStripMenuItem.Checked = false;
                             toolStripDropDownButton_EF.Text = "ATRAC9";
+                            EncodeMethodIsATRAC(true);
+                            break;
+                        case 2:
+                            Common.Generic.ATRACFlag = 2;
+                            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                            aTRAC9ToolStripMenuItem.Checked = false;
+                            walkmanToolStripMenuItem.Checked = true;
+                            toolStripDropDownButton_EF.Text = "Walkman";
+                            EncodeMethodIsATRAC(false);
                             break;
                     }
                 }
@@ -224,6 +295,52 @@ namespace ATRACTool_Reloaded
                 {
                     Common.Generic.EncodeParamAT9 = "";
                 }
+                if (prm3 != "" || prm3 != null)
+                {
+                    Common.Generic.EncodeParamWalkman = prm3;
+                }
+                else
+                {
+                    Common.Generic.EncodeParamWalkman = "";
+                }
+                if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                {
+                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                }
+                else
+                {
+                    switch (int.Parse(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                    {
+                        case 0:
+                            Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
+                            break;
+                        case 1:
+                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                            break;
+                        case 2:
+                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
+                            break;
+                        case 3:
+                            Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
+                            break;
+                        case 4:
+                            Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
+                            break;
+                        case 5:
+                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
+                            break;
+                        case 6:
+                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
+                            break;
+                        case 7:
+                            Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
+                            break;
+                        case 8:
+                            Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
+                            break;
+                    }
+                }
+
                 loopPointCreationToolStripMenuItem.Enabled = false;
 
                 if (bool.Parse(Config.Entry["Check_Update"].Value))
@@ -253,7 +370,10 @@ namespace ATRACTool_Reloaded
                         MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+
             }
+
+            toolStripStatusLabel_EncMethod.Alignment = ToolStripItemAlignment.Right;
 
             if (ver.FileVersion != null)
             {
@@ -266,6 +386,11 @@ namespace ATRACTool_Reloaded
 
             panel_Main.BackgroundImage = Resources.SIEv2;
             Activate();
+
+            if (!Utils.OpenMGCheck64() && !Utils.OpenMGCheck64_32())
+            {
+                MessageBox.Show(this, "There are no libraries installed on this PC to process OpenMG.\r\nTo generate files for Walkman, Sony Media Library Earth must be installed.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
             if (Generic.GlobalException is not null)
             {
@@ -393,6 +518,8 @@ namespace ATRACTool_Reloaded
                                     closeFileCToolStripMenuItem.Enabled = false;
                                     toolStripDropDownButton_EF.Enabled = false;
                                     toolStripDropDownButton_EF.Visible = false;
+                                    toolStripStatusLabel_EncMethod.Enabled = false;
+                                    toolStripStatusLabel_EncMethod.Visible = false;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = false;
                                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -407,6 +534,8 @@ namespace ATRACTool_Reloaded
                                     closeFileCToolStripMenuItem.Enabled = false;
                                     toolStripDropDownButton_EF.Enabled = false;
                                     toolStripDropDownButton_EF.Visible = false;
+                                    toolStripStatusLabel_EncMethod.Enabled = false;
+                                    toolStripStatusLabel_EncMethod.Visible = false;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = false;
                                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -424,7 +553,7 @@ namespace ATRACTool_Reloaded
                                         {
                                             Ft = ".WAV";
                                         }
-                                            
+
                                     }
                                     else
                                     {
@@ -447,7 +576,7 @@ namespace ATRACTool_Reloaded
                                         Ft = fi.Extension.ToUpper();
                                     }
                                 }
-                                
+
                             }
                         }
                         else
@@ -470,7 +599,7 @@ namespace ATRACTool_Reloaded
                                 multiextlst.Add(file);
                             }
                         }
-                        
+
                         count++;
                     }
 
@@ -545,10 +674,10 @@ namespace ATRACTool_Reloaded
             formSettings.ShowDialog();
             formSettings.Dispose();
 
-            string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value;
+            string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
             bool lpc = bool.Parse(Config.Entry["LPC_Create"].Value);
 
-            if (prm1 != "" || prm1 != null)
+            if (!string.IsNullOrWhiteSpace(prm1))
             {
                 Common.Generic.EncodeParamAT3 = prm1;
             }
@@ -556,13 +685,21 @@ namespace ATRACTool_Reloaded
             {
                 Common.Generic.EncodeParamAT3 = "";
             }
-            if (prm2 != "" || prm2 != null)
+            if (!string.IsNullOrWhiteSpace(prm2))
             {
                 Common.Generic.EncodeParamAT9 = prm2;
             }
             else
             {
                 Common.Generic.EncodeParamAT9 = "";
+            }
+            if (!string.IsNullOrWhiteSpace(prm3))
+            {
+                Common.Generic.EncodeParamWalkman = prm3;
+            }
+            else
+            {
+                Common.Generic.EncodeParamWalkman = "";
             }
             Common.Generic.lpcreate = lpc switch
             {
@@ -849,8 +986,9 @@ namespace ATRACTool_Reloaded
             Common.Generic.ATRACFlag = 0;
             aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
             aTRAC9ToolStripMenuItem.Checked = false;
+            walkmanToolStripMenuItem.Checked = false;
             toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
-
+            EncodeMethodIsATRAC(true);
         }
 
         private void ATRAC9ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -860,7 +998,21 @@ namespace ATRACTool_Reloaded
             Common.Generic.ATRACFlag = 1;
             aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
             aTRAC9ToolStripMenuItem.Checked = true;
+            walkmanToolStripMenuItem.Checked = false;
             toolStripDropDownButton_EF.Text = "ATRAC9";
+            EncodeMethodIsATRAC(true);
+        }
+
+        private void walkmanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Config.Entry["ToolStrip"].Value = "2";
+            Config.Save(xmlpath);
+            Common.Generic.ATRACFlag = 2;
+            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+            aTRAC9ToolStripMenuItem.Checked = false;
+            walkmanToolStripMenuItem.Checked = true;
+            toolStripDropDownButton_EF.Text = "Walkman";
+            EncodeMethodIsATRAC(false);
         }
 
         // ボタン
@@ -978,7 +1130,7 @@ namespace ATRACTool_Reloaded
             {
                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             }
-            
+
             toolStripStatusLabel_Status.ForeColor = Color.FromArgb(0, 0, 0, 0);
             toolStripStatusLabel_Status.Text = "Decoding...";
 
@@ -1266,17 +1418,16 @@ namespace ATRACTool_Reloaded
             Config.Load(xmlpath);
             bool lpc = bool.Parse(Config.Entry["LPC_Create"].Value);
             bool manual = bool.Parse(Config.Entry["Save_IsManual"].Value);
+            bool iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
             Common.Generic.lpcreate = lpc switch
             {
                 false => false,
                 true => true,
             };
 
-            ActivateOrDeactivateLPC(false);
-
-            if (Common.Generic.ATRACFlag == 0 || Common.Generic.ATRACFlag == 1)
+            if (Common.Generic.ATRACFlag == 0 || Common.Generic.ATRACFlag == 1 || Generic.ATRACFlag == 2)
             {
-                if (Common.Generic.EncodeParamAT3 == "" || Common.Generic.EncodeParamAT3 == null || Common.Generic.EncodeParamAT9 == "" || Common.Generic.EncodeParamAT9 == null)
+                if (string.IsNullOrWhiteSpace(Generic.EncodeParamAT3) || string.IsNullOrWhiteSpace(Generic.EncodeParamAT9) || string.IsNullOrWhiteSpace(Generic.EncodeParamWalkman))
                 {
                     // Param Error
                     MessageBox.Show(this, Localization.SettingsErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1284,6 +1435,8 @@ namespace ATRACTool_Reloaded
                 }
                 else // OK
                 {
+                    ActivateOrDeactivateLPC(false);
+
                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
 
                     toolStripStatusLabel_Status.ForeColor = Color.FromArgb(0, 0, 0, 0);
@@ -1342,6 +1495,66 @@ namespace ATRACTool_Reloaded
                                             return;
                                         }
                                         break;
+                                    }
+                                case 2:
+                                    {
+                                        if (!iseveryfmt)
+                                        {
+                                            SaveFileDialog sfd = new()
+                                            {
+                                                FileName = Common.Utils.SFDRandomNumber(),
+                                                InitialDirectory = "",
+                                                Filter = Common.Generic.WalkmanEveryFilter,
+                                                FilterIndex = 0,
+                                                Title = Localization.SaveDialogTitle,
+                                                OverwritePrompt = true,
+                                                RestoreDirectory = true
+                                            };
+                                            if (sfd.ShowDialog() == DialogResult.OK)
+                                            {
+                                                Common.Generic.SavePath = sfd.FileName;
+                                                Common.Generic.ProgressMax = 1;
+                                            }
+                                            else // Cancelled
+                                            {
+                                                ResetStatus();
+                                                return;
+                                            }
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            SaveFileDialog sfd = new()
+                                            {
+                                                FileName = Common.Utils.SFDRandomNumber(),
+                                                InitialDirectory = "",
+                                                Filter = Localization.WalkmanFilter,
+                                                FilterIndex = 0,
+                                                Title = Localization.SaveDialogTitle,
+                                                OverwritePrompt = true,
+                                                RestoreDirectory = true
+                                            };
+                                            if (sfd.ShowDialog() == DialogResult.OK)
+                                            {
+                                                FormSetWalkmanInformations formSetWalkmanInformations = new();
+                                                if (formSetWalkmanInformations.ShowDialog() == DialogResult.OK)
+                                                {
+                                                    Common.Generic.SavePath = sfd.FileName;
+                                                    Common.Generic.ProgressMax = 1;
+                                                }
+                                                else
+                                                {
+                                                    ResetStatus();
+                                                    return;
+                                                }
+                                            }
+                                            else // Cancelled
+                                            {
+                                                ResetStatus();
+                                                return;
+                                            }
+                                            break;
+                                        }
                                     }
                             }
                         }
@@ -1426,6 +1639,29 @@ namespace ATRACTool_Reloaded
                                         return;
                                     }
                                 }
+
+                                if (Generic.ATRACFlag == 2)
+                                {
+                                    MessageBox.Show(this, "This option is not available at this time.\r\nPlease wait for the next update.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                    FormSelectWalkmanFormats formSelectWalkmanFormats = new(true);
+                                    if (formSelectWalkmanFormats.ShowDialog() == DialogResult.OK)
+                                    {
+                                        SetWalkmanMultiConvertFormats(true, int.Parse(Generic.WalkmanMultiConvFmt));
+                                        if (iseveryfmt)
+                                        {
+                                            FormSetWalkmanInformations formSetWalkmanInformations = new();
+                                            if (formSetWalkmanInformations.ShowDialog() == DialogResult.OK)
+                                            {
+                                                // OK
+                                            }
+                                            else { return; }
+                                        }
+
+                                    }
+                                    else { return; }
+                                }
+
                                 Common.Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
                             }
                             else // Cancelled
@@ -1719,6 +1955,8 @@ namespace ATRACTool_Reloaded
             label_Formattxt.Visible = false;
             toolStripDropDownButton_EF.Enabled = false;
             toolStripDropDownButton_EF.Visible = false;
+            toolStripStatusLabel_EncMethod.Enabled = false;
+            toolStripStatusLabel_EncMethod.Visible = false;
             loopPointCreationToolStripMenuItem.Enabled = false;
             closeFileCToolStripMenuItem.Enabled = false;
         }
@@ -2329,6 +2567,8 @@ namespace ATRACTool_Reloaded
                                     closeFileCToolStripMenuItem.Enabled = false;
                                     toolStripDropDownButton_EF.Enabled = false;
                                     toolStripDropDownButton_EF.Visible = false;
+                                    toolStripStatusLabel_EncMethod.Enabled = false;
+                                    toolStripStatusLabel_EncMethod.Visible = false;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = false;
                                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -2343,6 +2583,8 @@ namespace ATRACTool_Reloaded
                                     closeFileCToolStripMenuItem.Enabled = false;
                                     toolStripDropDownButton_EF.Enabled = false;
                                     toolStripDropDownButton_EF.Visible = false;
+                                    toolStripStatusLabel_EncMethod.Enabled = false;
+                                    toolStripStatusLabel_EncMethod.Visible = false;
                                     button_Decode.Enabled = false;
                                     button_Encode.Enabled = false;
                                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -2911,6 +3153,8 @@ namespace ATRACTool_Reloaded
                     label_Formattxt.Text = Localization.WAVEFormatCaption;
                     toolStripDropDownButton_EF.Enabled = true;
                     toolStripDropDownButton_EF.Visible = true;
+                    toolStripStatusLabel_EncMethod.Enabled = true;
+                    toolStripStatusLabel_EncMethod.Visible = true;
                     button_Decode.Enabled = false;
                     button_Encode.Enabled = true;
                     //loopPointCreationToolStripMenuItem.Enabled = true;
@@ -2932,6 +3176,8 @@ namespace ATRACTool_Reloaded
                         label_Formattxt.Text = Localization.WAVEConvertedFormatCaption;
                         toolStripDropDownButton_EF.Enabled = true;
                         toolStripDropDownButton_EF.Visible = true;
+                        toolStripStatusLabel_EncMethod.Enabled = true;
+                        toolStripStatusLabel_EncMethod.Visible = true;
                         button_Decode.Enabled = false;
                         button_Encode.Enabled = true;
                         //loopPointCreationToolStripMenuItem.Enabled = true;
@@ -2952,6 +3198,8 @@ namespace ATRACTool_Reloaded
                     Generic.IsATW = false;
                     toolStripDropDownButton_EF.Enabled = false;
                     toolStripDropDownButton_EF.Visible = false;
+                    toolStripStatusLabel_EncMethod.Enabled = false;
+                    toolStripStatusLabel_EncMethod.Visible = false;
                     button_Decode.Enabled = true;
                     button_Encode.Enabled = false;
                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -2965,6 +3213,8 @@ namespace ATRACTool_Reloaded
                     Generic.IsATW = false;
                     toolStripDropDownButton_EF.Enabled = false;
                     toolStripDropDownButton_EF.Visible = false;
+                    toolStripStatusLabel_EncMethod.Enabled = false;
+                    toolStripStatusLabel_EncMethod.Visible = false;
                     button_Decode.Enabled = true;
                     button_Encode.Enabled = false;
                     loopPointCreationToolStripMenuItem.Enabled = false;
@@ -3052,6 +3302,7 @@ namespace ATRACTool_Reloaded
                     if (Common.Generic.OpenFilePaths.Length == Directory.GetFiles(Common.Generic.pATRACFolderSavePath, "*", SearchOption.AllDirectories).Length) // OK
                     {
                         List<string> lst = new();
+                        List<string> lst2 = new();
                         foreach (var file in Generic.OpenFilePaths)
                         {
                             FileInfo CurrentFi = new(file);
@@ -3059,7 +3310,39 @@ namespace ATRACTool_Reloaded
                             lst.Add(Generic.pATRACSavePath);
                         }
                         Generic.pATRACOpenFilePaths = lst.ToArray();
-                        return true;
+
+                        foreach (var file in Generic.pATRACOpenFilePaths)
+                        {
+                            FileInfo fi = new(file);
+                            if (fi.Length != 0)
+                            {
+                                lst2.Add(file);
+                                continue;
+                            }
+                            else
+                            {
+                                File.Delete(file);
+                                continue;
+                            }
+                        }
+
+                        Generic.pATRACOpenFilePaths = null!;
+                        if (lst.Count == lst2.Count) // OK
+                        {
+                            Generic.pATRACOpenFilePaths = lst2.ToArray();
+                            return true;
+                        }
+                        else if (lst.Count > lst2.Count && lst2.Count != 0) // 一部変換失敗
+                        {
+                            Generic.pATRACOpenFilePaths = lst2.ToArray();
+                            MessageBox.Show(this, Localization.DecodePartialCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, string.Format("{0}\n\nLog: {1}", Localization.DecodeErrorCaption, Common.Utils.LogSplit(Common.Generic.Log)), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
                     }
                     else // Error
                     {
@@ -3149,5 +3432,83 @@ namespace ATRACTool_Reloaded
         {
 
         }
+
+        private void toolStripDropDownButton_EF_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void EncodeMethodIsATRAC(bool flag)
+        {
+            switch (flag)
+            {
+                case true:
+                    FLPC?.ATRACRadioButtonChanger(true);
+                    Common.Generic.IsWalkman = false;
+                    break;
+                case false:
+                    FLPC?.ATRACRadioButtonChanger(false);
+                    Common.Generic.IsWalkman = true;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deencflag">フラグ (true:Encode, false:Decode)</param>
+        /// <param name="swit">switch式</param>
+        private void SetWalkmanMultiConvertFormats(bool deencflag, int swit)
+        {
+            if (!deencflag)
+            {
+                switch (swit)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (swit)
+                {
+                    case 0: // PCM
+                        Generic.WalkmanMultiConvExt = ".oma";
+                        break;
+                    case 1: // ATRAC3 OMA
+                        Generic.WalkmanMultiConvExt = ".oma";
+                        break;
+                    case 2: // ATRAC3 OMG
+                        Generic.WalkmanMultiConvExt = ".omg";
+                        break;
+                    case 3: // ATRAC3 AL
+                        Generic.WalkmanMultiConvExt = ".oma";
+                        break;
+                    case 4: // ATRAC3 KDR
+                        Generic.WalkmanMultiConvExt = ".kdr";
+                        break;
+                    case 5: // ATRAC3+ OMA
+                        Generic.WalkmanMultiConvExt = ".oma";
+                        break;
+                    case 6: // ATRAC3+ OMG
+                        Generic.WalkmanMultiConvExt = ".omg";
+                        break;
+                    case 7: // ATRAC3+ AL
+                        Generic.WalkmanMultiConvExt = ".oma";
+                        break;
+                    case 8: // ATRAC3+ KDR
+                        Generic.WalkmanMultiConvExt = ".kdr";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
     }
 }
