@@ -167,6 +167,9 @@
   <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="toolTip_info.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="textBox_at3_cmd.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 487</value>
   </data>
@@ -176,9 +179,6 @@
   <data name="textBox_at3_cmd.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <metadata name="toolTip_info.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="textBox_at3_cmd.ToolTip" xml:space="preserve">
     <value>The current command line arguments are displayed.
 You can also specify your own arguments if needed.</value>
@@ -220,59 +220,275 @@ You can also specify your own arguments if needed.</value>
   <data name="&gt;&gt;textBox_at9_cmd.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label_at3_cmd.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label_at3_cmd.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 469</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_at3_cmd.Size" type="System.Drawing.Size, System.Drawing">
     <value>253, 15</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="label_at3_cmd.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="label_at3_cmd.Text" xml:space="preserve">
     <value>ATRAC3 / ATRAC3+ Command-line arguments:</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="&gt;&gt;label_at3_cmd.Name" xml:space="preserve">
+    <value>label_at3_cmd</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_at3_cmd.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_at3_cmd.Parent" xml:space="preserve">
     <value>tabPage1</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label_at3_cmd.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label_at9_cmd.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label_at9_cmd.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 513</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_at9_cmd.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 15</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="label_at9_cmd.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="label_at9_cmd.Text" xml:space="preserve">
     <value>ATRAC9 Command-line arguments:</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="&gt;&gt;label_at9_cmd.Name" xml:space="preserve">
+    <value>label_at9_cmd</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_at9_cmd.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_at9_cmd.Parent" xml:space="preserve">
     <value>tabPage1</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label_at9_cmd.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PS3.Name" xml:space="preserve">
+    <value>radioButton_PS3</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PS3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PS3.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PS3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Name" xml:space="preserve">
+    <value>label_at3_times</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label_at3_times.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSP.Name" xml:space="preserve">
+    <value>radioButton_PSP</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSP.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSP.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Name" xml:space="preserve">
+    <value>textBox_at3_looptimes</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_looptimes.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Name" xml:space="preserve">
+    <value>label_at3_nol</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label_at3_nol.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Name" xml:space="preserve">
+    <value>checkBox_at3_looptimes</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looptimes.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Name" xml:space="preserve">
+    <value>label_at3_samples</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label_at3_samples.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Name" xml:space="preserve">
+    <value>textBox_at3_loopend</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopend.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Name" xml:space="preserve">
+    <value>textBox_at3_loopstart</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;textBox_at3_loopstart.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Name" xml:space="preserve">
+    <value>label_at3_loopend</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopend.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Name" xml:space="preserve">
+    <value>label_at3_loopstart</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label_at3_loopstart.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Name" xml:space="preserve">
+    <value>checkBox_at3_loopsound</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_loopsound.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Name" xml:space="preserve">
+    <value>checkBox_at3_looppoint</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at3_looppoint.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Name" xml:space="preserve">
+    <value>comboBox_at3_encmethod</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at3_encmethod.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="groupBox_at3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 3</value>
+  </data>
+  <data name="groupBox_at3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>820, 140</value>
+  </data>
+  <data name="groupBox_at3.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="groupBox_at3.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at3.Name" xml:space="preserve">
+    <value>groupBox_at3</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at3.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at3.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="radioButton_PS3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -299,7 +515,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_PS3.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;radioButton_PS3.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -329,7 +545,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at3_times.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label_at3_times.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -359,7 +575,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_PSP.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;radioButton_PSP.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -399,7 +615,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at3_looptimes.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;textBox_at3_looptimes.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -426,7 +642,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -456,7 +672,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at3_nol.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label_at3_nol.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -486,7 +702,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_looptimes.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_looptimes.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -516,7 +732,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at3_samples.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label_at3_samples.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -555,7 +771,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at3_loopend.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;textBox_at3_loopend.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -594,7 +810,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at3_loopstart.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;textBox_at3_loopstart.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -624,7 +840,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at3_loopend.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label_at3_loopend.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -654,7 +870,7 @@ You can also specify your own arguments if needed.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at3_loopstart.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label_at3_loopstart.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -686,7 +902,7 @@ option is forced to be disabled.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_loopsound.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_loopsound.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -716,7 +932,7 @@ option is forced to be disabled.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_looppoint.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;checkBox_at3_looppoint.ZOrder" xml:space="preserve">
     <value>13</value>
@@ -792,7 +1008,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at3_encmethod.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;comboBox_at3_encmethod.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -819,34 +1035,286 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>groupBox_at3</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 3</value>
+  <data name="&gt;&gt;radioButton_PS4.Name" xml:space="preserve">
+    <value>radioButton_PS4</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>820, 140</value>
+  <data name="&gt;&gt;radioButton_PS4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;radioButton_PS4.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PS4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSV.Name" xml:space="preserve">
+    <value>radioButton_PSV</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSV.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;radioButton_PSV.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Name" xml:space="preserve">
+    <value>label_at9_times</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label_at9_times.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Name" xml:space="preserve">
+    <value>textBox_at9_looptimes</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looptimes.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Name" xml:space="preserve">
+    <value>label_at9_samples</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label_at9_samples.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Name" xml:space="preserve">
+    <value>textBox_at9_loopend</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopend.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Name" xml:space="preserve">
+    <value>textBox_at9_loopstart</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_loopstart.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>ATRAC3 / ATRAC3+</value>
+  <data name="&gt;&gt;label_at9_loopstart.Name" xml:space="preserve">
+    <value>label_at9_loopstart</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;label_at9_loopstart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_at9_loopstart.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopstart.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Name" xml:space="preserve">
+    <value>checkBox_at9_looptimes</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looptimes.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Name" xml:space="preserve">
+    <value>button_at9_looplist</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;button_at9_looplist.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Name" xml:space="preserve">
+    <value>textBox_at9_looplist</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;textBox_at9_looplist.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Name" xml:space="preserve">
+    <value>checkBox_at9_looplist</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looplist.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Name" xml:space="preserve">
+    <value>checkBox_at9_loopsound</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_loopsound.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Name" xml:space="preserve">
+    <value>checkBox_at9_looppoint</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_looppoint.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Name" xml:space="preserve">
+    <value>comboBox_at9_sampling</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_sampling.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Name" xml:space="preserve">
+    <value>comboBox_at9_bitrate</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_bitrate.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Name" xml:space="preserve">
+    <value>label_at9_loopend</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label_at9_loopend.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Name" xml:space="preserve">
+    <value>label_at9_nol</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.Parent" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;label_at9_nol.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="groupBox_at9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 149</value>
+  </data>
+  <data name="groupBox_at9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>820, 170</value>
+  </data>
+  <data name="groupBox_at9.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="groupBox_at9.Text" xml:space="preserve">
+    <value>ATRAC9</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at9.Name" xml:space="preserve">
+    <value>groupBox_at9</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at9.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox_at9.Parent" xml:space="preserve">
     <value>tabPage1</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;groupBox_at9.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="radioButton_PS4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -873,7 +1341,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_PS4.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;radioButton_PS4.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -903,7 +1371,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_PSV.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;radioButton_PSV.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -933,7 +1401,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_times.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label_at9_times.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -972,7 +1440,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at9_looptimes.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;textBox_at9_looptimes.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -1002,7 +1470,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_samples.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label_at9_samples.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -1041,7 +1509,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at9_loopend.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;textBox_at9_loopend.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -1080,7 +1548,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at9_loopstart.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;textBox_at9_loopstart.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -1110,7 +1578,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_loopstart.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label_at9_loopstart.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -1140,7 +1608,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looptimes.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looptimes.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -1167,7 +1635,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button_at9_looplist.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;button_at9_looplist.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -1191,7 +1659,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;textBox_at9_looplist.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;textBox_at9_looplist.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -1221,7 +1689,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looplist.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looplist.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -1253,7 +1721,7 @@ option is forced to be disabled.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_loopsound.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_loopsound.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -1283,7 +1751,7 @@ option is forced to be disabled.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looppoint.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_looppoint.ZOrder" xml:space="preserve">
     <value>13</value>
@@ -1319,7 +1787,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_sampling.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_sampling.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -1346,7 +1814,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>15</value>
@@ -1401,7 +1869,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_bitrate.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_bitrate.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -1428,7 +1896,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>17</value>
@@ -1458,7 +1926,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_loopend.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label_at9_loopend.ZOrder" xml:space="preserve">
     <value>18</value>
@@ -1488,7 +1956,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>19</value>
@@ -1518,34 +1986,202 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_nol.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>groupBox_at9</value>
   </data>
   <data name="&gt;&gt;label_at9_nol.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 149</value>
+  <data name="&gt;&gt;checkBox_LFE.Name" xml:space="preserve">
+    <value>checkBox_LFE</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>820, 170</value>
+  <data name="&gt;&gt;checkBox_LFE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;checkBox_LFE.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_LFE.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;checkBox_wband.Name" xml:space="preserve">
+    <value>checkBox_wband</value>
+  </data>
+  <data name="&gt;&gt;checkBox_wband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_wband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_wband.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_bex.Name" xml:space="preserve">
+    <value>checkBox_bex</value>
+  </data>
+  <data name="&gt;&gt;checkBox_bex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_bex.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_bex.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Name" xml:space="preserve">
+    <value>comboBox_at9_enctype</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_enctype.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Name" xml:space="preserve">
+    <value>label_at9_enctype</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;label_at9_enctype.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Name" xml:space="preserve">
+    <value>comboBox_at9_startband</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_startband.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Name" xml:space="preserve">
+    <value>checkBox_at9_enctype</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_enctype.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Name" xml:space="preserve">
+    <value>comboBox_at9_useband</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;comboBox_at9_useband.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>ATRAC9</value>
+  <data name="&gt;&gt;label_at9_useband.Name" xml:space="preserve">
+    <value>label_at9_useband</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;label_at9_useband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_at9_useband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;label_at9_useband.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Name" xml:space="preserve">
+    <value>label_at9_startband</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;label_at9_startband.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Name" xml:space="preserve">
+    <value>checkBox_at9_advband</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advband.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Name" xml:space="preserve">
+    <value>checkBox_at9_dualenc</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_dualenc.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Name" xml:space="preserve">
+    <value>checkBox_at9_supframe</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_supframe.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Name" xml:space="preserve">
+    <value>checkBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.Parent" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;checkBox_at9_advanced.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="groupBox_at9_advanced.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 319</value>
+  </data>
+  <data name="groupBox_at9_advanced.Size" type="System.Drawing.Size, System.Drawing">
+    <value>820, 125</value>
+  </data>
+  <data name="groupBox_at9_advanced.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBox_at9_advanced.Text" xml:space="preserve">
+    <value>ATRAC9 Advanced</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at9_advanced.Name" xml:space="preserve">
+    <value>groupBox_at9_advanced</value>
+  </data>
+  <data name="&gt;&gt;groupBox_at9_advanced.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox_at9_advanced.Parent" xml:space="preserve">
     <value>tabPage1</value>
   </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;groupBox_at9_advanced.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="checkBox_LFE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1572,7 +2208,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_LFE.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_LFE.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -1602,7 +2238,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_wband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_wband.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -1632,7 +2268,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_bex.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_bex.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -1674,7 +2310,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_enctype.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_enctype.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -1704,7 +2340,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_enctype.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;label_at9_enctype.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -1734,7 +2370,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_startband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_startband.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -1764,7 +2400,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_enctype.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_enctype.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -1836,7 +2472,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_useband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;comboBox_at9_useband.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -1866,7 +2502,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_useband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;label_at9_useband.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -1896,7 +2532,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_at9_startband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;label_at9_startband.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -1926,7 +2562,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_advband.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_advband.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -1956,7 +2592,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_dualenc.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_dualenc.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -1986,7 +2622,7 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_supframe.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_supframe.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -2013,34 +2649,10 @@ conversion will fail.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_advanced.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+    <value>groupBox_at9_advanced</value>
   </data>
   <data name="&gt;&gt;checkBox_at9_advanced.ZOrder" xml:space="preserve">
     <value>13</value>
-  </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 319</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>820, 125</value>
-  </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>ATRAC9 Advanced</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="checkBox_lpcreate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2073,6 +2685,54 @@ displayed during conversion to create loop points.</value>
   <data name="&gt;&gt;checkBox_lpcreate.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="toolTip_info.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>tabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabControl_Main.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="tabControl_Main.Size" type="System.Drawing.Size, System.Drawing">
+    <value>840, 588</value>
+  </data>
+  <data name="tabControl_Main.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;tabControl_Main.Name" xml:space="preserve">
+    <value>tabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;tabControl_Main.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl_Main.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl_Main.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>
   </data>
@@ -2099,6 +2759,789 @@ displayed during conversion to create loop points.</value>
     <value>tabControl_Main</value>
   </data>
   <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Name" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.Name" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;textBox_cmd_walkman.Name" xml:space="preserve">
+    <value>textBox_cmd_walkman</value>
+  </data>
+  <data name="&gt;&gt;textBox_cmd_walkman.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_cmd_walkman.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;textBox_cmd_walkman.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>832, 560</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Walkman</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl_Main</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label_Linerpath.Name" xml:space="preserve">
+    <value>label_Linerpath</value>
+  </data>
+  <data name="&gt;&gt;label_Linerpath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Linerpath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label_Linerpath.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label_Lyricspath.Name" xml:space="preserve">
+    <value>label_Lyricspath</value>
+  </data>
+  <data name="&gt;&gt;label_Lyricspath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Lyricspath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label_Lyricspath.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label_Jacketpath.Name" xml:space="preserve">
+    <value>label_Jacketpath</value>
+  </data>
+  <data name="&gt;&gt;label_Jacketpath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Jacketpath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label_Jacketpath.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Jacketmode.Name" xml:space="preserve">
+    <value>comboBox_Jacketmode</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Jacketmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Jacketmode.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Jacketmode.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Linermode.Name" xml:space="preserve">
+    <value>comboBox_Linermode</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Linermode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Linermode.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Linermode.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;button_Linerpath.Name" xml:space="preserve">
+    <value>button_Linerpath</value>
+  </data>
+  <data name="&gt;&gt;button_Linerpath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Linerpath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;button_Linerpath.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Lyricsmode.Name" xml:space="preserve">
+    <value>comboBox_Lyricsmode</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Lyricsmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Lyricsmode.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Lyricsmode.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;button_Lyricspath.Name" xml:space="preserve">
+    <value>button_Lyricspath</value>
+  </data>
+  <data name="&gt;&gt;button_Lyricspath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Lyricspath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;button_Lyricspath.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;button_Jacketpath.Name" xml:space="preserve">
+    <value>button_Jacketpath</value>
+  </data>
+  <data name="&gt;&gt;button_Jacketpath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Jacketpath.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;button_Jacketpath.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;label37.Name" xml:space="preserve">
+    <value>label37</value>
+  </data>
+  <data name="&gt;&gt;label37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label37.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label32.Name" xml:space="preserve">
+    <value>label32</value>
+  </data>
+  <data name="&gt;&gt;label32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label32.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;textBox_Bitrates.Name" xml:space="preserve">
+    <value>textBox_Bitrates</value>
+  </data>
+  <data name="&gt;&gt;textBox_Bitrates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Bitrates.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Bitrates.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;pictureBox_Jacket.Name" xml:space="preserve">
+    <value>pictureBox_Jacket</value>
+  </data>
+  <data name="&gt;&gt;pictureBox_Jacket.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox_Jacket.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;pictureBox_Jacket.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;textBox_MilliSecond.Name" xml:space="preserve">
+    <value>textBox_MilliSecond</value>
+  </data>
+  <data name="&gt;&gt;textBox_MilliSecond.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_MilliSecond.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_MilliSecond.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;textBox_Duration.Name" xml:space="preserve">
+    <value>textBox_Duration</value>
+  </data>
+  <data name="&gt;&gt;textBox_Duration.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Duration.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Duration.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;textBox_TotalTracks.Name" xml:space="preserve">
+    <value>textBox_TotalTracks</value>
+  </data>
+  <data name="&gt;&gt;textBox_TotalTracks.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_TotalTracks.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_TotalTracks.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;textBox_TrackNumber.Name" xml:space="preserve">
+    <value>textBox_TrackNumber</value>
+  </data>
+  <data name="&gt;&gt;textBox_TrackNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_TrackNumber.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_TrackNumber.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;textBox_Lyricist.Name" xml:space="preserve">
+    <value>textBox_Lyricist</value>
+  </data>
+  <data name="&gt;&gt;textBox_Lyricist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Lyricist.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Lyricist.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;textBox_Composer.Name" xml:space="preserve">
+    <value>textBox_Composer</value>
+  </data>
+  <data name="&gt;&gt;textBox_Composer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Composer.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Composer.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;textBox_Genre.Name" xml:space="preserve">
+    <value>textBox_Genre</value>
+  </data>
+  <data name="&gt;&gt;textBox_Genre.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Genre.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Genre.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbumArtist.Name" xml:space="preserve">
+    <value>textBox_SortAlbumArtist</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbumArtist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbumArtist.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbumArtist.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;textBox_AlbumArtist.Name" xml:space="preserve">
+    <value>textBox_AlbumArtist</value>
+  </data>
+  <data name="&gt;&gt;textBox_AlbumArtist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_AlbumArtist.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_AlbumArtist.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbum.Name" xml:space="preserve">
+    <value>textBox_SortAlbum</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbum.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortAlbum.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;textBox_Album.Name" xml:space="preserve">
+    <value>textBox_Album</value>
+  </data>
+  <data name="&gt;&gt;textBox_Album.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Album.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Album.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortArtist.Name" xml:space="preserve">
+    <value>textBox_SortArtist</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortArtist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortArtist.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortArtist.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;textBox_Artist.Name" xml:space="preserve">
+    <value>textBox_Artist</value>
+  </data>
+  <data name="&gt;&gt;textBox_Artist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Artist.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Artist.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortSubtitle.Name" xml:space="preserve">
+    <value>textBox_SortSubtitle</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortSubtitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortSubtitle.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortSubtitle.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;textBox_Subtitle.Name" xml:space="preserve">
+    <value>textBox_Subtitle</value>
+  </data>
+  <data name="&gt;&gt;textBox_Subtitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Subtitle.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Subtitle.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortTitle.Name" xml:space="preserve">
+    <value>textBox_SortTitle</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortTitle.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_SortTitle.ZOrder" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Import.Name" xml:space="preserve">
+    <value>dateTimePicker_Import</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Import.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Import.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Import.ZOrder" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Release.Name" xml:space="preserve">
+    <value>dateTimePicker_Release</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Release.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Release.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_Release.ZOrder" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;textBox_Title.Name" xml:space="preserve">
+    <value>textBox_Title</value>
+  </data>
+  <data name="&gt;&gt;textBox_Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Title.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;textBox_Title.ZOrder" xml:space="preserve">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;label36.Name" xml:space="preserve">
+    <value>label36</value>
+  </data>
+  <data name="&gt;&gt;label36.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label36.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;label35.Name" xml:space="preserve">
+    <value>label35</value>
+  </data>
+  <data name="&gt;&gt;label35.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label35.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label35.ZOrder" xml:space="preserve">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;label34.Name" xml:space="preserve">
+    <value>label34</value>
+  </data>
+  <data name="&gt;&gt;label34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label34.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;label33.Name" xml:space="preserve">
+    <value>label33</value>
+  </data>
+  <data name="&gt;&gt;label33.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label33.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;label31.Name" xml:space="preserve">
+    <value>label31</value>
+  </data>
+  <data name="&gt;&gt;label31.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label31.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label31.ZOrder" xml:space="preserve">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;label30.Name" xml:space="preserve">
+    <value>label30</value>
+  </data>
+  <data name="&gt;&gt;label30.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label30.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label30.ZOrder" xml:space="preserve">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;label29.Name" xml:space="preserve">
+    <value>label29</value>
+  </data>
+  <data name="&gt;&gt;label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label29.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;label28.Name" xml:space="preserve">
+    <value>label28</value>
+  </data>
+  <data name="&gt;&gt;label28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
+    <value>39</value>
+  </data>
+  <data name="&gt;&gt;label27.Name" xml:space="preserve">
+    <value>label27</value>
+  </data>
+  <data name="&gt;&gt;label27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;label26.Name" xml:space="preserve">
+    <value>label26</value>
+  </data>
+  <data name="&gt;&gt;label26.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;label25.Name" xml:space="preserve">
+    <value>label25</value>
+  </data>
+  <data name="&gt;&gt;label25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
+    <value>42</value>
+  </data>
+  <data name="&gt;&gt;label24.Name" xml:space="preserve">
+    <value>label24</value>
+  </data>
+  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;label23.Name" xml:space="preserve">
+    <value>label23</value>
+  </data>
+  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
+    <value>44</value>
+  </data>
+  <data name="&gt;&gt;label22.Name" xml:space="preserve">
+    <value>label22</value>
+  </data>
+  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+    <value>45</value>
+  </data>
+  <data name="&gt;&gt;label21.Name" xml:space="preserve">
+    <value>label21</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;label20.Name" xml:space="preserve">
+    <value>label20</value>
+  </data>
+  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+    <value>47</value>
+  </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>49</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
+  </data>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>51</value>
+  </data>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>52</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>53</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>54</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>55</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>56</value>
+  </data>
+  <data name="groupBox_walkman_others.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 152</value>
+  </data>
+  <data name="groupBox_walkman_others.Size" type="System.Drawing.Size, System.Drawing">
+    <value>820, 358</value>
+  </data>
+  <data name="groupBox_walkman_others.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox_walkman_others.Text" xml:space="preserve">
+    <value>Specified Song Informations</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Name" xml:space="preserve">
+    <value>groupBox_walkman_others</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_others.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label_Linerpath.Location" type="System.Drawing.Point, System.Drawing">
@@ -3662,29 +5105,113 @@ TotalTracks</value>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
     <value>56</value>
   </data>
-  <data name="groupBox_walkman_others.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 152</value>
+  <data name="&gt;&gt;checkBox_everyFormats.Name" xml:space="preserve">
+    <value>checkBox_everyFormats</value>
   </data>
-  <data name="groupBox_walkman_others.Size" type="System.Drawing.Size, System.Drawing">
-    <value>820, 358</value>
+  <data name="&gt;&gt;checkBox_everyFormats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox_walkman_others.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;checkBox_everyFormats.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;checkBox_everyFormats.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Name" xml:space="preserve">
+    <value>comboBox_DecodeFormats</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;label_Decodeformat.Name" xml:space="preserve">
+    <value>label_Decodeformat</value>
+  </data>
+  <data name="&gt;&gt;label_Decodeformat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Decodeformat.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;label_Decodeformat.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label_Outputformat.Name" xml:space="preserve">
+    <value>label_Outputformat</value>
+  </data>
+  <data name="&gt;&gt;label_Outputformat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Outputformat.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;label_Outputformat.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="groupBox_walkman_others.Text" xml:space="preserve">
-    <value>Specified Song Informations</value>
+  <data name="&gt;&gt;comboBox_OutputFormats.Name" xml:space="preserve">
+    <value>comboBox_OutputFormats</value>
   </data>
-  <data name="&gt;&gt;groupBox_walkman_others.Name" xml:space="preserve">
-    <value>groupBox_walkman_others</value>
+  <data name="&gt;&gt;comboBox_OutputFormats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox_walkman_others.Type" xml:space="preserve">
+  <data name="&gt;&gt;comboBox_OutputFormats.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;comboBox_OutputFormats.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;radioButton_each.Name" xml:space="preserve">
+    <value>radioButton_each</value>
+  </data>
+  <data name="&gt;&gt;radioButton_each.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_each.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;radioButton_each.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;radioButton_specified.Name" xml:space="preserve">
+    <value>radioButton_specified</value>
+  </data>
+  <data name="&gt;&gt;radioButton_specified.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_specified.Parent" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;radioButton_specified.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="groupBox_walkman_general.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="groupBox_walkman_general.Size" type="System.Drawing.Size, System.Drawing">
+    <value>820, 140</value>
+  </data>
+  <data name="groupBox_walkman_general.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox_walkman_general.Text" xml:space="preserve">
+    <value>Generals</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.Name" xml:space="preserve">
+    <value>groupBox_walkman_general</value>
+  </data>
+  <data name="&gt;&gt;groupBox_walkman_general.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox_walkman_others.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox_walkman_general.Parent" xml:space="preserve">
     <value>tabPage2</value>
   </data>
-  <data name="&gt;&gt;groupBox_walkman_others.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;groupBox_walkman_general.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="checkBox_everyFormats.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3708,7 +5235,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_everyFormats.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;checkBox_everyFormats.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -3738,7 +5265,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_DecodeFormats.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;comboBox_DecodeFormats.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -3765,7 +5292,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_Decodeformat.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;label_Decodeformat.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -3792,7 +5319,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_Outputformat.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;label_Outputformat.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -3840,7 +5367,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_OutputFormats.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;comboBox_OutputFormats.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -3867,7 +5394,7 @@ TotalTracks</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_each.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;radioButton_each.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -3894,34 +5421,10 @@ TotalTracks</value>
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_specified.Parent" xml:space="preserve">
-    <value>groupBox4</value>
+    <value>groupBox_walkman_general</value>
   </data>
   <data name="&gt;&gt;radioButton_specified.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 6</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>820, 140</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Generals</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="textBox_cmd_walkman.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 531</value>
@@ -3970,54 +5473,6 @@ TotalTracks</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>832, 560</value>
-  </data>
-  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>Walkman</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
-    <value>tabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabControl_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="tabControl_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>840, 588</value>
-  </data>
-  <data name="tabControl_Main.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;tabControl_Main.Name" xml:space="preserve">
-    <value>tabControl_Main</value>
-  </data>
-  <data name="&gt;&gt;tabControl_Main.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl_Main.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tabControl_Main.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -34,9 +34,9 @@
             button_Cancel = new Button();
             textBox_at3_cmd = new TextBox();
             textBox_at9_cmd = new TextBox();
-            label1 = new Label();
-            label2 = new Label();
-            groupBox1 = new GroupBox();
+            label_at3_cmd = new Label();
+            label_at9_cmd = new Label();
+            groupBox_at3 = new GroupBox();
             radioButton_PS3 = new RadioButton();
             label_at3_times = new Label();
             radioButton_PSP = new RadioButton();
@@ -53,7 +53,7 @@
             checkBox_at3_looppoint = new CheckBox();
             comboBox_at3_encmethod = new ComboBox();
             label3 = new Label();
-            groupBox2 = new GroupBox();
+            groupBox_at9 = new GroupBox();
             radioButton_PS4 = new RadioButton();
             radioButton_PSV = new RadioButton();
             label_at9_times = new Label();
@@ -75,7 +75,7 @@
             label_at9_loopend = new Label();
             label7 = new Label();
             label_at9_nol = new Label();
-            groupBox3 = new GroupBox();
+            groupBox_at9_advanced = new GroupBox();
             checkBox_LFE = new CheckBox();
             checkBox_wband = new CheckBox();
             checkBox_bex = new CheckBox();
@@ -153,7 +153,7 @@
             label13 = new Label();
             label12 = new Label();
             label11 = new Label();
-            groupBox4 = new GroupBox();
+            groupBox_walkman_general = new GroupBox();
             checkBox_everyFormats = new CheckBox();
             comboBox_DecodeFormats = new ComboBox();
             label_Decodeformat = new Label();
@@ -163,15 +163,15 @@
             radioButton_specified = new RadioButton();
             textBox_cmd_walkman = new TextBox();
             label8 = new Label();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
+            groupBox_at3.SuspendLayout();
+            groupBox_at9.SuspendLayout();
+            groupBox_at9_advanced.SuspendLayout();
             tabControl_Main.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             groupBox_walkman_others.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Jacket).BeginInit();
-            groupBox4.SuspendLayout();
+            groupBox_walkman_general.SuspendLayout();
             SuspendLayout();
             // 
             // button_OK
@@ -201,37 +201,37 @@
             textBox_at9_cmd.Name = "textBox_at9_cmd";
             toolTip_info.SetToolTip(textBox_at9_cmd, resources.GetString("textBox_at9_cmd.ToolTip"));
             // 
-            // label1
+            // label_at3_cmd
             // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
+            resources.ApplyResources(label_at3_cmd, "label_at3_cmd");
+            label_at3_cmd.Name = "label_at3_cmd";
             // 
-            // label2
+            // label_at9_cmd
             // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
+            resources.ApplyResources(label_at9_cmd, "label_at9_cmd");
+            label_at9_cmd.Name = "label_at9_cmd";
             // 
-            // groupBox1
+            // groupBox_at3
             // 
-            groupBox1.Controls.Add(radioButton_PS3);
-            groupBox1.Controls.Add(label_at3_times);
-            groupBox1.Controls.Add(radioButton_PSP);
-            groupBox1.Controls.Add(textBox_at3_looptimes);
-            groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(label_at3_nol);
-            groupBox1.Controls.Add(checkBox_at3_looptimes);
-            groupBox1.Controls.Add(label_at3_samples);
-            groupBox1.Controls.Add(textBox_at3_loopend);
-            groupBox1.Controls.Add(textBox_at3_loopstart);
-            groupBox1.Controls.Add(label_at3_loopend);
-            groupBox1.Controls.Add(label_at3_loopstart);
-            groupBox1.Controls.Add(checkBox_at3_loopsound);
-            groupBox1.Controls.Add(checkBox_at3_looppoint);
-            groupBox1.Controls.Add(comboBox_at3_encmethod);
-            groupBox1.Controls.Add(label3);
-            resources.ApplyResources(groupBox1, "groupBox1");
-            groupBox1.Name = "groupBox1";
-            groupBox1.TabStop = false;
+            groupBox_at3.Controls.Add(radioButton_PS3);
+            groupBox_at3.Controls.Add(label_at3_times);
+            groupBox_at3.Controls.Add(radioButton_PSP);
+            groupBox_at3.Controls.Add(textBox_at3_looptimes);
+            groupBox_at3.Controls.Add(label6);
+            groupBox_at3.Controls.Add(label_at3_nol);
+            groupBox_at3.Controls.Add(checkBox_at3_looptimes);
+            groupBox_at3.Controls.Add(label_at3_samples);
+            groupBox_at3.Controls.Add(textBox_at3_loopend);
+            groupBox_at3.Controls.Add(textBox_at3_loopstart);
+            groupBox_at3.Controls.Add(label_at3_loopend);
+            groupBox_at3.Controls.Add(label_at3_loopstart);
+            groupBox_at3.Controls.Add(checkBox_at3_loopsound);
+            groupBox_at3.Controls.Add(checkBox_at3_looppoint);
+            groupBox_at3.Controls.Add(comboBox_at3_encmethod);
+            groupBox_at3.Controls.Add(label3);
+            resources.ApplyResources(groupBox_at3, "groupBox_at3");
+            groupBox_at3.Name = "groupBox_at3";
+            groupBox_at3.TabStop = false;
             // 
             // radioButton_PS3
             // 
@@ -344,32 +344,32 @@
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
-            // groupBox2
+            // groupBox_at9
             // 
-            groupBox2.Controls.Add(radioButton_PS4);
-            groupBox2.Controls.Add(radioButton_PSV);
-            groupBox2.Controls.Add(label_at9_times);
-            groupBox2.Controls.Add(textBox_at9_looptimes);
-            groupBox2.Controls.Add(label_at9_samples);
-            groupBox2.Controls.Add(textBox_at9_loopend);
-            groupBox2.Controls.Add(textBox_at9_loopstart);
-            groupBox2.Controls.Add(label_at9_loopstart);
-            groupBox2.Controls.Add(checkBox_at9_looptimes);
-            groupBox2.Controls.Add(button_at9_looplist);
-            groupBox2.Controls.Add(textBox_at9_looplist);
-            groupBox2.Controls.Add(checkBox_at9_looplist);
-            groupBox2.Controls.Add(checkBox_at9_loopsound);
-            groupBox2.Controls.Add(checkBox_at9_looppoint);
-            groupBox2.Controls.Add(comboBox_at9_sampling);
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(comboBox_at9_bitrate);
-            groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(label_at9_loopend);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(label_at9_nol);
-            resources.ApplyResources(groupBox2, "groupBox2");
-            groupBox2.Name = "groupBox2";
-            groupBox2.TabStop = false;
+            groupBox_at9.Controls.Add(radioButton_PS4);
+            groupBox_at9.Controls.Add(radioButton_PSV);
+            groupBox_at9.Controls.Add(label_at9_times);
+            groupBox_at9.Controls.Add(textBox_at9_looptimes);
+            groupBox_at9.Controls.Add(label_at9_samples);
+            groupBox_at9.Controls.Add(textBox_at9_loopend);
+            groupBox_at9.Controls.Add(textBox_at9_loopstart);
+            groupBox_at9.Controls.Add(label_at9_loopstart);
+            groupBox_at9.Controls.Add(checkBox_at9_looptimes);
+            groupBox_at9.Controls.Add(button_at9_looplist);
+            groupBox_at9.Controls.Add(textBox_at9_looplist);
+            groupBox_at9.Controls.Add(checkBox_at9_looplist);
+            groupBox_at9.Controls.Add(checkBox_at9_loopsound);
+            groupBox_at9.Controls.Add(checkBox_at9_looppoint);
+            groupBox_at9.Controls.Add(comboBox_at9_sampling);
+            groupBox_at9.Controls.Add(label5);
+            groupBox_at9.Controls.Add(comboBox_at9_bitrate);
+            groupBox_at9.Controls.Add(label4);
+            groupBox_at9.Controls.Add(label_at9_loopend);
+            groupBox_at9.Controls.Add(label7);
+            groupBox_at9.Controls.Add(label_at9_nol);
+            resources.ApplyResources(groupBox_at9, "groupBox_at9");
+            groupBox_at9.Name = "groupBox_at9";
+            groupBox_at9.TabStop = false;
             // 
             // radioButton_PS4
             // 
@@ -518,26 +518,26 @@
             resources.ApplyResources(label_at9_nol, "label_at9_nol");
             label_at9_nol.Name = "label_at9_nol";
             // 
-            // groupBox3
+            // groupBox_at9_advanced
             // 
-            groupBox3.Controls.Add(checkBox_LFE);
-            groupBox3.Controls.Add(checkBox_wband);
-            groupBox3.Controls.Add(checkBox_bex);
-            groupBox3.Controls.Add(comboBox_at9_enctype);
-            groupBox3.Controls.Add(label_at9_enctype);
-            groupBox3.Controls.Add(comboBox_at9_startband);
-            groupBox3.Controls.Add(checkBox_at9_enctype);
-            groupBox3.Controls.Add(comboBox_at9_useband);
-            groupBox3.Controls.Add(label_at9_useband);
-            groupBox3.Controls.Add(label_at9_startband);
-            groupBox3.Controls.Add(checkBox_at9_advband);
-            groupBox3.Controls.Add(checkBox_at9_dualenc);
-            groupBox3.Controls.Add(checkBox_at9_supframe);
-            groupBox3.Controls.Add(checkBox_at9_advanced);
-            resources.ApplyResources(groupBox3, "groupBox3");
-            groupBox3.Name = "groupBox3";
-            groupBox3.TabStop = false;
-            groupBox3.Enter += groupBox3_Enter;
+            groupBox_at9_advanced.Controls.Add(checkBox_LFE);
+            groupBox_at9_advanced.Controls.Add(checkBox_wband);
+            groupBox_at9_advanced.Controls.Add(checkBox_bex);
+            groupBox_at9_advanced.Controls.Add(comboBox_at9_enctype);
+            groupBox_at9_advanced.Controls.Add(label_at9_enctype);
+            groupBox_at9_advanced.Controls.Add(comboBox_at9_startband);
+            groupBox_at9_advanced.Controls.Add(checkBox_at9_enctype);
+            groupBox_at9_advanced.Controls.Add(comboBox_at9_useband);
+            groupBox_at9_advanced.Controls.Add(label_at9_useband);
+            groupBox_at9_advanced.Controls.Add(label_at9_startband);
+            groupBox_at9_advanced.Controls.Add(checkBox_at9_advband);
+            groupBox_at9_advanced.Controls.Add(checkBox_at9_dualenc);
+            groupBox_at9_advanced.Controls.Add(checkBox_at9_supframe);
+            groupBox_at9_advanced.Controls.Add(checkBox_at9_advanced);
+            resources.ApplyResources(groupBox_at9_advanced, "groupBox_at9_advanced");
+            groupBox_at9_advanced.Name = "groupBox_at9_advanced";
+            groupBox_at9_advanced.TabStop = false;
+            groupBox_at9_advanced.Enter += groupBox3_Enter;
             // 
             // checkBox_LFE
             // 
@@ -652,16 +652,17 @@
             resources.ApplyResources(tabControl_Main, "tabControl_Main");
             tabControl_Main.Name = "tabControl_Main";
             tabControl_Main.SelectedIndex = 0;
+            tabControl_Main.Selecting += tabControl_Main_Selecting;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(checkBox_lpcreate);
-            tabPage1.Controls.Add(groupBox2);
-            tabPage1.Controls.Add(label1);
-            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(groupBox_at9);
+            tabPage1.Controls.Add(label_at3_cmd);
+            tabPage1.Controls.Add(label_at9_cmd);
             tabPage1.Controls.Add(textBox_at3_cmd);
-            tabPage1.Controls.Add(groupBox3);
-            tabPage1.Controls.Add(groupBox1);
+            tabPage1.Controls.Add(groupBox_at9_advanced);
+            tabPage1.Controls.Add(groupBox_at3);
             tabPage1.Controls.Add(textBox_at9_cmd);
             resources.ApplyResources(tabPage1, "tabPage1");
             tabPage1.Name = "tabPage1";
@@ -670,7 +671,7 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(groupBox_walkman_others);
-            tabPage2.Controls.Add(groupBox4);
+            tabPage2.Controls.Add(groupBox_walkman_general);
             tabPage2.Controls.Add(textBox_cmd_walkman);
             tabPage2.Controls.Add(label8);
             resources.ApplyResources(tabPage2, "tabPage2");
@@ -1071,18 +1072,18 @@
             resources.ApplyResources(label11, "label11");
             label11.Name = "label11";
             // 
-            // groupBox4
+            // groupBox_walkman_general
             // 
-            groupBox4.Controls.Add(checkBox_everyFormats);
-            groupBox4.Controls.Add(comboBox_DecodeFormats);
-            groupBox4.Controls.Add(label_Decodeformat);
-            groupBox4.Controls.Add(label_Outputformat);
-            groupBox4.Controls.Add(comboBox_OutputFormats);
-            groupBox4.Controls.Add(radioButton_each);
-            groupBox4.Controls.Add(radioButton_specified);
-            resources.ApplyResources(groupBox4, "groupBox4");
-            groupBox4.Name = "groupBox4";
-            groupBox4.TabStop = false;
+            groupBox_walkman_general.Controls.Add(checkBox_everyFormats);
+            groupBox_walkman_general.Controls.Add(comboBox_DecodeFormats);
+            groupBox_walkman_general.Controls.Add(label_Decodeformat);
+            groupBox_walkman_general.Controls.Add(label_Outputformat);
+            groupBox_walkman_general.Controls.Add(comboBox_OutputFormats);
+            groupBox_walkman_general.Controls.Add(radioButton_each);
+            groupBox_walkman_general.Controls.Add(radioButton_specified);
+            resources.ApplyResources(groupBox_walkman_general, "groupBox_walkman_general");
+            groupBox_walkman_general.Name = "groupBox_walkman_general";
+            groupBox_walkman_general.TabStop = false;
             // 
             // checkBox_everyFormats
             // 
@@ -1158,12 +1159,12 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormSettings";
             Load += FormSettings_Load;
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
+            groupBox_at3.ResumeLayout(false);
+            groupBox_at3.PerformLayout();
+            groupBox_at9.ResumeLayout(false);
+            groupBox_at9.PerformLayout();
+            groupBox_at9_advanced.ResumeLayout(false);
+            groupBox_at9_advanced.PerformLayout();
             tabControl_Main.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -1172,8 +1173,8 @@
             groupBox_walkman_others.ResumeLayout(false);
             groupBox_walkman_others.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Jacket).EndInit();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
+            groupBox_walkman_general.ResumeLayout(false);
+            groupBox_walkman_general.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1183,12 +1184,12 @@
         private Button button_Cancel;
         private TextBox textBox_at3_cmd;
         private TextBox textBox_at9_cmd;
-        private Label label1;
-        private Label label2;
-        private GroupBox groupBox1;
+        private Label label_at3_cmd;
+        private Label label_at9_cmd;
+        private GroupBox groupBox_at3;
         private ComboBox comboBox_at3_encmethod;
         private Label label3;
-        private GroupBox groupBox2;
+        private GroupBox groupBox_at9;
         private Label label_at9_samples;
         private Label label_at9_loopend;
         private TextBox textBox_at9_loopend;
@@ -1218,7 +1219,7 @@
         private Label label_at9_times;
         private Label label_at9_nol;
         private TextBox textBox_at9_looptimes;
-        private GroupBox groupBox3;
+        private GroupBox groupBox_at9_advanced;
         private ComboBox comboBox_at9_enctype;
         private Label label_at9_enctype;
         private ComboBox comboBox_at9_startband;
@@ -1246,7 +1247,7 @@
         private TabPage tabPage2;
         private TextBox textBox_cmd_walkman;
         private Label label8;
-        private GroupBox groupBox4;
+        private GroupBox groupBox_walkman_general;
         private Label label_Outputformat;
         private ComboBox comboBox_OutputFormats;
         private ComboBox comboBox_DecodeFormats;

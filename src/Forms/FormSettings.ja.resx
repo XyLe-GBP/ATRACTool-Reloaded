@@ -134,28 +134,16 @@
     <value>現在のコマンドライン引数が表示されます。
 必要に応じて、独自の引数を指定することも可能です。</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 15</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>ATRAC3 / ATRAC3+ コマンドライン引数：</value>
-  </data>
-  <data name="label1.ToolTip" xml:space="preserve">
+  <data name="label_at3_cmd.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 15</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>ATRAC9 コマンドライン引数：</value>
-  </data>
-  <data name="label2.ToolTip" xml:space="preserve">
+  <data name="label_at9_cmd.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="groupBox1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_PS3.Location" type="System.Drawing.Point, System.Drawing">
     <value>270, 25</value>
   </data>
@@ -217,7 +205,7 @@
     <value>有効にすると、音源をループする回数を指定できます。</value>
   </data>
   <data name="label_at3_samples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>490, 58</value>
+    <value>543, 58</value>
   </data>
   <data name="label_at3_samples.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 15</value>
@@ -229,13 +217,19 @@
     <value />
   </data>
   <data name="textBox_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 55</value>
+    <value>433, 55</value>
   </data>
   <data name="textBox_at3_loopend.ToolTip" xml:space="preserve">
     <value>ループ終了地点のサンプル値を指定します。</value>
   </data>
+  <data name="textBox_at3_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>211, 55</value>
+  </data>
   <data name="textBox_at3_loopstart.ToolTip" xml:space="preserve">
     <value>ループ開始地点のサンプル値を指定します。</value>
+  </data>
+  <data name="label_at3_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>323, 58</value>
   </data>
   <data name="label_at3_loopend.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 15</value>
@@ -246,11 +240,14 @@
   <data name="label_at3_loopend.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="label_at3_loopstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 58</value>
+  </data>
   <data name="label_at3_loopstart.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="checkBox_at3_loopsound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>558, 57</value>
+    <value>611, 56</value>
   </data>
   <data name="checkBox_at3_loopsound.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 19</value>
@@ -367,7 +364,7 @@ PSP、PS3で形式が異なります。
     <value>音源のループする回数を指定します。</value>
   </data>
   <data name="label_at9_samples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>490, 56</value>
+    <value>540, 56</value>
   </data>
   <data name="label_at9_samples.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 15</value>
@@ -379,7 +376,7 @@ PSP、PS3で形式が異なります。
     <value />
   </data>
   <data name="textBox_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 53</value>
+    <value>443, 53</value>
   </data>
   <data name="textBox_at9_loopend.ToolTip" xml:space="preserve">
     <value>ループ終了地点のサンプル値を指定します。</value>
@@ -415,7 +412,7 @@ PSP、PS3で形式が異なります。
     <value>リストファイルを使用してループを指定します。</value>
   </data>
   <data name="checkBox_at9_loopsound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>558, 55</value>
+    <value>610, 55</value>
   </data>
   <data name="checkBox_at9_loopsound.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 19</value>
@@ -481,6 +478,9 @@ PSVita、PS4で形式が異なります。
   </data>
   <data name="label4.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="label_at9_loopend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>333, 56</value>
   </data>
   <data name="label_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 15</value>
@@ -688,6 +688,219 @@ PSVita、PS4で形式が異なります。
   </data>
   <data name="checkBox_lpcreate.ToolTip" xml:space="preserve">
     <value>有効にすると、変換時にループポイントクリエーターダイアログを表示させ、ループポイントの作成ができます。</value>
+  </data>
+  <data name="tabControl_Main.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPage1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPage2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox_walkman_others.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_Linerpath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_Lyricspath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_Jacketpath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_Jacketmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_Linermode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Linerpath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_Lyricsmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Lyricspath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Jacketpath.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label37.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label32.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Bitrates.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pictureBox_Jacket.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_MilliSecond.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Duration.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_TotalTracks.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_TrackNumber.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Lyricist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Composer.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Genre.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_SortAlbumArtist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_AlbumArtist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_SortAlbum.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Album.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_SortArtist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Artist.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_SortSubtitle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Subtitle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_SortTitle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="dateTimePicker_Import.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="dateTimePicker_Release.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_Title.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label36.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label35.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label34.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label33.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label31.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label30.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label29.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label28.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label27.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label26.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label25.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label24.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label23.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label22.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label21.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label20.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label19.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label18.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label17.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label16.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBox_everyFormats.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_DecodeFormats.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_Decodeformat.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_Outputformat.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="comboBox_OutputFormats.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="radioButton_each.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="radioButton_specified.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="textBox_cmd_walkman.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>変換設定</value>

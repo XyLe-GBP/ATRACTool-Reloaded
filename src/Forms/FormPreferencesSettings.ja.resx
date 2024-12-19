@@ -205,6 +205,16 @@
   <data name="tabPage1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>347, 19</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.Text" xml:space="preserve">
+    <value>エンコード音声を読み込んだ際のプレビュー警告メッセージを無効にする</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.ToolTip" xml:space="preserve">
+    <value>有効にすると、エンコード音声を読み込んだ際に表示される警告メッセージを無効にします。
+ただし間違いを予防する為、通常は無効にしておくことをお勧めします。</value>
+  </data>
   <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
     <value>238, 19</value>
   </data>
@@ -216,14 +226,14 @@
 このオプションを有効化している場合、'IO-&gt;指定したフォルダに保存'オプションは無視されます。</value>
   </data>
   <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 19</value>
+    <value>223, 19</value>
   </data>
   <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
-    <value>再生時のサンプル値の更新を滑らかにする (実験的機能)</value>
+    <value>再生時のサンプル値の更新を滑らかにする</value>
   </data>
   <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
-    <value>再生時のサンプル値の更新を滑らかにします。
-この機能は実験的であり、予期せぬ不具合が発生する可能性があります。</value>
+    <value>再生中のサンプル値の更新を滑らかにしますが、CPUに負荷が掛かります。
+無効にすることでCPUリソースを削減できますが、値の更新は遅延します。</value>
   </data>
   <data name="button_Splashimg.ToolTip" xml:space="preserve">
     <value />

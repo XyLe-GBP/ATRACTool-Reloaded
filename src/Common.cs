@@ -41,9 +41,12 @@ namespace ATRACTool_Reloaded
             public static int ProcessFlag = -1;
             public static int ProgressMax = 0;
             /// <summary>
-            /// 複数のファイルをエンコードする際にループポイントを作成するかのフラグ
+            /// エンコードする際にループポイントを作成するかのフラグ
             /// </summary>
             public static bool lpcreate = false;
+            /// <summary>
+            /// 変換設定ダイアログ用ループフラグ
+            /// </summary>
             public static bool lpcreatev2 = false;
             public static int files = 0;
             /// <summary>
@@ -59,12 +62,14 @@ namespace ATRACTool_Reloaded
             /// ファイルをWaveに変換したかどうかを判別するための変数
             /// </summary>
             public static bool IsATW = false;
+            public static bool IsATWCancelled = false;
             /// <summary>
             /// 変換先の形式を判別するための変数
             /// </summary>
             public static int WTAFlag = -1;
             public static string[] OpenFilePaths = null!;
             public static string[] pATRACOpenFilePaths = null!;
+            public static string[] OriginOpenFilePaths = null!;
             //public static string[] OpenFilePathsWithMultiExt = null!;
             public static bool IsOpenMulti = false;
             public static string SavePath = null!;
@@ -87,6 +92,15 @@ namespace ATRACTool_Reloaded
             public static StreamReader Log = null!;
             public static Exception GlobalException = null!;
 
+            public static bool IsLPCStreamingReloaded = false;
+            public static long LPCTotalSamples = 0;
+
+            public static bool IsPlaybackATRAC = false;
+
+            /// <summary>
+            /// 設定ファイルエラー検知用変数
+            /// </summary>
+            public static bool IsConfigError = false;
             /// <summary>
             /// ダウンロード機能用変数
             /// </summary>
@@ -290,17 +304,32 @@ namespace ATRACTool_Reloaded
             /// IsATWがtrueならWaveに変換したファイルを削除
             /// </summary>
             /// <param name="flag">Generic.IsATW</param>
-            public static void ATWCheck(bool flag)
+            public static void ATWCheck(bool flag, bool IsCancelled = false)
             {
                 switch (flag)
                 {
                     case true:
                         {
-                            foreach (var file in Generic.OpenFilePaths)
+                            if (IsCancelled)
                             {
-                                if (File.Exists(file))
+                                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
                                 {
-                                    File.Delete(file);
+                                    Directory.Delete(Directory.GetCurrentDirectory() + @"\_tempAudio");
+                                }
+                                Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                            }
+                            else
+                            {
+                                foreach (var file in Generic.OpenFilePaths)
+                                {
+                                    if (File.Exists(file))
+                                    {
+                                        File.Delete(file);
+                                    }
+                                }
+                                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
+                                {
+                                    Directory.Delete(Directory.GetCurrentDirectory() + @"\_tempAudio");
                                 }
                             }
                             break;
@@ -703,6 +732,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["PlaybackATRAC"].Value == null) // ATRAC読み込み時の再生インターフェースの有効 (bool)
                 {
                     Config.Entry["PlaybackATRAC"].Value = "true";
+                }
+                if (Config.Entry["DisablePreviewWarning"].Value == null) // 警告メッセージ無効化 (bool)
+                {
+                    Config.Entry["DisablePreviewWarning"].Value = "false";
                 }
                 if (Config.Entry["SplashImage"].Value == null) // スプラッシュスクリーン画像 (bool)
                 {

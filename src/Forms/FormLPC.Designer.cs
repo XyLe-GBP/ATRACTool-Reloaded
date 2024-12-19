@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLPC));
-            trackBar_trk = new TrackBar();
             button_Play = new Button();
             button_Stop = new Button();
             button_OK = new Button();
@@ -38,8 +37,6 @@
             label_Samples = new Label();
             timer_Reload = new System.Windows.Forms.Timer(components);
             label_Length = new Label();
-            trackBar_Start = new TrackBar();
-            trackBar_End = new TrackBar();
             label_LoopStartSamples = new Label();
             label_LoopEndSamples = new Label();
             button_SetStart = new Button();
@@ -63,19 +60,13 @@
             label_end = new Label();
             panSlider1 = new NAudio.Gui.PanSlider();
             label_Pan = new Label();
-            ((System.ComponentModel.ISupportInitialize)trackBar_trk).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar_Start).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar_End).BeginInit();
+            customTrackBar_End = new src.Controls.CustomTrackBar();
+            customTrackBar_Trk = new src.Controls.CustomTrackBar();
+            customTrackBar_Start = new src.Controls.CustomTrackBar();
+            label_previewwarn = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopStart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopEnd).BeginInit();
             SuspendLayout();
-            // 
-            // trackBar_trk
-            // 
-            resources.ApplyResources(trackBar_trk, "trackBar_trk");
-            trackBar_trk.Name = "trackBar_trk";
-            trackBar_trk.TickStyle = TickStyle.Both;
-            trackBar_trk.CursorChanged += trackBar_trk_CursorChanged;
             // 
             // button_Play
             // 
@@ -118,17 +109,6 @@
             // 
             resources.ApplyResources(label_Length, "label_Length");
             label_Length.Name = "label_Length";
-            // 
-            // trackBar_Start
-            // 
-            resources.ApplyResources(trackBar_Start, "trackBar_Start");
-            trackBar_Start.Name = "trackBar_Start";
-            trackBar_Start.TickStyle = TickStyle.TopLeft;
-            // 
-            // trackBar_End
-            // 
-            resources.ApplyResources(trackBar_End, "trackBar_End");
-            trackBar_End.Name = "trackBar_End";
             // 
             // label_LoopStartSamples
             // 
@@ -252,6 +232,7 @@
             // 
             // label_trk
             // 
+            label_trk.BackColor = Color.Transparent;
             resources.ApplyResources(label_trk, "label_trk");
             label_trk.Name = "label_trk";
             // 
@@ -272,6 +253,88 @@
             resources.ApplyResources(label_Pan, "label_Pan");
             label_Pan.Name = "label_Pan";
             // 
+            // customTrackBar_End
+            // 
+            customTrackBar_End.BackgroundColor = SystemColors.Control;
+            customTrackBar_End.DraggedThumbColor = Color.DarkRed;
+            resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
+            customTrackBar_End.Maximum = 100;
+            customTrackBar_End.Minimum = 0;
+            customTrackBar_End.Name = "customTrackBar_End";
+            customTrackBar_End.Orientation = Orientation.Horizontal;
+            customTrackBar_End.Shape = src.Controls.CustomTrackBar.ThumbShape.DownArrow;
+            customTrackBar_End.ShowLPCSamples = true;
+            customTrackBar_End.ShowTicks = true;
+            customTrackBar_End.ThumbColor = Color.Red;
+            customTrackBar_End.ThumbHeight = 22;
+            customTrackBar_End.ThumbSize = 10;
+            customTrackBar_End.ThumbWidth = 8;
+            customTrackBar_End.TickColor = Color.Black;
+            customTrackBar_End.TickFrequency = 10;
+            customTrackBar_End.TickPos = src.Controls.CustomTrackBar.TickPosition.Below;
+            customTrackBar_End.TickSize = 5;
+            customTrackBar_End.TrackColor = Color.LightGray;
+            customTrackBar_End.TrackThickness = 8;
+            customTrackBar_End.Value = 0;
+            customTrackBar_End.Scroll += customTrackBar_End_Scroll;
+            // 
+            // customTrackBar_Trk
+            // 
+            customTrackBar_Trk.BackgroundColor = SystemColors.Control;
+            customTrackBar_Trk.DraggedThumbColor = Color.DarkBlue;
+            resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
+            customTrackBar_Trk.Maximum = 100;
+            customTrackBar_Trk.Minimum = 0;
+            customTrackBar_Trk.Name = "customTrackBar_Trk";
+            customTrackBar_Trk.Orientation = Orientation.Horizontal;
+            customTrackBar_Trk.Shape = src.Controls.CustomTrackBar.ThumbShape.Rectangle;
+            customTrackBar_Trk.ShowLPCSamples = true;
+            customTrackBar_Trk.ShowTicks = true;
+            customTrackBar_Trk.ThumbColor = Color.DodgerBlue;
+            customTrackBar_Trk.ThumbHeight = 63;
+            customTrackBar_Trk.ThumbSize = 10;
+            customTrackBar_Trk.ThumbWidth = 4;
+            customTrackBar_Trk.TickColor = Color.Black;
+            customTrackBar_Trk.TickFrequency = 10;
+            customTrackBar_Trk.TickPos = src.Controls.CustomTrackBar.TickPosition.Both;
+            customTrackBar_Trk.TickSize = 5;
+            customTrackBar_Trk.TrackColor = Color.LightGray;
+            customTrackBar_Trk.TrackThickness = 30;
+            customTrackBar_Trk.Value = 0;
+            customTrackBar_Trk.Scroll += customTrackBar_Trk_Scroll;
+            customTrackBar_Trk.Click += customTrackBar_Trk_Click;
+            // 
+            // customTrackBar_Start
+            // 
+            customTrackBar_Start.BackgroundColor = SystemColors.Control;
+            customTrackBar_Start.DraggedThumbColor = Color.DarkGreen;
+            resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
+            customTrackBar_Start.Maximum = 100;
+            customTrackBar_Start.Minimum = 0;
+            customTrackBar_Start.Name = "customTrackBar_Start";
+            customTrackBar_Start.Orientation = Orientation.Horizontal;
+            customTrackBar_Start.Shape = src.Controls.CustomTrackBar.ThumbShape.UpArrow;
+            customTrackBar_Start.ShowLPCSamples = true;
+            customTrackBar_Start.ShowTicks = true;
+            customTrackBar_Start.ThumbColor = Color.ForestGreen;
+            customTrackBar_Start.ThumbHeight = 25;
+            customTrackBar_Start.ThumbSize = 10;
+            customTrackBar_Start.ThumbWidth = 8;
+            customTrackBar_Start.TickColor = Color.Black;
+            customTrackBar_Start.TickFrequency = 10;
+            customTrackBar_Start.TickPos = src.Controls.CustomTrackBar.TickPosition.Above;
+            customTrackBar_Start.TickSize = 5;
+            customTrackBar_Start.TrackColor = Color.LightGray;
+            customTrackBar_Start.TrackThickness = 10;
+            customTrackBar_Start.Value = 0;
+            customTrackBar_Start.Scroll += customTrackBar_Start_Scroll;
+            customTrackBar_Start.Click += customTrackBar_Start_Click;
+            // 
+            // label_previewwarn
+            // 
+            resources.ApplyResources(label_previewwarn, "label_previewwarn");
+            label_previewwarn.Name = "label_previewwarn";
+            // 
             // FormLPC
             // 
             AcceptButton = button_OK;
@@ -279,10 +342,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = button_Cancel;
             ControlBox = false;
+            Controls.Add(label_previewwarn);
+            Controls.Add(label_trk);
+            Controls.Add(customTrackBar_Start);
+            Controls.Add(customTrackBar_Trk);
+            Controls.Add(customTrackBar_End);
             Controls.Add(label_Pan);
             Controls.Add(panSlider1);
             Controls.Add(label_end);
-            Controls.Add(label_trk);
             Controls.Add(label_start);
             Controls.Add(button_LE_Current);
             Controls.Add(button_LS_Current);
@@ -298,27 +365,21 @@
             Controls.Add(checkBox_LoopEnable);
             Controls.Add(numericUpDown_LoopEnd);
             Controls.Add(numericUpDown_LoopStart);
-            Controls.Add(trackBar_End);
             Controls.Add(button_SetEnd);
             Controls.Add(button_SetStart);
             Controls.Add(label_LoopEndSamples);
             Controls.Add(label_LoopStartSamples);
-            Controls.Add(trackBar_trk);
             Controls.Add(label_Length);
             Controls.Add(label_Samples);
             Controls.Add(button_Cancel);
             Controls.Add(button_OK);
             Controls.Add(button_Stop);
             Controls.Add(button_Play);
-            Controls.Add(trackBar_Start);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormLPC";
             FormClosed += FormLPC_FormClosed;
             Load += FormLPC_Load;
             Paint += FormLPC_Paint;
-            ((System.ComponentModel.ISupportInitialize)trackBar_trk).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar_Start).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar_End).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopStart).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopEnd).EndInit();
             ResumeLayout(false);
@@ -335,7 +396,6 @@
         private Label label_Samples;
         private System.Windows.Forms.Timer timer_Reload;
         private Label label_Length;
-        private TrackBar trackBar_Start;
         private TrackBar trackBar_End;
         private Label label_LoopStartSamples;
         private Label label_LoopEndSamples;
@@ -347,7 +407,6 @@
         private Label label_File;
         private Button button_Prev;
         private Button button_Next;
-        private Label label_Psamples;
         private Label label_Plength;
         private NAudio.Gui.VolumeSlider volumeSlider1;
         private Label label_Volume;
@@ -360,5 +419,10 @@
         private Label label_Pan;
         public RadioButton radioButton_at3;
         public RadioButton radioButton_at9;
+        private src.Controls.CustomTrackBar customTrackBar_End;
+        private src.Controls.CustomTrackBar customTrackBar_Trk;
+        private src.Controls.CustomTrackBar customTrackBar_Start;
+        internal Label label_Psamples;
+        private Label label_previewwarn;
     }
 }

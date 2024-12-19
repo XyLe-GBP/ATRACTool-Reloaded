@@ -117,38 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="trackBar_trk.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="trackBar_trk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 52</value>
-  </data>
-  <data name="trackBar_trk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>805, 42</value>
-  </data>
-  <data name="trackBar_trk.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.Name" xml:space="preserve">
-    <value>trackBar_trk</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;trackBar_trk.ZOrder" xml:space="preserve">
-    <value>24</value>
-  </data>
   <data name="button_Play.Location" type="System.Drawing.Point, System.Drawing">
     <value>225, 182</value>
   </data>
   <data name="button_Play.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 43</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="button_Play.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -165,7 +141,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Play.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>32</value>
   </data>
   <data name="button_Stop.Location" type="System.Drawing.Point, System.Drawing">
     <value>425, 182</value>
@@ -189,7 +165,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Stop.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>31</value>
   </data>
   <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
     <value>676, 330</value>
@@ -213,7 +189,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>30</value>
   </data>
   <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>757, 330</value>
@@ -237,7 +213,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>29</value>
   </data>
   <data name="label_Samples.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -264,7 +240,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Samples.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>28</value>
   </data>
   <metadata name="timer_Reload.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -294,61 +270,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Length.ZOrder" xml:space="preserve">
-    <value>25</value>
-  </data>
-  <data name="trackBar_Start.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="trackBar_Start.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="trackBar_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 100</value>
-  </data>
-  <data name="trackBar_Start.Size" type="System.Drawing.Size, System.Drawing">
-    <value>805, 33</value>
-  </data>
-  <data name="trackBar_Start.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Name" xml:space="preserve">
-    <value>trackBar_Start</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;trackBar_Start.ZOrder" xml:space="preserve">
-    <value>31</value>
-  </data>
-  <data name="trackBar_End.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="trackBar_End.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="trackBar_End.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 28</value>
-  </data>
-  <data name="trackBar_End.Size" type="System.Drawing.Size, System.Drawing">
-    <value>805, 29</value>
-  </data>
-  <data name="trackBar_End.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.Name" xml:space="preserve">
-    <value>trackBar_End</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TrackBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;trackBar_End.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>27</value>
   </data>
   <data name="label_LoopStartSamples.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -375,7 +297,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_LoopStartSamples.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>26</value>
   </data>
   <data name="label_LoopEndSamples.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -402,7 +324,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_LoopEndSamples.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>25</value>
   </data>
   <data name="button_SetStart.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -429,7 +351,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_SetStart.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>24</value>
   </data>
   <data name="button_SetEnd.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -456,7 +378,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_SetEnd.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>23</value>
   </data>
   <data name="numericUpDown_LoopStart.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -480,7 +402,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDown_LoopStart.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>22</value>
   </data>
   <data name="numericUpDown_LoopEnd.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -504,7 +426,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDown_LoopEnd.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>21</value>
   </data>
   <data name="checkBox_LoopEnable.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -531,7 +453,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_LoopEnable.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>20</value>
   </data>
   <data name="radioButton_at3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -558,7 +480,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton_at3.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>19</value>
   </data>
   <data name="radioButton_at9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -585,7 +507,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioButton_at9.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>18</value>
+  </data>
+  <data name="label_File.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 11.25pt</value>
   </data>
   <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 161</value>
@@ -609,7 +534,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>17</value>
   </data>
   <data name="button_Prev.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 182</value>
@@ -633,7 +558,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Prev.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>16</value>
   </data>
   <data name="button_Next.Location" type="System.Drawing.Point, System.Drawing">
     <value>637, 182</value>
@@ -657,7 +582,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Next.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>15</value>
   </data>
   <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 14.25pt, style=Bold</value>
@@ -691,7 +616,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Psamples.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>14</value>
   </data>
   <data name="label_Plength.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI Semibold, 14.25pt, style=Bold</value>
@@ -721,7 +646,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Plength.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="volumeSlider1.Location" type="System.Drawing.Point, System.Drawing">
     <value>638, 250</value>
@@ -742,7 +667,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;volumeSlider1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="label_Volume.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -769,7 +694,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Volume.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="button_LS_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -799,7 +724,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_LS_Current.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="button_LE_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -832,10 +757,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_LE_Current.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
+  </data>
+  <data name="label_start.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="label_start.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 9pt, style=Bold</value>
+    <value>Yu Gothic UI, 8.25pt, style=Bold</value>
   </data>
   <data name="label_start.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -865,7 +793,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_start.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
+  </data>
+  <data name="label_trk.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="label_trk.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 8.25pt, style=Bold</value>
@@ -874,10 +805,10 @@
     <value>NoControl</value>
   </data>
   <data name="label_trk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-10, 85</value>
+    <value>-10, 70</value>
   </data>
   <data name="label_trk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 15</value>
+    <value>50, 30</value>
   </data>
   <data name="label_trk.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -898,7 +829,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_trk.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
+  </data>
+  <data name="label_end.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="label_end.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 8.25pt, style=Bold</value>
@@ -931,7 +865,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_end.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>7</value>
   </data>
   <data name="panSlider1.Location" type="System.Drawing.Point, System.Drawing">
     <value>741, 250</value>
@@ -952,7 +886,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panSlider1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>6</value>
   </data>
   <data name="label_Pan.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -979,6 +913,108 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Pan.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="customTrackBar_End.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 25</value>
+  </data>
+  <data name="customTrackBar_End.Size" type="System.Drawing.Size, System.Drawing">
+    <value>815, 34</value>
+  </data>
+  <data name="customTrackBar_End.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="customTrackBar_End.Text" xml:space="preserve">
+    <value>customTrackBar1</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_End.Name" xml:space="preserve">
+    <value>customTrackBar_End</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_End.Type" xml:space="preserve">
+    <value>ATRACTool_Reloaded.src.Controls.CustomTrackBar, ATRACTool-Reloaded, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_End.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_End.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="customTrackBar_Trk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 54</value>
+  </data>
+  <data name="customTrackBar_Trk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>815, 63</value>
+  </data>
+  <data name="customTrackBar_Trk.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="customTrackBar_Trk.Text" xml:space="preserve">
+    <value>customTrackBar2</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Trk.Name" xml:space="preserve">
+    <value>customTrackBar_Trk</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Trk.Type" xml:space="preserve">
+    <value>ATRACTool_Reloaded.src.Controls.CustomTrackBar, ATRACTool-Reloaded, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Trk.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Trk.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="customTrackBar_Start.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 117</value>
+  </data>
+  <data name="customTrackBar_Start.Size" type="System.Drawing.Size, System.Drawing">
+    <value>815, 25</value>
+  </data>
+  <data name="customTrackBar_Start.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="customTrackBar_Start.Text" xml:space="preserve">
+    <value>customTrackBar1</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Start.Name" xml:space="preserve">
+    <value>customTrackBar_Start</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Start.Type" xml:space="preserve">
+    <value>ATRACTool_Reloaded.src.Controls.CustomTrackBar, ATRACTool-Reloaded, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Start.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;customTrackBar_Start.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_previewwarn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_previewwarn.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 8.25pt</value>
+  </data>
+  <data name="label_previewwarn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 147</value>
+  </data>
+  <data name="label_previewwarn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label_previewwarn.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="label_previewwarn.Text" xml:space="preserve">
+    <value>Caution: </value>
+  </data>
+  <data name="&gt;&gt;label_previewwarn.Name" xml:space="preserve">
+    <value>label_previewwarn</value>
+  </data>
+  <data name="&gt;&gt;label_previewwarn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_previewwarn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_previewwarn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

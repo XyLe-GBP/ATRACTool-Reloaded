@@ -6,6 +6,19 @@ namespace ATRACTool_Reloaded
 {
     public partial class FormPreferencesSettings : Form
     {
+        private static FormPreferencesSettings _formPreferencesSettingsInstance = null!;
+        public static FormPreferencesSettings FormPreferencesSettingsInstance
+        {
+            get
+            {
+                return _formPreferencesSettingsInstance;
+            }
+            set
+            {
+                _formPreferencesSettingsInstance = value;
+            }
+        }
+
         public FormPreferencesSettings()
         {
             InitializeComponent();
@@ -48,6 +61,16 @@ namespace ATRACTool_Reloaded
                         break;
                     case false:
                         checkBox_EnableATRACPlayback.Checked = false;
+                        break;
+                }
+
+                switch (bool.Parse(Config.Entry["DisablePreviewWarning"].Value))
+                {
+                    case true:
+                        checkBox_DisablePreviewWarning.Checked = true;
+                        break;
+                    case false:
+                        checkBox_DisablePreviewWarning.Checked = false;
                         break;
                 }
 
@@ -219,6 +242,7 @@ namespace ATRACTool_Reloaded
             catch (Exception ex)
             {
                 MessageBox.Show(this, string.Format("An error has occurred.\n{0}\nThe configuration file is incorrect.", ex), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Generic.IsConfigError = true;
                 Close();
             }
         }
@@ -329,6 +353,15 @@ namespace ATRACTool_Reloaded
             else
             {
                 Config.Entry["PlaybackATRAC"].Value = "true";
+            }
+
+            if (checkBox_DisablePreviewWarning.Checked != true)
+            {
+                Config.Entry["DisablePreviewWarning"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["DisablePreviewWarning"].Value = "true";
             }
 
             if (checkBox_Splashimg.Checked != true)

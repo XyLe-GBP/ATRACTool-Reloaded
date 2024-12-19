@@ -43,6 +43,8 @@ namespace ATRACTool_Reloaded
 
         private string paramWalkman = "traconv";
 
+        bool iseveryfmt = false;
+
         public FormSetWalkmanInformations()
         {
             InitializeComponent();
@@ -51,6 +53,12 @@ namespace ATRACTool_Reloaded
         private void FormSetWalkmanInformations_Load(object sender, EventArgs e)
         {
             Common.Config.Load(Common.xmlpath);
+
+            iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
+            if (iseveryfmt)
+            {
+                button_Cancel.Enabled = false;
+            }
 
             if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Bitrate"].Value))
             {
@@ -795,7 +803,34 @@ namespace ATRACTool_Reloaded
                 Multiselect = true,
                 RestoreDirectory = true
             };
-            if (ofd.ShowDialog() == DialogResult.OK)
+            if (iseveryfmt)
+            {
+                DialogResult dr = DialogResult.None;
+                Thread thread = new(() => {
+                    dr = ofd.ShowDialog();
+                });
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+                thread.Join();
+
+                if (dr == DialogResult.OK)
+                {
+                    pictureBox_Jacket.ImageLocation = ofd.FileName;
+                    label_Jacketpath.Text = ofd.FileName;
+                    jacket = " --Jacket \"" + ofd.FileName + "\"";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                }
+                else
+                {
+                    Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
+                    label_Jacketpath.Text = "";
+                    jacket = "";
+                    paramWalkman = RefleshParamWalkman();
+                    textBox_cmd_walkman.Text = paramWalkman;
+                }
+            }
+            else if (ofd.ShowDialog() == DialogResult.OK)
             {
                 pictureBox_Jacket.ImageLocation = ofd.FileName;
                 label_Jacketpath.Text = ofd.FileName;

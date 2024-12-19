@@ -22,6 +22,42 @@ namespace ATRACTool_Reloaded
         static FormSplash? fs;
         static object? lockobj;
 
+        private static FormMain _formMainInstance = null!;
+        public static FormMain FormMainInstance
+        {
+            get
+            {
+                return _formMainInstance;
+            }
+            set
+            {
+                _formMainInstance = value;
+            }
+        }
+        public string FPLabel
+        {
+            get
+            {
+                return label_Filepath.Text;
+            }
+            set
+            {
+                label_Filepath.Text = value;
+            }
+        }
+
+        public string FSLabel
+        {
+            get
+            {
+                return label_Sizetxt.Text;
+            }
+            set
+            {
+                label_Sizetxt.Text = value;
+            }
+        }
+
         public FormMain()
         {
             InitializeComponent();
@@ -43,6 +79,10 @@ namespace ATRACTool_Reloaded
             {
                 Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp\");
             }
+            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
+            {
+                Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_tempAudio");
+            }
 
             if (!File.Exists(Common.xmlpath))
             {
@@ -56,6 +96,8 @@ namespace ATRACTool_Reloaded
                 TopMost = true;
                 TopMost = false;
             }
+
+            FormMainInstance = this;
 
             if (!bool.Parse(Config.Entry["HideSplash"].Value)) // Splash
             {
@@ -184,6 +226,15 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
+                    switch (bool.Parse(Config.Entry["LPC_Create"].Value))
+                    {
+                        case true:
+                            Generic.lpcreate = true;
+                            break;
+                        case false:
+                            Generic.lpcreate = false;
+                            break;
+                    }
 
                     loopPointCreationToolStripMenuItem.Enabled = false;
                     Thread.Sleep(1000);
@@ -429,6 +480,8 @@ namespace ATRACTool_Reloaded
                     lst.Add(files);
                 }
                 Common.Generic.OpenFilePaths = lst.ToArray();
+                Common.Generic.OriginOpenFilePaths = lst.ToArray();
+
                 if (Common.Generic.OpenFilePaths.Length == 1) // Single
                 {
                     FileInfo file = new(ofd.FileName);
@@ -492,13 +545,13 @@ namespace ATRACTool_Reloaded
                 }
                 else // Multiple
                 {
-                    long FS = 0;
-
-                    foreach (string file in Common.Generic.OpenFilePaths)
+                    FileInfo fs = new(Common.Generic.OpenFilePaths[0]);
+                    long FS = fs.Length;
+                    /*foreach (string file in Common.Generic.OpenFilePaths)
                     {
                         FileInfo fi = new(file);
                         FS += fi.Length;
-                    }
+                    }*/
 
                     string Ft = "";
                     int count = 0, wavcount = 0;
@@ -604,7 +657,8 @@ namespace ATRACTool_Reloaded
                     }
 
                     ReadStatus();
-                    label_Filepath.Text = Localization.MultipleFilesCaption;
+                    //label_Filepath.Text = Localization.MultipleFilesCaption;
+                    label_Filepath.Text = Generic.OpenFilePaths[0];
                     label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
 
                     closeFileCToolStripMenuItem.Enabled = true;
@@ -670,12 +724,10 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void ConvertSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormSettings formSettings = new();
-            formSettings.ShowDialog();
-            formSettings.Dispose();
-
             string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
-            bool lpc = bool.Parse(Config.Entry["LPC_Create"].Value);
+
+            using Form FSS = new FormSettings(false);
+            FSS.ShowDialog();
 
             if (!string.IsNullOrWhiteSpace(prm1))
             {
@@ -701,11 +753,16 @@ namespace ATRACTool_Reloaded
             {
                 Common.Generic.EncodeParamWalkman = "";
             }
-            Common.Generic.lpcreate = lpc switch
+
+            switch (bool.Parse(Config.Entry["LPC_Create"].Value))
             {
-                false => false,
-                true => true,
-            };
+                case true:
+                    Generic.lpcreate = true;
+                    break;
+                case false:
+                    Generic.lpcreate = false;
+                    break;
+            }
         }
 
         /// <summary>
@@ -1027,15 +1084,17 @@ namespace ATRACTool_Reloaded
             Config.Load(xmlpath);
 
             bool manual = bool.Parse(Config.Entry["Save_IsManual"].Value);
+            bool IsFasterATRAC = bool.Parse(Config.Entry["FasterATRAC"].Value);
             bool IsPlayingATRAC = bool.Parse(Config.Entry["PlaybackATRAC"].Value);
 
-            if (IsPlayingATRAC && Generic.IsATRAC) // ATRAC再生が有効
+            if (IsPlayingATRAC && Generic.IsATRAC && !IsFasterATRAC) // ATRAC再生が有効
             {
                 if (manual)
                 {
                     MessageBox.Show(this, Localization.ATRACPlaybackEnabledSpecLocationWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 ActivateOrDeactivateLPC(false);
+
                 if (Generic.pATRACOpenFilePaths.Length == 1) // 単一
                 {
                     SaveFileDialog sfd = new()
@@ -1125,6 +1184,10 @@ namespace ATRACTool_Reloaded
                         return;
                     }
                 }
+            }
+            else if (IsFasterATRAC && IsPlayingATRAC && Generic.IsATRAC)
+            {
+                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             }
             else // ATRAC再生が無効
             {
@@ -1303,10 +1366,12 @@ namespace ATRACTool_Reloaded
             formProgress.ShowDialog();
             formProgress.Dispose();
 
-            if (Common.Generic.Result == false) // 中断
+            if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested) // 中断
             {
                 Common.Generic.cts.Dispose();
                 MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                ResetStatus();
                 return;
             }
             else
@@ -1616,6 +1681,12 @@ namespace ATRACTool_Reloaded
                     }
                     else // 複数のファイル
                     {
+                        if (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value) || bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
+                        {
+                            MessageBox.Show(this, Localization.MultipleLoopPointErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ResetStatus();
+                            return;
+                        }
                         if (manual != true) // 通常保存
                         {
                             FolderBrowserDialog fbd = new()
@@ -1640,24 +1711,12 @@ namespace ATRACTool_Reloaded
                                     }
                                 }
 
-                                if (Generic.ATRACFlag == 2)
+                                if (Generic.ATRACFlag == 2) // Walkman
                                 {
-                                    MessageBox.Show(this, "This option is not available at this time.\r\nPlease wait for the next update.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    return;
                                     FormSelectWalkmanFormats formSelectWalkmanFormats = new(true);
                                     if (formSelectWalkmanFormats.ShowDialog() == DialogResult.OK)
                                     {
                                         SetWalkmanMultiConvertFormats(true, int.Parse(Generic.WalkmanMultiConvFmt));
-                                        if (iseveryfmt)
-                                        {
-                                            FormSetWalkmanInformations formSetWalkmanInformations = new();
-                                            if (formSetWalkmanInformations.ShowDialog() == DialogResult.OK)
-                                            {
-                                                // OK
-                                            }
-                                            else { return; }
-                                        }
-
                                     }
                                     else { return; }
                                 }
@@ -1737,13 +1796,22 @@ namespace ATRACTool_Reloaded
 
                     if (Common.Generic.lpcreatev2 != false)
                     {
+                        Config.Entry["ATRAC3_LoopPoint"].Value = "false";
+                        Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
+                        Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
+                        Config.Entry["ATRAC9_LoopPoint"].Value = "false";
+                        Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
+                        Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
+                        Config.Save(xmlpath);
                         Common.Generic.lpcreatev2 = false;
                     }
 
-                    if (Common.Generic.Result == false)
+                    if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested)
                     {
                         Common.Generic.cts.Dispose();
                         MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                        ResetStatus();
                         return;
                     }
                     else
@@ -1881,10 +1949,19 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void PreferencesMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool oldValue = bool.Parse(Config.Entry["SmoothSamples"].Value);
+            bool oldSSValue = bool.Parse(Config.Entry["SmoothSamples"].Value);
             using Form FSS = new FormPreferencesSettings();
             FSS.ShowDialog();
-            if (oldValue != bool.Parse(Config.Entry["SmoothSamples"].Value))
+
+            if (Generic.IsConfigError)
+            {
+                MessageBox.Show(this, "The configuration file is corrupt. Delete the configuration file and restart the application.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                File.Delete(Common.xmlpath);
+                Application.Restart();
+                return;
+            }
+
+            if (oldSSValue != bool.Parse(Config.Entry["SmoothSamples"].Value))
             {
                 ActivateOrDeactivateLPC(false);
                 ActivateOrDeactivateLPC(true);
@@ -1915,9 +1992,9 @@ namespace ATRACTool_Reloaded
             toolStripStatusLabel_Status.Text = Localization.ReadyCaption;
             toolStripStatusLabel_Status.ForeColor = Color.Green;
             label_NotReaded.Visible = false;
-            label2.Visible = true;
-            label3.Visible = true;
-            label4.Visible = true;
+            label_File.Visible = true;
+            label_Format.Visible = true;
+            label_Size.Visible = true;
             label_Filepath.Visible = true;
             label_Sizetxt.Visible = true;
             label_Formattxt.Visible = true;
@@ -1929,7 +2006,15 @@ namespace ATRACTool_Reloaded
         private void ResetStatus()
         {
             AllowDrop = true;
-            Utils.ATWCheck(Generic.IsATW);
+            if (Generic.IsATWCancelled)
+            {
+                Utils.ATWCheck(Generic.IsATW, true);
+                Generic.IsATWCancelled = false;
+            }
+            else
+            {
+                Utils.ATWCheck(Generic.IsATW);
+            }
             Generic.IsWave = false;
             Generic.IsATRAC = false;
             Common.Generic.OpenFilePaths = null!;
@@ -1947,9 +2032,9 @@ namespace ATRACTool_Reloaded
             toolStripStatusLabel_Status.ForeColor = Color.Red;
             label_NotReaded.Text = Localization.OpenFileCaption;
             label_NotReaded.Visible = true;
-            label2.Visible = false;
-            label3.Visible = false;
-            label4.Visible = false;
+            label_File.Visible = false;
+            label_Format.Visible = false;
+            label_Size.Visible = false;
             label_Filepath.Visible = false;
             label_Sizetxt.Visible = false;
             label_Formattxt.Visible = false;
@@ -2480,6 +2565,7 @@ namespace ATRACTool_Reloaded
                     lst.Add(fp);
                 }
                 Common.Generic.OpenFilePaths = lst.ToArray();
+                Common.Generic.OriginOpenFilePaths = lst.ToArray();
 
                 if (Common.Generic.OpenFilePaths.Length == 1)
                 {
@@ -2542,12 +2628,13 @@ namespace ATRACTool_Reloaded
                 }
                 else // 複数ファイル
                 {
-                    long FS = 0;
-                    foreach (string file in files)
+                    FileInfo fs = new(files[0]);
+                    long FS = fs.Length;
+                    /*foreach (string file in files)
                     {
                         FileInfo fi = new(file);
                         FS += fi.Length;
-                    }
+                    }*/
 
                     string Ft = "";
                     int count = 0, wavcount = 0;
@@ -2653,7 +2740,8 @@ namespace ATRACTool_Reloaded
                     }
 
                     ReadStatus();
-                    label_Filepath.Text = Localization.MultipleFilesCaption;
+                    //label_Filepath.Text = Localization.MultipleFilesCaption;
+                    label_Filepath.Text = Generic.OpenFilePaths[0];
                     label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
 
                     closeFileCToolStripMenuItem.Enabled = true;
@@ -2703,8 +2791,23 @@ namespace ATRACTool_Reloaded
         /// </summary>
         private bool AudioToWaveConvert()
         {
+            if (walkmanToolStripMenuItem.Checked)
+            {
+                walkmanToolStripMenuItem.Checked = false;
+            }
             if (Common.Generic.IsWave != true && Common.Generic.IsATRAC != true)
             {
+                string TempAudioDir;
+                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
+                {
+                    TempAudioDir = Directory.GetCurrentDirectory() + @"\_tempAudio";
+                }
+                else
+                {
+                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_tempAudio");
+                    TempAudioDir = Directory.GetCurrentDirectory() + @"\_tempAudio";
+                }
+                
                 if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
                 {
                     if (bool.Parse(Config.Entry["FixedConvert"].Value)) // Fix
@@ -2712,7 +2815,8 @@ namespace ATRACTool_Reloaded
                         FileInfo file = new(Common.Generic.OpenFilePaths[0]);
                         Common.Generic.WTAmethod = int.Parse(Config.Entry["ConvertType"].Value);
 
-                        Common.Generic.SavePath = file.Directory + @"\" + file.Name + @".wav";
+                        //Common.Generic.SavePath = file.Directory + @"\" + file.Name + @".wav";
+                        Common.Generic.SavePath = TempAudioDir + @"\" + file.Name.Replace(file.Extension, "") + @".wav";
                         Common.Generic.ProgressMax = 1;
 
                         Common.Generic.ProcessFlag = 2;
@@ -2721,8 +2825,9 @@ namespace ATRACTool_Reloaded
                         formProgress.ShowDialog();
                         formProgress.Dispose();
 
-                        if (Common.Generic.Result == false)
+                        if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested)
                         {
+                            Generic.IsATWCancelled = true;
                             Common.Generic.cts.Dispose();
                             MessageBox.Show(Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             ResetStatus();
@@ -2746,8 +2851,8 @@ namespace ATRACTool_Reloaded
 
                             if (File.Exists(Common.Generic.SavePath)) // ファイルが生成されているかどうか
                             {
-                                Common.Generic.OpenFilePaths[0] = Common.Generic.SavePath;
                                 label_Filepath.Text = Common.Generic.OpenFilePaths[0];
+                                Common.Generic.OpenFilePaths[0] = Common.Generic.SavePath;
                             }
                             else // エラー
                             {
@@ -2812,7 +2917,8 @@ namespace ATRACTool_Reloaded
                         DialogResult dr = formAtWST.ShowDialog();
                         if (dr != DialogResult.Cancel && dr != DialogResult.None)
                         {
-                            Common.Generic.SavePath = file.Directory + @"\" + file.Name + @".wav";
+                            //Common.Generic.SavePath = file.Directory + @"\" + file.Name + @".wav";
+                            Common.Generic.SavePath = TempAudioDir + @"\" + file.Name + @".wav";
                             Common.Generic.ProgressMax = 1;
 
                             Common.Generic.ProcessFlag = 2;
@@ -2821,8 +2927,9 @@ namespace ATRACTool_Reloaded
                             formProgress.ShowDialog();
                             formProgress.Dispose();
 
-                            if (Common.Generic.Result == false)
+                            if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested)
                             {
+                                Generic.IsATWCancelled = true;
                                 Common.Generic.cts.Dispose();
                                 MessageBox.Show(Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 ResetStatus();
@@ -2846,8 +2953,8 @@ namespace ATRACTool_Reloaded
 
                                 if (File.Exists(Common.Generic.SavePath)) // ファイルが生成されているかどうか
                                 {
-                                    Common.Generic.OpenFilePaths[0] = Common.Generic.SavePath;
                                     label_Filepath.Text = Common.Generic.OpenFilePaths[0];
+                                    Common.Generic.OpenFilePaths[0] = Common.Generic.SavePath;
                                 }
                                 else // エラー
                                 {
@@ -2918,7 +3025,7 @@ namespace ATRACTool_Reloaded
                     Generic.IsOpenMulti = true;
                     if (bool.Parse(Config.Entry["FixedConvert"].Value)) // Fix
                     {
-                        FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
+                        //FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
                         Common.Generic.WTAmethod = int.Parse(Config.Entry["ConvertType"].Value);
 
                         Common.Generic.ProgressMax = Common.Generic.OpenFilePaths.Length;
@@ -2929,8 +3036,9 @@ namespace ATRACTool_Reloaded
                         formProgress.ShowDialog();
                         formProgress.Dispose();
 
-                        if (Common.Generic.Result == false)
+                        if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested)
                         {
+                            Generic.IsATWCancelled = true;
                             Common.Generic.cts.Dispose();
                             MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             ResetStatus();
@@ -2938,19 +3046,21 @@ namespace ATRACTool_Reloaded
                         }
 
                         int count = 0;
+                        label_Filepath.Text = Generic.OpenFilePaths[0];
+
                         foreach (var file in Common.Generic.OpenFilePaths)
                         {
                             FileInfo fi = new(file);
                             if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))
                             {
-                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
+                                if (File.Exists(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
                                 {
-                                    File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
-                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                    File.Delete(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                 }
                                 else
                                 {
-                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                    File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                 }
 
                             }
@@ -2962,9 +3072,9 @@ namespace ATRACTool_Reloaded
                                 return false;
                             }
 
-                            if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
+                            if (File.Exists(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
                             {
-                                Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
+                                Common.Generic.OpenFilePaths[count] = TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
                                 count++;
                             }
                             else // エラー
@@ -3015,11 +3125,15 @@ namespace ATRACTool_Reloaded
                                 break;
                         }
 
+                        FileInfo fisize = new(label_Filepath.Text);
+                        long FS = fisize.Length;
+                        label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
+                        
                         return true;
                     }
                     else // normal
                     {
-                        FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
+                        //FileInfo fp = new(Common.Generic.OpenFilePaths[0]);
                         using Form formAtWST = new FormAtWSelectTarget();
                         DialogResult dr = formAtWST.ShowDialog();
                         if (dr != DialogResult.Cancel && dr != DialogResult.None)
@@ -3032,8 +3146,9 @@ namespace ATRACTool_Reloaded
                             formProgress.ShowDialog();
                             formProgress.Dispose();
 
-                            if (Common.Generic.Result == false)
+                            if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested)
                             {
+                                Generic.IsATWCancelled = true;
                                 Common.Generic.cts.Dispose();
                                 MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 ResetStatus();
@@ -3041,19 +3156,21 @@ namespace ATRACTool_Reloaded
                             }
 
                             int count = 0;
+                            label_Filepath.Text = Generic.OpenFilePaths[0];
+
                             foreach (var file in Common.Generic.OpenFilePaths)
                             {
                                 FileInfo fi = new(file);
                                 if (File.Exists(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))
                                 {
-                                    if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
+                                    if (File.Exists(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav"))  // ファイルが既に存在する場合は削除してからMoveする
                                     {
-                                        File.Delete(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
-                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                        File.Delete(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                     }
                                     else
                                     {
-                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
+                                        File.Move(Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav", TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav");
                                     }
 
                                 }
@@ -3065,9 +3182,9 @@ namespace ATRACTool_Reloaded
                                     return false;
                                 }
 
-                                if (File.Exists(fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
+                                if (File.Exists(TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav")) // ファイル存在確認
                                 {
-                                    Common.Generic.OpenFilePaths[count] = fp.Directory + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
+                                    Common.Generic.OpenFilePaths[count] = TempAudioDir + @"\" + fi.Name.Replace(fi.Extension, "") + Utils.ATWSuffix() + ".wav";
                                     count++;
                                 }
                                 else // エラー
@@ -3117,6 +3234,10 @@ namespace ATRACTool_Reloaded
                                     toolStripDropDownButton_EF.Text = "ATRAC9";
                                     break;
                             }
+
+                            FileInfo fisize = new(label_Filepath.Text);
+                            long FS = fisize.Length;
+                            label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
 
                             return true;
                         }
@@ -3190,7 +3311,51 @@ namespace ATRACTool_Reloaded
             }
             else // ATRAC
             {
-                if (bool.Parse(Config.Entry["FasterATRAC"].Value))
+                Config.Load(xmlpath);
+
+                bool faster_atrac = bool.Parse(Config.Entry["FasterATRAC"].Value);
+                bool play_atrac = bool.Parse(Config.Entry["PlaybackATRAC"].Value);
+
+                if (faster_atrac && play_atrac)
+                {
+                    panel_Main.BackgroundImage = Resources.SIEv2;
+                    Common.Generic.IsWave = false;
+                    Common.Generic.IsATRAC = true;
+                    Generic.IsATW = false;
+                    toolStripDropDownButton_EF.Enabled = false;
+                    toolStripDropDownButton_EF.Visible = false;
+                    toolStripStatusLabel_EncMethod.Enabled = false;
+                    toolStripStatusLabel_EncMethod.Visible = false;
+                    button_Decode.Enabled = true;
+                    button_Encode.Enabled = false;
+                    loopPointCreationToolStripMenuItem.Enabled = false;
+                    button_Decode.PerformClick();
+                }
+                else if (!faster_atrac && play_atrac)
+                {
+                    panel_Main.BackgroundImage = Resources.SIEv2;
+                    Common.Generic.IsWave = false;
+                    Common.Generic.IsATRAC = true;
+                    Generic.IsATW = false;
+                    toolStripDropDownButton_EF.Enabled = false;
+                    toolStripDropDownButton_EF.Visible = false;
+                    toolStripStatusLabel_EncMethod.Enabled = false;
+                    toolStripStatusLabel_EncMethod.Visible = false;
+                    button_Decode.Enabled = true;
+                    button_Encode.Enabled = false;
+                    loopPointCreationToolStripMenuItem.Enabled = false;
+                    if (PlaybackATRACConvert())
+                    {
+                        Generic.IsPlaybackATRAC = true;
+                        ActivateOrDeactivateLPC(true);
+                    }
+                    else
+                    {
+                        ResetStatus();
+                        return;
+                    }
+                }
+                else if (faster_atrac && !play_atrac)
                 {
                     panel_Main.BackgroundImage = Resources.SIEv2;
                     Common.Generic.IsWave = false;
@@ -3222,6 +3387,7 @@ namespace ATRACTool_Reloaded
                     {
                         if (PlaybackATRACConvert())
                         {
+                            Generic.IsPlaybackATRAC = true;
                             ActivateOrDeactivateLPC(true);
                         }
                         else
@@ -3256,10 +3422,11 @@ namespace ATRACTool_Reloaded
             formProgress.ShowDialog();
             formProgress.Dispose();
 
-            if (Common.Generic.Result == false) // 中断
+            if (Common.Generic.Result == false || Generic.cts.IsCancellationRequested) // 中断
             {
                 Common.Generic.cts.Dispose();
                 MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
                 return false;
             }
             else
@@ -3329,11 +3496,15 @@ namespace ATRACTool_Reloaded
                         Generic.pATRACOpenFilePaths = null!;
                         if (lst.Count == lst2.Count) // OK
                         {
+                            label_Filepath.Text = Generic.OpenFilePaths[0];
                             Generic.pATRACOpenFilePaths = lst2.ToArray();
                             return true;
                         }
                         else if (lst.Count > lst2.Count && lst2.Count != 0) // 一部変換失敗
                         {
+                            FileInfo fp = new(Generic.OpenFilePaths[0]);
+                            FileInfo ls = new(lst2[0]);
+                            label_Filepath.Text = fp.Directory + @"\" + ls.Name.Replace(ls.Extension, fp.Extension);
                             Generic.pATRACOpenFilePaths = lst2.ToArray();
                             MessageBox.Show(this, Localization.DecodePartialCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return true;
@@ -3389,6 +3560,7 @@ namespace ATRACTool_Reloaded
         {
             if (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
             {
+                if (Generic.OpenFilePaths is null) { return; }
                 if (flag)
                 {
                     FLPC = new(false)
@@ -3397,6 +3569,23 @@ namespace ATRACTool_Reloaded
                     };
                     panel_Main.Controls.Add(FLPC);
                     FLPC.Show();
+                    if (!Generic.IsPlaybackATRAC)
+                    {
+                        FormLPC.FormLPCInstance.CautionLabel = "Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                        if (Common.Generic.IsWalkman)
+                        {
+                            FormLPC.FormLPCInstance.LoopCheckEnable = false;
+                        }
+                        if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value) || !Common.Generic.IsWalkman)
+                        {
+                            MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        
+                    }
+                    else
+                    {
+                        Generic.IsPlaybackATRAC = false;
+                    }
                 }
                 else
                 {
@@ -3417,6 +3606,14 @@ namespace ATRACTool_Reloaded
                     };
                     panel_Main.Controls.Add(FLPC);
                     FLPC.Show();
+                    if (Common.Generic.IsWalkman)
+                    {
+                        FormLPC.FormLPCInstance.LoopCheckEnable = false;
+                    }
+                    if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value) || !Common.Generic.IsWalkman)
+                    {
+                        MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {

@@ -44,6 +44,7 @@
             textBox_suffix = new TextBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            checkBox_DisablePreviewWarning = new CheckBox();
             checkBox_EnableATRACPlayback = new CheckBox();
             checkBox_Smoothsamples = new CheckBox();
             button_Splashimg = new Button();
@@ -87,31 +88,27 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Controls.Add(radioButton_spc);
             groupBox1.Controls.Add(radioButton_nml);
+            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
-            toolTip_Description.SetToolTip(groupBox1, resources.GetString("groupBox1.ToolTip"));
             // 
             // textBox_Path
             // 
             resources.ApplyResources(textBox_Path, "textBox_Path");
             textBox_Path.Name = "textBox_Path";
             textBox_Path.ReadOnly = true;
-            toolTip_Description.SetToolTip(textBox_Path, resources.GetString("textBox_Path.ToolTip"));
             // 
             // label1
             // 
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            toolTip_Description.SetToolTip(label1, resources.GetString("label1.ToolTip"));
             // 
             // button_OK
             // 
             resources.ApplyResources(button_OK, "button_OK");
             button_OK.Name = "button_OK";
-            toolTip_Description.SetToolTip(button_OK, resources.GetString("button_OK.ToolTip"));
             button_OK.UseVisualStyleBackColor = true;
             button_OK.Click += Button_OK_Click;
             // 
@@ -119,7 +116,6 @@
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            toolTip_Description.SetToolTip(button_Cancel, resources.GetString("button_Cancel.ToolTip"));
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += Button_Cancel_Click;
             // 
@@ -151,7 +147,6 @@
             // 
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
-            toolTip_Description.SetToolTip(label2, resources.GetString("label2.ToolTip"));
             // 
             // textBox_suffix
             // 
@@ -161,26 +156,32 @@
             // 
             // tabControl1
             // 
-            resources.ApplyResources(tabControl1, "tabControl1");
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            resources.ApplyResources(tabControl1, "tabControl1");
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            toolTip_Description.SetToolTip(tabControl1, resources.GetString("tabControl1.ToolTip"));
             // 
             // tabPage1
             // 
-            resources.ApplyResources(tabPage1, "tabPage1");
+            tabPage1.Controls.Add(checkBox_DisablePreviewWarning);
             tabPage1.Controls.Add(checkBox_EnableATRACPlayback);
             tabPage1.Controls.Add(checkBox_Smoothsamples);
             tabPage1.Controls.Add(button_Splashimg);
             tabPage1.Controls.Add(textBox_Splashimg);
             tabPage1.Controls.Add(checkBox_Splashimg);
             tabPage1.Controls.Add(checkBox_Checkupdate);
+            resources.ApplyResources(tabPage1, "tabPage1");
             tabPage1.Name = "tabPage1";
-            toolTip_Description.SetToolTip(tabPage1, resources.GetString("tabPage1.ToolTip"));
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_DisablePreviewWarning
+            // 
+            resources.ApplyResources(checkBox_DisablePreviewWarning, "checkBox_DisablePreviewWarning");
+            checkBox_DisablePreviewWarning.Name = "checkBox_DisablePreviewWarning";
+            toolTip_Description.SetToolTip(checkBox_DisablePreviewWarning, resources.GetString("checkBox_DisablePreviewWarning.ToolTip"));
+            checkBox_DisablePreviewWarning.UseVisualStyleBackColor = true;
             // 
             // checkBox_EnableATRACPlayback
             // 
@@ -202,7 +203,6 @@
             // 
             resources.ApplyResources(button_Splashimg, "button_Splashimg");
             button_Splashimg.Name = "button_Splashimg";
-            toolTip_Description.SetToolTip(button_Splashimg, resources.GetString("button_Splashimg.ToolTip"));
             button_Splashimg.UseVisualStyleBackColor = true;
             button_Splashimg.Click += Button_Splashimg_Click;
             // 
@@ -211,7 +211,6 @@
             resources.ApplyResources(textBox_Splashimg, "textBox_Splashimg");
             textBox_Splashimg.Name = "textBox_Splashimg";
             textBox_Splashimg.ReadOnly = true;
-            toolTip_Description.SetToolTip(textBox_Splashimg, resources.GetString("textBox_Splashimg.ToolTip"));
             // 
             // checkBox_Splashimg
             // 
@@ -233,7 +232,6 @@
             // 
             // tabPage2
             // 
-            resources.ApplyResources(tabPage2, "tabPage2");
             tabPage2.Controls.Add(checkBox_ShowFolder);
             tabPage2.Controls.Add(textBox_Path);
             tabPage2.Controls.Add(textBox_suffix);
@@ -243,8 +241,8 @@
             tabPage2.Controls.Add(checkBox_Subfolder);
             tabPage2.Controls.Add(button_Browse);
             tabPage2.Controls.Add(button_Clear);
+            resources.ApplyResources(tabPage2, "tabPage2");
             tabPage2.Name = "tabPage2";
-            toolTip_Description.SetToolTip(tabPage2, resources.GetString("tabPage2.ToolTip"));
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // checkBox_ShowFolder
@@ -258,15 +256,14 @@
             // 
             // tabPage3
             // 
-            resources.ApplyResources(tabPage3, "tabPage3");
             tabPage3.Controls.Add(checkBox_ForceConvertWaveOnly);
             tabPage3.Controls.Add(comboBox_Fixconvert);
             tabPage3.Controls.Add(checkBox_Fixconvert);
             tabPage3.Controls.Add(checkBox_FasterATRAC);
             tabPage3.Controls.Add(checkBox_Hidesplash);
             tabPage3.Controls.Add(checkBox_Oldmode);
+            resources.ApplyResources(tabPage3, "tabPage3");
             tabPage3.Name = "tabPage3";
-            toolTip_Description.SetToolTip(tabPage3, resources.GetString("tabPage3.ToolTip"));
             tabPage3.UseVisualStyleBackColor = true;
             // 
             // checkBox_ForceConvertWaveOnly
@@ -278,12 +275,11 @@
             // 
             // comboBox_Fixconvert
             // 
-            resources.ApplyResources(comboBox_Fixconvert, "comboBox_Fixconvert");
             comboBox_Fixconvert.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_Fixconvert, "comboBox_Fixconvert");
             comboBox_Fixconvert.FormattingEnabled = true;
             comboBox_Fixconvert.Items.AddRange(new object[] { resources.GetString("comboBox_Fixconvert.Items"), resources.GetString("comboBox_Fixconvert.Items1"), resources.GetString("comboBox_Fixconvert.Items2"), resources.GetString("comboBox_Fixconvert.Items3") });
             comboBox_Fixconvert.Name = "comboBox_Fixconvert";
-            toolTip_Description.SetToolTip(comboBox_Fixconvert, resources.GetString("comboBox_Fixconvert.ToolTip"));
             comboBox_Fixconvert.SelectedIndexChanged += ComboBox_Fixconvert_SelectedIndexChanged;
             // 
             // checkBox_Fixconvert
@@ -328,7 +324,6 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "FormPreferencesSettings";
-            toolTip_Description.SetToolTip(this, resources.GetString("$this.ToolTip"));
             Load += FormPreferencesSettings_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -374,5 +369,6 @@
         private CheckBox checkBox_Smoothsamples;
         private CheckBox checkBox_EnableATRACPlayback;
         private ToolTip toolTip_Description;
+        private CheckBox checkBox_DisablePreviewWarning;
     }
 }

@@ -119,33 +119,33 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label_Sizetxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>365, 35</value>
+    <value>402, 35</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 15</value>
+  <data name="label_Size.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 15</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>サイズ：</value>
+  <data name="label_Size.Text" xml:space="preserve">
+    <value>ファイルサイズ：</value>
   </data>
   <data name="label_Formattxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 35</value>
+    <value>50, 35</value>
   </data>
   <data name="label_Filepath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 17</value>
+    <value>59, 17</value>
   </data>
   <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
     <value>752, 15</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_Format.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 15</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
+  <data name="label_Format.Text" xml:space="preserve">
     <value>形式：</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 15</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="label_File.Text" xml:space="preserve">
     <value>ファイル：</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
@@ -170,11 +170,23 @@
   <data name="fileFToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイル (&amp;F)</value>
   </data>
+  <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
   <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを開く (&amp;O)</value>
   </data>
+  <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
   <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを閉じる (&amp;C)</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 6</value>
+  </data>
+  <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
   </data>
   <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
     <value>終了 (&amp;X)</value>

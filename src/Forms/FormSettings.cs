@@ -64,9 +64,20 @@ namespace ATRACTool_Reloaded
 
         private string paramWalkman = "traconv";
 
-        public FormSettings()
+        private bool Setloopingpoint = false;
+
+        public FormSettings(bool IsSetLoopingPoint)
         {
             InitializeComponent();
+
+            if (IsSetLoopingPoint)
+            {
+                Setloopingpoint = true;
+            }
+            else
+            {
+                Setloopingpoint = false;
+            }
         }
 
         private void FormSettings_Load(object sender, EventArgs e)
@@ -92,53 +103,7 @@ namespace ATRACTool_Reloaded
                 checkBox_lpcreate.Enabled = true;
             }
 
-            switch (bool.Parse(Config.Entry["LPC_Create"].Value))
-            {
-                case true:
-                    checkBox_lpcreate.Checked = true;
-                    checkBox_at3_looppoint.Checked = false;
-                    checkBox_at3_loopsound.Checked = false;
-                    checkBox_at3_looppoint.Enabled = false;
-                    checkBox_at3_loopsound.Enabled = false;
-                    textBox_at3_loopend.Text = null;
-                    textBox_at3_loopend.Enabled = false;
-                    textBox_at3_loopstart.Text = null;
-                    textBox_at3_loopstart.Enabled = false;
-                    textBox_at9_loopend.Text = null;
-                    textBox_at9_loopend.Enabled = false;
-                    textBox_at9_loopstart.Text = null;
-                    textBox_at9_loopstart.Enabled = false;
-                    checkBox_at9_looppoint.Checked = false;
-                    checkBox_at9_looppoint.Enabled = false;
-                    checkBox_at9_loopsound.Checked = false;
-                    checkBox_at9_loopsound.Enabled = false;
-                    looppointAT3 = "";
-                    loopstartAT3 = "";
-                    loopendAT3 = "";
-                    looppointAT9 = "";
-                    loopstartAT9 = "";
-                    loopendAT9 = "";
-                    Config.Entry["ATRAC3_LoopPoint"].Value = "false";
-                    Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
-                    Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
-                    Config.Entry["ATRAC9_LoopPoint"].Value = "false";
-                    Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
-                    Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
-                    Config.Save(xmlpath);
-                    Config.Load(xmlpath);
-                    break;
-                case false:
-                    checkBox_lpcreate.Checked = false;
-                    checkBox_at3_looppoint.Enabled = true;
-                    checkBox_at3_loopsound.Enabled = true;
-                    textBox_at3_loopend.Enabled = true;
-                    textBox_at3_loopstart.Enabled = true;
-                    textBox_at9_loopend.Enabled = true;
-                    textBox_at9_loopstart.Enabled = true;
-                    checkBox_at9_looppoint.Enabled = true;
-                    checkBox_at9_loopsound.Enabled = true;
-                    break;
-            }
+            
 
             switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
             {
@@ -1096,6 +1061,56 @@ namespace ATRACTool_Reloaded
                 textBox_cmd_walkman.Text = paramAT9;
             }
 
+            switch (bool.Parse(Config.Entry["LPC_Create"].Value))
+            {
+                case true:
+                    checkBox_lpcreate.Checked = true;
+                    checkBox_at3_looppoint.Checked = false;
+                    checkBox_at3_loopsound.Checked = false;
+                    checkBox_at3_looppoint.Enabled = false;
+                    checkBox_at3_loopsound.Enabled = false;
+                    textBox_at3_loopend.Text = null;
+                    textBox_at3_loopend.Enabled = false;
+                    textBox_at3_loopstart.Text = null;
+                    textBox_at3_loopstart.Enabled = false;
+                    textBox_at9_loopend.Text = null;
+                    textBox_at9_loopend.Enabled = false;
+                    textBox_at9_loopstart.Text = null;
+                    textBox_at9_loopstart.Enabled = false;
+                    checkBox_at9_looppoint.Checked = false;
+                    checkBox_at9_looppoint.Enabled = false;
+                    checkBox_at9_loopsound.Checked = false;
+                    checkBox_at9_loopsound.Enabled = false;
+                    checkBox_at9_looplist.Checked = false;
+                    checkBox_at9_looplist.Enabled = false;
+                    looppointAT3 = "";
+                    loopstartAT3 = "";
+                    loopendAT3 = "";
+                    looppointAT9 = "";
+                    loopstartAT9 = "";
+                    loopendAT9 = "";
+                    Config.Entry["ATRAC3_LoopPoint"].Value = "false";
+                    Config.Entry["ATRAC3_LoopStart_Samples"].Value = "";
+                    Config.Entry["ATRAC3_LoopEnd_Samples"].Value = "";
+                    Config.Entry["ATRAC9_LoopPoint"].Value = "false";
+                    Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
+                    Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
+                    Config.Save(xmlpath);
+                    Config.Load(xmlpath);
+                    break;
+                case false:
+                    checkBox_lpcreate.Checked = false;
+                    checkBox_at3_looppoint.Enabled = true;
+                    checkBox_at3_loopsound.Enabled = true;
+                    textBox_at3_loopend.Enabled = true;
+                    textBox_at3_loopstart.Enabled = true;
+                    textBox_at9_loopend.Enabled = true;
+                    textBox_at9_loopstart.Enabled = true;
+                    checkBox_at9_looppoint.Enabled = true;
+                    checkBox_at9_loopsound.Enabled = true;
+                    break;
+            }
+
 
             // Walkman Tabs
 
@@ -1441,6 +1456,59 @@ namespace ATRACTool_Reloaded
 
             paramWalkman = RefleshParamWalkman();
             textBox_cmd_walkman.Text = paramWalkman;
+
+            if (Setloopingpoint)
+            {
+                if (Generic.ATRACFlag == 0) // ATRAC3
+                {
+                    if (FormLPC.FormLPCInstance.SampleRate == 44100)
+                    {
+                        radioButton_PSP.Checked = true;
+                        radioButton_PS3.Enabled = false;
+                    }
+                    else if (FormLPC.FormLPCInstance.SampleRate == 48000)
+                    {
+                        radioButton_PS3.Checked = true;
+                        radioButton_PSP.Enabled = false;
+                    }
+                    checkBox_lpcreate.Enabled = false;
+                    groupBox_at9.Enabled = false;
+                    groupBox_at9_advanced.Enabled = false;
+                    checkBox_at3_looppoint.Enabled = false;
+                    checkBox_at3_loopsound.Enabled = false;
+                    label_at3_cmd.Enabled = false;
+                    textBox_at3_cmd.Enabled = false;
+                    label_at9_cmd.Enabled = false;
+                    textBox_at9_cmd.Enabled = false;
+                    tabControl_Main.TabPages.Remove(tabPage2);
+                    button_Cancel.Enabled = false;
+                }
+                else if (Generic.ATRACFlag == 1) // ATRAC9
+                {
+                    checkBox_lpcreate.Enabled = false;
+                    groupBox_at3.Enabled = false;
+                    checkBox_at9_looppoint.Enabled = false;
+                    checkBox_at9_loopsound.Enabled = false;
+                    checkBox_at9_looplist.Enabled = false;
+                    textBox_at9_looplist.Enabled = false;
+                    button_at9_looplist.Enabled = false;
+
+                    label_at3_cmd.Enabled = false;
+                    textBox_at3_cmd.Enabled = false;
+                    label_at9_cmd.Enabled = false;
+                    textBox_at9_cmd.Enabled = false;
+                    tabControl_Main.TabPages.Remove(tabPage2);
+                    button_Cancel.Enabled = false;
+                }
+                else
+                {
+                    throw new NotSupportedException("Not supported formats.");
+                }
+            }
+            else
+            {
+                return;
+            }
         }
 
         // ATRAC3
@@ -3570,6 +3638,14 @@ namespace ATRACTool_Reloaded
             import = " --Import " + dateTimePicker_Import.Value.ToShortDateString();
             paramWalkman = RefleshParamWalkman();
             textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (e.TabPageIndex == 1 && Setloopingpoint)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

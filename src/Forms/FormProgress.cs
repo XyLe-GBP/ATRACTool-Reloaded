@@ -10,6 +10,19 @@ namespace ATRACTool_Reloaded
 {
     public partial class FormProgress : Form
     {
+        private static FormProgress _formProgressInstance = null!;
+        public static FormProgress FormProgressInstance
+        {
+            get
+            {
+                return _formProgressInstance;
+            }
+            set
+            {
+                _formProgressInstance = value;
+            }
+        }
+
         public FormProgress()
         {
             InitializeComponent();
@@ -20,7 +33,9 @@ namespace ATRACTool_Reloaded
 
         private void FormProgress_Load(object sender, EventArgs e)
         {
-            timer_interval.Interval = 3000;
+            _formProgressInstance = this;
+
+            timer_interval.Interval = 2000;
             progressBar_MainProgress.Value = 0;
             progressBar_MainProgress.Minimum = 0;
             progressBar_MainProgress.Maximum = Generic.ProgressMax;
@@ -45,7 +60,7 @@ namespace ATRACTool_Reloaded
                         Generic.cts = new CancellationTokenSource();
                         var cToken = Generic.cts.Token;
                         var p = new Progress<int>(UpdateProgress);
-
+                        label_Status.Text = "Encoding...";
                         Generic.Result = await Task.Run(() => Encode_DoWork(p, cToken));
                         break;
                     }
@@ -98,9 +113,13 @@ namespace ATRACTool_Reloaded
             {
                 FileInfo fi = new(Generic.OpenFilePaths[0]);
                 FileInfo fi2;
-                if (bool.Parse(Config.Entry["PlaybackATRAC"].Value) && Generic.IsATRAC)
+                if (bool.Parse(Config.Entry["PlaybackATRAC"].Value) && Generic.IsATRAC && !bool.Parse(Config.Entry["FasterATRAC"].Value))
                 {
                     fi2 = new(Generic.pATRACSavePath);
+                }
+                else if (bool.Parse(Config.Entry["PlaybackATRAC"].Value) && Generic.IsATRAC && bool.Parse(Config.Entry["FasterATRAC"].Value))
+                {
+                    fi2 = new(Generic.SavePath);
                 }
                 else
                 {
@@ -456,6 +475,14 @@ namespace ATRACTool_Reloaded
                             {
                                 case 0: // PSP
                                     {
+                                        if (Generic.lpcreate != false)
+                                        {
+                                            Generic.lpcreatev2 = true;
+                                            using FormLPC form = new(true);
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                            form.ShowDialog();
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                        }
                                         Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                         pi.FileName = Generic.PSP_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
@@ -490,6 +517,14 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS3
                                     {
+                                        if (Generic.lpcreate != false)
+                                        {
+                                            Generic.lpcreatev2 = true;
+                                            using FormLPC form = new(true);
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                            form.ShowDialog();
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                        }
                                         Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                         pi.FileName = Generic.PS3_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
@@ -536,6 +571,14 @@ namespace ATRACTool_Reloaded
                             {
                                 case 0: // PSV
                                     {
+                                        if (Generic.lpcreate != false)
+                                        {
+                                            Generic.lpcreatev2 = true;
+                                            using FormLPC form = new(true);
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                            form.ShowDialog();
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                        }
                                         Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                         pi.FileName = Generic.PSV_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
@@ -570,6 +613,14 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS4
                                     {
+                                        if (Generic.lpcreate != false)
+                                        {
+                                            Generic.lpcreatev2 = true;
+                                            using FormLPC form = new(true);
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                            form.ShowDialog();
+                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                        }
                                         Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                         pi.FileName = Generic.PS4_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
@@ -666,8 +717,9 @@ namespace ATRACTool_Reloaded
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
                                                 using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
                                                 form.ShowDialog();
-
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                             }
                                             Generic.ATRACExt = ".at3";
@@ -720,7 +772,9 @@ namespace ATRACTool_Reloaded
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
                                                 using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
                                                 form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
 
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
                                             }
@@ -784,7 +838,9 @@ namespace ATRACTool_Reloaded
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
                                                 using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
                                                 form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
 
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                             }
@@ -838,7 +894,9 @@ namespace ATRACTool_Reloaded
                                                 Generic.lpcreatev2 = true;
                                                 Generic.files = fs;
                                                 using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
                                                 form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
 
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
                                             }
@@ -893,9 +951,17 @@ namespace ATRACTool_Reloaded
                             }
                         case 2: // Walkman
                             {
-                                Generic.ATRACExt = ".";
+                                bool iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
+                                if (iseveryfmt)
+                                {
+                                    using FormSetWalkmanInformations formSetWalkmanInformations = new();
+                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                    formSetWalkmanInformations.ShowDialog();
+                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                }
+                                Generic.ATRACExt = Generic.WalkmanMultiConvExt;
                                 pi.FileName = Generic.Walkman_TraConv;
-                                pi.Arguments = Generic.EncodeParamWalkman.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".") + "\"").Replace("traconv ", "");
+                                pi.Arguments = Generic.EncodeParamWalkman.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, Generic.ATRACExt) + "\"").Replace("traconv ", "");
                                 pi.UseShellExecute = false;
                                 pi.RedirectStandardOutput = true;
                                 pi.CreateNoWindow = true;
@@ -973,7 +1039,8 @@ namespace ATRACTool_Reloaded
 
                                 if (cToken.IsCancellationRequested == true)
                                 {
-                                    return false;
+                                    if (task.IsCompleted == true)
+                                        return false;
                                 }
                                 else
                                 {
@@ -1008,7 +1075,8 @@ namespace ATRACTool_Reloaded
 
                                     if (cToken.IsCancellationRequested == true)
                                     {
-                                        return false;
+                                        if (task.IsCompleted == true)
+                                            return false;
                                     }
                                     else
                                     {
@@ -1043,7 +1111,8 @@ namespace ATRACTool_Reloaded
 
                                 if (cToken.IsCancellationRequested == true)
                                 {
-                                    return false;
+                                    if (task.IsCompleted == true)
+                                        return false;
                                 }
                                 else
                                 {
@@ -1077,7 +1146,8 @@ namespace ATRACTool_Reloaded
 
                                     if (cToken.IsCancellationRequested == true)
                                     {
-                                        return false;
+                                        if (task.IsCompleted == true)
+                                            return false;
                                     }
                                     else
                                     {
@@ -1112,7 +1182,8 @@ namespace ATRACTool_Reloaded
 
                                 if (cToken.IsCancellationRequested == true)
                                 {
-                                    return false;
+                                    if (task.IsCompleted == true)
+                                        return false;
                                 }
                                 else
                                 {
@@ -1146,7 +1217,8 @@ namespace ATRACTool_Reloaded
 
                                     if (cToken.IsCancellationRequested == true)
                                     {
-                                        return false;
+                                        if (task.IsCompleted == true)
+                                            return false;
                                     }
                                     else
                                     {
@@ -1181,7 +1253,8 @@ namespace ATRACTool_Reloaded
 
                                 if (cToken.IsCancellationRequested == true)
                                 {
-                                    return false;
+                                    if (task.IsCompleted == true)
+                                        return false;
                                 }
                                 else
                                 {
@@ -1215,7 +1288,8 @@ namespace ATRACTool_Reloaded
 
                                     if (cToken.IsCancellationRequested == true)
                                     {
-                                        return false;
+                                        if (task.IsCompleted == true)
+                                            return false;
                                     }
                                     else
                                     {
@@ -1258,7 +1332,8 @@ namespace ATRACTool_Reloaded
 
                     if (cToken.IsCancellationRequested == true)
                     {
-                        return false;
+                        if (task.IsCompleted == true)
+                            return false;
                     }
                     else
                     {
@@ -1291,7 +1366,8 @@ namespace ATRACTool_Reloaded
 
                         if (cToken.IsCancellationRequested == true)
                         {
-                            return false;
+                            if (task.IsCompleted == true)
+                                return false;
                         }
                         else
                         {
@@ -1450,7 +1526,14 @@ namespace ATRACTool_Reloaded
 
         private static async Task MTK_ConvertAsync(Engine engine, MediaFile source, MediaFile dest, ConversionOptions co)
         {
-            await Task.Run(() => engine.Convert(source, dest, co));
+            try
+            {
+                await Task.Run(() => engine.Convert(source, dest, co));
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
         }
 
         private void Timer_interval_Tick(object sender, EventArgs e)
