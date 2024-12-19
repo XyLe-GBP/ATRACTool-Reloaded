@@ -267,6 +267,10 @@
   <data name="MultipleFilesCaption" xml:space="preserve">
     <value>複数のファイル</value>
   </data>
+  <data name="MultipleLoopPointErrorCaption" xml:space="preserve">
+    <value>'ループポイントを設定'オプションは複数ファイルでは動作しません！
+複数ファイル変換時は、'変換時にループポイントを作成する'にチェックを入れて変換を実行し、表示される画面で各ファイルのループが正しく行われるように設定を調整します。</value>
+  </data>
   <data name="NetworkNotConnectedCaption" xml:space="preserve">
     <value>コンピューターがインターネットに接続されていないため、
 アップデートを確認することが出来ませんでした。</value>
@@ -295,6 +299,12 @@
   </data>
   <data name="PlayCaption" xml:space="preserve">
     <value>再生</value>
+  </data>
+  <data name="PreviewWarningCaption" xml:space="preserve">
+    <value>この画面での設定は確認用であり、実際の出力には反映されません。
+実際にループを適用したATRACを出力するには、単一ファイルの場合、プレビュー画面上でループを設定し、そのサンプル値を '設定-&gt;変換設定-&gt;ループポイントを設定' にチェックを入れ、適切なサンプル値を入力して変換します。もしくは '変換時にループポイントを作成する' にチェックを入れて変換を実行し、表示される画面でループが正しく行われるように設定を調整します。
+複数ファイル変換時は、'変換時にループポイントを作成する'にチェックを入れて変換を実行し、表示される画面で各ファイルのループが正しく行われるように設定を調整します。
+'ループポイントを設定'オプションは複数ファイルでは動作しません。</value>
   </data>
   <data name="ProcessingCaption" xml:space="preserve">
     <value>処理中...</value>

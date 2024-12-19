@@ -266,6 +266,10 @@ Also, please check if the file system of the conversion source is correct.</valu
   <data name="MultipleFilesCaption" xml:space="preserve">
     <value>Multiple sound source files</value>
   </data>
+  <data name="MultipleLoopPointErrorCaption" xml:space="preserve">
+    <value>The 'set loop point' option does not work with multiple files!
+When converting multiple files, run the conversion with the 'Create loop points on conversion' checked and adjust the settings so that each file loops correctly on the screen that appears.</value>
+  </data>
   <data name="NetworkNotConnectedCaption" xml:space="preserve">
     <value>Since you are not connected to the Internet, you will not be able to check for updates.</value>
   </data>
@@ -292,6 +296,13 @@ Also, please check if the file system of the conversion source is correct.</valu
   </data>
   <data name="PlayCaption" xml:space="preserve">
     <value>Play</value>
+  </data>
+  <data name="PreviewWarningCaption" xml:space="preserve">
+    <value>The settings on this screen are for confirmation only and will not be reflected in the actual output.
+To actually output an ATRAC with a loop applied, for a single file, set the loop on the preview screen, check 'Config-&gt;Conversion Settings-&gt;Set Loop Point' for that sample value, enter the appropriate sample value and convert.
+Or check the 'Create loop point on conversion' checkbox, run the conversion, and adjust the settings so that the loop is done correctly on the screen that appears.
+For multi-file conversions, check the 'Create loop points on conversion' checkbox and perform the conversion, then adjust the settings on the screen that appears to ensure that the loops in each file are performed correctly.
+The 'Set loop point' option does not work with multiple files.</value>
   </data>
   <data name="ProcessingCaption" xml:space="preserve">
     <value>Processing...</value>

@@ -474,6 +474,16 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   The &apos;set loop point&apos; option does not work with multiple files!
+        ///When converting multiple files, run the conversion with the &apos;Create loop points on conversion&apos; checked and adjust the settings so that each file loops correctly on the screen that appears. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MultipleLoopPointErrorCaption {
+            get {
+                return ResourceManager.GetString("MultipleLoopPointErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Since you are not connected to the Internet, you will not be able to check for updates. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NetworkNotConnectedCaption {
@@ -551,6 +561,18 @@ namespace ATRACTool_Reloaded.Localizable {
         internal static string PlayCaption {
             get {
                 return ResourceManager.GetString("PlayCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The settings on this screen are for confirmation only and will not be reflected in the actual output.
+        ///To actually output an ATRAC with a loop applied, for a single file, set the loop on the preview screen, check &apos;Config-&gt;Conversion Settings-&gt;Set Loop Point&apos; for that sample value, enter the appropriate sample value and convert.
+        ///Or check the &apos;Create loop point on conversion&apos; checkbox, run the conversion, and adjust the settings so that the loop is done correctly on the screen that appears.
+        ///For multi-file co [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PreviewWarningCaption {
+            get {
+                return ResourceManager.GetString("PreviewWarningCaption", resourceCulture);
             }
         }
         
