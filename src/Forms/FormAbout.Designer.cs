@@ -175,7 +175,7 @@
             label7.Name = "label7";
             label7.Size = new Size(465, 15);
             label7.TabIndex = 12;
-            label7.Text = "ATRACTool.exe and ATRACTool-Reloaded.exe: Copyright © 2024 - XyLe. All Rights Reserved.";
+            label7.Text = "ATRACTool.exe and ATRACTool-Reloaded.exe: Copyright © 2025 - XyLe. All Rights Reserved.";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -185,7 +185,7 @@
             label8.Name = "label8";
             label8.Size = new Size(465, 15);
             label8.TabIndex = 13;
-            label8.Text = "ApplicationUpdater (updater.exe): Copyright © 2023 - XyLe. All Rights Reserved.";
+            label8.Text = "ApplicationUpdater (updater.exe): Copyright © 2025 - XyLe. All Rights Reserved.";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FormAbout

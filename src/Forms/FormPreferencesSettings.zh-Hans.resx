@@ -119,193 +119,149 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_nml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 19</value>
+    <value>133, 19</value>
   </data>
   <data name="radioButton_nml.Text" xml:space="preserve">
-    <value>毎回保存場所を確認する</value>
+    <value>请务必询问保存位置</value>
   </data>
   <data name="radioButton_nml.ToolTip" xml:space="preserve">
-    <value>保存時に毎回場所を確認します。</value>
+    <value>每次保存时请指定位置。</value>
   </data>
   <data name="radioButton_spc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 19</value>
+    <value>121, 19</value>
   </data>
   <data name="radioButton_spc.Text" xml:space="preserve">
-    <value>指定したフォルダに保存</value>
+    <value>输出到指定文件夹</value>
   </data>
   <data name="radioButton_spc.ToolTip" xml:space="preserve">
-    <value>指定した場所に固定して保存します。
-'一般-&gt;ATRAC読み込み時に再生機能を有効にする'オプションが有効の場合、
-このオプションを指定しても無視されます。
-(エンコード操作時のみ有効になります。)</value>
+    <value>将文件保存至指定位置作为固定位置。
+若启用了“常规-&gt;加载ATRAC时启用播放界面”选项，此功能将失效。（仅适用于编码操作期间）</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>ファイルの保存方法</value>
-  </data>
-  <data name="groupBox1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Path.ToolTip" xml:space="preserve">
-    <value />
+    <value>保存文件时的行为</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 15</value>
+    <value>43, 15</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>パス：</value>
-  </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_OK.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Cancel.Text" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="button_Cancel.ToolTip" xml:space="preserve">
-    <value />
+    <value>路径：</value>
   </data>
   <data name="button_Browse.ToolTip" xml:space="preserve">
-    <value>パスを参照</value>
-  </data>
-  <data name="button_Clear.Text" xml:space="preserve">
-    <value>削除</value>
+    <value>路径引用</value>
   </data>
   <data name="button_Clear.ToolTip" xml:space="preserve">
-    <value>パスを削除</value>
+    <value>删除路径</value>
   </data>
   <data name="checkBox_Subfolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 19</value>
+    <value>98, 19</value>
   </data>
   <data name="checkBox_Subfolder.Text" xml:space="preserve">
-    <value>サブフォルダーを作成する</value>
+    <value>创建子文件夹</value>
   </data>
   <data name="checkBox_Subfolder.ToolTip" xml:space="preserve">
-    <value>指定したパス内にサブフォルダを作成します。</value>
+    <value>在指定目录中创建一个子文件夹。</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 15</value>
+    <value>91, 15</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>サブフォルダ名：</value>
-  </data>
-  <data name="label2.ToolTip" xml:space="preserve">
-    <value />
+    <value>子文件夹后缀：</value>
   </data>
   <data name="textBox_suffix.ToolTip" xml:space="preserve">
-    <value>サブフォルダの名前を入力</value>
-  </data>
-  <data name="tabControl1.ToolTip" xml:space="preserve">
-    <value />
+    <value>输入子文件夹名称</value>
   </data>
   <data name="tabPage1.Text" xml:space="preserve">
     <value>一般</value>
   </data>
-  <data name="tabPage1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 19</value>
+    <value>206, 19</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.Text" xml:space="preserve">
-    <value>エンコード音声を読み込んだ際のプレビュー警告メッセージを無効にする</value>
+    <value>加载编码音频时禁用预览警告消息</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.ToolTip" xml:space="preserve">
-    <value>有効にすると、エンコード音声を読み込んだ際に表示される警告メッセージを無効にします。
-ただし間違いを予防する為、通常は無効にしておくことをお勧めします。</value>
+    <value>启用此选项后，将禁用读取编码音频时出现的警告信息。
+但为避免错误，通常建议保持该选项禁用状态。</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 19</value>
+    <value>170, 19</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
-    <value>ATRAC読み込み時に再生機能を有効にする</value>
+    <value>加载ATRAC时启用播放界面</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
-    <value>ATRAC形式を読み込み時に再生インターフェース機能を有効にします。
-このオプションを有効化している場合、'IO-&gt;指定したフォルダに保存'オプションは無視されます。</value>
+    <value>启用此功能可在加载ATRAC格式时进行播放。
+启用此功能后，将无法使用“IO-&gt;输出至指定文件夹”功能。</value>
   </data>
   <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 19</value>
+    <value>170, 19</value>
   </data>
   <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
-    <value>再生時のサンプル値の更新を滑らかにする</value>
+    <value>播放过程中平滑更新采样值</value>
   </data>
   <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
-    <value>再生中のサンプル値の更新を滑らかにしますが、CPUに負荷が掛かります。
-無効にすることでCPUリソースを削減できますが、値の更新は遅延します。</value>
-  </data>
-  <data name="button_Splashimg.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Splashimg.ToolTip" xml:space="preserve">
-    <value />
+    <value>平滑播放期间的采样值更新，但会消耗大量CPU资源。
+禁用该功能可减少CPU资源消耗，但会延迟值更新。</value>
   </data>
   <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>231, 19</value>
+    <value>170, 19</value>
   </data>
   <data name="checkBox_Splashimg.Text" xml:space="preserve">
-    <value>独自のスプラッシュスクリーン画像を設定する</value>
+    <value>设置您自己的启动画面图像</value>
   </data>
   <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
-    <value>独自のスプラッシュスクリーン画像を設定します。
-JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピクセルである必要があります。</value>
+    <value>设置您自己的启动画面图像。
+支持JPG、PNG或BMP格式，且必须为800x480或400x240像素。</value>
   </data>
   <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 19</value>
+    <value>158, 19</value>
   </data>
   <data name="checkBox_Checkupdate.Text" xml:space="preserve">
-    <value>アプリケーション起動時にアップデートを確認する</value>
+    <value>启动应用程序时检查更新</value>
   </data>
   <data name="checkBox_Checkupdate.ToolTip" xml:space="preserve">
-    <value>アプリケーション起動時にアップデートを確認します。</value>
-  </data>
-  <data name="tabPage2.ToolTip" xml:space="preserve">
-    <value />
+    <value>应用程序启动时检查更新。</value>
   </data>
   <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 19</value>
+    <value>146, 19</value>
   </data>
   <data name="checkBox_ShowFolder.Text" xml:space="preserve">
-    <value>処理が完了したら保存先のフォルダを表示する</value>
+    <value>完成后打开目标文件夹</value>
   </data>
   <data name="checkBox_ShowFolder.ToolTip" xml:space="preserve">
-    <value>処理が完了したら保存先のフォルダを開きます。</value>
+    <value>操作完成后打开目标文件夹。</value>
   </data>
   <data name="tabPage3.Text" xml:space="preserve">
-    <value>高度</value>
-  </data>
-  <data name="tabPage3.ToolTip" xml:space="preserve">
-    <value />
+    <value>高级</value>
   </data>
   <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 19</value>
+    <value>146, 19</value>
   </data>
   <data name="checkBox_ATRACEncodeSource.Text" xml:space="preserve">
-    <value>ATRACをエンコード用ソースとして読み込む</value>
+    <value>加载ATRAC作为编码源</value>
   </data>
   <data name="checkBox_ATRACEncodeSource.ToolTip" xml:space="preserve">
-    <value>ATRACをエンコード用ソースとして読み込みます。
-このオプションを有効にすると、ATRACのデコードができなくなります。
-作成済みのATRACを編集して再度ATRACに戻す場合などに役立つ可能性があります。</value>
+    <value>加载ATRAC作为编码源。
+启用此选项将禁用ATRAC解码功能。
+此功能在编辑现有ATRAC文件并将其转换回ATRAC格式时可能有所帮助。</value>
   </data>
   <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>261, 19</value>
+    <value>230, 19</value>
   </data>
   <data name="checkBox_ForceConvertWaveOnly.Text" xml:space="preserve">
-    <value>Waveファイルのみの読み込みでも変換を強制する</value>
+    <value>即使仅读取波形文件，也强制进行转换</value>
   </data>
   <data name="checkBox_ForceConvertWaveOnly.ToolTip" xml:space="preserve">
-    <value>Waveファイルのみを読み込んだ場合でも、変換作業を強制します。
-通常、Waveファイルのみ読み込んだ場合、そのままアプリケーションに読み込まれますが、
-このオプションを有効化すると強制的に変換を行ってから読み込みを行います。
-これはサンプルレートがそれぞれ異なるWaveファイルを同時に読み込み変換したい場合に役立つ可能性があります。</value>
+    <value>即使仅加载Wave文件时，也会强制执行转换过程。
+通常情况下，当仅加载Wave文件时，该文件会直接加载到应用程序中，
+但若启用此选项，则会在加载前强制进行转换。
+若需同时加载并转换不同采样率的Wave文件，此功能可能有所助益。</value>
   </data>
   <data name="comboBox_Fixconvert.Items" xml:space="preserve">
-    <value>[ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+の場合PSPに適合)</value>
+    <value>[适用于ATRAC3+/ATRAC9] 44.1kHz（ATRAC3+最适合PSP）</value>
   </data>
   <data name="comboBox_Fixconvert.Items1" xml:space="preserve">
-    <value>[ATRAC3+/ATRAC9] 48kHz (ATRAC3+の場合PS3に適合)</value>
+    <value>[适用于ATRAC3+/ATRAC9] 48kHz（ATRAC3+最适合PS3）</value>
   </data>
   <data name="comboBox_Fixconvert.Items2" xml:space="preserve">
     <value>[ATRAC9] 12kHz</value>
@@ -313,56 +269,50 @@ JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピ�
   <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
     <value>[ATRAC9] 24kHz</value>
   </data>
-  <data name="comboBox_Fixconvert.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>251, 19</value>
+    <value>175, 19</value>
   </data>
   <data name="checkBox_Fixconvert.Text" xml:space="preserve">
-    <value>Waveファイルに変換する際の形式を固定する：</value>
+    <value>Wave转换的固定输出格式：</value>
   </data>
   <data name="checkBox_Fixconvert.ToolTip" xml:space="preserve">
-    <value>Wave変換時、常に変換形式を固定して変換します。
-このオプションを有効化すると、変換前に形式の確認が行われず、常にここで指定した形式を使用して変換を行います。
-使用するターゲットが予め決まっている場合などに役立つ可能性があります。</value>
+    <value>转换音频文件时，转换格式始终固定不变。
+启用此选项后，转换前不会检查格式，
+转换操作将始终采用此处指定的格式进行。
+当目标格式已预先确定时，此功能可能有所助益。</value>
   </data>
   <data name="checkBox_FasterATRAC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 19</value>
+    <value>170, 19</value>
   </data>
   <data name="checkBox_FasterATRAC.Text" xml:space="preserve">
-    <value>ATRACを読み込んだ際に即時変換を実行する</value>
+    <value>读取ATRAC时立即进行转换</value>
   </data>
   <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
-    <value>ATRACを読み込んだ際に即時変換を実行します。
-このオプションを有効化した場合、'一般-&gt;ATRAC読み込み時に再生機能を有効にする'
-及び'ATRACをエンコード用ソースとして読み込む'オプションは無視されます。</value>
+    <value>读取ATRAC时立即进行转换。
+若启用此选项，则忽略“常规-&gt;加载ATRAC时启用播放接口”和“将ATRAC作为编码源加载”选项。</value>
   </data>
   <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 19</value>
+    <value>110, 19</value>
   </data>
   <data name="checkBox_Hidesplash.Text" xml:space="preserve">
-    <value>スプラッシュスクリーンを表示しない</value>
+    <value>不显示启动画面</value>
   </data>
   <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
-    <value>アプリケーション起動時にスプラッシュスクリーンを表示しません。
-アプリケーション起動の高速化を行いたい場合等に役に立つ可能性があります。</value>
+    <value>启动时不显示启动画面。
+当您希望加快应用程序启动速度时，此设置可能有所帮助。</value>
   </data>
   <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 19</value>
+    <value>158, 19</value>
   </data>
   <data name="checkBox_Oldmode.Text" xml:space="preserve">
-    <value>Legacy Modeを有効にする (非推奨)</value>
+    <value>启用旧版模式（不推荐）</value>
   </data>
   <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
-    <value>レガシーモードを有効化します。
-レガシーモードを有効にすると、古い処理方法を使用し、またループポイントクリエーターを独立して動作させますが
-バグが多く非推奨のため、通常はレガシーモードを有効にする必要はありません。</value>
+    <value>启用传统模式。
+启用传统模式将采用旧版处理方法，并允许循环点创建器独立运行。
+但该模式存在缺陷且已被弃用，因此通常无需启用传统模式。</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
+    <value>偏好设置</value>
   </data>
 </root>

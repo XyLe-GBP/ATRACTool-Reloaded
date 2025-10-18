@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelectWalkmanFormats));
             comboBox_DecodeFormats = new ComboBox();
             label_DecodeFmt = new Label();
             label_OutputFmt = new Label();
@@ -39,66 +40,45 @@
             // comboBox_DecodeFormats
             // 
             comboBox_DecodeFormats.FormattingEnabled = true;
-            comboBox_DecodeFormats.Items.AddRange(new object[] { "[WAVE] PCM (.wav)", "[AAC-LC] Advanced Audio Coding (.3gp)", "[HE-AAC] Advanced Audio Coding (.3gp)" });
-            comboBox_DecodeFormats.Location = new Point(12, 27);
+            comboBox_DecodeFormats.Items.AddRange(new object[] { resources.GetString("comboBox_DecodeFormats.Items"), resources.GetString("comboBox_DecodeFormats.Items1"), resources.GetString("comboBox_DecodeFormats.Items2") });
+            resources.ApplyResources(comboBox_DecodeFormats, "comboBox_DecodeFormats");
             comboBox_DecodeFormats.Name = "comboBox_DecodeFormats";
-            comboBox_DecodeFormats.Size = new Size(452, 23);
-            comboBox_DecodeFormats.TabIndex = 7;
             // 
             // label_DecodeFmt
             // 
-            label_DecodeFmt.AutoSize = true;
-            label_DecodeFmt.ImeMode = ImeMode.NoControl;
-            label_DecodeFmt.Location = new Point(12, 9);
+            resources.ApplyResources(label_DecodeFmt, "label_DecodeFmt");
             label_DecodeFmt.Name = "label_DecodeFmt";
-            label_DecodeFmt.Size = new Size(88, 15);
-            label_DecodeFmt.TabIndex = 6;
-            label_DecodeFmt.Text = "Decode format:";
             // 
             // label_OutputFmt
             // 
-            label_OutputFmt.AutoSize = true;
-            label_OutputFmt.ImeMode = ImeMode.NoControl;
-            label_OutputFmt.Location = new Point(12, 9);
+            resources.ApplyResources(label_OutputFmt, "label_OutputFmt");
             label_OutputFmt.Name = "label_OutputFmt";
-            label_OutputFmt.Size = new Size(192, 15);
-            label_OutputFmt.TabIndex = 5;
-            label_OutputFmt.Text = "ATRAC3 / ATRAC3+ Output format:";
             // 
             // comboBox_OutputFormats
             // 
             comboBox_OutputFormats.FormattingEnabled = true;
-            comboBox_OutputFormats.Items.AddRange(new object[] { "[PCM] OpenMG Audio (.oma)", "[ATRAC3] OpenMG Audio (.oma)", "[ATRAC3] OpenMG Audio (.omg)", "[ATRAC3] ATRAC Advanced Lossless [132kHz](.oma)", "[ATRAC3] Video Clip (.kdr)", "[ATRAC3+] OpenMG Audio (.oma)", "[ATRAC3+] OpenMG Audio (.omg)", "[ATRAC3+] ATRAC Advanced Lossless [352kHz](.oma)", "[ATRAC3+] Video Clip (.kdr)" });
-            comboBox_OutputFormats.Location = new Point(12, 27);
+            comboBox_OutputFormats.Items.AddRange(new object[] { resources.GetString("comboBox_OutputFormats.Items"), resources.GetString("comboBox_OutputFormats.Items1"), resources.GetString("comboBox_OutputFormats.Items2"), resources.GetString("comboBox_OutputFormats.Items3"), resources.GetString("comboBox_OutputFormats.Items4"), resources.GetString("comboBox_OutputFormats.Items5"), resources.GetString("comboBox_OutputFormats.Items6"), resources.GetString("comboBox_OutputFormats.Items7"), resources.GetString("comboBox_OutputFormats.Items8") });
+            resources.ApplyResources(comboBox_OutputFormats, "comboBox_OutputFormats");
             comboBox_OutputFormats.Name = "comboBox_OutputFormats";
-            comboBox_OutputFormats.Size = new Size(452, 23);
-            comboBox_OutputFormats.TabIndex = 4;
             // 
             // button_OK
             // 
-            button_OK.Location = new Point(389, 56);
+            resources.ApplyResources(button_OK, "button_OK");
             button_OK.Name = "button_OK";
-            button_OK.Size = new Size(75, 23);
-            button_OK.TabIndex = 8;
-            button_OK.Text = "OK";
             button_OK.UseVisualStyleBackColor = true;
             button_OK.Click += button_OK_Click;
             // 
             // button_Cancel
             // 
-            button_Cancel.Location = new Point(309, 56);
+            resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            button_Cancel.Size = new Size(75, 23);
-            button_Cancel.TabIndex = 9;
-            button_Cancel.Text = "Cancel";
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += button_Cancel_Click;
             // 
             // FormSelectWalkmanFormats
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(477, 91);
             ControlBox = false;
             Controls.Add(button_Cancel);
             Controls.Add(button_OK);
@@ -108,8 +88,6 @@
             Controls.Add(comboBox_OutputFormats);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormSelectWalkmanFormats";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "FormSelectWalkmanFormats";
             Load += FormSelectWalkmanFormats_Load;
             ResumeLayout(false);
             PerformLayout();

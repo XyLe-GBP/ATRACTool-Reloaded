@@ -5,6 +5,19 @@ namespace ATRACTool_Reloaded
 {
     public partial class FormSettings : Form
     {
+        private static FormSettings _formSettingsInstance = null!;
+        public static FormSettings FormSettingsInstance
+        {
+            get
+            {
+                return _formSettingsInstance;
+            }
+            set
+            {
+                _formSettingsInstance = value;
+            }
+        }
+
         private string bitrateAT3 = null!;
         private string wholeloopAT3 = null!;
         private string looppointAT3 = null!;
@@ -66,12 +79,13 @@ namespace ATRACTool_Reloaded
 
         private bool Setloopingpoint = false;
 
-        public FormSettings(bool IsSetLoopingPoint)
+        public FormSettings(bool LPCEnable)
         {
             InitializeComponent();
 
-            if (IsSetLoopingPoint)
+            if (LPCEnable)
             {
+                LPCUIDisabled();
                 Setloopingpoint = true;
             }
             else
@@ -103,7 +117,7 @@ namespace ATRACTool_Reloaded
                 checkBox_lpcreate.Enabled = true;
             }
 
-            
+
 
             switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
             {
@@ -544,7 +558,9 @@ namespace ATRACTool_Reloaded
             {
                 case true:
                     {
+                        wholeloopAT9 = "";
                         checkBox_at9_loopsound.Enabled = false;
+
                         checkBox_at9_looppoint.Checked = true;
                         looppointAT9 = " -loop";
                         label_at9_loopstart.Enabled = true;
@@ -566,6 +582,8 @@ namespace ATRACTool_Reloaded
                     }
                 case false:
                     {
+                        checkBox_at9_loopsound.Enabled = true;
+
                         looppointAT9 = "";
                         loopstartAT9 = "";
                         loopendAT9 = "";
@@ -577,7 +595,6 @@ namespace ATRACTool_Reloaded
                         textBox_at9_loopstart.Text = null;
                         textBox_at9_loopend.Enabled = false;
                         textBox_at9_loopend.Text = null;
-                        checkBox_at9_loopsound.Enabled = true;
                         break;
                     }
             }
@@ -586,6 +603,7 @@ namespace ATRACTool_Reloaded
             {
                 case true:
                     {
+                        Generic.IsAT3LoopSound = true;
                         wholeloopAT3 = " -wholeloop";
                         checkBox_at3_loopsound.Checked = true;
                         checkBox_at3_looppoint.Enabled = false;
@@ -593,6 +611,7 @@ namespace ATRACTool_Reloaded
                     }
                 case false:
                     {
+                        Generic.IsAT3LoopSound = false;
                         wholeloopAT3 = "";
                         checkBox_at3_loopsound.Checked = false;
                         checkBox_at3_looppoint.Enabled = true;
@@ -604,6 +623,7 @@ namespace ATRACTool_Reloaded
             {
                 case true:
                     {
+                        Generic.IsAT9LoopSound = true;
                         wholeloopAT9 = " -wholeloop";
                         checkBox_at9_loopsound.Checked = true;
                         checkBox_at9_looppoint.Enabled = false;
@@ -611,6 +631,7 @@ namespace ATRACTool_Reloaded
                     }
                 case false:
                     {
+                        Generic.IsAT3LoopSound = false;
                         wholeloopAT9 = "";
                         checkBox_at9_loopsound.Checked = false;
                         checkBox_at9_looppoint.Enabled = true;
@@ -1064,6 +1085,7 @@ namespace ATRACTool_Reloaded
             switch (bool.Parse(Config.Entry["LPC_Create"].Value))
             {
                 case true:
+                    Generic.lpcreate = true;
                     checkBox_lpcreate.Checked = true;
                     checkBox_at3_looppoint.Checked = false;
                     checkBox_at3_loopsound.Checked = false;
@@ -1078,8 +1100,8 @@ namespace ATRACTool_Reloaded
                     textBox_at9_loopstart.Text = null;
                     textBox_at9_loopstart.Enabled = false;
                     checkBox_at9_looppoint.Checked = false;
-                    checkBox_at9_looppoint.Enabled = false;
                     checkBox_at9_loopsound.Checked = false;
+                    checkBox_at9_looppoint.Enabled = false;
                     checkBox_at9_loopsound.Enabled = false;
                     checkBox_at9_looplist.Checked = false;
                     checkBox_at9_looplist.Enabled = false;
@@ -1099,15 +1121,13 @@ namespace ATRACTool_Reloaded
                     Config.Load(xmlpath);
                     break;
                 case false:
+                    Generic.lpcreate = false;
                     checkBox_lpcreate.Checked = false;
-                    checkBox_at3_looppoint.Enabled = true;
-                    checkBox_at3_loopsound.Enabled = true;
-                    textBox_at3_loopend.Enabled = true;
-                    textBox_at3_loopstart.Enabled = true;
-                    textBox_at9_loopend.Enabled = true;
-                    textBox_at9_loopstart.Enabled = true;
-                    checkBox_at9_looppoint.Enabled = true;
-                    checkBox_at9_loopsound.Enabled = true;
+                    //checkBox_at3_looppoint.Enabled = true;
+                    //checkBox_at3_loopsound.Enabled = true;
+                    //checkBox_at9_looppoint.Enabled = true;
+                    //checkBox_at9_loopsound.Enabled = true;
+                    //checkBox_at9_looplist.Enabled = true;
                     break;
             }
 
@@ -1668,6 +1688,17 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_at3_loopsound.Checked != false)
             {
+                if (FormLPC.FormLPCInstance is not null && FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked != false)
+                {
+                    if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
+                    {
+                        MessageBox.Show(this, Localization.MainLoopingAlreadyEnabledWarnig, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        checkBox_at3_loopsound.Checked = false;
+                        return;
+                    }
+                }
+                Generic.IsAT3LoopSound = true;
+
                 wholeloopAT3 = " -wholeloop";
                 looppointAT3 = "";
                 loopstartAT3 = "";
@@ -1683,6 +1714,7 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                Generic.IsAT3LoopSound = false;
                 checkBox_at3_looppoint.Enabled = true;
                 wholeloopAT3 = "";
             }
@@ -1694,6 +1726,17 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_at3_looppoint.Checked != false)
             {
+                if (FormLPC.FormLPCInstance is not null && FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked != false)
+                {
+                    if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
+                    {
+                        MessageBox.Show(this, Localization.MainLoopingAlreadyEnabledWarnig, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        checkBox_at3_looppoint.Checked = false;
+                        return;
+                    }
+                }
+                Generic.IsAT3LoopPoint = true;
+
                 looppointAT3 = " -loop";
                 label_at3_loopstart.Enabled = true;
                 label_at3_loopend.Enabled = true;
@@ -1706,6 +1749,7 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                Generic.IsAT3LoopPoint = false;
                 looppointAT3 = "";
                 loopstartAT3 = "";
                 loopendAT3 = "";
@@ -1886,10 +1930,22 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_at9_loopsound.Checked != false)
             {
+                if (FormLPC.FormLPCInstance is not null && FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked != false)
+                {
+                    if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
+                    {
+                        MessageBox.Show(this, Localization.MainLoopingAlreadyEnabledWarnig, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        checkBox_at9_loopsound.Checked = false;
+                        return;
+                    }
+                }
+                Generic.IsAT9LoopSound = true;
+
                 wholeloopAT9 = " -wholeloop";
                 looppointAT9 = "";
                 loopstartAT9 = "";
                 loopendAT9 = "";
+                checkBox_at9_looppoint.Enabled = false;
                 label_at9_loopstart.Enabled = false;
                 label_at9_loopend.Enabled = false;
                 label_at9_samples.Enabled = false;
@@ -1897,13 +1953,12 @@ namespace ATRACTool_Reloaded
                 textBox_at9_loopstart.Text = null;
                 textBox_at9_loopend.Enabled = false;
                 textBox_at9_loopend.Text = null;
-                checkBox_at9_looppoint.Checked = false;
-                checkBox_at9_looppoint.Enabled = false;
             }
             else
             {
-                wholeloopAT9 = "";
+                Generic.IsAT9LoopSound = false;
                 checkBox_at9_looppoint.Enabled = true;
+                wholeloopAT9 = "";
             }
             paramAT9 = RefleshParamAT9();
             textBox_at9_cmd.Text = paramAT9;
@@ -1913,18 +1968,30 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_at9_looppoint.Checked != false)
             {
-                wholeloopAT9 = "";
+                if (FormLPC.FormLPCInstance is not null && FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked != false)
+                {
+                    if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
+                    {
+                        MessageBox.Show(this, Localization.MainLoopingAlreadyEnabledWarnig, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        checkBox_at9_looppoint.Checked = false;
+                        return;
+                    }
+                }
+                Generic.IsAT9LoopPoint = true;
+
                 looppointAT9 = " -loop";
                 label_at9_loopstart.Enabled = true;
                 label_at9_loopend.Enabled = true;
                 label_at9_samples.Enabled = true;
                 textBox_at9_loopstart.Enabled = true;
                 textBox_at9_loopend.Enabled = true;
+                wholeloopAT9 = "";
                 checkBox_at9_loopsound.Checked = false;
                 checkBox_at9_loopsound.Enabled = false;
             }
             else
             {
+                Generic.IsAT9LoopPoint = false;
                 looppointAT9 = "";
                 loopstartAT9 = "";
                 loopendAT9 = "";
@@ -2825,6 +2892,14 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_lpcreate.Checked != false)
             {
+                if (FormLPC.FormLPCInstance is not null && FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked != false)
+                {
+                    MessageBox.Show(this, Localization.MainLoopingAlreadyEnabledWarnig, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    checkBox_lpcreate.Checked = false;
+                    return;
+
+                }
+                Generic.lpcreate = true;
                 if (Common.Generic.lpcreatev2 != false)
                 {
                     switch (Common.Generic.ATRACFlag)
@@ -2866,9 +2941,11 @@ namespace ATRACTool_Reloaded
                     textBox_at9_loopstart.Text = null;
                     textBox_at9_loopstart.Enabled = false;
                     checkBox_at9_looppoint.Checked = false;
-                    checkBox_at9_looppoint.Enabled = false;
                     checkBox_at9_loopsound.Checked = false;
+                    checkBox_at9_looppoint.Enabled = false;
                     checkBox_at9_loopsound.Enabled = false;
+                    checkBox_at9_looplist.Checked = false;
+                    checkBox_at9_looplist.Enabled = false;
                     looppointAT3 = "";
                     loopstartAT3 = "";
                     loopendAT3 = "";
@@ -2879,14 +2956,12 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                Generic.lpcreate = false;
                 checkBox_at3_looppoint.Enabled = true;
                 checkBox_at3_loopsound.Enabled = true;
-                textBox_at3_loopend.Enabled = true;
-                textBox_at3_loopstart.Enabled = true;
-                textBox_at9_loopend.Enabled = true;
-                textBox_at9_loopstart.Enabled = true;
                 checkBox_at9_looppoint.Enabled = true;
                 checkBox_at9_loopsound.Enabled = true;
+                checkBox_at9_looplist.Enabled = true;
             }
         }
 
@@ -3014,7 +3089,7 @@ namespace ATRACTool_Reloaded
 
         // Walkman Functions
 
-        private void checkBox_everyFormats_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_everyFormats_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_everyFormats.Checked)
             {
@@ -3032,7 +3107,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void radioButton_each_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_each_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_each.Checked)
             {
@@ -3044,7 +3119,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void radioButton_specified_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton_specified_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_specified.Checked)
             {
@@ -3056,7 +3131,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void comboBox_DecodeFormats_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_DecodeFormats_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox_DecodeFormats.SelectedIndex)
             {
@@ -3078,7 +3153,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void comboBox_OutputFormats_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_OutputFormats_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox_OutputFormats.SelectedIndex)
             {
@@ -3130,7 +3205,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Bitrates_TextChanged(object sender, EventArgs e)
+        private void TextBox_Bitrates_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Bitrates.Text))
             {
@@ -3146,7 +3221,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Bitrates_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_Bitrates_KeyPress(object sender, KeyPressEventArgs e)
         {
             //0～9と、バックスペース以外の時は、イベントをキャンセルする
             if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
@@ -3155,7 +3230,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_TrackNumber_TextChanged(object sender, EventArgs e)
+        private void TextBox_TrackNumber_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_TrackNumber.Text))
             {
@@ -3171,7 +3246,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_TotalTracks_TextChanged(object sender, EventArgs e)
+        private void TextBox_TotalTracks_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_TotalTracks.Text))
             {
@@ -3187,7 +3262,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Duration_TextChanged(object sender, EventArgs e)
+        private void TextBox_Duration_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Duration.Text))
             {
@@ -3203,7 +3278,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_MilliSecond_TextChanged(object sender, EventArgs e)
+        private void TextBox_MilliSecond_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_MilliSecond.Text))
             {
@@ -3219,7 +3294,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_TrackNumber_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_TrackNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             //0～9と、バックスペース以外の時は、イベントをキャンセルする
             if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
@@ -3228,7 +3303,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_TotalTracks_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_TotalTracks_KeyPress(object sender, KeyPressEventArgs e)
         {
             //0～9と、バックスペース以外の時は、イベントをキャンセルする
             if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
@@ -3237,7 +3312,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Duration_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_Duration_KeyPress(object sender, KeyPressEventArgs e)
         {
             //0～9と、バックスペース以外の時は、イベントをキャンセルする
             if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
@@ -3246,7 +3321,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_MilliSecond_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_MilliSecond_KeyPress(object sender, KeyPressEventArgs e)
         {
             //0～9と、バックスペース以外の時は、イベントをキャンセルする
             if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
@@ -3255,7 +3330,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void button_Lyricspath_Click(object sender, EventArgs e)
+        private void Button_Lyricspath_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new()
             {
@@ -3283,7 +3358,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void comboBox_Lyricsmode_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_Lyricsmode_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox_Lyricsmode.SelectedIndex)
             {
@@ -3309,7 +3384,7 @@ namespace ATRACTool_Reloaded
             textBox_cmd_walkman.Text = paramWalkman;
         }
 
-        private void button_Linerpath_Click(object sender, EventArgs e)
+        private void Button_Linerpath_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new()
             {
@@ -3337,7 +3412,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void comboBox_Linermode_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_Linermode_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox_Linermode.SelectedIndex)
             {
@@ -3363,7 +3438,7 @@ namespace ATRACTool_Reloaded
             textBox_cmd_walkman.Text = paramWalkman;
         }
 
-        private void button_Jacketpath_Click(object sender, EventArgs e)
+        private void Button_Jacketpath_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new()
             {
@@ -3393,7 +3468,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void comboBox_Jacketmode_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_Jacketmode_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox_Jacketmode.SelectedIndex)
             {
@@ -3418,7 +3493,7 @@ namespace ATRACTool_Reloaded
 
         // Tags
 
-        private void textBox_Title_TextChanged(object sender, EventArgs e)
+        private void TextBox_Title_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Title.Text))
             {
@@ -3434,7 +3509,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_SortTitle_TextChanged(object sender, EventArgs e)
+        private void TextBox_SortTitle_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_SortTitle.Text))
             {
@@ -3450,7 +3525,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Subtitle_TextChanged(object sender, EventArgs e)
+        private void TextBox_Subtitle_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Subtitle.Text))
             {
@@ -3466,7 +3541,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_SortSubtitle_TextChanged(object sender, EventArgs e)
+        private void TextBox_SortSubtitle_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_SortSubtitle.Text))
             {
@@ -3482,7 +3557,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Artist_TextChanged(object sender, EventArgs e)
+        private void TextBox_Artist_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Artist.Text))
             {
@@ -3498,7 +3573,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_SortArtist_TextChanged(object sender, EventArgs e)
+        private void TextBox_SortArtist_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_SortArtist.Text))
             {
@@ -3514,7 +3589,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Album_TextChanged(object sender, EventArgs e)
+        private void TextBox_Album_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Album.Text))
             {
@@ -3530,7 +3605,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_SortAlbum_TextChanged(object sender, EventArgs e)
+        private void TextBox_SortAlbum_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_SortAlbum.Text))
             {
@@ -3546,7 +3621,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_AlbumArtist_TextChanged(object sender, EventArgs e)
+        private void TextBox_AlbumArtist_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_AlbumArtist.Text))
             {
@@ -3562,7 +3637,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_SortAlbumArtist_TextChanged(object sender, EventArgs e)
+        private void TextBox_SortAlbumArtist_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_SortAlbumArtist.Text))
             {
@@ -3578,7 +3653,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Genre_TextChanged(object sender, EventArgs e)
+        private void TextBox_Genre_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Genre.Text))
             {
@@ -3594,7 +3669,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Composer_TextChanged(object sender, EventArgs e)
+        private void TextBox_Composer_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Composer.Text))
             {
@@ -3610,7 +3685,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void textBox_Lyricist_TextChanged(object sender, EventArgs e)
+        private void TextBox_Lyricist_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox_Lyricist.Text))
             {
@@ -3626,26 +3701,68 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void dateTimePicker_Release_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker_Release_ValueChanged(object sender, EventArgs e)
         {
             release = " --Release " + dateTimePicker_Release.Value.ToShortDateString();
             paramWalkman = RefleshParamWalkman();
             textBox_cmd_walkman.Text = paramWalkman;
         }
 
-        private void dateTimePicker_Import_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker_Import_ValueChanged(object sender, EventArgs e)
         {
             import = " --Import " + dateTimePicker_Import.Value.ToShortDateString();
             paramWalkman = RefleshParamWalkman();
             textBox_cmd_walkman.Text = paramWalkman;
         }
 
-        private void tabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
+        private void TabControl_Main_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (e.TabPageIndex == 1 && Setloopingpoint)
             {
                 e.Cancel = true;
             }
+        }
+
+        private void LPCUIDisabled()
+        {
+            if (Setloopingpoint)
+            {
+                return;
+            }
+            else
+            {
+                tabControl_Main.Enabled = false;
+                label_at3_cmd.Enabled = false;
+                label_at3_console.Enabled = false;
+                label_at3_encmethod.Enabled = false;
+                label_at3_nol.Enabled = false;
+                label_at3_times.Enabled = false;
+                label_at9_cmd.Enabled = false;
+                label_at9_console.Enabled = false;
+                label_at9_enctype.Enabled = false;
+                label_at9_nol.Enabled = false;
+                label_at9_times.Enabled = false;
+                label_at9_samplingfreq.Enabled = false;
+                textBox_at3_cmd.Enabled = false;
+                textBox_at3_looptimes.Enabled = false;
+                textBox_at9_cmd.Enabled = false;
+                textBox_at9_looptimes.Enabled = false;
+                textBox_at9_looplist.Enabled = false;
+                comboBox_at3_encmethod.Enabled = false;
+                comboBox_at9_bitrate.Enabled = false;
+                comboBox_at9_sampling.Enabled = false;
+                checkBox_at3_loopsound.Enabled = false;
+                checkBox_at3_looptimes.Enabled = false;
+                checkBox_at9_advanced.Enabled = false;
+                checkBox_at9_looplist.Enabled = false;
+                checkBox_at9_loopsound.Enabled = false;
+                checkBox_at9_looptimes.Enabled = false;
+            }
+        }
+
+        private void groupBox_walkman_others_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -42,6 +42,7 @@ namespace ATRACTool_Reloaded.src.Controls
         private bool showLPCSamples = true;
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color TrackColor
         {
             get => trackColor;
@@ -58,6 +59,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color ThumbColor
         {
             get => thumbColor;
@@ -74,13 +76,16 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color DraggedThumbColor { get; set; } = Color.DarkRed;
         private bool isDragging = false; // ドラッグ中を追跡
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThumbWidth { get; set; } = 10; // デフォルトの横幅
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThumbHeight
         {
             get => thumbHeight;
@@ -93,6 +98,7 @@ namespace ATRACTool_Reloaded.src.Controls
         private int thumbHeight = 20; // 初期値
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThumbSize { get; set; } = 10;
 
         public enum ThumbShape
@@ -105,9 +111,11 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ThumbShape Shape { get; set; } = ThumbShape.Circle;
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TrackThickness
         {
             get => trackThickness;
@@ -122,6 +130,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BackgroundColor
         {
             get => backgroundColor;
@@ -144,9 +153,11 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TickPosition TickPos { get; set; } = TickPosition.Below;
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowTicks
         {
             get => showTicks;
@@ -161,6 +172,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowLPCSamples
         {
             get => showLPCSamples;
@@ -175,6 +187,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TickFrequency
         {
             get => tickFrequency;
@@ -190,6 +203,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TickSize
         {
             get => tickSize;
@@ -204,6 +218,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color TickColor
         {
             get => tickColor;
@@ -220,6 +235,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Minimum
         {
             get => minimum;
@@ -235,6 +251,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Maximum
         {
             get => maximum;
@@ -257,6 +274,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Value
         {
             get => value;
@@ -277,6 +295,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
         public event EventHandler ValueChanged;

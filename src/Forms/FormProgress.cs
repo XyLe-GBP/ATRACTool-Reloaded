@@ -60,7 +60,16 @@ namespace ATRACTool_Reloaded
                         Generic.cts = new CancellationTokenSource();
                         var cToken = Generic.cts.Token;
                         var p = new Progress<int>(UpdateProgress);
-                        label_Status.Text = "Encoding...";
+
+                        if (Generic.lpcreate != false)
+                        {
+                            label_Status.Text = "Editing with Loop Point Creator...";
+                        }
+                        else
+                        {
+                            label_Status.Text = "Encoding...";
+                        }
+
                         Generic.Result = await Task.Run(() => Encode_DoWork(p, cToken));
                         break;
                     }
@@ -123,7 +132,14 @@ namespace ATRACTool_Reloaded
                 }
                 else
                 {
-                    fi2 = new(Generic.SavePath);
+                    if (bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
+                    {
+                        fi2 = new(Generic.pATRACSavePath);
+                    }
+                    else
+                    {
+                        fi2 = new(Generic.SavePath);
+                    }
                 }
 
                 switch (fi.Extension.ToUpper())
@@ -461,10 +477,23 @@ namespace ATRACTool_Reloaded
 
             int length = Generic.OpenFilePaths.Length;
 
-            if (length == 1)
+            if (length == 1) // Single
             {
-                FileInfo fi = new(Generic.OpenFilePaths[0]);
-                FileInfo fi2 = new(Generic.SavePath);
+                bool mloop = Generic.MultipleFilesLoopOKFlags[0];
+
+                FileInfo fi, fi2;
+
+                if (bool.Parse(Config.Entry["ATRACEncodeSource"].Value) && Generic.IsATRAC)
+                {
+                    fi = new(Generic.pATRACOpenFilePaths[0]);
+                    fi2 = new(Generic.pATRACSavePath);
+                }
+                else
+                {
+                    fi = new(Generic.OpenFilePaths[0]);
+                    fi2 = new(Generic.SavePath);
+                }
+                
 
                 switch (Generic.ATRACFlag)
                 {
@@ -475,15 +504,30 @@ namespace ATRACTool_Reloaded
                             {
                                 case 0: // PSP
                                     {
-                                        if (Generic.lpcreate != false)
+                                        if (mloop)
                                         {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                            Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                            Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
                                         }
-                                        Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                        else
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                Generic.EncodeParamAT3 += Generic.LPCSuffix;
+                                            }
+                                            else
+                                            {
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                            }
+                                        }
+                                        
+
                                         pi.FileName = Generic.PSP_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
                                         pi.UseShellExecute = false;
@@ -517,15 +561,30 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS3
                                     {
-                                        if (Generic.lpcreate != false)
+                                        if (mloop)
                                         {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                            Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                            Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
                                         }
-                                        Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                        else
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                Generic.EncodeParamAT3 += Generic.LPCSuffix;
+                                            }
+                                            else
+                                            {
+                                                Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                            }
+                                        }
+                                        
+
                                         pi.FileName = Generic.PS3_ATRAC3tool;
                                         pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at3tool ", "");
                                         pi.UseShellExecute = false;
@@ -571,15 +630,30 @@ namespace ATRACTool_Reloaded
                             {
                                 case 0: // PSV
                                     {
-                                        if (Generic.lpcreate != false)
+                                        if (mloop)
                                         {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                            Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                            Generic.EncodeParamAT9 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
                                         }
-                                        Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                        else
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                Generic.EncodeParamAT9 += Generic.LPCSuffix;
+                                            }
+                                            else
+                                            {
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                            }
+                                        }
+                                        
+
                                         pi.FileName = Generic.PSV_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
                                         pi.UseShellExecute = false;
@@ -613,15 +687,30 @@ namespace ATRACTool_Reloaded
                                     break;
                                 case 1: // PS4
                                     {
-                                        if (Generic.lpcreate != false)
+                                        if (mloop)
                                         {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                            Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                            Generic.EncodeParamAT9 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
                                         }
-                                        Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                        else
+                                        {
+                                            if (Generic.lpcreate != false)
+                                            {
+                                                Generic.lpcreatev2 = true;
+                                                using FormLPC form = new(true);
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                form.ShowDialog();
+                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                Generic.EncodeParamAT9 += Generic.LPCSuffix;
+                                            }
+                                            else
+                                            {
+                                                Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                            }
+                                        }
+                                        
+
                                         pi.FileName = Generic.PS4_ATRAC9tool;
                                         pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + Generic.OpenFilePaths[0] + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi2.Name + "\"").Replace("at9tool ", "");
                                         pi.UseShellExecute = false;
@@ -699,8 +788,22 @@ namespace ATRACTool_Reloaded
             else // multiple
             {
                 int fs = 0;
-                foreach (var file in Generic.OpenFilePaths)
+                int mpfloop = 0;
+
+                string[] fp;
+
+                if (bool.Parse(Config.Entry["ATRACEncodeSource"].Value) && Generic.IsATRAC)
                 {
+                    fp = Generic.pATRACOpenFilePaths;
+                }
+                else
+                {
+                    fp = Generic.OpenFilePaths;
+                }
+
+                foreach (var file in fp)
+                {
+                    bool mloop = Generic.MultipleFilesLoopOKFlags[mpfloop];
                     FileInfo fi = new(file);
 
                     switch (Generic.ATRACFlag)
@@ -712,16 +815,31 @@ namespace ATRACTool_Reloaded
                                 {
                                     case 0: // PSP
                                         {
-                                            if (Generic.lpcreate != false)
+                                            if (mloop)
                                             {
-                                                Generic.lpcreatev2 = true;
-                                                Generic.files = fs;
-                                                using FormLPC form = new(true);
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                                form.ShowDialog();
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[mpfloop] + " " + Generic.MultipleLoopEnds[mpfloop];
                                             }
+                                            else
+                                            {
+                                                if (Generic.lpcreate != false)
+                                                {
+                                                    Generic.lpcreatev2 = true;
+                                                    Generic.files = fs;
+                                                    using FormLPC form = new(true);
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                    form.ShowDialog();
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+                                                    Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                    Generic.EncodeParamAT3 += Generic.LPCSuffix;
+                                                }
+                                                else
+                                                {
+                                                    Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                }
+                                            }
+                                            
+
                                             Generic.ATRACExt = ".at3";
                                             pi.FileName = Generic.PSP_ATRAC3tool;
                                             pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
@@ -767,17 +885,32 @@ namespace ATRACTool_Reloaded
                                         break;
                                     case 1: // PS3
                                         {
-                                            if (Generic.lpcreate != false)
+                                            if (mloop)
                                             {
-                                                Generic.lpcreatev2 = true;
-                                                Generic.files = fs;
-                                                using FormLPC form = new(true);
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                                form.ShowDialog();
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
-
                                                 Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[mpfloop] + " " + Generic.MultipleLoopEnds[mpfloop];
                                             }
+                                            else
+                                            {
+                                                if (Generic.lpcreate != false)
+                                                {
+                                                    Generic.lpcreatev2 = true;
+                                                    Generic.files = fs;
+                                                    using FormLPC form = new(true);
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                    form.ShowDialog();
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+
+                                                    Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                    Generic.EncodeParamAT3 += Generic.LPCSuffix;
+                                                }
+                                                else
+                                                {
+                                                    Generic.EncodeParamAT3 = Config.Entry["ATRAC3_Params"].Value;
+                                                }
+                                            }
+                                            
+
                                             Generic.ATRACExt = ".at3";
                                             pi.FileName = Generic.PS3_ATRAC3tool;
                                             pi.Arguments = Generic.EncodeParamAT3.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at3") + "\"").Replace("at3tool ", "");
@@ -833,17 +966,32 @@ namespace ATRACTool_Reloaded
                                 {
                                     case 0: // PSV
                                         {
-                                            if (Generic.lpcreate != false)
+                                            if (mloop)
                                             {
-                                                Generic.lpcreatev2 = true;
-                                                Generic.files = fs;
-                                                using FormLPC form = new(true);
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                                form.ShowDialog();
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
-
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                Generic.EncodeParamAT9 += " -loop " + Generic.MultipleLoopStarts[mpfloop] + " " + Generic.MultipleLoopEnds[mpfloop];
                                             }
+                                            else
+                                            {
+                                                if (Generic.lpcreate != false)
+                                                {
+                                                    Generic.lpcreatev2 = true;
+                                                    Generic.files = fs;
+                                                    using FormLPC form = new(true);
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                    form.ShowDialog();
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+
+                                                    Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                    Generic.EncodeParamAT9 += Generic.LPCSuffix;
+                                                }
+                                                else
+                                                {
+                                                    Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                }
+                                            }
+                                            
+
                                             Generic.ATRACExt = ".at9";
                                             pi.FileName = Generic.PSV_ATRAC9tool;
                                             pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
@@ -889,17 +1037,32 @@ namespace ATRACTool_Reloaded
                                         break;
                                     case 1: // PS4
                                         {
-                                            if (Generic.lpcreate != false)
+                                            if (mloop)
                                             {
-                                                Generic.lpcreatev2 = true;
-                                                Generic.files = fs;
-                                                using FormLPC form = new(true);
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                                form.ShowDialog();
-                                                FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
-
                                                 Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                Generic.EncodeParamAT9 += " -loop " + Generic.MultipleLoopStarts[mpfloop] + " " + Generic.MultipleLoopEnds[mpfloop];
                                             }
+                                            else
+                                            {
+                                                if (Generic.lpcreate != false)
+                                                {
+                                                    Generic.lpcreatev2 = true;
+                                                    Generic.files = fs;
+                                                    using FormLPC form = new(true);
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
+                                                    form.ShowDialog();
+                                                    FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
+
+                                                    Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                    Generic.EncodeParamAT9 += Generic.LPCSuffix;
+                                                }
+                                                else
+                                                {
+                                                    Generic.EncodeParamAT9 = Config.Entry["ATRAC9_Params"].Value;
+                                                }
+                                            }
+                                            
+
                                             Generic.ATRACExt = ".at9";
                                             pi.FileName = Generic.PS4_ATRAC9tool;
                                             pi.Arguments = Generic.EncodeParamAT9.Replace("$InFile", "\"" + file + "\"").Replace("$OutFile", "\"" + Directory.GetCurrentDirectory() + @"\_temp\" + fi.Name.Replace(fi.Extension, ".at9") + "\"").Replace("at9tool ", "");
@@ -1006,6 +1169,7 @@ namespace ATRACTool_Reloaded
                             return false;
                     }
                     fs++;
+                    mpfloop++;
                 }
                 return true;
             }
@@ -1492,6 +1656,10 @@ namespace ATRACTool_Reloaded
             switch (Generic.ProcessFlag)
             {
                 default:
+                    if (p > progressBar_MainProgress.Maximum)
+                    {
+                        break;
+                    }
                     progressBar_MainProgress.Value = p;
                     label_Status.Text = string.Format(Localization.StatusCaption, p, Generic.OpenFilePaths.Length);
                     break;

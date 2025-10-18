@@ -119,155 +119,139 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label_Sizetxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>455, 45</value>
+    <value>413, 45</value>
   </data>
   <data name="label_Size.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 15</value>
+    <value>43, 15</value>
   </data>
   <data name="label_Size.Text" xml:space="preserve">
-    <value>ファイルサイズ：</value>
-  </data>
-  <data name="label_Formattxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 45</value>
+    <value>尺寸：</value>
   </data>
   <data name="label_Filepath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 15</value>
+    <value>46, 17</value>
   </data>
   <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>585, 28</value>
+    <value>598, 28</value>
   </data>
   <data name="label_Format.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 15</value>
   </data>
   <data name="label_Format.Text" xml:space="preserve">
-    <value>形式：</value>
-  </data>
-  <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
+    <value>格式：</value>
   </data>
   <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 15</value>
+    <value>43, 15</value>
   </data>
   <data name="label_File.Text" xml:space="preserve">
-    <value>ファイル：</value>
+    <value>文件：</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>情報</value>
-  </data>
-  <data name="label_NotReaded.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 20.25pt, style=Bold</value>
-  </data>
-  <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>885, 375</value>
+    <value>信息</value>
   </data>
   <data name="label_NotReaded.Text" xml:space="preserve">
-    <value>ここにファイルをドラッグアンドドロップするか
-ファイルを開いてください…</value>
+    <value>将文件拖放到此处或打开文件...</value>
   </data>
   <data name="fileFToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 20</value>
+    <value>60, 20</value>
   </data>
   <data name="fileFToolStripMenuItem.Text" xml:space="preserve">
-    <value>ファイル (&amp;F)</value>
+    <value>文件 (&amp;F)</value>
   </data>
   <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>142, 22</value>
   </data>
   <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
-    <value>ファイルを開く (&amp;O)</value>
+    <value>打开文件 (&amp;O)</value>
   </data>
   <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>142, 22</value>
   </data>
   <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
-    <value>ファイルを閉じる (&amp;C)</value>
+    <value>关闭文件 (&amp;C)</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 6</value>
+    <value>139, 6</value>
   </data>
   <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>142, 22</value>
   </data>
   <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
-    <value>終了 (&amp;X)</value>
+    <value>退出 (&amp;X)</value>
   </data>
   <data name="settingsSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 20</value>
   </data>
   <data name="settingsSToolStripMenuItem.Text" xml:space="preserve">
-    <value>設定 (&amp;C)</value>
+    <value>配置 (&amp;C)</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 22</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>変換設定 (&amp;S)</value>
+    <value>转换设置 (&amp;S)</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 22</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
-    <value>詳細設定 (&amp;P)</value>
+    <value>偏好设置 (&amp;P)</value>
   </data>
   <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
+    <value>60, 20</value>
   </data>
   <data name="toolsTToolStripMenuItem.Text" xml:space="preserve">
-    <value>ツール (&amp;T)</value>
+    <value>工具 (&amp;T)</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>音声形式の変換 (&amp;C)</value>
+    <value>音频转换器 (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>166, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
-    <value>別形式からWAVEに変換</value>
+    <value>音频转WAVE格式</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>166, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>WAVEから別形式に変換</value>
+    <value>WAVE转音频</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
-    <value>ループポイント作成</value>
+    <value>循环点创建</value>
   </data>
   <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 20</value>
+    <value>63, 20</value>
   </data>
   <data name="helpHToolStripMenuItem.Text" xml:space="preserve">
-    <value>ヘルプ (&amp;H)</value>
+    <value>帮助 (&amp;H)</value>
   </data>
   <data name="aboutATRACToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
+    <value>175, 22</value>
+  </data>
+  <data name="aboutATRACToolToolStripMenuItem.Text" xml:space="preserve">
+    <value>关于ATRACTool (&amp;A)</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>184, 6</value>
+    <value>172, 6</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
+    <value>175, 22</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Text" xml:space="preserve">
-    <value>アップデートの確認 (&amp;U)</value>
+    <value>检查更新 (&amp;U)</value>
   </data>
   <data name="button_Decode.Text" xml:space="preserve">
-    <value>デコード (ATRAC⇒WAVE)</value>
+    <value>解码（ATRAC转WAVE）</value>
   </data>
   <data name="button_Encode.Text" xml:space="preserve">
-    <value>エンコード (WAVE⇒ATRAC)</value>
-  </data>
-  <data name="toolStripStatusLabel_Status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 17</value>
-  </data>
-  <data name="toolStripStatusLabel_Status.Text" xml:space="preserve">
-    <value>レディ</value>
+    <value>编码（WAVE转ATRAC）</value>
   </data>
   <data name="toolStripDropDownButton_EF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -279,25 +263,25 @@
 </value>
   </data>
   <data name="toolStripDropDownButton_EF.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 20</value>
+    <value>92, 20</value>
   </data>
   <data name="toolStripDropDownButton_EF.Text" xml:space="preserve">
-    <value>エンコード方式を選択</value>
+    <value>选择编码方法</value>
   </data>
-  <data name="label_SSample.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 15</value>
+  <data name="aTRAC3ATRAC3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
-  <data name="label_SSample.Text" xml:space="preserve">
-    <value>サンプル</value>
+  <data name="aTRAC9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
-  <data name="label_ESample.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 15</value>
+  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 6</value>
   </data>
-  <data name="label_ESample.Text" xml:space="preserve">
-    <value>サンプル</value>
+  <data name="walkmanToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
   </data>
   <data name="groupBox_Loop.Text" xml:space="preserve">
-    <value>ループポイント情報</value>
+    <value>循环点信息</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

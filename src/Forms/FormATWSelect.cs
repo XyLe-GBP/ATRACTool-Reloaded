@@ -19,7 +19,7 @@
 
         private void button_OK_Click(object sender, EventArgs e)
         {
-            Common.Generic.WTAFlag = comboBox_fmt.SelectedIndex;
+            Common.Generic.WTAFlag = (sbyte)comboBox_fmt.SelectedIndex;
             Close();
         }
     }

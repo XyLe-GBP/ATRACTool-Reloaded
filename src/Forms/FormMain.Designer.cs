@@ -36,6 +36,8 @@
             label_Filepath = new Label();
             label_Format = new Label();
             label_File = new Label();
+            textBox_LoopEnd = new TextBox();
+            textBox_LoopStart = new TextBox();
             label_NotReaded = new Label();
             menuStrip1 = new MenuStrip();
             fileFToolStripMenuItem = new ToolStripMenuItem();
@@ -67,11 +69,17 @@
             toolStripStatusLabel_EncMethod = new ToolStripStatusLabel();
             panel_Control = new Panel();
             panel_Main = new Panel();
+            label_LoopStart = new Label();
+            label_LoopEnd = new Label();
+            label_SSample = new Label();
+            label_ESample = new Label();
+            groupBox_Loop = new GroupBox();
             groupBox1.SuspendLayout();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             panel_Control.SuspendLayout();
             panel_Main.SuspendLayout();
+            groupBox_Loop.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -116,6 +124,20 @@
             // 
             resources.ApplyResources(label_File, "label_File");
             label_File.Name = "label_File";
+            // 
+            // textBox_LoopEnd
+            // 
+            resources.ApplyResources(textBox_LoopEnd, "textBox_LoopEnd");
+            textBox_LoopEnd.Name = "textBox_LoopEnd";
+            textBox_LoopEnd.TextChanged += textBox_LoopEnd_TextChanged;
+            textBox_LoopEnd.KeyPress += textBox_LoopEnd_KeyPress;
+            // 
+            // textBox_LoopStart
+            // 
+            resources.ApplyResources(textBox_LoopStart, "textBox_LoopStart");
+            textBox_LoopStart.Name = "textBox_LoopStart";
+            textBox_LoopStart.TextChanged += textBox_LoopStart_TextChanged;
+            textBox_LoopStart.KeyPress += textBox_LoopStart_KeyPress;
             // 
             // label_NotReaded
             // 
@@ -264,6 +286,7 @@
             toolStripDropDownButton_EF.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStripDropDownButton_EF.DropDownItems.AddRange(new ToolStripItem[] { aTRAC3ATRAC3ToolStripMenuItem, aTRAC9ToolStripMenuItem, toolStripMenuItem3, walkmanToolStripMenuItem });
             toolStripDropDownButton_EF.Name = "toolStripDropDownButton_EF";
+            toolStripDropDownButton_EF.DropDownItemClicked += toolStripDropDownButton_EF_DropDownItemClicked;
             // 
             // aTRAC3ATRAC3ToolStripMenuItem
             // 
@@ -306,11 +329,45 @@
             panel_Main.Controls.Add(label_NotReaded);
             panel_Main.Name = "panel_Main";
             // 
+            // label_LoopStart
+            // 
+            resources.ApplyResources(label_LoopStart, "label_LoopStart");
+            label_LoopStart.Name = "label_LoopStart";
+            // 
+            // label_LoopEnd
+            // 
+            resources.ApplyResources(label_LoopEnd, "label_LoopEnd");
+            label_LoopEnd.Name = "label_LoopEnd";
+            // 
+            // label_SSample
+            // 
+            resources.ApplyResources(label_SSample, "label_SSample");
+            label_SSample.Name = "label_SSample";
+            // 
+            // label_ESample
+            // 
+            resources.ApplyResources(label_ESample, "label_ESample");
+            label_ESample.Name = "label_ESample";
+            // 
+            // groupBox_Loop
+            // 
+            resources.ApplyResources(groupBox_Loop, "groupBox_Loop");
+            groupBox_Loop.Controls.Add(label_ESample);
+            groupBox_Loop.Controls.Add(label_LoopEnd);
+            groupBox_Loop.Controls.Add(label_SSample);
+            groupBox_Loop.Controls.Add(label_LoopStart);
+            groupBox_Loop.Controls.Add(textBox_LoopStart);
+            groupBox_Loop.Controls.Add(textBox_LoopEnd);
+            groupBox_Loop.Name = "groupBox_Loop";
+            groupBox_Loop.TabStop = false;
+            groupBox_Loop.Enter += groupBox_Loop_Enter;
+            // 
             // FormMain
             // 
             resources.ApplyResources(this, "$this");
             AllowDrop = true;
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(groupBox_Loop);
             Controls.Add(groupBox1);
             Controls.Add(panel_Main);
             Controls.Add(panel_Control);
@@ -332,6 +389,8 @@
             statusStrip1.PerformLayout();
             panel_Control.ResumeLayout(false);
             panel_Main.ResumeLayout(false);
+            groupBox_Loop.ResumeLayout(false);
+            groupBox_Loop.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -354,11 +413,9 @@
         private ToolStripSeparator toolStripMenuItem2;
         private ToolStripMenuItem checkForUpdatesUToolStripMenuItem;
         private Button button_Decode;
-        private Button button_Encode;
         private Label label_NotReaded;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel_Status;
-        private ToolStripDropDownButton toolStripDropDownButton_EF;
         private ToolStripMenuItem aTRAC3ATRAC3ToolStripMenuItem;
         private ToolStripMenuItem aTRAC9ToolStripMenuItem;
         private Label label_Format;
@@ -376,5 +433,16 @@
         private ToolStripMenuItem walkmanToolStripMenuItem;
         private ToolStripStatusLabel toolStripStatusLabel_EncMethod;
         internal Label label_Filepath;
+        internal TextBox textBox_LoopEnd;
+        internal TextBox textBox_LoopStart;
+        private Label label2;
+        private Label label4;
+        internal Button button_Encode;
+        internal Label label_LoopStart;
+        internal Label label_LoopEnd;
+        internal Label label_SSample;
+        internal Label label_ESample;
+        internal GroupBox groupBox_Loop;
+        internal ToolStripDropDownButton toolStripDropDownButton_EF;
     }
 }

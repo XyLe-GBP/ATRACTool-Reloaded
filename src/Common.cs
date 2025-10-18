@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ATRACTool_Reloaded
 {
@@ -38,26 +39,52 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// デコードもしくはエンコードを判定するための変数
             /// </summary>
-            public static int ProcessFlag = -1;
+            public static sbyte ProcessFlag = -1;
             public static int ProgressMax = 0;
             /// <summary>
             /// エンコードする際にループポイントを作成するかのフラグ
             /// </summary>
             public static bool lpcreate = false;
+            public static string LPCSuffix = string.Empty;
             /// <summary>
             /// 変換設定ダイアログ用ループフラグ
             /// </summary>
             public static bool lpcreatev2 = false;
             public static int files = 0;
+
+            public static bool[] MultipleFilesLoopOKFlags = [];
+            public static int[] MultipleLoopStarts = [];
+            public static int[] MultipleLoopEnds = [];
+            public static bool LoopStartNG = false;
+            public static bool LoopEndNG = false;
+            public static bool IsLoopWarning = true;
+
+            public static bool IsAT3LoopSound = false;
+            public static bool IsAT9LoopSound = false;
+            public static bool IsAT3LoopPoint = false;
+            public static bool IsAT9LoopPoint = false;
+
+            public static sbyte ReadedATRACFlag = -1;
             /// <summary>
-            /// AT3,AT9,Walkmanのどれかを判定するための変数
+            /// Toolstrip AT3,AT9,Walkmanのどれかを判定するための変数
             /// </summary>
-            public static int ATRACFlag = -1;
+            public static sbyte ATRACFlag = -1;
             public static string ATRACExt = "";
-            public static int TaskFlag = 0;
+            public static sbyte TaskFlag = 0;
             public static bool IsWave = false;
             public static bool IsATRAC = false;
             public static bool IsWalkman = false;
+            public static bool IsATRACLooped = false;
+            public static bool LoopNG = false;
+
+            /// <summary>
+            /// AT3の変換メソッド判別
+            /// </summary>
+            public static bool IsAT3PS3 = false;
+            /// <summary>
+            /// AT9の変換メソッド判別
+            /// </summary>
+            public static bool IsAT9PS4 = false;
             /// <summary>
             /// ファイルをWaveに変換したかどうかを判別するための変数
             /// </summary>
@@ -66,9 +93,10 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// 変換先の形式を判別するための変数
             /// </summary>
-            public static int WTAFlag = -1;
+            public static sbyte WTAFlag = -1;
             public static string[] OpenFilePaths = null!;
             public static string[] pATRACOpenFilePaths = null!;
+            public static string[] ATAOpenFilePaths = null!;
             public static string[] OriginOpenFilePaths = null!;
             //public static string[] OpenFilePathsWithMultiExt = null!;
             public static bool IsOpenMulti = false;
@@ -83,7 +111,9 @@ namespace ATRACTool_Reloaded
             public static string DecodeParamAT9 = "at9tool -d $InFile $OutFile";
             public static string DecodeParamWalkman = "traconv --Convert $InFile $OutFile";
             public static string EncodeParamAT3 = "";
+            public static string EncodeParamAT3_OLD = "";
             public static string EncodeParamAT9 = "";
+            public static string EncodeParamAT9_OLD = "";
             public static string EncodeParamWalkman = "";
             public static string WalkmanEveryFilter = "";
             public static string WalkmanMultiConvFmt = "";
@@ -91,14 +121,23 @@ namespace ATRACTool_Reloaded
 
             public static StreamReader Log = null!;
             public static Exception GlobalException = null!;
+            public static Exception CommonException = null!;
 
             public static bool IsLPCStreamingReloaded = false;
             public static long LPCTotalSamples = 0;
 
             public static bool IsPlaybackATRAC = false;
-
             /// <summary>
-            /// 設定ファイルエラー検知用変数
+            /// ATRACメタデータ情報設定
+            /// </summary>
+            public static int[] ATRACMetadataBuffers = null!;
+            /// <summary>
+            /// ATRACメタデータ情報設定 (複数ファイル)
+            /// </summary>
+            public static int[,] ATRACMultiMetadataBuffer = null!;
+            public static string ATRACEncodeSourceTempPath = "";
+            /// <summary>
+            /// 設定ファイルエラー検知用変数 
             /// </summary>
             public static bool IsConfigError = false;
             /// <summary>
@@ -453,6 +492,514 @@ namespace ATRACTool_Reloaded
                 }
             }
 
+            public static bool GetATRACLooped(int[] ATRACBuffers, int[] LoopsBuffers)
+            {
+                if (ATRACBuffers.Length != 3 || LoopsBuffers.Length != 2)
+                {
+                    return false;
+                }
+
+                if (ATRACBuffers[0] != 0 && ATRACBuffers[1] != 0)
+                {
+                    LoopsBuffers[0] = ATRACBuffers[0];
+                    LoopsBuffers[1] = ATRACBuffers[1];
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public static bool GetATRACLoopedMulti(string[] ATRACFiles, int[,] MultiATRACBuffers, int[] LoopsBuffers, uint pos)
+            {
+                //uint count = 0, error = 0;
+                if (MultiATRACBuffers.Length != ATRACFiles.Length * 3 || LoopsBuffers.Length != 2)
+                {
+                    return false;
+                }
+
+                if (MultiATRACBuffers[pos, 0] != 0 && MultiATRACBuffers[pos, 1] != 0)
+                {
+                    LoopsBuffers[0] = MultiATRACBuffers[pos, 0];
+                    LoopsBuffers[1] = MultiATRACBuffers[pos, 1];
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public static bool ReadMetadatas(string ATRACfile, int[] buffers)
+            {
+                try
+                {
+                    if (buffers.Length != 3)
+                    {
+                        return false;
+                    }
+                    
+                    using var fs = new FileStream(ATRACfile, FileMode.Open);
+                    using var br = new BinaryReader(fs);
+
+                    br.BaseStream.Seek(24, SeekOrigin.Begin);
+                    byte[] rsamplelate = br.ReadBytes(2);
+
+                    br.BaseStream.Seek(92, SeekOrigin.Begin);
+                    byte[] chunk = br.ReadBytes(4);
+
+                    string chunkstr = Encoding.GetEncoding("US-ASCII").GetString(chunk);
+
+                    if (!string.IsNullOrWhiteSpace(chunkstr) && chunkstr == "smpl") // SampleChunk Found
+                    {
+                        if (Generic.ReadedATRACFlag == 0) // ATRAC3
+                        {
+                            if (Generic.IsAT3PS3) // PS3
+                            {
+                                br.BaseStream.Seek(144, SeekOrigin.Begin);
+                                byte[] rloop_start = br.ReadBytes(4);
+
+                                br.BaseStream.Seek(148, SeekOrigin.Begin);
+                                byte[] rloop_end = br.ReadBytes(4);
+
+                                buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 3271;
+                                buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 3270;
+                                buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                            }
+                            else // PSP
+                            {
+                                br.BaseStream.Seek(140, SeekOrigin.Begin);
+                                byte[] rloop_start = br.ReadBytes(4);
+
+                                br.BaseStream.Seek(144, SeekOrigin.Begin);
+                                byte[] rloop_end = br.ReadBytes(4);
+
+                                buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 2459;
+                                buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 2458;
+                                buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                            }
+                        }
+                        else if (Generic.ReadedATRACFlag == 1) // ATRAC9
+                        {
+                            br.BaseStream.Seek(144, SeekOrigin.Begin);
+                            byte[] rloop_start = br.ReadBytes(4);
+
+                            br.BaseStream.Seek(148, SeekOrigin.Begin);
+                            byte[] rloop_end = br.ReadBytes(4);
+
+                            if (Generic.IsAT9PS4) // PS4
+                            {
+                                switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                {
+                                    case 12000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 64;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 63;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 24000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 128;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 127;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 48000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 256;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 255;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            return false;
+                                        }
+                                }
+                            }
+                            else // PSV
+                            {
+                                switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                {
+                                    case 12000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 64;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 63;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 24000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 128;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 127;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 48000:
+                                        {
+                                            buffers[0] = BitConverter.ToInt32(rloop_start, 0) - 256;
+                                            buffers[1] = BitConverter.ToInt32(rloop_end, 0) - 255;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            return false;
+                                        }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (!string.IsNullOrWhiteSpace(chunkstr) && chunkstr == "data") // SampleChunk not found
+                    {
+                        if (Generic.ReadedATRACFlag == 0) // ATRAC3
+                        {
+                            if (Generic.IsAT3PS3) // PS3
+                            {
+                                buffers[0] = 0;
+                                buffers[1] = 0;
+                                buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                            }
+                            else // PSP
+                            {
+                                buffers[0] = 0;
+                                buffers[1] = 0;
+                                buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                            }
+                        }
+                        else if (Generic.ReadedATRACFlag == 1) // ATRAC9
+                        {
+                            if (Generic.IsAT9PS4) // PS4
+                            {
+                                switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                {
+                                    case 12000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 24000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 48000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            return false;
+                                        }
+                                }
+                            }
+                            else // PSV
+                            {
+                                switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                {
+                                    case 12000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 24000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    case 48000:
+                                        {
+                                            buffers[0] = 0;
+                                            buffers[1] = 0;
+                                            buffers[2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            return false;
+                                        }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Generic.CommonException = e;
+                    return false;
+                }
+            }
+
+            public static bool ReadMetadatasMulti(string[] ATRACfile, int[,] mbuffer)
+            {
+                try
+                {
+                    if (mbuffer.Length != ATRACfile.Length * 3)
+                    {
+                        return false;
+                    }
+
+                    uint count = 0, error = 0;
+                    foreach (var file in ATRACfile)
+                    {
+                        using var fs = new FileStream(file, FileMode.Open);
+                        using var br = new BinaryReader(fs);
+
+                        br.BaseStream.Seek(24, SeekOrigin.Begin);
+                        byte[] rsamplelate = br.ReadBytes(2);
+
+                        br.BaseStream.Seek(92, SeekOrigin.Begin);
+                        byte[] chunk = br.ReadBytes(4);
+
+                        string chunkstr = Encoding.GetEncoding("US-ASCII").GetString(chunk);
+                        if (!string.IsNullOrWhiteSpace(chunkstr) && chunkstr == "smpl") // SampleChunk Found
+                        {
+                            if (Generic.ReadedATRACFlag == 0) // ATRAC3
+                            {
+                                if (Generic.IsAT3PS3) // PS3
+                                {
+                                    br.BaseStream.Seek(144, SeekOrigin.Begin);
+                                    byte[] rloop_start = br.ReadBytes(4);
+
+                                    br.BaseStream.Seek(148, SeekOrigin.Begin);
+                                    byte[] rloop_end = br.ReadBytes(4);
+
+                                    mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 3271;
+                                    mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 3270;
+                                    mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                }
+                                else // PSP
+                                {
+                                    br.BaseStream.Seek(140, SeekOrigin.Begin);
+                                    byte[] rloop_start = br.ReadBytes(4);
+
+                                    br.BaseStream.Seek(144, SeekOrigin.Begin);
+                                    byte[] rloop_end = br.ReadBytes(4);
+
+                                    mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 2459;
+                                    mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 2458;
+                                    mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                }
+                            }
+                            else if (Generic.ReadedATRACFlag == 1) // ATRAC9
+                            {
+                                br.BaseStream.Seek(144, SeekOrigin.Begin);
+                                byte[] rloop_start = br.ReadBytes(4);
+
+                                br.BaseStream.Seek(148, SeekOrigin.Begin);
+                                byte[] rloop_end = br.ReadBytes(4);
+
+                                if (Generic.IsAT9PS4) // PS4
+                                {
+                                    switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                    {
+                                        case 12000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 64;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 63;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 24000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 128;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 127;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 48000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 256;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 255;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                error++;
+                                                break;
+                                            }
+                                    }
+                                }
+                                else // PSV
+                                {
+                                    switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                    {
+                                        case 12000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 64;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 63;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 24000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 128;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 127;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 48000:
+                                            {
+                                                mbuffer[count, 0] = BitConverter.ToInt32(rloop_start, 0) - 256;
+                                                mbuffer[count, 1] = BitConverter.ToInt32(rloop_end, 0) - 255;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                error++;
+                                                break;
+                                            }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                error++;
+                            }
+                            count++;
+                        }
+                        else if (!string.IsNullOrWhiteSpace(chunkstr) && chunkstr == "data") // SampleChunk not found
+                        {
+                            if (Generic.ReadedATRACFlag == 0) // ATRAC3
+                            {
+                                if (Generic.IsAT3PS3) // PS3
+                                {
+                                    mbuffer[count, 0] = 0;
+                                    mbuffer[count, 1] = 0;
+                                    mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                }
+                                else // PSP
+                                {
+                                    mbuffer[count, 0] = 0;
+                                    mbuffer[count, 1] = 0;
+                                    mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                }
+                            }
+                            else if (Generic.ReadedATRACFlag == 1) // ATRAC9
+                            {
+                                if (Generic.IsAT9PS4) // PS4
+                                {
+                                    switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                    {
+                                        case 12000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 24000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 48000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                error++;
+                                                break;
+                                            }
+                                    }
+                                }
+                                else // PSV
+                                {
+                                    switch (BitConverter.ToUInt16(rsamplelate, 0))
+                                    {
+                                        case 12000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 24000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        case 48000:
+                                            {
+                                                mbuffer[count, 0] = 0;
+                                                mbuffer[count, 1] = 0;
+                                                mbuffer[count, 2] = BitConverter.ToUInt16(rsamplelate, 0);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                error++;
+                                                break;
+                                            }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                error++;
+                            }
+                            count++;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    
+                    if (error != 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                        
+                }
+                catch (Exception e)
+                {
+                    Generic.CommonException = e;
+                    return false;
+                }
+            }
+
             /// <summary>
             /// 設定ファイルに全てを書き出す
             /// </summary>
@@ -768,6 +1315,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["ForceConvertWaveOnly"].Value == null) // waveファイルのみの読み込みでも変換を強制する (bool)
                 {
                     Config.Entry["ForceConvertWaveOnly"].Value = "false";
+                }
+                if (Config.Entry["ATRACEncodeSource"].Value == null) // ATRACをエンコード用ソースとして読み込み (bool)
+                {
+                    Config.Entry["ATRACEncodeSource"].Value = "false";
                 }
 
                 if (Config.Entry["Save_IsManual"].Value == null) // ファイル保存方法 (bool)

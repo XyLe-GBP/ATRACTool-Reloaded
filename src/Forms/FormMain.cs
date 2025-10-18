@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography;
 using ATRACTool_Reloaded.Localizable;
 using ATRACTool_Reloaded.Properties;
+using NAudio.Gui;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Net.NetworkInformation;
 using static ATRACTool_Reloaded.Common;
 
 namespace ATRACTool_Reloaded
@@ -34,6 +35,17 @@ namespace ATRACTool_Reloaded
                 _formMainInstance = value;
             }
         }
+
+        public bool Meta
+        {
+            get
+            {
+                SetMetaDatas();
+                return true;
+            }
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string FPLabel
         {
             get
@@ -46,6 +58,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string FSLabel
         {
             get
@@ -236,12 +249,106 @@ namespace ATRACTool_Reloaded
                             break;
                     }
 
+                    switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
+                    {
+                        case 0:
+                            {
+                                Generic.IsAT3PS3 = false;
+                                break;
+                            }
+                        case 1:
+                            {
+                                Generic.IsAT3PS3 = true;
+                                break;
+                            }
+                        default:
+                            {
+                                Generic.IsAT3PS3 = false;
+                                break;
+                            }
+                    }
+
+                    switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
+                    {
+                        case 0:
+                            {
+                                Generic.IsAT9PS4 = false;
+                                break;
+                            }
+                        case 1:
+                            {
+                                Generic.IsAT9PS4 = true;
+                                break;
+                            }
+                        default:
+                            {
+                                Generic.IsAT9PS4 = false;
+                                break;
+                            }
+                    }
+
+                    switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
+                    {
+                        case true:
+                            {
+                                Generic.IsAT3LoopPoint = true;
+                                break;
+                            }
+                        case false:
+                            {
+                                Generic.IsAT3LoopPoint = false;
+                                break;
+                            }
+                    }
+
+                    switch (bool.Parse(Config.Entry["ATRAC3_LoopSound"].Value))
+                    {
+                        case true:
+                            {
+                                Generic.IsAT3LoopSound = true;
+                                break;
+                            }
+                        case false:
+                            {
+                                Generic.IsAT3LoopSound = false;
+                                break;
+                            }
+                    }
+
+                    switch (bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
+                    {
+                        case true:
+                            {
+                                Generic.IsAT9LoopPoint = true;
+                                break;
+                            }
+                        case false:
+                            {
+                                Generic.IsAT9LoopPoint = false;
+                                break;
+                            }
+                    }
+
+                    switch (bool.Parse(Config.Entry["ATRAC9_LoopSound"].Value))
+                    {
+                        case true:
+                            {
+                                Generic.IsAT9LoopSound = true;
+                                break;
+                            }
+                        case false:
+                            {
+                                Generic.IsAT9LoopSound = false;
+                                break;
+                            }
+                    }
+
                     loopPointCreationToolStripMenuItem.Enabled = false;
                     Thread.Sleep(1000);
 
                     if (bool.Parse(Config.Entry["Oldmode"].Value))
                     {
-                        fs?.Invoke(d, "Old mode is activated");
+                        fs?.Invoke(d, "Legacy mode is activated");
                         Thread.Sleep(500);
                         loopPointCreationToolStripMenuItem.Enabled = true;
                     }
@@ -272,7 +379,7 @@ namespace ATRACTool_Reloaded
                             }
                             else
                             {
-                                var update = Task.Run(() => CheckForUpdatesForInit());
+                                var update = Task.Run(CheckForUpdatesForInit);
                                 update.Wait();
                             }
                         }
@@ -392,6 +499,109 @@ namespace ATRACTool_Reloaded
                     }
                 }
 
+                if (bool.Parse(Config.Entry["LPC_Create"].Value))
+                {
+                    Generic.lpcreate = true;
+                }
+                else
+                {
+                    Generic.lpcreate = false;
+                }
+
+                switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
+                {
+                    case 0:
+                        {
+                            Generic.IsAT3PS3 = false;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Generic.IsAT3PS3 = true;
+                            break;
+                        }
+                    default:
+                        {
+                            Generic.IsAT3PS3 = false;
+                            break;
+                        }
+                }
+
+                switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
+                {
+                    case 0:
+                        {
+                            Generic.IsAT9PS4 = false;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Generic.IsAT9PS4 = true;
+                            break;
+                        }
+                    default:
+                        {
+                            Generic.IsAT9PS4 = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
+                {
+                    case true:
+                        {
+                            Generic.IsAT3LoopPoint = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            Generic.IsAT3LoopPoint = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["ATRAC3_LoopSound"].Value))
+                {
+                    case true:
+                        {
+                            Generic.IsAT3LoopSound = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            Generic.IsAT3LoopSound = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
+                {
+                    case true:
+                        {
+                            Generic.IsAT9LoopPoint = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            Generic.IsAT9LoopPoint = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["ATRAC9_LoopSound"].Value))
+                {
+                    case true:
+                        {
+                            Generic.IsAT9LoopSound = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            Generic.IsAT9LoopSound = false;
+                            break;
+                        }
+                }
+
                 loopPointCreationToolStripMenuItem.Enabled = false;
 
                 if (bool.Parse(Config.Entry["Check_Update"].Value))
@@ -412,7 +622,7 @@ namespace ATRACTool_Reloaded
                         }
                         else
                         {
-                            var update = Task.Run(() => CheckForUpdatesForInit());
+                            var update = Task.Run(CheckForUpdatesForInit);
                             update.Wait();
                         }
                     }
@@ -425,6 +635,8 @@ namespace ATRACTool_Reloaded
             }
 
             toolStripStatusLabel_EncMethod.Alignment = ToolStripItemAlignment.Right;
+
+
 
             if (ver.FileVersion != null)
             {
@@ -474,21 +686,31 @@ namespace ATRACTool_Reloaded
 
                 Utils.ATWCheck(Generic.IsATW);
 
-                List<string> lst = new();
-                foreach (string files in ofd.FileNames)
-                {
-                    lst.Add(files);
-                }
-                Common.Generic.OpenFilePaths = lst.ToArray();
-                Common.Generic.OriginOpenFilePaths = lst.ToArray();
+                List<string> lst = [.. ofd.FileNames];
+                Generic.OpenFilePaths = lst.ToArray();
+                Generic.OriginOpenFilePaths = lst.ToArray();
 
-                if (Common.Generic.OpenFilePaths.Length == 1) // Single
+                if (Generic.OpenFilePaths.Length == 1) // Single
                 {
+                    Generic.IsOpenMulti = false;
+
+                    Generic.MultipleLoopStarts = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleLoopEnds = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleFilesLoopOKFlags = new bool[Generic.OpenFilePaths.Length];
+
+                    Generic.ATRACMetadataBuffers = new int[3];
+
                     FileInfo file = new(ofd.FileName);
                     long FileSize = file.Length;
+                    if (FileSize >= uint.MaxValue)
+                    {
+                        MessageBox.Show(this, Localization.FilesizeLargeCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     ReadStatus();
                     label_Filepath.Text = ofd.FileName;
-                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FileSize / 1024);
+                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FileSize / 1024, FileSize);
 
                     closeFileCToolStripMenuItem.Enabled = true;
 
@@ -532,10 +754,14 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
+                            Generic.ReadedATRACFlag = 0;
+                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
+                            Generic.ReadedATRACFlag = 1;
+                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -545,13 +771,25 @@ namespace ATRACTool_Reloaded
                 }
                 else // Multiple
                 {
-                    FileInfo fs = new(Common.Generic.OpenFilePaths[0]);
+                    Generic.IsOpenMulti = true;
+
+                    long Filesizes = 0;
+                    FileInfo fs = new(Generic.OpenFilePaths[0]);
                     long FS = fs.Length;
-                    /*foreach (string file in Common.Generic.OpenFilePaths)
+                    foreach (string file in Generic.OpenFilePaths)
                     {
                         FileInfo fi = new(file);
-                        FS += fi.Length;
-                    }*/
+
+                        if (fi.Length >= uint.MaxValue)
+                        {
+                            MessageBox.Show(this, Localization.FilesizeLargeCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
+                            Filesizes += fi.Length;
+                        }
+                    }
 
                     string Ft = "";
                     int count = 0, wavcount = 0;
@@ -659,9 +897,15 @@ namespace ATRACTool_Reloaded
                     ReadStatus();
                     //label_Filepath.Text = Localization.MultipleFilesCaption;
                     label_Filepath.Text = Generic.OpenFilePaths[0];
-                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
+                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
 
                     closeFileCToolStripMenuItem.Enabled = true;
+
+                    Generic.MultipleLoopStarts = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleLoopEnds = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleFilesLoopOKFlags = new bool[Generic.OpenFilePaths.Length];
+
+                    Generic.ATRACMultiMetadataBuffer = new int[Generic.OpenFilePaths.Length, 3];
 
                     switch (Ft.ToUpper())
                     {
@@ -672,10 +916,14 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
+                            Generic.ReadedATRACFlag = 0;
+                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
+                            Generic.ReadedATRACFlag = 1;
+                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -700,7 +948,7 @@ namespace ATRACTool_Reloaded
         private void CloseFileCToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ActivateOrDeactivateLPC(false);
-            if (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
+            if (bool.Parse(Config.Entry["PlaybackATRAC"].Value) || bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
             {
                 Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp\");
             }
@@ -758,10 +1006,143 @@ namespace ATRACTool_Reloaded
             {
                 case true:
                     Generic.lpcreate = true;
+                    if (FormLPC.FormLPCInstance is not null) FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
                     break;
                 case false:
                     Generic.lpcreate = false;
+                    if (FormLPC.FormLPCInstance is not null) FormLPC.FormLPCInstance.CautionLabel = string.Empty;
                     break;
+            }
+
+            switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
+            {
+                case 0:
+                    {
+                        Generic.IsAT3PS3 = false;
+                        break;
+                    }
+                case 1:
+                    {
+                        Generic.IsAT3PS3 = true;
+                        break;
+                    }
+                default:
+                    {
+                        Generic.IsAT3PS3 = false;
+                        break;
+                    }
+            }
+
+            switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
+            {
+                case 0:
+                    {
+                        Generic.IsAT9PS4 = false;
+                        break;
+                    }
+                case 1:
+                    {
+                        Generic.IsAT9PS4 = true;
+                        break;
+                    }
+                default:
+                    {
+                        Generic.IsAT9PS4 = false;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
+            {
+                case true:
+                    {
+                        Generic.IsAT3LoopPoint = true;
+                        break;
+                    }
+                case false:
+                    {
+                        Generic.IsAT3LoopPoint = false;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Config.Entry["ATRAC3_LoopSound"].Value))
+            {
+                case true:
+                    {
+                        Generic.IsAT3LoopSound = true;
+                        break;
+                    }
+                case false:
+                    {
+                        Generic.IsAT3LoopSound = false;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
+            {
+                case true:
+                    {
+                        Generic.IsAT9LoopPoint = true;
+                        break;
+                    }
+                case false:
+                    {
+                        Generic.IsAT9LoopPoint = false;
+                        break;
+                    }
+            }
+
+            switch (bool.Parse(Config.Entry["ATRAC9_LoopSound"].Value))
+            {
+                case true:
+                    {
+                        Generic.IsAT9LoopSound = true;
+                        break;
+                    }
+                case false:
+                    {
+                        Generic.IsAT9LoopSound = false;
+                        break;
+                    }
+            }
+
+            if (FormLPC.FormLPCInstance is not null)
+            {
+                if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                {
+                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3/ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                }
+                else if (Generic.lpcreate)
+                {
+                    FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                }
+                else
+                {
+                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.CautionLabel = string.Empty;
+                    }
+                }
+            }
+            else
+            {
+
             }
         }
 
@@ -1046,6 +1427,39 @@ namespace ATRACTool_Reloaded
             walkmanToolStripMenuItem.Checked = false;
             toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
             EncodeMethodIsATRAC(true);
+            if (FormLPC.FormLPCInstance is not null)
+            {
+                FormLPC.FormLPCInstance.checkBox_LoopEnable.Enabled = true;
+                if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                {
+                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3/ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                }
+                else if (Generic.lpcreate)
+                {
+                    FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                }
+                else
+                {
+                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.CautionLabel = string.Empty;
+                    }
+                }
+            }
         }
 
         private void ATRAC9ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1058,6 +1472,40 @@ namespace ATRACTool_Reloaded
             walkmanToolStripMenuItem.Checked = false;
             toolStripDropDownButton_EF.Text = "ATRAC9";
             EncodeMethodIsATRAC(true);
+            if (FormLPC.FormLPCInstance is not null)
+            {
+                FormLPC.FormLPCInstance.checkBox_LoopEnable.Enabled = true;
+                if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                {
+                    if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3/ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                }
+                else if (Generic.lpcreate)
+                {
+                    FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                }
+                else
+                {
+                    if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                    {
+                        FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                    }
+                    else
+                    {
+                        FormLPC.FormLPCInstance.CautionLabel = string.Empty;
+                    }
+
+                }
+            }
         }
 
         private void walkmanToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1070,6 +1518,12 @@ namespace ATRACTool_Reloaded
             walkmanToolStripMenuItem.Checked = true;
             toolStripDropDownButton_EF.Text = "Walkman";
             EncodeMethodIsATRAC(false);
+            if (FormLPC.FormLPCInstance is not null)
+            {
+                FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = false;
+                FormLPC.FormLPCInstance.checkBox_LoopEnable.Enabled = false;
+                FormLPC.FormLPCInstance.CautionLabel = "Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+            }
         }
 
         // ボタン
@@ -1484,6 +1938,7 @@ namespace ATRACTool_Reloaded
             bool lpc = bool.Parse(Config.Entry["LPC_Create"].Value);
             bool manual = bool.Parse(Config.Entry["Save_IsManual"].Value);
             bool iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
+            bool atracencsource = bool.Parse(Config.Entry["ATRACEncodeSource"].Value);
             Common.Generic.lpcreate = lpc switch
             {
                 false => false,
@@ -1502,6 +1957,34 @@ namespace ATRACTool_Reloaded
                 {
                     ActivateOrDeactivateLPC(false);
 
+                    if (atracencsource && Generic.IsATRAC)
+                    {
+                        uint error = 0;
+                        string ct = Utils.SFDRandomNumber();
+                        Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_ATRACEnc" + ct);
+                        Generic.ATRACEncodeSourceTempPath = Directory.GetCurrentDirectory() + @"\_ATRACEnc" + ct;
+
+                        List<string> list = [];
+                        foreach (string path in Generic.pATRACOpenFilePaths)
+                        {
+                            FileInfo fi = new(path);
+                            File.Move(path, Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav"));
+                            if (File.Exists(Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav")))
+                            {
+                                list.Add(Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav"));
+                            }
+                            else
+                            {
+                                error++;
+                            }
+                        }
+                        if (error != 0)
+                        {
+                            MessageBox.Show(this, string.Format(Localization.UnExpectedCaption, "File move failed. [" + error + " Files]"), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        Generic.pATRACOpenFilePaths = list.ToArray();
+                    }
                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
 
                     toolStripStatusLabel_Status.ForeColor = Color.FromArgb(0, 0, 0, 0);
@@ -1803,6 +2286,7 @@ namespace ATRACTool_Reloaded
                         Config.Entry["ATRAC9_LoopStart_Samples"].Value = "";
                         Config.Entry["ATRAC9_LoopEnd_Samples"].Value = "";
                         Config.Save(xmlpath);
+                        Generic.LPCSuffix = string.Empty;
                         Common.Generic.lpcreatev2 = false;
                     }
 
@@ -2017,10 +2501,19 @@ namespace ATRACTool_Reloaded
             }
             Generic.IsWave = false;
             Generic.IsATRAC = false;
-            Common.Generic.OpenFilePaths = null!;
-            Common.Generic.pATRACOpenFilePaths = null!;
-            Common.Generic.ProcessFlag = -1;
-            Common.Generic.ProgressMax = -1;
+            Generic.IsATRACLooped = false;
+            Generic.ReadedATRACFlag = -1;
+
+            Generic.OpenFilePaths = null!;
+            Generic.pATRACOpenFilePaths = null!;
+            Generic.OriginOpenFilePaths = null!;
+            Generic.SavePath = null!;
+            Generic.FolderSavePath = null!;
+            Generic.pATRACSavePath = null!;
+            Generic.pATRACFolderSavePath = null!;
+
+            Generic.ProcessFlag = -1;
+            Generic.ProgressMax = -1;
             if (panel_Main.BackgroundImage is not null)
             {
                 panel_Main.BackgroundImage.Dispose();
@@ -2044,6 +2537,21 @@ namespace ATRACTool_Reloaded
             toolStripStatusLabel_EncMethod.Visible = false;
             loopPointCreationToolStripMenuItem.Enabled = false;
             closeFileCToolStripMenuItem.Enabled = false;
+            groupBox_Loop.Enabled = false;
+            textBox_LoopStart.Text = string.Empty;
+            textBox_LoopEnd.Text = string.Empty;
+
+            Generic.MultipleFilesLoopOKFlags = [];
+            Generic.MultipleLoopStarts = [];
+            Generic.MultipleLoopEnds = [];
+            Generic.ATRACMetadataBuffers = [];
+            Generic.ATRACMultiMetadataBuffer = null!;
+
+            if (bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
+            {
+                Utils.DeleteDirectory(Generic.ATRACEncodeSourceTempPath);
+                Generic.ATRACEncodeSourceTempPath = null!;
+            }
         }
 
         /// <summary>
@@ -2564,16 +3072,30 @@ namespace ATRACTool_Reloaded
                 {
                     lst.Add(fp);
                 }
-                Common.Generic.OpenFilePaths = lst.ToArray();
-                Common.Generic.OriginOpenFilePaths = lst.ToArray();
+                Generic.OpenFilePaths = lst.ToArray();
+                Generic.OriginOpenFilePaths = lst.ToArray();
 
-                if (Common.Generic.OpenFilePaths.Length == 1)
+                if (Generic.OpenFilePaths.Length == 1) // Single
                 {
+                    Generic.IsOpenMulti = false;
+
+                    Generic.MultipleLoopStarts = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleLoopEnds = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleFilesLoopOKFlags = new bool[Generic.OpenFilePaths.Length];
+
+                    Generic.ATRACMetadataBuffers = new int[3];
+
                     FileInfo file = new(files[0]);
                     long FileSize = file.Length;
+                    if (FileSize >= uint.MaxValue)
+                    {
+                        MessageBox.Show(this, Localization.FilesizeLargeCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     ReadStatus();
                     label_Filepath.Text = file.FullName;
-                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FileSize / 1024);
+                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FileSize / 1024, FileSize);
                     switch (file.Extension.ToUpper())
                     {
                         case ".WAV":
@@ -2614,10 +3136,14 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
+                            Generic.ReadedATRACFlag = 0;
+                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
+                            Generic.ReadedATRACFlag = 1;
+                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -2628,13 +3154,25 @@ namespace ATRACTool_Reloaded
                 }
                 else // 複数ファイル
                 {
+                    Generic.IsOpenMulti = true;
+
+                    long Filesizes = 0;
                     FileInfo fs = new(files[0]);
                     long FS = fs.Length;
-                    /*foreach (string file in files)
+                    foreach (string file in files)
                     {
                         FileInfo fi = new(file);
-                        FS += fi.Length;
-                    }*/
+
+                        if (fi.Length >= uint.MaxValue)
+                        {
+                            MessageBox.Show(this, Localization.FilesizeLargeCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
+                            Filesizes += fi.Length;
+                        }
+                    }
 
                     string Ft = "";
                     int count = 0, wavcount = 0;
@@ -2742,9 +3280,15 @@ namespace ATRACTool_Reloaded
                     ReadStatus();
                     //label_Filepath.Text = Localization.MultipleFilesCaption;
                     label_Filepath.Text = Generic.OpenFilePaths[0];
-                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
+                    label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
 
                     closeFileCToolStripMenuItem.Enabled = true;
+
+                    Generic.MultipleLoopStarts = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleLoopEnds = new int[Generic.OpenFilePaths.Length];
+                    Generic.MultipleFilesLoopOKFlags = new bool[Generic.OpenFilePaths.Length];
+
+                    Generic.ATRACMultiMetadataBuffer = new int[Generic.OpenFilePaths.Length, 3];
 
                     switch (Ft.ToUpper())
                     {
@@ -2755,10 +3299,14 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
+                            Generic.ReadedATRACFlag = 0;
+                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
+                            Generic.ReadedATRACFlag = 1;
+                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -2807,7 +3355,7 @@ namespace ATRACTool_Reloaded
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_tempAudio");
                     TempAudioDir = Directory.GetCurrentDirectory() + @"\_tempAudio";
                 }
-                
+
                 if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
                 {
                     if (bool.Parse(Config.Entry["FixedConvert"].Value)) // Fix
@@ -3128,7 +3676,7 @@ namespace ATRACTool_Reloaded
                         FileInfo fisize = new(label_Filepath.Text);
                         long FS = fisize.Length;
                         label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
-                        
+
                         return true;
                     }
                     else // normal
@@ -3237,7 +3785,7 @@ namespace ATRACTool_Reloaded
 
                             FileInfo fisize = new(label_Filepath.Text);
                             long FS = fisize.Length;
-                            label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024);
+                            label_Sizetxt.Text = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
 
                             return true;
                         }
@@ -3315,6 +3863,7 @@ namespace ATRACTool_Reloaded
 
                 bool faster_atrac = bool.Parse(Config.Entry["FasterATRAC"].Value);
                 bool play_atrac = bool.Parse(Config.Entry["PlaybackATRAC"].Value);
+                bool encodesource_atrac = bool.Parse(Config.Entry["ATRACEncodeSource"].Value);
 
                 if (faster_atrac && play_atrac)
                 {
@@ -3372,23 +3921,27 @@ namespace ATRACTool_Reloaded
                 }
                 else
                 {
-                    panel_Main.BackgroundImage = Resources.SIEv2;
-                    Common.Generic.IsWave = false;
-                    Common.Generic.IsATRAC = true;
-                    Generic.IsATW = false;
-                    toolStripDropDownButton_EF.Enabled = false;
-                    toolStripDropDownButton_EF.Visible = false;
-                    toolStripStatusLabel_EncMethod.Enabled = false;
-                    toolStripStatusLabel_EncMethod.Visible = false;
-                    button_Decode.Enabled = true;
-                    button_Encode.Enabled = false;
-                    loopPointCreationToolStripMenuItem.Enabled = false;
-                    if (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
+                    if (encodesource_atrac) // ATRACをエンコード用ソースとして読み込み
                     {
+                        toolStripStatusLabel_Status.Text = Localization.InitializationCaption;
+                        label_Formattxt.Text = Localization.InitializationCaption;
+                        Common.Generic.IsWave = false;
+                        Common.Generic.IsATRAC = true;
+                        Generic.IsATW = false;
                         if (PlaybackATRACConvert())
                         {
-                            Generic.IsPlaybackATRAC = true;
+                            toolStripStatusLabel_Status.ForeColor = Color.Green;
+                            toolStripStatusLabel_Status.Text = Localization.ReadyCaption;
                             ActivateOrDeactivateLPC(true);
+                            label_Formattxt.Text = Localization.WAVEConvertedFormatCaption;
+                            toolStripDropDownButton_EF.Enabled = true;
+                            toolStripDropDownButton_EF.Visible = true;
+                            toolStripStatusLabel_EncMethod.Enabled = true;
+                            toolStripStatusLabel_EncMethod.Visible = true;
+                            button_Decode.Enabled = false;
+                            button_Encode.Enabled = true;
+                            //SetMetaDatas();
+                            //loopPointCreationToolStripMenuItem.Enabled = true;
                         }
                         else
                         {
@@ -3396,6 +3949,34 @@ namespace ATRACTool_Reloaded
                             return;
                         }
                     }
+                    else
+                    {
+                        panel_Main.BackgroundImage = Resources.SIEv2;
+                        Common.Generic.IsWave = false;
+                        Common.Generic.IsATRAC = true;
+                        Generic.IsATW = false;
+                        toolStripDropDownButton_EF.Enabled = false;
+                        toolStripDropDownButton_EF.Visible = false;
+                        toolStripStatusLabel_EncMethod.Enabled = false;
+                        toolStripStatusLabel_EncMethod.Visible = false;
+                        button_Decode.Enabled = true;
+                        button_Encode.Enabled = false;
+                        loopPointCreationToolStripMenuItem.Enabled = false;
+                        if (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
+                        {
+                            if (PlaybackATRACConvert())
+                            {
+                                Generic.IsPlaybackATRAC = true;
+                                ActivateOrDeactivateLPC(true);
+                            }
+                            else
+                            {
+                                ResetStatus();
+                                return;
+                            }
+                        }
+                    }
+
                 }
             }
         }
@@ -3571,16 +4152,50 @@ namespace ATRACTool_Reloaded
                     FLPC.Show();
                     if (!Generic.IsPlaybackATRAC)
                     {
-                        FormLPC.FormLPCInstance.CautionLabel = "Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
                         if (Common.Generic.IsWalkman)
                         {
                             FormLPC.FormLPCInstance.LoopCheckEnable = false;
                         }
-                        if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value) || !Common.Generic.IsWalkman)
+                        if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value))
                         {
-                            MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (!Common.Generic.IsWalkman)
+                            {
+                                if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                                {
+                                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                                    {
+                                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3/ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                        MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    }
+                                    else
+                                    {
+                                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                        MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                                    {
+                                        FormLPC.FormLPCInstance.CautionLabel = "[ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                        MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    }
+                                    else
+                                    {
+                                        if (Generic.lpcreate)
+                                        {
+                                            FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                        }
+                                        else
+                                        {
+                                            FormLPC.FormLPCInstance.CautionLabel = string.Empty;
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        
+
                     }
                     else
                     {
@@ -3606,14 +4221,54 @@ namespace ATRACTool_Reloaded
                     };
                     panel_Main.Controls.Add(FLPC);
                     FLPC.Show();
+
+
+
                     if (Common.Generic.IsWalkman)
                     {
                         FormLPC.FormLPCInstance.LoopCheckEnable = false;
                     }
-                    if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value) || !Common.Generic.IsWalkman)
+                    if (!bool.Parse(Config.Entry["DisablePreviewWarning"].Value))
                     {
-                        MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (!Common.Generic.IsWalkman)
+                        {
+                            if (Generic.IsAT3LoopPoint || Generic.IsAT3LoopSound)
+                            {
+                                if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                                {
+                                    FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3/ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                    MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else
+                                {
+                                    FormLPC.FormLPCInstance.CautionLabel = "[ATRAC3] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                    MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+
+                            }
+                            else
+                            {
+                                if (Generic.IsAT9LoopPoint || Generic.IsAT9LoopSound)
+                                {
+                                    FormLPC.FormLPCInstance.CautionLabel = "[ATRAC9] Caution: The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                    MessageBox.Show(this, Localization.PreviewWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else
+                                {
+                                    if (Generic.lpcreate)
+                                    {
+                                        FormLPC.FormLPCInstance.CautionLabel = "LPC Enabled. The settings made on this screen are for confirmation only and will not be reflected in the actual output.";
+                                    }
+                                    else
+                                    {
+                                        FormLPC.FormLPCInstance.CautionLabel = string.Empty;
+                                    }
+                                }
+                            }
+                        }
                     }
+
+
                 }
                 else
                 {
@@ -3625,13 +4280,63 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        public void SetMetaDatas()
+        {
+            if (Generic.IsATRAC && Generic.OpenFilePaths.Length == 1)
+            {
+                int[] loopbuf = new int[2];
+                if (Utils.GetATRACLooped(Generic.ATRACMetadataBuffers, loopbuf))
+                {
+                    Generic.IsATRACLooped = true;
+                    FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = true;
+                    FormLPC.FormLPCInstance.BufferLoopPosition = loopbuf;
+                }
+                else
+                {
+                    Generic.IsATRACLooped = false;
+                }
+                // UI META Labels
+            }
+            else if (Generic.IsATRAC && Generic.IsLPCStreamingReloaded || Generic.IsATRAC && Generic.OpenFilePaths.Length > 1)
+            {
+                uint pos = FormLPC.FormLPCInstance.ButtonPosition;
+                //bool looped = Utils.SearchATRACSampleChunk(Generic.pATRACOpenFilePaths[pos - 1]);
+                int[] data = new int[2];
+                if (Utils.GetATRACLoopedMulti(Generic.pATRACOpenFilePaths, Generic.ATRACMultiMetadataBuffer, data, pos - 1))
+                {
+                    Generic.IsATRACLooped = true;
+                    FormLPC.FormLPCInstance.checkBox_LoopEnable.Checked = true;
+                    FormLPC.FormLPCInstance.BufferLoopPosition = data;
+                }
+                else
+                {
+                    Generic.IsATRACLooped = false;
+                }
+                // UI META Labels
+            }
+            else if (!Generic.IsATRAC && Generic.IsLPCStreamingReloaded && Generic.OpenFilePaths.Length > 1)
+            {
+                uint pos = FormLPC.FormLPCInstance.ButtonPosition;
+                // UI Labels (Not META)
+            }
+            else
+            {
+                /*label_Filename.Text = "FILE_NAME: " + GetFileName(OriginalPaths[0]);
+                label_OrigFilepath.Text = "FILE_PATH: " + OriginalPaths[0];
+                label_id.Text = "STREAM_ID: -";
+                label_NStream.Text = "NUMBER_OF_STREAMS: -";
+                label_Totalstream.Text = "STREAM_TOTAL: " + GetStreamTotals(OpenFilePaths[0]).ToString() + " (FILE_SIZE: " + GetFileSize(OpenFilePaths[0]).ToString() + " )";
+                label_lsPosition.Text = "LOOP_START: -";
+                label_lePosition.Text = "LOOP_END: -";
+                label_Volume_Info.Text = "VOLUME: -";
+                label_Channel_Info.Text = "CHANNELS: -";
+                label_Samplerate_Info.Text = "SAMPLE_LATES: -";*/
+            }
+        }
+
         private void label_NotReaded_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void toolStripDropDownButton_EF_Click(object sender, EventArgs e)
-        {
         }
 
         private void EncodeMethodIsATRAC(bool flag)
@@ -3698,7 +4403,7 @@ namespace ATRACTool_Reloaded
                     case 7: // ATRAC3+ AL
                         Generic.WalkmanMultiConvExt = ".oma";
                         break;
-                    case 8: // ATRAC3+ KDR
+                    case 8 - 9: // ATRAC3+ KDR
                         Generic.WalkmanMultiConvExt = ".kdr";
                         break;
                     default:
@@ -3707,5 +4412,111 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        private void toolStripDropDownButton_EF_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void textBox_LoopStart_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void textBox_LoopEnd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //0～9と、バックスペース以外の時は、イベントをキャンセルする
+            if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void textBox_LoopStart_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_LoopStart.Text))
+            {
+                return;
+            }
+            if (FormLPC.FormLPCInstance.TotalSamples < int.Parse(textBox_LoopStart.Text))
+            {
+                textBox_LoopStart.Text = textBox_LoopStart.Text.Remove(textBox_LoopStart.TextLength - 1);
+                return;
+            }
+            else
+            {
+                switch (FormLPC.FormLPCInstance.SampleRate)
+                {
+                    case 12000: // ATRAC9 Only
+                        FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 12.0, MidpointRounding.AwayFromZero);//value[0];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                        break;
+                    case 24000: // ATRAC9 Only
+                        FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 24.0, MidpointRounding.AwayFromZero);//value[0];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                        break;
+                    case 44100:
+                        FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 44.1, MidpointRounding.AwayFromZero);//value[0];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                        break;
+                    case 48000:
+                        FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 48.0, MidpointRounding.AwayFromZero);//value[0];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                        break;
+                    default:
+                        break;
+                }
+                FormLPC.FormLPCInstance.customTrackBar_Start.Invalidate();
+            }
+
+        }
+
+        private void textBox_LoopEnd_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox_LoopEnd.Text))
+            {
+                return;
+            }
+            if (FormLPC.FormLPCInstance.TotalSamples < int.Parse(textBox_LoopEnd.Text))
+            {
+                textBox_LoopEnd.Text = textBox_LoopEnd.Text.Remove(textBox_LoopEnd.TextLength - 1);
+                return;
+            }
+            else
+            {
+                switch (FormLPC.FormLPCInstance.SampleRate)
+                {
+                    case 12000: // ATRAC9 Only
+                        FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 12.0, MidpointRounding.AwayFromZero);//value[1];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                        break;
+                    case 24000: // ATRAC9 Only
+                        FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 24.0, MidpointRounding.AwayFromZero);//value[1];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                        break;
+                    case 44100:
+                        FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 44.1, MidpointRounding.AwayFromZero);//value[1];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                        break;
+                    case 48000:
+                        FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 48.0, MidpointRounding.AwayFromZero);//value[1];
+                        FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                        break;
+                    default:
+                        break;
+                }
+                FormLPC.FormLPCInstance.customTrackBar_End.Invalidate();
+            }
+        }
+
+        private void groupBox_Loop_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -156,6 +156,16 @@ namespace ATRACTool_Reloaded
                         break;
                 }
 
+                switch (bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
+                {
+                    case true:
+                        checkBox_ATRACEncodeSource.Checked = true;
+                        break;
+                    case false:
+                        checkBox_ATRACEncodeSource.Checked = false;
+                        break;
+                }
+
                 switch (bool.Parse(Config.Entry["Save_IsManual"].Value))
                 {
                     case true:
@@ -420,6 +430,15 @@ namespace ATRACTool_Reloaded
             else
             {
                 Config.Entry["ForceConvertWaveOnly"].Value = "true";
+            }
+
+            if (checkBox_ATRACEncodeSource.Checked != true)
+            {
+                Config.Entry["ATRACEncodeSource"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["ATRACEncodeSource"].Value = "true";
             }
 
             if (radioButton_nml.Checked != true)

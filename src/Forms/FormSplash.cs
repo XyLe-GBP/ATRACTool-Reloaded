@@ -1,5 +1,6 @@
 ﻿using ATRACTool_Reloaded.Localizable;
 using static ATRACTool_Reloaded.Common;
+using System.ComponentModel;
 
 namespace ATRACTool_Reloaded
 {
@@ -61,6 +62,7 @@ namespace ATRACTool_Reloaded
             progressBar1.MarqueeAnimationSpeed = 25;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string ProgressMsg
         {
             set

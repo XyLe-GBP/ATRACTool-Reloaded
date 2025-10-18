@@ -60,9 +60,9 @@
             label_end = new Label();
             panSlider1 = new NAudio.Gui.PanSlider();
             label_Pan = new Label();
-            customTrackBar_End = new src.Controls.CustomTrackBar();
-            customTrackBar_Trk = new src.Controls.CustomTrackBar();
-            customTrackBar_Start = new src.Controls.CustomTrackBar();
+            customTrackBar_End = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
+            customTrackBar_Trk = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
+            customTrackBar_Start = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
             label_previewwarn = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopStart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_LoopEnd).BeginInit();
@@ -172,8 +172,8 @@
             // 
             // label_File
             // 
-            label_File.AutoEllipsis = true;
             resources.ApplyResources(label_File, "label_File");
+            label_File.AutoEllipsis = true;
             label_File.Name = "label_File";
             // 
             // button_Prev
@@ -232,8 +232,8 @@
             // 
             // label_trk
             // 
-            label_trk.BackColor = Color.Transparent;
             resources.ApplyResources(label_trk, "label_trk");
+            label_trk.BackColor = Color.Transparent;
             label_trk.Name = "label_trk";
             // 
             // label_end
@@ -255,9 +255,9 @@
             // 
             // customTrackBar_End
             // 
+            resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
             customTrackBar_End.BackgroundColor = SystemColors.Control;
             customTrackBar_End.DraggedThumbColor = Color.DarkRed;
-            resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
             customTrackBar_End.Maximum = 100;
             customTrackBar_End.Minimum = 0;
             customTrackBar_End.Name = "customTrackBar_End";
@@ -280,9 +280,9 @@
             // 
             // customTrackBar_Trk
             // 
+            resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
             customTrackBar_Trk.BackgroundColor = SystemColors.Control;
             customTrackBar_Trk.DraggedThumbColor = Color.DarkBlue;
-            resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
             customTrackBar_Trk.Maximum = 100;
             customTrackBar_Trk.Minimum = 0;
             customTrackBar_Trk.Name = "customTrackBar_Trk";
@@ -306,9 +306,9 @@
             // 
             // customTrackBar_Start
             // 
+            resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
             customTrackBar_Start.BackgroundColor = SystemColors.Control;
             customTrackBar_Start.DraggedThumbColor = Color.DarkGreen;
-            resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
             customTrackBar_Start.Maximum = 100;
             customTrackBar_Start.Minimum = 0;
             customTrackBar_Start.Name = "customTrackBar_Start";
@@ -342,6 +342,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = button_Cancel;
             ControlBox = false;
+            Controls.Add(label_end);
+            Controls.Add(label_LoopStartSamples);
+            Controls.Add(label_LoopEndSamples);
             Controls.Add(label_previewwarn);
             Controls.Add(label_trk);
             Controls.Add(customTrackBar_Start);
@@ -349,7 +352,6 @@
             Controls.Add(customTrackBar_End);
             Controls.Add(label_Pan);
             Controls.Add(panSlider1);
-            Controls.Add(label_end);
             Controls.Add(label_start);
             Controls.Add(button_LE_Current);
             Controls.Add(button_LS_Current);
@@ -367,8 +369,6 @@
             Controls.Add(numericUpDown_LoopStart);
             Controls.Add(button_SetEnd);
             Controls.Add(button_SetStart);
-            Controls.Add(label_LoopEndSamples);
-            Controls.Add(label_LoopStartSamples);
             Controls.Add(label_Length);
             Controls.Add(label_Samples);
             Controls.Add(button_Cancel);
@@ -401,9 +401,6 @@
         private Label label_LoopEndSamples;
         private Button button_SetStart;
         private Button button_SetEnd;
-        private NumericUpDown numericUpDown_LoopStart;
-        private NumericUpDown numericUpDown_LoopEnd;
-        private CheckBox checkBox_LoopEnable;
         private Label label_File;
         private Button button_Prev;
         private Button button_Next;
@@ -419,10 +416,13 @@
         private Label label_Pan;
         public RadioButton radioButton_at3;
         public RadioButton radioButton_at9;
-        private src.Controls.CustomTrackBar customTrackBar_End;
         private src.Controls.CustomTrackBar customTrackBar_Trk;
-        private src.Controls.CustomTrackBar customTrackBar_Start;
         internal Label label_Psamples;
         private Label label_previewwarn;
+        internal CheckBox checkBox_LoopEnable;
+        internal NumericUpDown numericUpDown_LoopStart;
+        internal NumericUpDown numericUpDown_LoopEnd;
+        internal src.Controls.CustomTrackBar customTrackBar_End;
+        internal src.Controls.CustomTrackBar customTrackBar_Start;
     }
 }

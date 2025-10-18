@@ -340,7 +340,7 @@ namespace ATRACTool_Reloaded
             {
                 jacket = Config.Entry["Walkman_Jacket"].Value;
                 label_Jacketpath.Text = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
-                pictureBox_Jacket.ImageLocation = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"","").Replace("\"", "");
+                pictureBox_Jacket.ImageLocation = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
             }
 
             if (Config.Entry["Walkman_JacketMode"].Value is not null)
@@ -806,7 +806,8 @@ namespace ATRACTool_Reloaded
             if (iseveryfmt)
             {
                 DialogResult dr = DialogResult.None;
-                Thread thread = new(() => {
+                Thread thread = new(() =>
+                {
                     dr = ofd.ShowDialog();
                 });
                 thread.SetApartmentState(ApartmentState.STA);
@@ -1078,6 +1079,11 @@ namespace ATRACTool_Reloaded
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }
+        }
+
+        private void groupBox_walkman_others_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
