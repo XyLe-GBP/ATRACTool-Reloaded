@@ -546,8 +546,17 @@ namespace ATRACTool_Reloaded
                     br.BaseStream.Seek(24, SeekOrigin.Begin);
                     byte[] rsamplelate = br.ReadBytes(2);
 
-                    br.BaseStream.Seek(92, SeekOrigin.Begin);
-                    byte[] chunk = br.ReadBytes(4);
+                    byte[] chunk;
+                    if (Generic.ReadedATRACFlag == 0 && !Generic.IsAT3PS3)
+                    {
+                        br.BaseStream.Seek(88, SeekOrigin.Begin);
+                        chunk = br.ReadBytes(4);
+                    }
+                    else
+                    {
+                        br.BaseStream.Seek(92, SeekOrigin.Begin);
+                        chunk = br.ReadBytes(4);
+                    }
 
                     string chunkstr = Encoding.GetEncoding("US-ASCII").GetString(chunk);
 
@@ -775,8 +784,17 @@ namespace ATRACTool_Reloaded
                         br.BaseStream.Seek(24, SeekOrigin.Begin);
                         byte[] rsamplelate = br.ReadBytes(2);
 
-                        br.BaseStream.Seek(92, SeekOrigin.Begin);
-                        byte[] chunk = br.ReadBytes(4);
+                        byte[] chunk;
+                        if (Generic.ReadedATRACFlag == 0 && !Generic.IsAT3PS3)
+                        {
+                            br.BaseStream.Seek(88, SeekOrigin.Begin);
+                            chunk = br.ReadBytes(4);
+                        }
+                        else
+                        {
+                            br.BaseStream.Seek(92, SeekOrigin.Begin);
+                            chunk = br.ReadBytes(4);
+                        }
 
                         string chunkstr = Encoding.GetEncoding("US-ASCII").GetString(chunk);
                         if (!string.IsNullOrWhiteSpace(chunkstr) && chunkstr == "smpl") // SampleChunk Found
