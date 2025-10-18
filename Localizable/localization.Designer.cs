@@ -22,7 +22,7 @@ namespace ATRACTool_Reloaded.Localizable {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Localization {
+    public class Localization {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ATRACTool_Reloaded.Localizable.Localization", typeof(Localization).Assembly);
@@ -51,7 +51,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -66,34 +66,88 @@ namespace ATRACTool_Reloaded.Localizable {
         ///specified directory will be lost.
         ///Do you want to continue? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string AlreadyExistsCaption {
+        public static string AlreadyExistsCaption {
             get {
                 return ResourceManager.GetString("AlreadyExistsCaption", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   If the “Loop from start to end of audio source” or “Set loop point” option is enabled in the settings screen, you cannot configure it here.
+        ///To configure it, disable the above option in the ATRAC3/ATRAC3+ and ATRAC9 groups. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AT3AT9LoopBeginToEndAlreadyEnabledWarning {
+            get {
+                return ResourceManager.GetString("AT3AT9LoopBeginToEndAlreadyEnabledWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string AT3Filter {
+        public static string AT3Filter {
             get {
                 return ResourceManager.GetString("AT3Filter", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   If the “Loop from start to end of audio source” or “Set loop points” option is enabled in the settings screen, you cannot configure it here.
+        ///To configure it, disable the above option in the ATRAC3/ATRAC3+ group. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AT3LoopBeginToEndAlreadyEnabledWarning {
+            get {
+                return ResourceManager.GetString("AT3LoopBeginToEndAlreadyEnabledWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The settings on this screen are for confirmation only and will not be reflected in the actual output.
+        ///To output ATRAC3/ATRAC3+ with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
+        ///Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
+        ///While it is possible  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AT3PreviewWarningCaption {
+            get {
+                return ResourceManager.GetString("AT3PreviewWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string AT9Filter {
+        public static string AT9Filter {
             get {
                 return ResourceManager.GetString("AT9Filter", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   If the “Loop from start to end of audio source” or “Set loop points” option is enabled in the settings screen, you cannot configure it here.
+        ///To configure it, disable the above option in the ATRAC9 group. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AT9LoopBeginToEndAlreadyEnabledWarning {
+            get {
+                return ResourceManager.GetString("AT9LoopBeginToEndAlreadyEnabledWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The settings on this screen are for confirmation only and will not be reflected in the actual output.
+        ///To output ATRAC9 with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
+        ///Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
+        ///While it is possible to enabl [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AT9PreviewWarningCaption {
+            get {
+                return ResourceManager.GetString("AT9PreviewWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Adaptive TRansform Acoustic Coding 3 / 3+ に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ATRAC3FormatCaption {
+        public static string ATRAC3FormatCaption {
             get {
                 return ResourceManager.GetString("ATRAC3FormatCaption", resourceCulture);
             }
@@ -102,7 +156,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Adaptive TRansform Acoustic Coding 9 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ATRAC9FormatCaption {
+        public static string ATRAC9FormatCaption {
             get {
                 return ResourceManager.GetString("ATRAC9FormatCaption", resourceCulture);
             }
@@ -112,7 +166,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   If the ATRAC playback option is enabled, the &apos;Save to specified folder&apos; option is not available.
         ///The normal method of saving is used. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ATRACPlaybackEnabledSpecLocationWarning {
+        public static string ATRACPlaybackEnabledSpecLocationWarning {
             get {
                 return ResourceManager.GetString("ATRACPlaybackEnabledSpecLocationWarning", resourceCulture);
             }
@@ -121,7 +175,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   The process has been aborted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string CancelledCaption {
+        public static string CancelledCaption {
             get {
                 return ResourceManager.GetString("CancelledCaption", resourceCulture);
             }
@@ -130,7 +184,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ConverterFilters {
+        public static string ConverterFilters {
             get {
                 return ResourceManager.GetString("ConverterFilters", resourceCulture);
             }
@@ -139,7 +193,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Failed to convert audio. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ConvertErrorCaption {
+        public static string ConvertErrorCaption {
             get {
                 return ResourceManager.GetString("ConvertErrorCaption", resourceCulture);
             }
@@ -148,7 +202,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Successfully converted audio. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ConvertSuccessCaption {
+        public static string ConvertSuccessCaption {
             get {
                 return ResourceManager.GetString("ConvertSuccessCaption", resourceCulture);
             }
@@ -157,7 +211,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Current version: に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string CurrentCaption {
+        public static string CurrentCaption {
             get {
                 return ResourceManager.GetString("CurrentCaption", resourceCulture);
             }
@@ -166,7 +220,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Unique splash screen images are reflected when the application is restarted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string CustomSplashCaption {
+        public static string CustomSplashCaption {
             get {
                 return ResourceManager.GetString("CustomSplashCaption", resourceCulture);
             }
@@ -178,7 +232,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///Height: 480 or 240px
         ///Only files that meet the above criteria can be specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string CustomSplashSizeErrorCaption {
+        public static string CustomSplashSizeErrorCaption {
             get {
                 return ResourceManager.GetString("CustomSplashSizeErrorCaption", resourceCulture);
             }
@@ -187,7 +241,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Failed to decode the ATRAC file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DecodeErrorCaption {
+        public static string DecodeErrorCaption {
             get {
                 return ResourceManager.GetString("DecodeErrorCaption", resourceCulture);
             }
@@ -198,7 +252,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///Please review the settings in &apos;Conversion Settings&apos;.
         ///Also, please check if the file system of the conversion source is correct. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DecodePartialCaption {
+        public static string DecodePartialCaption {
             get {
                 return ResourceManager.GetString("DecodePartialCaption", resourceCulture);
             }
@@ -207,7 +261,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Successfully decoded the ATRAC file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DecodeSuccessCaption {
+        public static string DecodeSuccessCaption {
             get {
                 return ResourceManager.GetString("DecodeSuccessCaption", resourceCulture);
             }
@@ -218,7 +272,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///If you stop the process, the downloaded content will be lost.
         ///Are you sure you want to stop the process? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DownloadAbortConfirmCaption {
+        public static string DownloadAbortConfirmCaption {
             get {
                 return ResourceManager.GetString("DownloadAbortConfirmCaption", resourceCulture);
             }
@@ -227,7 +281,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   {0}% ({1} KiB out of {2} KiB) Download completed に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DownloadingCaption {
+        public static string DownloadingCaption {
             get {
                 return ResourceManager.GetString("DownloadingCaption", resourceCulture);
             }
@@ -237,7 +291,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   The file is downloading.
         ///Please wait a moment... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DownloadStatusCaption {
+        public static string DownloadStatusCaption {
             get {
                 return ResourceManager.GetString("DownloadStatusCaption", resourceCulture);
             }
@@ -248,7 +302,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///Please review the settings in &apos;Conversion Settings&apos;.
         ///Also, please make sure that the file system from which you are converting is correct. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string EncodeErrorCaption {
+        public static string EncodeErrorCaption {
             get {
                 return ResourceManager.GetString("EncodeErrorCaption", resourceCulture);
             }
@@ -258,7 +312,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   You have not selected the correct encoding method.
         ///Please select &apos;ATRAC3 / ATRAC3+&apos;, &apos;ATRAC9&apos; or &apos;Walkman&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string EncodemethodErrorCaption {
+        public static string EncodemethodErrorCaption {
             get {
                 return ResourceManager.GetString("EncodemethodErrorCaption", resourceCulture);
             }
@@ -269,7 +323,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///Please review the settings in &apos;Conversion Settings&apos;.
         ///Also, please check if the file system of the conversion source is correct. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string EncodePartialCaption {
+        public static string EncodePartialCaption {
             get {
                 return ResourceManager.GetString("EncodePartialCaption", resourceCulture);
             }
@@ -278,7 +332,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Successfully encoded the ATRAC file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string EncodeSuccessCaption {
+        public static string EncodeSuccessCaption {
             get {
                 return ResourceManager.GetString("EncodeSuccessCaption", resourceCulture);
             }
@@ -287,7 +341,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Files with different extensions cannot be loaded at the same time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FileMixedErrorCaption {
+        public static string FileMixedErrorCaption {
             get {
                 return ResourceManager.GetString("FileMixedErrorCaption", resourceCulture);
             }
@@ -296,25 +350,34 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   ATRAC3 / 3+ and ATRAC9, or ATRAC3 / 3+ and ATRAC9 formats and other formats cannot be loaded simultaneously. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FileMixedWithATRACCaption {
+        public static string FileMixedWithATRACCaption {
             get {
                 return ResourceManager.GetString("FileMixedWithATRACCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   {0} KiB に類似しているローカライズされた文字列を検索します。
+        ///   {0} KiB ({1} Bytes) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FileSizeCaption {
+        public static string FileSizeCaption {
             get {
                 return ResourceManager.GetString("FileSizeCaption", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   The file size is too large to load. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FilesizeLargeCaption {
+            get {
+                return ResourceManager.GetString("FilesizeLargeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|All Supported Files|*.m4a;*.aac;*.aiff;*.alac;*.f [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string Filters {
+        public static string Filters {
             get {
                 return ResourceManager.GetString("Filters", resourceCulture);
             }
@@ -323,7 +386,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Specify a folder to save the file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FolderSaveDialogTitle {
+        public static string FolderSaveDialogTitle {
             get {
                 return ResourceManager.GetString("FolderSaveDialogTitle", resourceCulture);
             }
@@ -332,7 +395,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Downloading... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FormDownloadingCaption {
+        public static string FormDownloadingCaption {
             get {
                 return ResourceManager.GetString("FormDownloadingCaption", resourceCulture);
             }
@@ -341,7 +404,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Initializing... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string InitializationCaption {
+        public static string InitializationCaption {
             get {
                 return ResourceManager.GetString("InitializationCaption", resourceCulture);
             }
@@ -350,7 +413,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Latest version: に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LatestCaption {
+        public static string LatestCaption {
             get {
                 return ResourceManager.GetString("LatestCaption", resourceCulture);
             }
@@ -359,7 +422,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Length に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LengthCaption {
+        public static string LengthCaption {
             get {
                 return ResourceManager.GetString("LengthCaption", resourceCulture);
             }
@@ -368,7 +431,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   List file (*.lst)|*.lst;|All Files (*.*)|*.* に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ListFilters {
+        public static string ListFilters {
             get {
                 return ResourceManager.GetString("ListFilters", resourceCulture);
             }
@@ -377,16 +440,27 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   The LoopEnd value is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LoopEndErrorCaption {
+        public static string LoopEndErrorCaption {
             get {
                 return ResourceManager.GetString("LoopEndErrorCaption", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Loop information has already been set for this file.
+        ///If you continue, the loop information you have set will be lost.
+        ///Do you want to continue? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoopingAlreadySetWarningCaption {
+            get {
+                return ResourceManager.GetString("LoopingAlreadySetWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The list file used for the loop has not been specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LoopListErrorCaption {
+        public static string LoopListErrorCaption {
             get {
                 return ResourceManager.GetString("LoopListErrorCaption", resourceCulture);
             }
@@ -395,7 +469,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   LoopStart or LoopEnd value is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LoopNotSetCaption {
+        public static string LoopNotSetCaption {
             get {
                 return ResourceManager.GetString("LoopNotSetCaption", resourceCulture);
             }
@@ -404,7 +478,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   The LoopStart value is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LoopStartErrorCaption {
+        public static string LoopStartErrorCaption {
             get {
                 return ResourceManager.GetString("LoopStartErrorCaption", resourceCulture);
             }
@@ -413,16 +487,45 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   The LoopTimes value is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string LoopTimesErrorCaption {
+        public static string LoopTimesErrorCaption {
             get {
                 return ResourceManager.GetString("LoopTimesErrorCaption", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Loop playback is enabled.
+        ///If you continue without setting the loop start and end points, the current loop information will be lost.
+        ///Do you want to continue? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LoopWarningCaption {
+            get {
+                return ResourceManager.GetString("LoopWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The “Create loop points during conversion” option is enabled, so settings cannot be configured here. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LPCreateAlreadyEnableWarning {
+            get {
+                return ResourceManager.GetString("LPCreateAlreadyEnableWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loop is enabled on the main screen, so this option cannot be activated. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MainLoopingAlreadyEnabledWarnig {
+            get {
+                return ResourceManager.GetString("MainLoopingAlreadyEnabledWarnig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Abort に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MSGBoxAbortedCaption {
+        public static string MSGBoxAbortedCaption {
             get {
                 return ResourceManager.GetString("MSGBoxAbortedCaption", resourceCulture);
             }
@@ -431,7 +534,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Confirm に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MSGBoxConfirmCaption {
+        public static string MSGBoxConfirmCaption {
             get {
                 return ResourceManager.GetString("MSGBoxConfirmCaption", resourceCulture);
             }
@@ -440,7 +543,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Error に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MSGBoxErrorCaption {
+        public static string MSGBoxErrorCaption {
             get {
                 return ResourceManager.GetString("MSGBoxErrorCaption", resourceCulture);
             }
@@ -449,7 +552,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Done に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MSGBoxSuccessCaption {
+        public static string MSGBoxSuccessCaption {
             get {
                 return ResourceManager.GetString("MSGBoxSuccessCaption", resourceCulture);
             }
@@ -458,7 +561,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Warning に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MSGBoxWarningCaption {
+        public static string MSGBoxWarningCaption {
             get {
                 return ResourceManager.GetString("MSGBoxWarningCaption", resourceCulture);
             }
@@ -467,7 +570,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Multiple sound source files に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MultipleFilesCaption {
+        public static string MultipleFilesCaption {
             get {
                 return ResourceManager.GetString("MultipleFilesCaption", resourceCulture);
             }
@@ -477,7 +580,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   The &apos;set loop point&apos; option does not work with multiple files!
         ///When converting multiple files, run the conversion with the &apos;Create loop points on conversion&apos; checked and adjust the settings so that each file loops correctly on the screen that appears. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MultipleLoopPointErrorCaption {
+        public static string MultipleLoopPointErrorCaption {
             get {
                 return ResourceManager.GetString("MultipleLoopPointErrorCaption", resourceCulture);
             }
@@ -486,7 +589,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Since you are not connected to the Internet, you will not be able to check for updates. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NetworkNotConnectedCaption {
+        public static string NetworkNotConnectedCaption {
             get {
                 return ResourceManager.GetString("NetworkNotConnectedCaption", resourceCulture);
             }
@@ -495,7 +598,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Unsupported files cannot be loaded. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NotAllowedExtensionCaption {
+        public static string NotAllowedExtensionCaption {
             get {
                 return ResourceManager.GetString("NotAllowedExtensionCaption", resourceCulture);
             }
@@ -504,7 +607,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   It is not possible to delete the &apos;$InFile&apos; and &apos;$OutFile&apos; strings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NotFoundIOStringCaption {
+        public static string NotFoundIOStringCaption {
             get {
                 return ResourceManager.GetString("NotFoundIOStringCaption", resourceCulture);
             }
@@ -513,7 +616,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Not Ready - Please open the file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NotReadyCaption {
+        public static string NotReadyCaption {
             get {
                 return ResourceManager.GetString("NotReadyCaption", resourceCulture);
             }
@@ -522,7 +625,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Open a sound source file に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string OpenDialogTitle {
+        public static string OpenDialogTitle {
             get {
                 return ResourceManager.GetString("OpenDialogTitle", resourceCulture);
             }
@@ -531,7 +634,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Drag and drop a file here or open the file... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string OpenFileCaption {
+        public static string OpenFileCaption {
             get {
                 return ResourceManager.GetString("OpenFileCaption", resourceCulture);
             }
@@ -540,7 +643,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Open a looplist file に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string OpenListDialogTitle {
+        public static string OpenListDialogTitle {
             get {
                 return ResourceManager.GetString("OpenListDialogTitle", resourceCulture);
             }
@@ -549,7 +652,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Pause に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PauseCaption {
+        public static string PauseCaption {
             get {
                 return ResourceManager.GetString("PauseCaption", resourceCulture);
             }
@@ -558,7 +661,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Play に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PlayCaption {
+        public static string PlayCaption {
             get {
                 return ResourceManager.GetString("PlayCaption", resourceCulture);
             }
@@ -566,11 +669,11 @@ namespace ATRACTool_Reloaded.Localizable {
         
         /// <summary>
         ///   The settings on this screen are for confirmation only and will not be reflected in the actual output.
-        ///To actually output an ATRAC with a loop applied, for a single file, set the loop on the preview screen, check &apos;Config-&gt;Conversion Settings-&gt;Set Loop Point&apos; for that sample value, enter the appropriate sample value and convert.
-        ///Or check the &apos;Create loop point on conversion&apos; checkbox, run the conversion, and adjust the settings so that the loop is done correctly on the screen that appears.
-        ///For multi-file co [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///To output ATRAC with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
+        ///Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
+        ///While it is possible to enable [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PreviewWarningCaption {
+        public static string PreviewWarningCaption {
             get {
                 return ResourceManager.GetString("PreviewWarningCaption", resourceCulture);
             }
@@ -579,7 +682,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Processing... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ProcessingCaption {
+        public static string ProcessingCaption {
             get {
                 return ResourceManager.GetString("ProcessingCaption", resourceCulture);
             }
@@ -588,7 +691,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   All Ready! に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ReadyCaption {
+        public static string ReadyCaption {
             get {
                 return ResourceManager.GetString("ReadyCaption", resourceCulture);
             }
@@ -597,7 +700,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Samples に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SampleCaption {
+        public static string SampleCaption {
             get {
                 return ResourceManager.GetString("SampleCaption", resourceCulture);
             }
@@ -606,7 +709,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Save a sound source file に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SaveDialogTitle {
+        public static string SaveDialogTitle {
             get {
                 return ResourceManager.GetString("SaveDialogTitle", resourceCulture);
             }
@@ -616,7 +719,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   The conversion settings are not properly configured.
         ///Please make appropriate settings from the menu &apos;Conversion Settings&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SettingsErrorCaption {
+        public static string SettingsErrorCaption {
             get {
                 return ResourceManager.GetString("SettingsErrorCaption", resourceCulture);
             }
@@ -626,7 +729,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   The application can be updated.
         ///Do you want to open the GitHub? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SiteOpenCaption {
+        public static string SiteOpenCaption {
             get {
                 return ResourceManager.GetString("SiteOpenCaption", resourceCulture);
             }
@@ -635,7 +738,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Path not specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SpecificPathErrorCaption {
+        public static string SpecificPathErrorCaption {
             get {
                 return ResourceManager.GetString("SpecificPathErrorCaption", resourceCulture);
             }
@@ -644,7 +747,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   suffix is not specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SpecificSubfolderErrorCaption {
+        public static string SpecificSubfolderErrorCaption {
             get {
                 return ResourceManager.GetString("SpecificSubfolderErrorCaption", resourceCulture);
             }
@@ -653,7 +756,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Getting application configuration information... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashFormConfigCaption {
+        public static string SplashFormConfigCaption {
             get {
                 return ResourceManager.GetString("SplashFormConfigCaption", resourceCulture);
             }
@@ -662,7 +765,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Loaded: &apos;{0}&apos; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashFormFileCaption {
+        public static string SplashFormFileCaption {
             get {
                 return ResourceManager.GetString("SplashFormFileCaption", resourceCulture);
             }
@@ -671,7 +774,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Checking for updates... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashFormUpdateCaption {
+        public static string SplashFormUpdateCaption {
             get {
                 return ResourceManager.GetString("SplashFormUpdateCaption", resourceCulture);
             }
@@ -680,7 +783,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Update completed に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashFormUpdatedCaption {
+        public static string SplashFormUpdatedCaption {
             get {
                 return ResourceManager.GetString("SplashFormUpdatedCaption", resourceCulture);
             }
@@ -689,7 +792,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Updating... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashFormUpdatingCaption {
+        public static string SplashFormUpdatingCaption {
             get {
                 return ResourceManager.GetString("SplashFormUpdatingCaption", resourceCulture);
             }
@@ -698,7 +801,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   The path to the splash screen image is not specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SplashPathErrorCaption {
+        public static string SplashPathErrorCaption {
             get {
                 return ResourceManager.GetString("SplashPathErrorCaption", resourceCulture);
             }
@@ -707,7 +810,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Converting {0} of {1} files に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string StatusCaption {
+        public static string StatusCaption {
             get {
                 return ResourceManager.GetString("StatusCaption", resourceCulture);
             }
@@ -716,7 +819,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Stop に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string StopCaption {
+        public static string StopCaption {
             get {
                 return ResourceManager.GetString("StopCaption", resourceCulture);
             }
@@ -727,7 +830,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///
         ///{0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string UnExpectedCaption {
+        public static string UnExpectedCaption {
             get {
                 return ResourceManager.GetString("UnExpectedCaption", resourceCulture);
             }
@@ -736,7 +839,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Updated. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string UpdateCompletedCaption {
+        public static string UpdateCompletedCaption {
             get {
                 return ResourceManager.GetString("UpdateCompletedCaption", resourceCulture);
             }
@@ -746,7 +849,7 @@ namespace ATRACTool_Reloaded.Localizable {
         ///   The application can be updated.
         ///Do you want to download? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string UpdateConfirmCaption {
+        public static string UpdateConfirmCaption {
             get {
                 return ResourceManager.GetString("UpdateConfirmCaption", resourceCulture);
             }
@@ -755,7 +858,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   You are using the latest version of the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string UptodateCaption {
+        public static string UptodateCaption {
             get {
                 return ResourceManager.GetString("UptodateCaption", resourceCulture);
             }
@@ -764,7 +867,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   Adaptive TRansform Acoustic Coding 3 / 3+ (*.oma)|*.oma;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.omg)|*.omg;|Adaptive TRansform Acoustic Coding 3 / 3+ Advanced Lossless (*.oma)|*.oma;|ATRAC3 / 3+ Video Clip (*.kdr)|*.kdr; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string WalkmanFilter {
+        public static string WalkmanFilter {
             get {
                 return ResourceManager.GetString("WalkmanFilter", resourceCulture);
             }
@@ -773,7 +876,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   RIFF waveform Audio Format (Converted) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string WAVEConvertedFormatCaption {
+        public static string WAVEConvertedFormatCaption {
             get {
                 return ResourceManager.GetString("WAVEConvertedFormatCaption", resourceCulture);
             }
@@ -782,7 +885,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   RIFF waveform Audio Format (*.wav)|*.wav; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string WAVEFilter {
+        public static string WAVEFilter {
             get {
                 return ResourceManager.GetString("WAVEFilter", resourceCulture);
             }
@@ -791,7 +894,7 @@ namespace ATRACTool_Reloaded.Localizable {
         /// <summary>
         ///   RIFF waveform Audio Format に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string WAVEFormatCaption {
+        public static string WAVEFormatCaption {
             get {
                 return ResourceManager.GetString("WAVEFormatCaption", resourceCulture);
             }

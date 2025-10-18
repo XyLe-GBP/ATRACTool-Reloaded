@@ -118,30 +118,29 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlreadyExistsCaption" xml:space="preserve">
-    <value>The file already exists in the specified directory.
-If the file is converted in this way, the
-specified directory will be lost.
-Do you want to continue?</value>
+    <value>指定目录中已存在文件。
+继续操作将导致指定目录内所有文件丢失。
+是否继续？</value>
   </data>
   <data name="AT3Filter" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;</value>
   </data>
   <data name="AT3PreviewWarningCaption" xml:space="preserve">
-    <value>The settings on this screen are for confirmation only and will not be reflected in the actual output.
-To output ATRAC3/ATRAC3+ with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
-Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
-While it is possible to enable the settings in the configuration screen to set the loop, this is not recommended.
-Note that the ‘Set Loop Points’ option does not function with multiple files.</value>
+    <value>此界面中的设置仅用于确认，不会反映在实际输出中。
+要实际输出应用循环的ATRAC3/ATRAC3+文件，无论单个文件还是多个文件，请关闭“循环音源从头到尾”及“设置循环点”选项，并在本界面中设置循环。
+或勾选“转换时创建循环点”后执行转换，在显示界面中调整设置确保各文件循环正确生效。
+虽可通过启用设置界面选项配置循环，但此方法不推荐使用。
+需注意“设置循环点”选项不适用于多个文件。</value>
   </data>
   <data name="AT9Filter" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;</value>
   </data>
   <data name="AT9PreviewWarningCaption" xml:space="preserve">
-    <value>The settings on this screen are for confirmation only and will not be reflected in the actual output.
-To output ATRAC9 with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
-Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
-While it is possible to enable the settings in the configuration screen to set the loop, this is not recommended.
-Note that the ‘Set Loop Points’ option does not function with multiple files.</value>
+    <value>此界面中的设置仅用于确认，不会反映在实际输出中。
+要实际输出应用循环的ATRAC9文件，无论单个文件还是多个文件，请关闭“循环音源从头到尾”及“设置循环点”选项，并在本界面中设置循环。
+或者勾选“转换时创建循环点”选项执行转换，在显示的界面中调整设置以确保各文件循环正确生效。
+虽然也可通过启用设置界面选项来配置循环，但此方法不推荐使用。
+需注意“设置循环点”选项在处理多个文件时无法生效。</value>
   </data>
   <data name="ATRAC3FormatCaption" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 3 / 3+</value>
@@ -150,264 +149,271 @@ Note that the ‘Set Loop Points’ option does not function with multiple files
     <value>Adaptive TRansform Acoustic Coding 9</value>
   </data>
   <data name="ATRACPlaybackEnabledSpecLocationWarning" xml:space="preserve">
-    <value>If the ATRAC playback option is enabled, the 'Save to specified folder' option is not available.
-The normal method of saving is used.</value>
+    <value>当ATRAC播放选项启用时，'保存至指定文件夹'选项不可用。
+
+将采用常规方式进行保存。</value>
   </data>
   <data name="CancelledCaption" xml:space="preserve">
-    <value>The process has been aborted.</value>
+    <value>处理已被中断。</value>
   </data>
   <data name="ConverterFilters" xml:space="preserve">
-    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|All Supported Files|*.m4a;*.aac;*.aiff;*.alac;*.avi;*.flac;*.webm;*.mp3;*.mkv;*.mp4;*.m4v;*.wma;*.wmv;*.opus;*.mov;*.ogg;*.wav</value>
+    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Audio Video Interleave (*.avi)|*.avi;|Free Lossless Audio Codec (*.flac)|*.flac;|Google Web Media (*.webm)|*.webm;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Matroska Video (*.mkv)|*.mkv;|MPEG-4 (*.mp4, *.m4v)|*.mp4;*.m4v;|Windows Media (*.wma, *.wmv)|*.wma;*.wmv;|Opus (*.opus)|*.opus;|QuickTime file format (*.mov)|*.mov|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.avi;*.flac;*.webm;*.mp3;*.mkv;*.mp4;*.m4v;*.wma;*.wmv;*.opus;*.mov;*.ogg;*.wav</value>
   </data>
   <data name="ConvertErrorCaption" xml:space="preserve">
-    <value>Failed to convert audio.</value>
+    <value>格式转换失败。</value>
   </data>
   <data name="ConvertSuccessCaption" xml:space="preserve">
-    <value>Successfully converted audio.</value>
+    <value>格式转换已完成。</value>
   </data>
   <data name="CurrentCaption" xml:space="preserve">
-    <value>Current version:</value>
+    <value>当前版本：</value>
   </data>
   <data name="CustomSplashCaption" xml:space="preserve">
-    <value>Unique splash screen images are reflected when the application is restarted.</value>
+    <value>自定义启动画面将在应用程序重启后生效。</value>
   </data>
   <data name="CustomSplashSizeErrorCaption" xml:space="preserve">
-    <value>Image size is incorrect.
-Width: 800 or 400px
-Height: 480 or 240px
-Only files that meet the above criteria can be specified.</value>
+    <value>图像文件的分辨率不正确。
+纵向：800 或 400像素
+横向：480 或 240像素
+不符合上述要求的文件无法设置。</value>
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
-    <value>Failed to decode the ATRAC file.</value>
+    <value>ATRAC解码失败。</value>
   </data>
   <data name="DecodePartialCaption" xml:space="preserve">
-    <value>Some ATRAC decoding failed.
-Please review the settings in 'Conversion Settings'.
-Also, please check if the file system of the conversion source is correct.</value>
+    <value>部分ATRAC解码失败。
+请重新检查'转换设置'。
+同时请确认转换源文件的格式是否正确。</value>
   </data>
   <data name="DecodeSuccessCaption" xml:space="preserve">
-    <value>Successfully decoded the ATRAC file.</value>
+    <value>ATRAC解码已完成。</value>
   </data>
   <data name="DownloadAbortConfirmCaption" xml:space="preserve">
-    <value>The download is currently in progress.
-If you stop the process, the downloaded content will be lost.
-Are you sure you want to stop the process?</value>
+    <value>目前正在下载中。
+若此时中止，已下载的内容将丢失。
+您确定要终止操作吗？</value>
   </data>
   <data name="DownloadingCaption" xml:space="preserve">
-    <value>{0}% ({1} KiB out of {2} KiB) Download completed</value>
+    <value>{0}% ({1} KiB 中 {2} KiB) 下载完成</value>
   </data>
   <data name="DownloadStatusCaption" xml:space="preserve">
-    <value>The file is downloading.
-Please wait a moment...</value>
+    <value>正在下载文件。
+请稍候片刻…</value>
   </data>
   <data name="EncodeErrorCaption" xml:space="preserve">
-    <value>Failed to encode ATRAC file.
-Please review the settings in 'Conversion Settings'.
-Also, please make sure that the file system from which you are converting is correct.</value>
+    <value>ATRAC编码失败。
+请重新检查'转换设置'。
+同时请确认转换源文件的格式是否正确。</value>
   </data>
   <data name="EncodemethodErrorCaption" xml:space="preserve">
-    <value>You have not selected the correct encoding method.
-Please select 'ATRAC3 / ATRAC3+', 'ATRAC9' or 'Walkman'.</value>
+    <value>编码方式选择不正确。
+请选择'ATRAC3 / ATRAC3+'、'ATRAC9'或'Walkman'其中一种。</value>
   </data>
   <data name="EncodePartialCaption" xml:space="preserve">
-    <value>Some ATRAC encoding failed.
-Please review the settings in 'Conversion Settings'.
-Also, please check if the file system of the conversion source is correct.</value>
+    <value>部分ATRAC编码失败。
+请重新检查'转换设置'。
+同时请确认转换源文件的格式是否正确。</value>
   </data>
   <data name="EncodeSuccessCaption" xml:space="preserve">
-    <value>Successfully encoded the ATRAC file.</value>
+    <value>ATRAC编码已完成。</value>
   </data>
   <data name="FileMixedErrorCaption" xml:space="preserve">
-    <value>Files with different extensions cannot be loaded at the same time.</value>
+    <value>不支持同时读取不同格式的文件。
+仅支持同时读取所有相同格式的文件。</value>
   </data>
   <data name="FileMixedWithATRACCaption" xml:space="preserve">
-    <value>ATRAC3 / 3+ and ATRAC9, or ATRAC3 / 3+ and ATRAC9 formats and other formats cannot be loaded simultaneously.</value>
+    <value>无法同时读取ATRAC3/3+与ATRAC9格式文件，或ATRAC3/3+及ATRAC9格式文件与其他格式的文件。</value>
   </data>
   <data name="FileSizeCaption" xml:space="preserve">
-    <value>{0} KiB ({1} Bytes)</value>
+    <value>{0} KiB（{1} 字节）</value>
   </data>
   <data name="Filters" xml:space="preserve">
-    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|All Supported Files|*.m4a;*.aac;*.aiff;*.alac;*.flac;*.mp3;*.wma;*.opus;*.ogg;*.wav;*.at3;*.at9</value>
+    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.flac;*.mp3;*.wma;*.opus;*.ogg;*.wav;*.at3;*.at9</value>
   </data>
   <data name="FolderSaveDialogTitle" xml:space="preserve">
-    <value>Specify a folder to save the file.</value>
+    <value>选择保存目标文件夹</value>
   </data>
   <data name="FormDownloadingCaption" xml:space="preserve">
-    <value>Downloading...</value>
+    <value>正在下载中...</value>
   </data>
   <data name="InitializationCaption" xml:space="preserve">
-    <value>Initializing...</value>
+    <value>初始化中...</value>
   </data>
   <data name="LatestCaption" xml:space="preserve">
-    <value>Latest version:</value>
+    <value>最新版本：</value>
   </data>
   <data name="LengthCaption" xml:space="preserve">
-    <value>Length</value>
+    <value>时间</value>
   </data>
   <data name="ListFilters" xml:space="preserve">
-    <value>List file (*.lst)|*.lst;|All Files (*.*)|*.*</value>
+    <value>列表文件 (*.lst)|*.lst;|所有文件 (*.*)|*.*</value>
   </data>
   <data name="AT3LoopBeginToEndAlreadyEnabledWarning" xml:space="preserve">
-    <value>If the “Loop from start to end of audio source” or “Set loop points” option is enabled in the settings screen, you cannot configure it here.
-To configure it, disable the above option in the ATRAC3/ATRAC3+ group.</value>
+    <value>若在设置界面中启用了“循环播放音源从头至尾”或“设置循环点”选项，则无法在此进行设置。
+如需设置，请先禁用ATRAC3/ATRAC3+组中的上述选项。</value>
   </data>
   <data name="LoopEndErrorCaption" xml:space="preserve">
-    <value>The LoopEnd value is not set.</value>
+    <value>'LoopEnd'值输入不正确。</value>
   </data>
   <data name="LoopingAlreadySetWarningCaption" xml:space="preserve">
-    <value>Loop information has already been set for this file.
-If you continue, the loop information you have set will be lost.
-Do you want to continue?</value>
+    <value>此文件已包含循环信息。
+继续操作将导致已设置的循环信息丢失。
+是否继续？</value>
   </data>
   <data name="LoopListErrorCaption" xml:space="preserve">
-    <value>The list file used for the loop has not been specified.</value>
+    <value>未指定用于设置循环的列表文件。</value>
   </data>
   <data name="LoopNotSetCaption" xml:space="preserve">
-    <value>LoopStart or LoopEnd value is not set.</value>
+    <value>LoopStart点和LoopEnd点设置不正确。</value>
   </data>
   <data name="LoopStartErrorCaption" xml:space="preserve">
-    <value>The LoopStart value is not set.</value>
+    <value>'LoopStart'值输入不正确。</value>
   </data>
   <data name="LoopTimesErrorCaption" xml:space="preserve">
-    <value>The LoopTimes value is not set.</value>
+    <value>循环次数的输入值不正确。</value>
   </data>
   <data name="LoopWarningCaption" xml:space="preserve">
-    <value>Loop playback is enabled.
-If you continue without setting the loop start and end points, the current loop information will be lost.
-Do you want to continue?</value>
+    <value>循环播放已启用。
+若未设置循环起始点和循环结束点就继续操作，当前循环信息将丢失。
+是否继续？</value>
   </data>
   <data name="LPCreateAlreadyEnableWarning" xml:space="preserve">
-    <value>The “Create loop points during conversion” option is enabled, so settings cannot be configured here.</value>
+    <value>由于“转换时创建循环点”选项处于启用状态，因此无法在此处进行设置。
+若需在此处设置循环点，请先禁用该选项。
+</value>
   </data>
   <data name="MainLoopingAlreadyEnabledWarnig" xml:space="preserve">
-    <value>Loop is enabled on the main screen, so this option cannot be activated.</value>
+    <value>由于主界面已启用循环播放功能，因此无法启用此选项。
+若要启用该选项，请先在主界面关闭循环播放功能。</value>
   </data>
   <data name="MSGBoxAbortedCaption" xml:space="preserve">
-    <value>Abort</value>
+    <value>中止</value>
   </data>
   <data name="MSGBoxConfirmCaption" xml:space="preserve">
-    <value>Confirm</value>
+    <value>确认</value>
   </data>
   <data name="MSGBoxErrorCaption" xml:space="preserve">
-    <value>Error</value>
+    <value>错误</value>
   </data>
   <data name="MSGBoxSuccessCaption" xml:space="preserve">
-    <value>Done</value>
+    <value>完成</value>
   </data>
   <data name="MSGBoxWarningCaption" xml:space="preserve">
-    <value>Warning</value>
+    <value>警告</value>
   </data>
   <data name="MultipleFilesCaption" xml:space="preserve">
-    <value>Multiple sound source files</value>
+    <value>多个文件</value>
   </data>
   <data name="MultipleLoopPointErrorCaption" xml:space="preserve">
-    <value>The 'set loop point' option does not work with multiple files!
-When converting multiple files, run the conversion with the 'Create loop points on conversion' checked and adjust the settings so that each file loops correctly on the screen that appears.</value>
+    <value>'设置循环点'选项不适用于多个文件！
+在批量转换多个文件时，请勾选'转换时创建循环点'选项执行转换，并在弹出的设置界面中调整参数，确保每个文件的循环功能正常运行。</value>
   </data>
   <data name="NetworkNotConnectedCaption" xml:space="preserve">
-    <value>Since you are not connected to the Internet, you will not be able to check for updates.</value>
+    <value>由于计算机未连接到互联网，
+因此无法检查更新。</value>
   </data>
   <data name="NotAllowedExtensionCaption" xml:space="preserve">
-    <value>Unsupported files cannot be loaded.</value>
+    <value>无法读取不受支持的文件。</value>
   </data>
   <data name="NotFoundIOStringCaption" xml:space="preserve">
-    <value>It is not possible to delete the '$InFile' and '$OutFile' strings.</value>
+    <value>无法删除 ‘$InFile’ 或 ‘$OutFile’ 的字符串。</value>
   </data>
   <data name="NotReadyCaption" xml:space="preserve">
-    <value>Not Ready - Please open the file.</value>
+    <value>准备未完成 - 请打开文件…</value>
   </data>
   <data name="OpenDialogTitle" xml:space="preserve">
-    <value>Open a sound source file</value>
+    <value>打开目标文件</value>
   </data>
   <data name="OpenFileCaption" xml:space="preserve">
-    <value>Drag and drop a file here or open the file...</value>
+    <value>请将文件拖拽至此处
+或打开文件…</value>
   </data>
   <data name="OpenListDialogTitle" xml:space="preserve">
-    <value>Open a looplist file</value>
+    <value>打开循环列表文件</value>
   </data>
   <data name="PauseCaption" xml:space="preserve">
-    <value>Pause</value>
+    <value>暂停</value>
   </data>
   <data name="PlayCaption" xml:space="preserve">
-    <value>Play</value>
+    <value>再生</value>
   </data>
   <data name="PreviewWarningCaption" xml:space="preserve">
-    <value>The settings on this screen are for confirmation only and will not be reflected in the actual output.
-To output ATRAC with loops applied, whether for a single file or multiple files, turn off the ‘Loop from start to end of source’ and ‘Set loop points’ settings, and configure the loop directly on this UI.
-Alternatively, check ‘Create loop points during conversion’, execute the conversion, and then adjust the settings on the displayed screen to ensure each file loops correctly.
-While it is possible to enable the settings in the configuration screen to set the loop, this is not recommended.
-Note that the ‘Set Loop Points’ option does not function with multiple files.</value>
+    <value>此界面中的设置仅用于确认，不会反映在实际输出中。
+要输出实际应用循环的ATRAC文件，无论单个文件还是多个文件，请关闭“循环音源从头到尾”及“设置循环点”选项，并在本界面中设置循环。
+或者勾选“转换时创建循环点”选项执行转换，在显示的界面中调整设置以确保各文件循环正确生效。
+虽然也可通过启用设置界面选项来配置循环，但此方法不推荐使用。
+需注意“设置循环点”选项在处理多个文件时无法生效。</value>
   </data>
   <data name="ProcessingCaption" xml:space="preserve">
-    <value>Processing...</value>
+    <value>正在处理中...</value>
   </data>
   <data name="ReadyCaption" xml:space="preserve">
-    <value>All Ready!</value>
+    <value>准备就绪！</value>
   </data>
   <data name="SampleCaption" xml:space="preserve">
-    <value>Samples</value>
+    <value>样本</value>
   </data>
   <data name="SaveDialogTitle" xml:space="preserve">
-    <value>Save a sound source file</value>
+    <value>保存目标文件</value>
   </data>
   <data name="SettingsErrorCaption" xml:space="preserve">
-    <value>The conversion settings are not properly configured.
-Please make appropriate settings from the menu 'Conversion Settings'.</value>
+    <value>由于转换设置未正确配置，无法开始编码。
+请通过'菜单项'设置'⇒'转换设置'进行配置。</value>
   </data>
   <data name="SiteOpenCaption" xml:space="preserve">
-    <value>The application can be updated.
-Do you want to open the GitHub?</value>
+    <value>应用程序可进行更新。
+是否打开GitHub存储库页面？</value>
   </data>
   <data name="SpecificPathErrorCaption" xml:space="preserve">
-    <value>Path not specified.</value>
+    <value>未指定保存路径。</value>
   </data>
   <data name="SpecificSubfolderErrorCaption" xml:space="preserve">
-    <value>suffix is not specified.</value>
+    <value>未指定子文件夹名称。</value>
   </data>
   <data name="SplashFormConfigCaption" xml:space="preserve">
-    <value>Getting application configuration information...</value>
+    <value>正在获取应用程序的设置信息…</value>
   </data>
   <data name="SplashFormFileCaption" xml:space="preserve">
-    <value>Loaded: '{0}'</value>
+    <value>读取：'{0}'</value>
   </data>
   <data name="SplashFormUpdateCaption" xml:space="preserve">
-    <value>Checking for updates...</value>
+    <value>正在检查更新…</value>
   </data>
   <data name="SplashFormUpdatedCaption" xml:space="preserve">
-    <value>Update completed</value>
+    <value>更新完成</value>
   </data>
   <data name="SplashFormUpdatingCaption" xml:space="preserve">
-    <value>Updating...</value>
+    <value>正在更新中...</value>
   </data>
   <data name="SplashPathErrorCaption" xml:space="preserve">
-    <value>The path to the splash screen image is not specified.</value>
+    <value>启动画面图像的路径未指定。</value>
   </data>
   <data name="StatusCaption" xml:space="preserve">
-    <value>Converting {0} of {1} files</value>
+    <value>{0} / {1} 文件已转换</value>
   </data>
   <data name="StopCaption" xml:space="preserve">
-    <value>Stop</value>
+    <value>停止</value>
   </data>
   <data name="UnExpectedCaption" xml:space="preserve">
-    <value>An un expected error occured.
+    <value>发生了意外错误。
 
 {0}</value>
   </data>
   <data name="UpdateCompletedCaption" xml:space="preserve">
-    <value>Updated.</value>
+    <value>更新已完成。</value>
   </data>
   <data name="UpdateConfirmCaption" xml:space="preserve">
-    <value>The application can be updated.
-Do you want to download?</value>
+    <value>应用程序可进行更新。
+是否下载？</value>
   </data>
   <data name="UptodateCaption" xml:space="preserve">
-    <value>You are using the latest version of the application.</value>
+    <value>您已使用最新版本的应用程序。</value>
   </data>
   <data name="WalkmanFilter" xml:space="preserve">
     <value>Adaptive TRansform Acoustic Coding 3 / 3+ (*.oma)|*.oma;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.omg)|*.omg;|Adaptive TRansform Acoustic Coding 3 / 3+ Advanced Lossless (*.oma)|*.oma;|ATRAC3 / 3+ Video Clip (*.kdr)|*.kdr;</value>
   </data>
   <data name="WAVEConvertedFormatCaption" xml:space="preserve">
-    <value>RIFF waveform Audio Format (Converted)</value>
+    <value>RIFF波形音频格式（已转换）</value>
   </data>
   <data name="WAVEFilter" xml:space="preserve">
     <value>RIFF waveform Audio Format (*.wav)|*.wav;</value>
@@ -416,14 +422,14 @@ Do you want to download?</value>
     <value>RIFF waveform Audio Format</value>
   </data>
   <data name="AT9LoopBeginToEndAlreadyEnabledWarning" xml:space="preserve">
-    <value>If the “Loop from start to end of audio source” or “Set loop points” option is enabled in the settings screen, you cannot configure it here.
-To configure it, disable the above option in the ATRAC9 group.</value>
+    <value>若在设置界面中启用了“循环播放音源从头至尾”或“设置循环点”选项，则无法在此进行设置。
+请先禁用ATRAC9组中的上述选项，再进行设置。</value>
   </data>
   <data name="AT3AT9LoopBeginToEndAlreadyEnabledWarning" xml:space="preserve">
-    <value>If the “Loop from start to end of audio source” or “Set loop point” option is enabled in the settings screen, you cannot configure it here.
-To configure it, disable the above option in the ATRAC3/ATRAC3+ and ATRAC9 groups.</value>
+    <value>若在设置界面中启用了“循环播放音源从头至尾”或“设置循环点”选项，则无法在此进行设置。
+如需设置，请先禁用ATRAC3/ATRAC3+及ATRAC9组中的上述选项。</value>
   </data>
   <data name="FilesizeLargeCaption" xml:space="preserve">
-    <value>The file size is too large to load.</value>
+    <value>文件过大，无法加载。</value>
   </data>
 </root>
