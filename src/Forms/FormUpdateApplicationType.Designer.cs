@@ -45,7 +45,7 @@
             resources.ApplyResources(comboBox_type, "comboBox_type");
             comboBox_type.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_type.FormattingEnabled = true;
-            comboBox_type.Items.AddRange(new object[] { resources.GetString("comboBox_type.Items"), resources.GetString("comboBox_type.Items1"), resources.GetString("comboBox_type.Items2") });
+            comboBox_type.Items.AddRange(new object[] { resources.GetString("comboBox_type.Items"), resources.GetString("comboBox_type.Items1") });
             comboBox_type.Name = "comboBox_type";
             // 
             // button_Cancel

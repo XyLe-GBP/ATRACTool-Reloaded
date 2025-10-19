@@ -128,21 +128,12 @@
     <value>[适用于ATRAC3+/ATRAC9] 44.1kHz（ATRAC3+最适合PSP）</value>
   </data>
   <data name="comboBox_method.Items1" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_method.Items2" xml:space="preserve">
     <value>[适用于ATRAC3+/ATRAC9] 48kHz（ATRAC3+最适合PS3）</value>
   </data>
-  <data name="comboBox_method.Items3" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_method.Items4" xml:space="preserve">
+  <data name="comboBox_method.Items2" xml:space="preserve">
     <value>[适用于ATRAC9] 12kHz</value>
   </data>
-  <data name="comboBox_method.Items5" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_method.Items6" xml:space="preserve">
+  <data name="comboBox_method.Items3" xml:space="preserve">
     <value>[适用于ATRAC9] 24kHz</value>
   </data>
   <data name="comboBox_method.Location" type="System.Drawing.Point, System.Drawing">

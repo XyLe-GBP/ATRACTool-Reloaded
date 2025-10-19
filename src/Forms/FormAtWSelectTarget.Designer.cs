@@ -44,7 +44,7 @@
             // 
             resources.ApplyResources(comboBox_method, "comboBox_method");
             comboBox_method.FormattingEnabled = true;
-            comboBox_method.Items.AddRange(new object[] { resources.GetString("comboBox_method.Items"), resources.GetString("comboBox_method.Items1"), resources.GetString("comboBox_method.Items2"), resources.GetString("comboBox_method.Items3"), resources.GetString("comboBox_method.Items4"), resources.GetString("comboBox_method.Items5"), resources.GetString("comboBox_method.Items6") });
+            comboBox_method.Items.AddRange(new object[] { resources.GetString("comboBox_method.Items"), resources.GetString("comboBox_method.Items1"), resources.GetString("comboBox_method.Items2"), resources.GetString("comboBox_method.Items3") });
             comboBox_method.Name = "comboBox_method";
             comboBox_method.SelectedIndexChanged += ComboBox_method_SelectedIndexChanged;
             // 

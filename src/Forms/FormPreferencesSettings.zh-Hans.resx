@@ -264,10 +264,13 @@
     <value>[适用于ATRAC3+/ATRAC9] 48kHz（ATRAC3+最适合PS3）</value>
   </data>
   <data name="comboBox_Fixconvert.Items2" xml:space="preserve">
-    <value>[ATRAC9] 12kHz</value>
+    <value>[适用于ATRAC9] 12kHz</value>
   </data>
   <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
-    <value>[ATRAC9] 24kHz</value>
+    <value>[适用于ATRAC9] 24kHz</value>
+  </data>
+  <data name="comboBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 23</value>
   </data>
   <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
     <value>175, 19</value>

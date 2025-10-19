@@ -313,6 +313,9 @@ JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピ�
   <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
     <value>[ATRAC9] 24kHz</value>
   </data>
+  <data name="comboBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 23</value>
+  </data>
   <data name="comboBox_Fixconvert.ToolTip" xml:space="preserve">
     <value />
   </data>

@@ -117,191 +117,209 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="comboBox_DecodeFormats.Items" xml:space="preserve">
-    <value>[WAVE] PCM (.wav)</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label_OutputFmt.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="comboBox_DecodeFormats.Items1" xml:space="preserve">
-    <value>[AAC-LC] Advanced Audio Coding (.3gp)</value>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="comboBox_DecodeFormats.Items2" xml:space="preserve">
-    <value>[HE-AAC] Advanced Audio Coding (.3gp)</value>
+  <data name="comboBox_OutputFormats.Items8" xml:space="preserve">
+    <value>[ATRAC3+] Video Clip (.kdr)</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="comboBox_DecodeFormats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 27</value>
+  <data name="label_DecodeFmt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 15</value>
   </data>
-  <data name="comboBox_DecodeFormats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>452, 23</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="comboBox_DecodeFormats.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;comboBox_DecodeFormats.Name" xml:space="preserve">
-    <value>comboBox_DecodeFormats</value>
-  </data>
-  <data name="&gt;&gt;comboBox_DecodeFormats.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;comboBox_DecodeFormats.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;comboBox_DecodeFormats.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Select the Walkman output format</value>
   </data>
   <data name="label_DecodeFmt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>477, 91</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label_OutputFmt.Name" xml:space="preserve">
+    <value>label_OutputFmt</value>
+  </data>
+  <data name="label_DecodeFmt.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="comboBox_DecodeFormats.Size" type="System.Drawing.Size, System.Drawing">
+    <value>452, 23</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_DecodeFmt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label_DecodeFmt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 9</value>
-  </data>
-  <data name="label_DecodeFmt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 15</value>
-  </data>
-  <data name="label_DecodeFmt.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="label_DecodeFmt.Text" xml:space="preserve">
-    <value>Decode format:</value>
-  </data>
-  <data name="&gt;&gt;label_DecodeFmt.Name" xml:space="preserve">
-    <value>label_DecodeFmt</value>
-  </data>
-  <data name="&gt;&gt;label_DecodeFmt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_DecodeFmt.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label_DecodeFmt.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label_OutputFmt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="label_OutputFmt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="label_OutputFmt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 9</value>
-  </data>
-  <data name="label_OutputFmt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 15</value>
-  </data>
-  <data name="label_OutputFmt.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label_OutputFmt.Text" xml:space="preserve">
-    <value>ATRAC3 / ATRAC3+ Output format:</value>
-  </data>
-  <data name="&gt;&gt;label_OutputFmt.Name" xml:space="preserve">
-    <value>label_OutputFmt</value>
-  </data>
-  <data name="&gt;&gt;label_OutputFmt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_OutputFmt.Parent" xml:space="preserve">
-    <value>$this</value>
   </data>
   <data name="&gt;&gt;label_OutputFmt.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="comboBox_OutputFormats.Items" xml:space="preserve">
-    <value>[PCM] OpenMG Audio (.oma)</value>
-  </data>
-  <data name="comboBox_OutputFormats.Items1" xml:space="preserve">
-    <value>[ATRAC3] OpenMG Audio (.oma)</value>
-  </data>
   <data name="comboBox_OutputFormats.Items2" xml:space="preserve">
     <value>[ATRAC3] OpenMG Audio (.omg)</value>
   </data>
-  <data name="comboBox_OutputFormats.Items3" xml:space="preserve">
-    <value>[ATRAC3] ATRAC Advanced Lossless [132kHz](.oma)</value>
+  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="comboBox_OutputFormats.Items4" xml:space="preserve">
-    <value>[ATRAC3] Video Clip (.kdr)</value>
+  <data name="&gt;&gt;label_DecodeFmt.Name" xml:space="preserve">
+    <value>label_DecodeFmt</value>
   </data>
-  <data name="comboBox_OutputFormats.Items5" xml:space="preserve">
-    <value>[ATRAC3+] OpenMG Audio (.oma)</value>
+  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="comboBox_OutputFormats.Items6" xml:space="preserve">
-    <value>[ATRAC3+] OpenMG Audio (.omg)</value>
+  <data name="label_OutputFmt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="comboBox_OutputFormats.Items7" xml:space="preserve">
-    <value>[ATRAC3+] ATRAC Advanced Lossless [352kHz](.oma)</value>
+  <data name="label_OutputFmt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 15</value>
   </data>
-  <data name="comboBox_OutputFormats.Items8" xml:space="preserve">
-    <value>[ATRAC3+] Video Clip (.kdr)</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
   </data>
-  <data name="comboBox_OutputFormats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 27</value>
+  <data name="comboBox_DecodeFormats.Items1" xml:space="preserve">
+    <value>[AAC-LC] Advanced Audio Coding (.3gp)</value>
   </data>
   <data name="comboBox_OutputFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>452, 23</value>
   </data>
+  <data name="label_OutputFmt.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+ Output format:</value>
+  </data>
+  <data name="&gt;&gt;label_DecodeFmt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
+    <value>button_Cancel</value>
+  </data>
+  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 56</value>
+  </data>
+  <data name="button_OK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="label_OutputFmt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 9</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items1" xml:space="preserve">
+    <value>[ATRAC3] OpenMG Audio (.oma)</value>
+  </data>
+  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>389, 56</value>
+  </data>
+  <data name="&gt;&gt;comboBox_OutputFormats.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="comboBox_OutputFormats.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;comboBox_OutputFormats.Name" xml:space="preserve">
-    <value>comboBox_OutputFormats</value>
+  <data name="comboBox_DecodeFormats.Items" xml:space="preserve">
+    <value>[WAVE] PCM (.wav)</value>
   </data>
-  <data name="&gt;&gt;comboBox_OutputFormats.Type" xml:space="preserve">
+  <data name="comboBox_DecodeFormats.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_OutputFormats.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;comboBox_OutputFormats.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="comboBox_OutputFormats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 27</value>
   </data>
-  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>389, 56</value>
+  <data name="label_DecodeFmt.Text" xml:space="preserve">
+    <value>Decode format:</value>
   </data>
-  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="comboBox_OutputFormats.Items6" xml:space="preserve">
+    <value>[ATRAC3+] OpenMG Audio (.omg)</value>
   </data>
-  <data name="button_OK.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="comboBox_DecodeFormats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 27</value>
   </data>
   <data name="&gt;&gt;button_OK.Name" xml:space="preserve">
     <value>button_OK</value>
   </data>
-  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="comboBox_OutputFormats.Items5" xml:space="preserve">
+    <value>[ATRAC3+] OpenMG Audio (.oma)</value>
+  </data>
+  <data name="&gt;&gt;label_DecodeFmt.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_OutputFormats.Name" xml:space="preserve">
+    <value>comboBox_OutputFormats</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items4" xml:space="preserve">
+    <value>[ATRAC3] Video Clip (.kdr)</value>
+  </data>
+  <data name="&gt;&gt;comboBox_OutputFormats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items7" xml:space="preserve">
+    <value>[ATRAC3+] ATRAC Advanced Lossless [352kHz](.oma)</value>
+  </data>
+  <data name="&gt;&gt;label_OutputFmt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items" xml:space="preserve">
+    <value>[PCM] OpenMG Audio (.oma)</value>
   </data>
   <data name="&gt;&gt;button_OK.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
-  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>309, 56</value>
+  <data name="label_DecodeFmt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 9</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_DecodeFormats.Items2" xml:space="preserve">
+    <value>[HE-AAC] Advanced Audio Coding (.3gp)</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Name" xml:space="preserve">
+    <value>comboBox_DecodeFormats</value>
+  </data>
+  <data name="&gt;&gt;label_OutputFmt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items3" xml:space="preserve">
+    <value>[ATRAC3] ATRAC Advanced Lossless [132kHz](.oma)</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="&gt;&gt;label_DecodeFmt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;comboBox_DecodeFormats.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="button_Cancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
-    <value>button_Cancel</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormSelectWalkmanFormats</value>
   </data>
   <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -309,22 +327,4 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>477, 91</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Select the Walkman output format</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormSelectWalkmanFormats</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

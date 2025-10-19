@@ -39,9 +39,9 @@
             // 
             // comboBox_DecodeFormats
             // 
+            resources.ApplyResources(comboBox_DecodeFormats, "comboBox_DecodeFormats");
             comboBox_DecodeFormats.FormattingEnabled = true;
             comboBox_DecodeFormats.Items.AddRange(new object[] { resources.GetString("comboBox_DecodeFormats.Items"), resources.GetString("comboBox_DecodeFormats.Items1"), resources.GetString("comboBox_DecodeFormats.Items2") });
-            resources.ApplyResources(comboBox_DecodeFormats, "comboBox_DecodeFormats");
             comboBox_DecodeFormats.Name = "comboBox_DecodeFormats";
             // 
             // label_DecodeFmt
@@ -56,9 +56,9 @@
             // 
             // comboBox_OutputFormats
             // 
+            resources.ApplyResources(comboBox_OutputFormats, "comboBox_OutputFormats");
             comboBox_OutputFormats.FormattingEnabled = true;
             comboBox_OutputFormats.Items.AddRange(new object[] { resources.GetString("comboBox_OutputFormats.Items"), resources.GetString("comboBox_OutputFormats.Items1"), resources.GetString("comboBox_OutputFormats.Items2"), resources.GetString("comboBox_OutputFormats.Items3"), resources.GetString("comboBox_OutputFormats.Items4"), resources.GetString("comboBox_OutputFormats.Items5"), resources.GetString("comboBox_OutputFormats.Items6"), resources.GetString("comboBox_OutputFormats.Items7"), resources.GetString("comboBox_OutputFormats.Items8") });
-            resources.ApplyResources(comboBox_OutputFormats, "comboBox_OutputFormats");
             comboBox_OutputFormats.Name = "comboBox_OutputFormats";
             // 
             // button_OK

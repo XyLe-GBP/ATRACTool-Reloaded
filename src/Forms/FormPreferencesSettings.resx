@@ -118,912 +118,574 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="checkBox_ATRACEncodeSource.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;checkBox_FasterATRAC.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Hidesplash.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Subfolder.Parent" xml:space="preserve">
-    <value>tabPage2</value>
+  <data name="radioButton_nml.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Checkupdate.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;textBox_suffix.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>434, 312</value>
-  </data>
-  <data name="&gt;&gt;button_Browse.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;radioButton_spc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 55</value>
-  </data>
-  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="&gt;&gt;button_Splashimg.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="checkBox_Subfolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 19</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ShowFolder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBox_suffix.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="tabPage3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;comboBox_Fixconvert.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="button_Browse.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="checkBox_Subfolder.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="groupBox1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabControl1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Browse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 23</value>
-  </data>
-  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="button_Clear.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 23</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Name" xml:space="preserve">
-    <value>checkBox_ATRACEncodeSource</value>
-  </data>
-  <data name="&gt;&gt;radioButton_nml.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="textBox_suffix.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 23</value>
-  </data>
-  <data name="checkBox_Subfolder.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="checkBox_Hidesplash.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>426, 243</value>
-  </data>
-  <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
-    <value>Performs immediate conversion when ATRAC is read.
-If this option is enabled, the 'General-&gt;Enable playback interface when loading ATRAC' and 'Load ATRAC as an encoding source' option is ignored.</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 19</value>
-  </data>
-  <data name="button_Browse.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;textBox_Splashimg.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Subfolder suffix:</value>
-  </data>
-  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="checkBox_FasterATRAC.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Name" xml:space="preserve">
-    <value>checkBox_ForceConvertWaveOnly</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="button_OK.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="&gt;&gt;button_Browse.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="checkBox_Hidesplash.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;radioButton_nml.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBox_suffix.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="button_Clear.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="button_Splashimg.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
-    <value>Smooth sample value updates during playback</value>
-  </data>
-  <data name="&gt;&gt;tabPage3.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
-    <value>[For ATRAC9] 24kHz</value>
-  </data>
-  <data name="checkBox_ATRACEncodeSource.ToolTip" xml:space="preserve">
-    <value>Load ATRAC as an encoding source.
-Enabling this option will disable ATRAC decoding.
-This may be useful when editing existing ATRAC files and converting them back to ATRAC format.</value>
-  </data>
-  <data name="comboBox_Fixconvert.Items1" xml:space="preserve">
-    <value>[For ATRAC3+/ATRAC9] 48kHz (ATRAC3+ is best for PS3)</value>
-  </data>
-  <data name="&gt;&gt;tabPage3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;button_OK.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
-    <value>Enables the playback function when loading ATRAC format.
-When this function is enabled, the 'IO-&gt;Output to specified folder' function is not available.</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ShowFolder.Name" xml:space="preserve">
-    <value>checkBox_ShowFolder</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Hidesplash.Name" xml:space="preserve">
-    <value>checkBox_Hidesplash</value>
-  </data>
-  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>426, 243</value>
-  </data>
-  <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
-    <value>Smoothes sample value updates during playback, but is CPU-intensive.
-Disabling it reduces CPU resources, but delays value updates.</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="tabPage2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;checkBox_Hidesplash.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox_DisablePreviewWarning.ToolTip" xml:space="preserve">
-    <value>When enabled, it disables the warning message that appears when encoded audio is read.
-However, to prevent mistakes, it is usually recommended to leave it disabled.</value>
-  </data>
-  <data name="checkBox_DisablePreviewWarning.Text" xml:space="preserve">
-    <value>Disable preview warning message when encoded audio is loaded</value>
+  <data name="radioButton_nml.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
   </data>
   <data name="radioButton_nml.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 19</value>
   </data>
-  <data name="textBox_Splashimg.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="checkBox_Splashimg.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>366, 19</value>
-  </data>
-  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 19</value>
-  </data>
-  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="checkBox_Fixconvert.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;button_Browse.Name" xml:space="preserve">
-    <value>button_Browse</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Clear.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Splashimg.Name" xml:space="preserve">
-    <value>checkBox_Splashimg</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.Text" xml:space="preserve">
-    <value>Force conversion even if only wave files are read</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;textBox_suffix.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_EnableATRACPlayback.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Name" xml:space="preserve">
-    <value>checkBox_Oldmode</value>
-  </data>
-  <data name="checkBox_Hidesplash.Text" xml:space="preserve">
-    <value>Don't show splash screen</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="textBox_suffix.ToolTip" xml:space="preserve">
-    <value>Enter subfolder name</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Subfolder.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="textBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>373, 23</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Checkupdate.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="radioButton_nml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 22</value>
-  </data>
-  <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 19</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="&gt;&gt;checkBox_FasterATRAC.Name" xml:space="preserve">
-    <value>checkBox_FasterATRAC</value>
-  </data>
-  <data name="&gt;&gt;textBox_Splashimg.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="checkBox_Fixconvert.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 78</value>
-  </data>
-  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage3.Name" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="checkBox_Subfolder.ToolTip" xml:space="preserve">
-    <value>Creates a subfolder in the specified directory.</value>
-  </data>
-  <data name="checkBox_FasterATRAC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 53</value>
-  </data>
-  <data name="checkBox_ATRACEncodeSource.Text" xml:space="preserve">
-    <value>Load ATRAC as an encoding source</value>
-  </data>
-  <data name="&gt;&gt;button_Clear.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;textBox_Splashimg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>212, 19</value>
-  </data>
-  <data name="checkBox_Smoothsamples.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;textBox_Path.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_Oldmode.Text" xml:space="preserve">
-    <value>Enable Legacy Mode (Not recommended)</value>
-  </data>
-  <data name="checkBox_DisablePreviewWarning.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;button_Splashimg.Name" xml:space="preserve">
-    <value>button_Splashimg</value>
-  </data>
-  <data name="comboBox_Fixconvert.Items" xml:space="preserve">
-    <value>[For ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+ is best for PSP)</value>
-  </data>
-  <data name="comboBox_Fixconvert.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Splashimg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_nml.Name" xml:space="preserve">
-    <value>radioButton_nml</value>
-  </data>
-  <data name="&gt;&gt;button_Clear.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
-    <value>button_Cancel</value>
-  </data>
-  <data name="button_Splashimg.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Preferences</value>
-  </data>
-  <data name="&gt;&gt;textBox_Splashimg.Name" xml:space="preserve">
-    <value>textBox_Splashimg</value>
-  </data>
-  <data name="textBox_Path.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="checkBox_Oldmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 3</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 210</value>
-  </data>
-  <data name="&gt;&gt;button_Browse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.ToolTip" xml:space="preserve">
-    <value>Forces the conversion process even when only Wave files are loaded.
-Normally, when only a Wave file is loaded, it is loaded directly into the application,
-but if this option is enabled, the conversion is forced before loading.
-This may be useful if you want to load and convert Wave files with different sample rates at the same time.</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Subfolder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ATRACEncodeSource.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 157</value>
-  </data>
-  <data name="button_Cancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="checkBox_Checkupdate.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="checkBox_ShowFolder.ToolTip" xml:space="preserve">
-    <value>Opens the destination folder upon completion of the operation.</value>
-  </data>
-  <data name="checkBox_Smoothsamples.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="comboBox_Fixconvert.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;radioButton_spc.Name" xml:space="preserve">
-    <value>radioButton_spc</value>
-  </data>
-  <data name="&gt;&gt;textBox_Path.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ShowFolder.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="radioButton_nml.ToolTip" xml:space="preserve">
-    <value>Specify the location each time when saving.</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="radioButton_nml.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="radioButton_nml.Text" xml:space="preserve">
     <value>Always ask for a save location</value>
   </data>
-  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <metadata name="toolTip_Description.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="radioButton_nml.ToolTip" xml:space="preserve">
+    <value>Specify the location each time when saving.</value>
   </data>
-  <data name="&gt;&gt;checkBox_Fixconvert.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;radioButton_nml.Name" xml:space="preserve">
+    <value>radioButton_nml</value>
   </data>
-  <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
-    <value>Set your own splash screen image.
-JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
+  <data name="&gt;&gt;radioButton_nml.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 19</value>
+  <data name="&gt;&gt;radioButton_nml.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;comboBox_Fixconvert.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="checkBox_Checkupdate.ToolTip" xml:space="preserve">
-    <value>Check for updates when the application is launched.</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Splashimg.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;comboBox_Fixconvert.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;textBox_suffix.Name" xml:space="preserve">
-    <value>textBox_suffix</value>
-  </data>
-  <data name="checkBox_Checkupdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 6</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;button_OK.Name" xml:space="preserve">
-    <value>button_OK</value>
-  </data>
-  <data name="checkBox_Splashimg.Text" xml:space="preserve">
-    <value>Set your own splash screen image</value>
-  </data>
-  <data name="button_Splashimg.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 19</value>
-  </data>
-  <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Path:</value>
-  </data>
-  <data name="&gt;&gt;radioButton_spc.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 124</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBox_suffix.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 121</value>
-  </data>
-  <data name="&gt;&gt;textBox_Path.Name" xml:space="preserve">
-    <value>textBox_Path</value>
-  </data>
-  <data name="&gt;&gt;textBox_Path.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="button_Cancel.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;radioButton_nml.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="radioButton_spc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="radioButton_spc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>198, 22</value>
+  </data>
+  <data name="radioButton_spc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 19</value>
+  </data>
+  <data name="radioButton_spc.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radioButton_spc.Text" xml:space="preserve">
+    <value>Output to specified folder</value>
   </data>
   <data name="radioButton_spc.ToolTip" xml:space="preserve">
     <value>Save the file in the specified location as a fixed location.
 If the 'General-&gt;Enable playback interface when loading ATRAC' option is
 enabled, this option will not work. (Applicable only during encoding operations)</value>
   </data>
-  <data name="tabPage3.Text" xml:space="preserve">
-    <value>Advanced</value>
+  <data name="&gt;&gt;radioButton_spc.Name" xml:space="preserve">
+    <value>radioButton_spc</value>
   </data>
-  <data name="&gt;&gt;button_Splashimg.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="checkBox_Smoothsamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 31</value>
-  </data>
-  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 277</value>
-  </data>
-  <data name="&gt;&gt;comboBox_Fixconvert.Name" xml:space="preserve">
-    <value>comboBox_Fixconvert</value>
-  </data>
-  <data name="button_Browse.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 19</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Smoothsamples.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="button_Clear.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 15</value>
-  </data>
-  <data name="checkBox_Subfolder.Text" xml:space="preserve">
-    <value>Create subfolders</value>
-  </data>
-  <data name="radioButton_nml.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 72</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Splashimg.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="checkBox_Fixconvert.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 19</value>
-  </data>
-  <data name="checkBox_Subfolder.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButton_spc.Text" xml:space="preserve">
-    <value>Output to specified folder</value>
-  </data>
-  <data name="&gt;&gt;button_Splashimg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_Checkupdate.Text" xml:space="preserve">
-    <value>Check for updates when launching applications</value>
-  </data>
-  <data name="&gt;&gt;radioButton_nml.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="checkBox_ShowFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 151</value>
-  </data>
-  <data name="checkBox_Hidesplash.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 28</value>
-  </data>
-  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolTip_Description.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ShowFolder.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBox_FasterATRAC.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 19</value>
-  </data>
-  <data name="checkBox_ATRACEncodeSource.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>434, 271</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 56</value>
-  </data>
-  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Subfolder.Name" xml:space="preserve">
-    <value>checkBox_Subfolder</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="radioButton_nml.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Name" xml:space="preserve">
-    <value>checkBox_EnableATRACPlayback</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Checkupdate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_Oldmode.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>IO</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormPreferencesSettings</value>
-  </data>
-  <data name="checkBox_FasterATRAC.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
-    <value>Do not show the splash screen at startup.
-This may be useful when you want to speed up application startup.</value>
-  </data>
-  <data name="comboBox_Fixconvert.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 103</value>
+  <data name="&gt;&gt;radioButton_spc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_spc.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;checkBox_ShowFolder.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;radioButton_spc.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tabPage2</value>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 8</value>
   </data>
-  <data name="comboBox_Fixconvert.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 55</value>
   </data>
-  <data name="label1.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="button_Browse.ToolTip" xml:space="preserve">
-    <value>Path Reference</value>
-  </data>
-  <data name="button_Clear.ToolTip" xml:space="preserve">
-    <value>Delete path</value>
-  </data>
-  <data name="textBox_suffix.PlaceholderText" xml:space="preserve">
-    <value>foo</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Fixconvert.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="checkBox_DisablePreviewWarning.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="textBox_Path.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="checkBox_DisablePreviewWarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 81</value>
-  </data>
-  <data name="comboBox_Fixconvert.Items2" xml:space="preserve">
-    <value>[For ATRAC9] 12kHz</value>
-  </data>
-  <data name="button_Splashimg.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Smoothsamples.Name" xml:space="preserve">
-    <value>checkBox_Smoothsamples</value>
-  </data>
-  <data name="radioButton_spc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="tabPage1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="textBox_Splashimg.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 277</value>
-  </data>
-  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Behavior when saving a file</value>
   </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>426, 243</value>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="tabPage3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="checkBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 186</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
-    <value>Enable playback interface when loading ATRAC</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="checkBox_ForceConvertWaveOnly.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 132</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Parent" xml:space="preserve">
-    <value>tabPage3</value>
-  </data>
-  <data name="&gt;&gt;checkBox_DisablePreviewWarning.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="button_OK.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="button_Clear.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="radioButton_spc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 19</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Checkupdate.Name" xml:space="preserve">
-    <value>checkBox_Checkupdate</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ATRACEncodeSource.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="checkBox_Checkupdate.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="comboBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 23</value>
-  </data>
-  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="textBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 211</value>
-  </data>
-  <data name="checkBox_Oldmode.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="radioButton_spc.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="textBox_Path.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="textBox_Path.Location" type="System.Drawing.Point, System.Drawing">
     <value>47, 69</value>
   </data>
-  <data name="textBox_Splashimg.Enabled" type="System.Boolean, mscorlib">
+  <data name="textBox_Path.PlaceholderText" xml:space="preserve">
+    <value>C:\hoge\foo\bar</value>
+  </data>
+  <data name="textBox_Path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 23</value>
+  </data>
+  <data name="textBox_Path.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Name" xml:space="preserve">
+    <value>textBox_Path</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;textBox_Path.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 72</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 15</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Path:</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>271, 277</value>
+  </data>
+  <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_OK.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="button_OK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Name" xml:space="preserve">
+    <value>button_OK</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_OK.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 277</value>
+  </data>
+  <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_Cancel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="button_Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Name" xml:space="preserve">
+    <value>button_Cancel</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_Cancel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_Browse.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_Browse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 69</value>
+  </data>
+  <data name="button_Browse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 23</value>
+  </data>
+  <data name="button_Browse.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="button_Browse.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="button_Browse.ToolTip" xml:space="preserve">
+    <value>Path Reference</value>
+  </data>
+  <data name="&gt;&gt;button_Browse.Name" xml:space="preserve">
+    <value>button_Browse</value>
+  </data>
+  <data name="&gt;&gt;button_Browse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Browse.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;button_Browse.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="button_Clear.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_Clear.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 69</value>
+  </data>
+  <data name="button_Clear.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 23</value>
+  </data>
+  <data name="button_Clear.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="button_Clear.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="button_Clear.ToolTip" xml:space="preserve">
+    <value>Delete path</value>
+  </data>
+  <data name="&gt;&gt;button_Clear.Name" xml:space="preserve">
+    <value>button_Clear</value>
+  </data>
+  <data name="&gt;&gt;button_Clear.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Clear.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;button_Clear.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="checkBox_Subfolder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Subfolder.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="checkBox_Subfolder.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 98</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 8</value>
+  <data name="checkBox_Subfolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 19</value>
   </data>
-  <data name="button_Clear.Location" type="System.Drawing.Point, System.Drawing">
-    <value>315, 69</value>
+  <data name="checkBox_Subfolder.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="checkBox_ShowFolder.Text" xml:space="preserve">
-    <value>Open destination folder after completion</value>
+  <data name="checkBox_Subfolder.Text" xml:space="preserve">
+    <value>Create subfolders</value>
   </data>
-  <data name="&gt;&gt;checkBox_ShowFolder.Parent" xml:space="preserve">
+  <data name="checkBox_Subfolder.ToolTip" xml:space="preserve">
+    <value>Creates a subfolder in the specified directory.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Subfolder.Name" xml:space="preserve">
+    <value>checkBox_Subfolder</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Subfolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Subfolder.Parent" xml:space="preserve">
     <value>tabPage2</value>
   </data>
-  <data name="&gt;&gt;checkBox_Fixconvert.Parent" xml:space="preserve">
-    <value>tabPage3</value>
+  <data name="&gt;&gt;checkBox_Subfolder.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
-  <data name="checkBox_EnableATRACPlayback.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="label2.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 124</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 15</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Subfolder suffix:</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="textBox_suffix.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBox_suffix.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 121</value>
+  </data>
+  <data name="textBox_suffix.PlaceholderText" xml:space="preserve">
+    <value>foo</value>
+  </data>
+  <data name="textBox_suffix.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 23</value>
+  </data>
+  <data name="textBox_suffix.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="textBox_suffix.ToolTip" xml:space="preserve">
+    <value>Enter subfolder name</value>
+  </data>
+  <data name="&gt;&gt;textBox_suffix.Name" xml:space="preserve">
+    <value>textBox_suffix</value>
+  </data>
+  <data name="&gt;&gt;textBox_suffix.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_suffix.Parent" xml:space="preserve">
+    <value>tabPage2</value>
   </data>
   <data name="&gt;&gt;textBox_suffix.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;button_Clear.Name" xml:space="preserve">
-    <value>button_Clear</value>
+  <data name="checkBox_DisablePreviewWarning.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 81</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>366, 19</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.Text" xml:space="preserve">
+    <value>Disable preview warning message when encoded audio is loaded</value>
+  </data>
+  <data name="checkBox_DisablePreviewWarning.ToolTip" xml:space="preserve">
+    <value>When enabled, it disables the warning message that appears when encoded audio is read.
+However, to prevent mistakes, it is usually recommended to leave it disabled.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Name" xml:space="preserve">
+    <value>checkBox_DisablePreviewWarning</value>
+  </data>
+  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_DisablePreviewWarning.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 56</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 19</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
+    <value>Enable playback interface when loading ATRAC</value>
+  </data>
+  <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
+    <value>Enables the playback function when loading ATRAC format.
+When this function is enabled, the 'IO-&gt;Output to specified folder' function is not available.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Name" xml:space="preserve">
+    <value>checkBox_EnableATRACPlayback</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableATRACPlayback.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableATRACPlayback.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBox_Smoothsamples.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 31</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 19</value>
+  </data>
+  <data name="checkBox_Smoothsamples.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
+    <value>Smooth sample value updates during playback</value>
+  </data>
+  <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
+    <value>Smoothes sample value updates during playback, but is CPU-intensive.
+Disabling it reduces CPU resources, but delays value updates.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Smoothsamples.Name" xml:space="preserve">
+    <value>checkBox_Smoothsamples</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Smoothsamples.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Smoothsamples.Parent" xml:space="preserve">
+    <value>tabPage1</value>
   </data>
   <data name="&gt;&gt;checkBox_Smoothsamples.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="checkBox_FasterATRAC.Text" xml:space="preserve">
-    <value>Perform immediate conversion when ATRAC is read</value>
+  <data name="button_Splashimg.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 19</value>
+  <data name="button_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>385, 210</value>
   </data>
-  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="button_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 23</value>
   </data>
-  <data name="&gt;&gt;checkBox_FasterATRAC.Type" xml:space="preserve">
+  <data name="button_Splashimg.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="button_Splashimg.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;button_Splashimg.Name" xml:space="preserve">
+    <value>button_Splashimg</value>
+  </data>
+  <data name="&gt;&gt;button_Splashimg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Splashimg.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;button_Splashimg.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="textBox_Splashimg.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="textBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 211</value>
+  </data>
+  <data name="textBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>373, 23</value>
+  </data>
+  <data name="textBox_Splashimg.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;textBox_Splashimg.Name" xml:space="preserve">
+    <value>textBox_Splashimg</value>
+  </data>
+  <data name="&gt;&gt;textBox_Splashimg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_Splashimg.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;textBox_Splashimg.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="checkBox_Splashimg.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 186</value>
+  </data>
+  <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 19</value>
+  </data>
+  <data name="checkBox_Splashimg.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="checkBox_Splashimg.Text" xml:space="preserve">
+    <value>Set your own splash screen image</value>
+  </data>
+  <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
+    <value>Set your own splash screen image.
+JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Splashimg.Name" xml:space="preserve">
+    <value>checkBox_Splashimg</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Splashimg.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Splashimg.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Splashimg.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="checkBox_Checkupdate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Checkupdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 19</value>
+  </data>
+  <data name="checkBox_Checkupdate.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBox_Checkupdate.Text" xml:space="preserve">
+    <value>Check for updates when launching applications</value>
+  </data>
+  <data name="checkBox_Checkupdate.ToolTip" xml:space="preserve">
+    <value>Check for updates when the application is launched.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Checkupdate.Name" xml:space="preserve">
+    <value>checkBox_Checkupdate</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Checkupdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Checkupdate.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Checkupdate.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>426, 243</value>
+  </data>
+  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>General</value>
   </data>
   <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
     <value>tabPage1</value>
@@ -1031,61 +693,184 @@ This may be useful when you want to speed up application startup.</value>
   <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolTip_Description.Name" xml:space="preserve">
-    <value>toolTip_Description</value>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>tabControl1</value>
   </data>
-  <data name="label2.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="button_Browse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>283, 69</value>
-  </data>
-  <data name="checkBox_FasterATRAC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>295, 19</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 15</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="checkBox_Splashimg.AutoSize" type="System.Boolean, mscorlib">
+  <data name="checkBox_ShowFolder.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="button_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 23</value>
+  <data name="checkBox_ShowFolder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 151</value>
   </data>
-  <data name="textBox_Path.TabIndex" type="System.Int32, mscorlib">
+  <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 19</value>
+  </data>
+  <data name="checkBox_ShowFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="checkBox_ShowFolder.Text" xml:space="preserve">
+    <value>Open destination folder after completion</value>
+  </data>
+  <data name="checkBox_ShowFolder.ToolTip" xml:space="preserve">
+    <value>Opens the destination folder upon completion of the operation.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ShowFolder.Name" xml:space="preserve">
+    <value>checkBox_ShowFolder</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ShowFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ShowFolder.Parent" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ShowFolder.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>426, 243</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>IO</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 157</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 19</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.Text" xml:space="preserve">
+    <value>Load ATRAC as an encoding source</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.ToolTip" xml:space="preserve">
+    <value>Load ATRAC as an encoding source.
+Enabling this option will disable ATRAC decoding.
+This may be useful when editing existing ATRAC files and converting them back to ATRAC format.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Name" xml:space="preserve">
+    <value>checkBox_ATRACEncodeSource</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ATRACEncodeSource.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ATRACEncodeSource.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 132</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 19</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.Text" xml:space="preserve">
+    <value>Force conversion even if only wave files are read</value>
+  </data>
+  <data name="checkBox_ForceConvertWaveOnly.ToolTip" xml:space="preserve">
+    <value>Forces the conversion process even when only Wave files are loaded.
+Normally, when only a Wave file is loaded, it is loaded directly into the application,
+but if this option is enabled, the conversion is forced before loading.
+This may be useful if you want to load and convert Wave files with different sample rates at the same time.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Name" xml:space="preserve">
+    <value>checkBox_ForceConvertWaveOnly</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_ForceConvertWaveOnly.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="comboBox_Fixconvert.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items" xml:space="preserve">
+    <value>[For ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+ is best for PSP)</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items1" xml:space="preserve">
+    <value>[For ATRAC3+/ATRAC9] 48kHz (ATRAC3+ is best for PS3)</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items2" xml:space="preserve">
+    <value>[For ATRAC9] 12kHz</value>
+  </data>
+  <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
+    <value>[For ATRAC9] 24kHz</value>
+  </data>
+  <data name="comboBox_Fixconvert.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 103</value>
+  </data>
+  <data name="comboBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 23</value>
+  </data>
+  <data name="comboBox_Fixconvert.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Fixconvert.Name" xml:space="preserve">
+    <value>comboBox_Fixconvert</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Fixconvert.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Fixconvert.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;comboBox_Fixconvert.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="checkBox_Fixconvert.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Fixconvert.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 78</value>
+  </data>
+  <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 19</value>
+  </data>
+  <data name="checkBox_Fixconvert.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="textBox_Path.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 23</value>
   </data>
   <data name="checkBox_Fixconvert.Text" xml:space="preserve">
     <value>Fixed output format for Wave conversion:</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Smoothsamples.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Hidesplash.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_DisablePreviewWarning.Name" xml:space="preserve">
-    <value>checkBox_DisablePreviewWarning</value>
-  </data>
-  <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
-    <value>Enable Legacy Mode.
-Enabling Legacy Mode uses older processing methods and allows the Loop Point Creator to operate independently.
-However, it is buggy and deprecated, so there is usually no need to enable Legacy Mode.</value>
-  </data>
-  <data name="textBox_Path.PlaceholderText" xml:space="preserve">
-    <value>C:\hoge\foo\bar</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Fixconvert.Name" xml:space="preserve">
-    <value>checkBox_Fixconvert</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="checkBox_Fixconvert.ToolTip" xml:space="preserve">
     <value>When converting a wave, the conversion format is always fixed.
@@ -1093,10 +878,183 @@ When this option is enabled, the format is not checked before conversion,
 and the conversion is always performed using the format specified here.
 This may be useful when the target to be used is predetermined.</value>
   </data>
-  <metadata name="toolTip_Description.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="&gt;&gt;checkBox_Fixconvert.Name" xml:space="preserve">
+    <value>checkBox_Fixconvert</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fixconvert.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fixconvert.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Fixconvert.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="checkBox_FasterATRAC.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_FasterATRAC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 53</value>
+  </data>
+  <data name="checkBox_FasterATRAC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 19</value>
+  </data>
+  <data name="checkBox_FasterATRAC.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBox_FasterATRAC.Text" xml:space="preserve">
+    <value>Perform immediate conversion when ATRAC is read</value>
+  </data>
+  <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
+    <value>Performs immediate conversion when ATRAC is read.
+If this option is enabled, the 'General-&gt;Enable playback interface when loading ATRAC' and 'Load ATRAC as an encoding source' option is ignored.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FasterATRAC.Name" xml:space="preserve">
+    <value>checkBox_FasterATRAC</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FasterATRAC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FasterATRAC.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FasterATRAC.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="checkBox_Hidesplash.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Hidesplash.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 28</value>
+  </data>
+  <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 19</value>
+  </data>
+  <data name="checkBox_Hidesplash.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="checkBox_Hidesplash.Text" xml:space="preserve">
+    <value>Don't show splash screen</value>
+  </data>
+  <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
+    <value>Do not show the splash screen at startup.
+This may be useful when you want to speed up application startup.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Hidesplash.Name" xml:space="preserve">
+    <value>checkBox_Hidesplash</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Hidesplash.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Hidesplash.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Hidesplash.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="checkBox_Oldmode.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_Oldmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 3</value>
+  </data>
+  <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 19</value>
+  </data>
+  <data name="checkBox_Oldmode.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBox_Oldmode.Text" xml:space="preserve">
+    <value>Enable Legacy Mode (Not recommended)</value>
+  </data>
+  <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
+    <value>Enable Legacy Mode.
+Enabling Legacy Mode uses older processing methods and allows the Loop Point Creator to operate independently.
+However, it is buggy and deprecated, so there is usually no need to enable Legacy Mode.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Oldmode.Name" xml:space="preserve">
+    <value>checkBox_Oldmode</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Oldmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Oldmode.Parent" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;checkBox_Oldmode.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>426, 243</value>
+  </data>
+  <data name="tabPage3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Name" xml:space="preserve">
+    <value>tabPage3</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>434, 271</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>434, 312</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="&gt;&gt;toolTip_Description.Name" xml:space="preserve">
+    <value>toolTip_Description</value>
+  </data>
+  <data name="&gt;&gt;toolTip_Description.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormPreferencesSettings</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

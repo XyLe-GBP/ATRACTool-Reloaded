@@ -128,9 +128,6 @@
     <value>发布版（高容量，无需运行时安装）</value>
   </data>
   <data name="comboBox_type.Items1" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_type.Items2" xml:space="preserve">
     <value>便携版（小容量，需运行时安装）</value>
   </data>
   <data name="comboBox_type.Location" type="System.Drawing.Point, System.Drawing">
