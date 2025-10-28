@@ -74,7 +74,11 @@ In the case of ATRAC9, three different sampling frequencies can be specified.
 When specifying 12kHz or 24kHz, 12kHz means only 12kHz WAVE files.  
 
 In the case of 24kHz, only 24kHz WAVE files can be specified.  
-If there is no particular reason, it is recommended to convert at 48kHz.
+If there is no particular reason, it is recommended to convert at 48kHz.  
+
+If an error occurs when loading ATRAC, the application settings may be inappropriate for the loaded format.  
+For ATRAC3, 44100Hz is for PSP, and 48000Hz is for PS3.  
+For ATRAC9, it depends on the Hz, bitrate, and number of channels.  
 
 **How to Set Loop Point Information for ATRAC for Consoles (Sony PlayStation Series)**
 
@@ -104,6 +108,11 @@ Unexpected bugs and issues may exist.
 
 This application does not support x86 (32 bit).  
 (If you need x86 for some reason, please build it from the C# source code)
+
+**Contact**
+
+Please report bugs, feature requests, or other inquiries via issues in this repository, direct messages on X, or the contact form on our website.  
+(For quick responses, we recommend X.)
 
 ## License
 
