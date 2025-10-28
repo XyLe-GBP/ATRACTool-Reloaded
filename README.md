@@ -3,9 +3,9 @@
 ![Downloads](https://img.shields.io/github/downloads/XyLe-GBP/ATRACTool-Reloaded/total.svg)
 [![GitHub (pre-)release](https://img.shields.io/github/release/XyLe-GBP/ATRACTool-Reloaded/all.svg)](https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases)
 
-Utility tool to convert Sony's ATRAC3/ATRAC3plus/ATRAC9(.AT3/.AT9) to Wave(.WAV) sound.  
+Utility tool to convert Sony's ATRAC3/ATRAC3plus/ATRAC9(.AT3/.AT9) to any supported format sound.  
 
-Or convert Wave sound to Sony's ATRAC3/ATRAC3plus/ATRAC9.  
+Or convert any supported sound to Sony's ATRAC3/ATRAC3plus/ATRAC9 or Walkman format.  
 
 **This application is a GUI application created with the aim of making the command line tools at3tool.exe and at9tool.exe intuitive to operate.**  
 
@@ -16,6 +16,8 @@ This application has been published and can be run without installing the .NET r
 
 ※If for some reason you want to use the portable version, you will need to install the runtime.
 
+version 1.35 or later  
+[.NET Desktop Runtime 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)  
 version 1.30 or later  
 [.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)  
 version 1.28 or later  
@@ -44,6 +46,25 @@ If you encounter any errors, please install the following redistributable packag
 ATRAC3 and ATRAC3plus are mainly used for PSP and PS3.  
 while ATRAC9 is used for PSVita and PS4.  
 
+**Supported file extensions:**
+- .m4a (AAC, Apple Lossless)
+- .aac
+- .aiff
+- .alac
+- .flac
+- .mp3
+- .wma
+- .opus
+- .ogg (Vorbis)
+- .wav (PCM)
+- .at3 (ATRAC3, ATRAC3+)
+- .at9 (ATRAC9)
+
+**For Walkman:**
+- .oma (ATRAC3, ATRAC3+, ATRAC Advanced Lossless)
+- .omg (ATRAC3, ATRAC3+)
+- .kdr
+
 **Notes on converting audio to ATRAC**
 
 In both ATRAC3 and ATRAC9, the concept of audio channels exists.
@@ -55,30 +76,29 @@ When specifying 12kHz or 24kHz, 12kHz means only 12kHz WAVE files.
 In the case of 24kHz, only 24kHz WAVE files can be specified.  
 If there is no particular reason, it is recommended to convert at 48kHz.
 
-**How to set a loop point for ATRAC**
+**How to Set Loop Point Information for ATRAC for Consoles (Sony PlayStation Series)**
 
-When setting the loop point for ATRAC9, the following conditions must be met before conversion can be performed.
+You can easily configure loop point information on the application's GUI.  
+Additionally, more advanced settings are possible via the configuration window. (For experienced users)  
+When configuring via the configuration window, you must adhere to the specification methods for at3tool.exe and at9tool.exe.  
+If not adhered to, the application will return an error.
 
-> specify the loop end point is E samples from the beginning  
-            S and E must satisfy under condition  
-            (-fs:12000Hz)  
-            0 <= S < S + 3071 <= E < number of samples in file1(12000Hz PCM)  
-            (-fs:24000Hz)  
-            0 <= S < S + 3071 <= E < number of samples in file1(24000Hz PCM)  
-            (-fs:48000Hz)  
-            0 <= S < S +  511 <= E < number of samples in file1( 8000Hz PCM)  
-            0 <= S < S +  767 <= E < number of samples in file1(12000Hz PCM)  
-            0 <= S < S + 1023 <= E < number of samples in file1(16000Hz PCM)  
-            0 <= S < S + 1535 <= E < number of samples in file1(24000Hz PCM)  
-            0 <= S < S + 2047 <= E < number of samples in file1(32000Hz PCM)  
-            0 <= S < S + 2821 <= E < number of samples in file1(44100Hz PCM)  
-            0 <= S < S + 3071 <= E < number of samples in file1(48000Hz PCM)  
+**About Walkman Features**
+
+Walkman-specific features depend on the OpenMG Library.  
+To convert audio files to the Walkman format, Sony Media Library Earth must be installed on your PC.  
+The Walkman format does not support setting loop point information.  
+
+Walkman features are currently still in development and do not support all functions.  
+Unexpected bugs and issues may exist.  
 
 **Supported Language**
 
 - English
 - Japanese
-- Chinese (under development)
+- Chinese (Simplified)
+
+※Upon request, we can also support other languages.  
 
 **System**
 
