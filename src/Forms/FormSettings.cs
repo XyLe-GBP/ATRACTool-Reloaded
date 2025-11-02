@@ -399,8 +399,10 @@ namespace ATRACTool_Reloaded
                     comboBox_at9_bitrate.Items.Add("256kbps, 4ch");
                     comboBox_at9_bitrate.Items.Add("300kbps, 5.1ch");
                     comboBox_at9_bitrate.Items.Add("320kbps, 5.1ch");
+                    comboBox_at9_bitrate.Items.Add("360kbps, 5.1ch");
                     comboBox_at9_bitrate.Items.Add("384kbps, 5.1ch");
                     comboBox_at9_bitrate.Items.Add("420kbps, 7.1ch");
+                    comboBox_at9_bitrate.Items.Add("504kbps, 7.1ch");
                     switch (int.Parse(Config.Entry["ATRAC9_Bitrate"].Value))
                     {
                         case 0:
@@ -457,11 +459,19 @@ namespace ATRACTool_Reloaded
                             break;
                         case 13:
                             comboBox_at9_bitrate.SelectedIndex = 13;
-                            bitrateAT9 = " -br 384";
+                            bitrateAT9 = " -br 360";
                             break;
                         case 14:
                             comboBox_at9_bitrate.SelectedIndex = 14;
+                            bitrateAT9 = " -br 384";
+                            break;
+                        case 15:
+                            comboBox_at9_bitrate.SelectedIndex = 15;
                             bitrateAT9 = " -br 420";
+                            break;
+                        case 16:
+                            comboBox_at9_bitrate.SelectedIndex = 16;
+                            bitrateAT9 = " -br 504";
                             break;
                         default:
                             comboBox_at9_bitrate.SelectedIndex = 7;
@@ -1899,8 +1909,10 @@ namespace ATRACTool_Reloaded
                     10 => " -br 256",
                     11 => " -br 300",
                     12 => " -br 320",
-                    13 => " -br 384",
-                    14 => " -br 420",
+                    13 => " -br 360",
+                    14 => " -br 384",
+                    15 => " -br 420",
+                    16 => " -br 504",
                     _ => " -br 168",
                 };
             }
@@ -3061,8 +3073,10 @@ namespace ATRACTool_Reloaded
             comboBox_at9_bitrate.Items.Add("256kbps, 4ch");
             comboBox_at9_bitrate.Items.Add("300kbps, 5.1ch");
             comboBox_at9_bitrate.Items.Add("320kbps, 5.1ch");
+            comboBox_at9_bitrate.Items.Add("360kbps, 5.1ch");
             comboBox_at9_bitrate.Items.Add("384kbps, 5.1ch");
             comboBox_at9_bitrate.Items.Add("420kbps, 7.1ch");
+            comboBox_at9_bitrate.Items.Add("504kbps, 7.1ch");
             comboBox_at9_bitrate.SelectedIndex = 7;
             bitrateAT9 = " -br 168";
         }

@@ -42,6 +42,8 @@
             menuStrip1 = new MenuStrip();
             fileFToolStripMenuItem = new ToolStripMenuItem();
             openFileOToolStripMenuItem = new ToolStripMenuItem();
+            filesToolStripMenuItem = new ToolStripMenuItem();
+            folderToolStripMenuItem = new ToolStripMenuItem();
             closeFileCToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             exitXToolStripMenuItem = new ToolStripMenuItem();
@@ -84,13 +86,13 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Controls.Add(label_Sizetxt);
             groupBox1.Controls.Add(label_Size);
             groupBox1.Controls.Add(label_Formattxt);
             groupBox1.Controls.Add(label_Filepath);
             groupBox1.Controls.Add(label_Format);
             groupBox1.Controls.Add(label_File);
+            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
@@ -111,8 +113,8 @@
             // 
             // label_Filepath
             // 
-            resources.ApplyResources(label_Filepath, "label_Filepath");
             label_Filepath.AutoEllipsis = true;
+            resources.ApplyResources(label_Filepath, "label_Filepath");
             label_Filepath.Name = "label_Filepath";
             // 
             // label_Format
@@ -147,32 +149,44 @@
             // 
             // menuStrip1
             // 
-            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileFToolStripMenuItem, settingsSToolStripMenuItem, toolsTToolStripMenuItem, helpHToolStripMenuItem });
+            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
             // fileFToolStripMenuItem
             // 
-            resources.ApplyResources(fileFToolStripMenuItem, "fileFToolStripMenuItem");
             fileFToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openFileOToolStripMenuItem, closeFileCToolStripMenuItem, toolStripMenuItem1, exitXToolStripMenuItem });
             fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
+            resources.ApplyResources(fileFToolStripMenuItem, "fileFToolStripMenuItem");
             // 
             // openFileOToolStripMenuItem
             // 
-            resources.ApplyResources(openFileOToolStripMenuItem, "openFileOToolStripMenuItem");
+            openFileOToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { filesToolStripMenuItem, folderToolStripMenuItem });
             openFileOToolStripMenuItem.Name = "openFileOToolStripMenuItem";
-            openFileOToolStripMenuItem.Click += OpenFileOToolStripMenuItem_Click;
+            resources.ApplyResources(openFileOToolStripMenuItem, "openFileOToolStripMenuItem");
+            // 
+            // filesToolStripMenuItem
+            // 
+            filesToolStripMenuItem.Name = "filesToolStripMenuItem";
+            resources.ApplyResources(filesToolStripMenuItem, "filesToolStripMenuItem");
+            filesToolStripMenuItem.Click += FilesToolStripMenuItem_Click;
+            // 
+            // folderToolStripMenuItem
+            // 
+            folderToolStripMenuItem.Name = "folderToolStripMenuItem";
+            resources.ApplyResources(folderToolStripMenuItem, "folderToolStripMenuItem");
+            folderToolStripMenuItem.Click += FolderToolStripMenuItem_Click;
             // 
             // closeFileCToolStripMenuItem
             // 
-            resources.ApplyResources(closeFileCToolStripMenuItem, "closeFileCToolStripMenuItem");
             closeFileCToolStripMenuItem.Name = "closeFileCToolStripMenuItem";
+            resources.ApplyResources(closeFileCToolStripMenuItem, "closeFileCToolStripMenuItem");
             closeFileCToolStripMenuItem.Click += CloseFileCToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
-            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // exitXToolStripMenuItem
             // 
@@ -183,44 +197,44 @@
             // 
             // settingsSToolStripMenuItem
             // 
-            resources.ApplyResources(settingsSToolStripMenuItem, "settingsSToolStripMenuItem");
             settingsSToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertSettingsToolStripMenuItem, saveMethodSettingsMToolStripMenuItem });
             settingsSToolStripMenuItem.Name = "settingsSToolStripMenuItem";
+            resources.ApplyResources(settingsSToolStripMenuItem, "settingsSToolStripMenuItem");
             // 
             // convertSettingsToolStripMenuItem
             // 
-            resources.ApplyResources(convertSettingsToolStripMenuItem, "convertSettingsToolStripMenuItem");
             convertSettingsToolStripMenuItem.Name = "convertSettingsToolStripMenuItem";
+            resources.ApplyResources(convertSettingsToolStripMenuItem, "convertSettingsToolStripMenuItem");
             convertSettingsToolStripMenuItem.Click += ConvertSettingsToolStripMenuItem_Click;
             // 
             // saveMethodSettingsMToolStripMenuItem
             // 
-            resources.ApplyResources(saveMethodSettingsMToolStripMenuItem, "saveMethodSettingsMToolStripMenuItem");
             saveMethodSettingsMToolStripMenuItem.Name = "saveMethodSettingsMToolStripMenuItem";
+            resources.ApplyResources(saveMethodSettingsMToolStripMenuItem, "saveMethodSettingsMToolStripMenuItem");
             saveMethodSettingsMToolStripMenuItem.Click += PreferencesMToolStripMenuItem_Click;
             // 
             // toolsTToolStripMenuItem
             // 
-            resources.ApplyResources(toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
             toolsTToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertAudioToolStripMenuItem, loopPointCreationToolStripMenuItem });
             toolsTToolStripMenuItem.Name = "toolsTToolStripMenuItem";
+            resources.ApplyResources(toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
             // 
             // convertAudioToolStripMenuItem
             // 
-            resources.ApplyResources(convertAudioToolStripMenuItem, "convertAudioToolStripMenuItem");
             convertAudioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { audioToWAVEToolStripMenuItem, wAVEToAudioToolStripMenuItem });
             convertAudioToolStripMenuItem.Name = "convertAudioToolStripMenuItem";
+            resources.ApplyResources(convertAudioToolStripMenuItem, "convertAudioToolStripMenuItem");
             // 
             // audioToWAVEToolStripMenuItem
             // 
-            resources.ApplyResources(audioToWAVEToolStripMenuItem, "audioToWAVEToolStripMenuItem");
             audioToWAVEToolStripMenuItem.Name = "audioToWAVEToolStripMenuItem";
+            resources.ApplyResources(audioToWAVEToolStripMenuItem, "audioToWAVEToolStripMenuItem");
             audioToWAVEToolStripMenuItem.Click += AudioToWAVEToolStripMenuItem_Click;
             // 
             // wAVEToAudioToolStripMenuItem
             // 
-            resources.ApplyResources(wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             wAVEToAudioToolStripMenuItem.Name = "wAVEToAudioToolStripMenuItem";
+            resources.ApplyResources(wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             wAVEToAudioToolStripMenuItem.Click += WAVEToAudioToolStripMenuItem_Click;
             // 
             // loopPointCreationToolStripMenuItem
@@ -231,26 +245,26 @@
             // 
             // helpHToolStripMenuItem
             // 
-            resources.ApplyResources(helpHToolStripMenuItem, "helpHToolStripMenuItem");
             helpHToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             helpHToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutATRACToolToolStripMenuItem, toolStripMenuItem2, checkForUpdatesUToolStripMenuItem });
             helpHToolStripMenuItem.Name = "helpHToolStripMenuItem";
+            resources.ApplyResources(helpHToolStripMenuItem, "helpHToolStripMenuItem");
             // 
             // aboutATRACToolToolStripMenuItem
             // 
-            resources.ApplyResources(aboutATRACToolToolStripMenuItem, "aboutATRACToolToolStripMenuItem");
             aboutATRACToolToolStripMenuItem.Name = "aboutATRACToolToolStripMenuItem";
+            resources.ApplyResources(aboutATRACToolToolStripMenuItem, "aboutATRACToolToolStripMenuItem");
             aboutATRACToolToolStripMenuItem.Click += AboutATRACToolToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
-            resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
             toolStripMenuItem2.Name = "toolStripMenuItem2";
+            resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
             // 
             // checkForUpdatesUToolStripMenuItem
             // 
-            resources.ApplyResources(checkForUpdatesUToolStripMenuItem, "checkForUpdatesUToolStripMenuItem");
             checkForUpdatesUToolStripMenuItem.Name = "checkForUpdatesUToolStripMenuItem";
+            resources.ApplyResources(checkForUpdatesUToolStripMenuItem, "checkForUpdatesUToolStripMenuItem");
             checkForUpdatesUToolStripMenuItem.Click += CheckForUpdatesUToolStripMenuItem_Click;
             // 
             // button_Decode
@@ -269,46 +283,45 @@
             // 
             // statusStrip1
             // 
-            resources.ApplyResources(statusStrip1, "statusStrip1");
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel_Status, toolStripDropDownButton_EF, toolStripStatusLabel_EncMethod });
             statusStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            resources.ApplyResources(statusStrip1, "statusStrip1");
             statusStrip1.Name = "statusStrip1";
             // 
             // toolStripStatusLabel_Status
             // 
-            resources.ApplyResources(toolStripStatusLabel_Status, "toolStripStatusLabel_Status");
             toolStripStatusLabel_Status.Name = "toolStripStatusLabel_Status";
+            resources.ApplyResources(toolStripStatusLabel_Status, "toolStripStatusLabel_Status");
             // 
             // toolStripDropDownButton_EF
             // 
-            resources.ApplyResources(toolStripDropDownButton_EF, "toolStripDropDownButton_EF");
             toolStripDropDownButton_EF.Alignment = ToolStripItemAlignment.Right;
             toolStripDropDownButton_EF.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStripDropDownButton_EF.DropDownItems.AddRange(new ToolStripItem[] { aTRAC3ATRAC3ToolStripMenuItem, aTRAC9ToolStripMenuItem, toolStripMenuItem3, walkmanToolStripMenuItem });
+            resources.ApplyResources(toolStripDropDownButton_EF, "toolStripDropDownButton_EF");
             toolStripDropDownButton_EF.Name = "toolStripDropDownButton_EF";
-            toolStripDropDownButton_EF.DropDownItemClicked += toolStripDropDownButton_EF_DropDownItemClicked;
             // 
             // aTRAC3ATRAC3ToolStripMenuItem
             // 
-            resources.ApplyResources(aTRAC3ATRAC3ToolStripMenuItem, "aTRAC3ATRAC3ToolStripMenuItem");
             aTRAC3ATRAC3ToolStripMenuItem.Name = "aTRAC3ATRAC3ToolStripMenuItem";
+            resources.ApplyResources(aTRAC3ATRAC3ToolStripMenuItem, "aTRAC3ATRAC3ToolStripMenuItem");
             aTRAC3ATRAC3ToolStripMenuItem.Click += ATRAC3ATRAC3ToolStripMenuItem_Click;
             // 
             // aTRAC9ToolStripMenuItem
             // 
-            resources.ApplyResources(aTRAC9ToolStripMenuItem, "aTRAC9ToolStripMenuItem");
             aTRAC9ToolStripMenuItem.Name = "aTRAC9ToolStripMenuItem";
+            resources.ApplyResources(aTRAC9ToolStripMenuItem, "aTRAC9ToolStripMenuItem");
             aTRAC9ToolStripMenuItem.Click += ATRAC9ToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
-            resources.ApplyResources(toolStripMenuItem3, "toolStripMenuItem3");
             toolStripMenuItem3.Name = "toolStripMenuItem3";
+            resources.ApplyResources(toolStripMenuItem3, "toolStripMenuItem3");
             // 
             // walkmanToolStripMenuItem
             // 
-            resources.ApplyResources(walkmanToolStripMenuItem, "walkmanToolStripMenuItem");
             walkmanToolStripMenuItem.Name = "walkmanToolStripMenuItem";
+            resources.ApplyResources(walkmanToolStripMenuItem, "walkmanToolStripMenuItem");
             walkmanToolStripMenuItem.Click += walkmanToolStripMenuItem_Click;
             // 
             // toolStripStatusLabel_EncMethod
@@ -318,9 +331,9 @@
             // 
             // panel_Control
             // 
-            resources.ApplyResources(panel_Control, "panel_Control");
             panel_Control.Controls.Add(button_Encode);
             panel_Control.Controls.Add(button_Decode);
+            resources.ApplyResources(panel_Control, "panel_Control");
             panel_Control.Name = "panel_Control";
             // 
             // panel_Main
@@ -351,21 +364,20 @@
             // 
             // groupBox_Loop
             // 
-            resources.ApplyResources(groupBox_Loop, "groupBox_Loop");
             groupBox_Loop.Controls.Add(label_ESample);
             groupBox_Loop.Controls.Add(label_LoopEnd);
             groupBox_Loop.Controls.Add(label_SSample);
             groupBox_Loop.Controls.Add(label_LoopStart);
             groupBox_Loop.Controls.Add(textBox_LoopStart);
             groupBox_Loop.Controls.Add(textBox_LoopEnd);
+            resources.ApplyResources(groupBox_Loop, "groupBox_Loop");
             groupBox_Loop.Name = "groupBox_Loop";
             groupBox_Loop.TabStop = false;
-            groupBox_Loop.Enter += groupBox_Loop_Enter;
             // 
             // FormMain
             // 
-            resources.ApplyResources(this, "$this");
             AllowDrop = true;
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox_Loop);
             Controls.Add(groupBox1);
@@ -444,5 +456,7 @@
         internal Label label_ESample;
         internal GroupBox groupBox_Loop;
         internal ToolStripDropDownButton toolStripDropDownButton_EF;
+        private ToolStripMenuItem filesToolStripMenuItem;
+        private ToolStripMenuItem folderToolStripMenuItem;
     }
 }

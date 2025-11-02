@@ -1178,6 +1178,8 @@ namespace ATRACTool_Reloaded
         private static bool AudioConverter_ATW_DoWork(IProgress<int> p, CancellationToken cToken)
         {
             int length = Generic.OpenFilePaths.Length;
+            var ffpath = Directory.GetCurrentDirectory() + @"\res\ffmpeg.exe";
+
             switch (Generic.WTAmethod)
             {
                 case 0: // 44100Hz
@@ -1194,7 +1196,7 @@ namespace ATRACTool_Reloaded
                                 AudioSampleRate = AudioSampleRate.Hz44100,
                             };
 
-                            using var engine = new Engine();
+                            using var engine = new Engine(ffpath);
                             var task = MTK_ConvertAsync(engine, source, output, co);
 
                             while (task.IsCompleted != true)
@@ -1229,7 +1231,7 @@ namespace ATRACTool_Reloaded
                                     AudioSampleRate = AudioSampleRate.Hz44100,
                                 };
 
-                                using var engine = new Engine();
+                                using var engine = new Engine(ffpath);
                                 var task = MTK_ConvertAsync(engine, source, output, co);
                                 count++;
 
@@ -1266,7 +1268,7 @@ namespace ATRACTool_Reloaded
                                 AudioSampleRate = AudioSampleRate.Hz48000,
                             };
 
-                            using var engine = new Engine();
+                            using var engine = new Engine(ffpath);
                             var task = MTK_ConvertAsync(engine, source, output, co);
 
                             while (task.IsCompleted != true)
@@ -1301,7 +1303,7 @@ namespace ATRACTool_Reloaded
                                     AudioSampleRate = AudioSampleRate.Hz48000,
                                 };
 
-                                using var engine = new Engine();
+                                using var engine = new Engine(ffpath);
                                 var task = MTK_ConvertAsync(engine, source, output, co);
 
                                 while (task.IsCompleted != true)
@@ -1337,7 +1339,7 @@ namespace ATRACTool_Reloaded
                                 AudioSampleRate = (AudioSampleRate)12000,
                             };
 
-                            using var engine = new Engine();
+                            using var engine = new Engine(ffpath);
                             var task = MTK_ConvertAsync(engine, source, output, co);
 
                             while (task.IsCompleted != true)
@@ -1372,7 +1374,7 @@ namespace ATRACTool_Reloaded
                                     AudioSampleRate = (AudioSampleRate)12000,
                                 };
 
-                                using var engine = new Engine();
+                                using var engine = new Engine(ffpath);
                                 var task = MTK_ConvertAsync(engine, source, output, co);
 
                                 while (task.IsCompleted != true)
@@ -1408,7 +1410,7 @@ namespace ATRACTool_Reloaded
                                 AudioSampleRate = (AudioSampleRate)24000,
                             };
 
-                            using var engine = new Engine();
+                            using var engine = new Engine(ffpath);
                             var task = MTK_ConvertAsync(engine, source, output, co);
 
                             while (task.IsCompleted != true)
@@ -1443,7 +1445,7 @@ namespace ATRACTool_Reloaded
                                     AudioSampleRate = (AudioSampleRate)24000,
                                 };
 
-                                using var engine = new Engine();
+                                using var engine = new Engine(ffpath);
                                 var task = MTK_ConvertAsync(engine, source, output, co);
 
                                 while (task.IsCompleted != true)
@@ -1475,6 +1477,7 @@ namespace ATRACTool_Reloaded
         private static bool AudioConverter_WTA_DoWork(IProgress<int> p, CancellationToken cToken)
         {
             int length = Generic.OpenFilePaths.Length;
+            var ffpath = Directory.GetCurrentDirectory() + @"\res\ffmpeg.exe";
 
             if (length == 1)
             {
@@ -1487,7 +1490,7 @@ namespace ATRACTool_Reloaded
                     AudioSampleRate = AudioSampleRate.Hz44100,
                 };
 
-                using var engine = new Engine();
+                using var engine = new Engine(ffpath);
                 var task = MTK_ConvertAsync(engine, source, output, co);
 
                 while (task.IsCompleted != true)
@@ -1521,7 +1524,7 @@ namespace ATRACTool_Reloaded
                         AudioSampleRate = AudioSampleRate.Hz44100,
                     };
 
-                    using var engine = new Engine();
+                    using var engine = new Engine(ffpath);
                     var task = MTK_ConvertAsync(engine, source, output, co);
 
                     while (task.IsCompleted != true)

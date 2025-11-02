@@ -48,9 +48,25 @@ namespace ATRACTool_Reloaded
                 {
                     case true:
                         checkBox_Smoothsamples.Checked = true;
+                        label_DSBuffers.Enabled = false;
+                        label_DSLatency.Enabled = false;
+                        label_WASAPILatencyS.Enabled = false;
+                        label_WASAPILatencyE.Enabled = false;
+                        comboBox_DSBuffers.Enabled = false;
+                        comboBox_DSLatencys.Enabled = false;
+                        comboBox_WASAPILatencysS.Enabled = false;
+                        comboBox_WASAPILatencysE.Enabled = false;
                         break;
                     case false:
                         checkBox_Smoothsamples.Checked = false;
+                        label_DSBuffers.Enabled = true;
+                        label_DSLatency.Enabled = true;
+                        label_WASAPILatencyS.Enabled = true;
+                        label_WASAPILatencyE.Enabled = true;
+                        comboBox_DSBuffers.Enabled = true;
+                        comboBox_DSLatencys.Enabled = true;
+                        comboBox_WASAPILatencysS.Enabled = true;
+                        comboBox_WASAPILatencysE.Enabled = true;
                         break;
                 }
 
@@ -172,7 +188,7 @@ namespace ATRACTool_Reloaded
                         {
                             radioButton_spc.Checked = true;
                             radioButton_nml.Checked = false;
-                            label1.Enabled = true;
+                            label_IO_Path.Enabled = true;
                             button_Clear.Enabled = true;
                             button_Browse.Enabled = true;
                             textBox_Path.Enabled = true;
@@ -191,7 +207,7 @@ namespace ATRACTool_Reloaded
                             {
                                 case true:
                                     {
-                                        label2.Enabled = true;
+                                        label_IO_SubfolderSuffix.Enabled = true;
                                         textBox_suffix.Enabled = true;
                                         checkBox_Subfolder.Checked = true;
 
@@ -207,7 +223,7 @@ namespace ATRACTool_Reloaded
                                     }
                                 case false:
                                     {
-                                        label2.Enabled = false;
+                                        label_IO_SubfolderSuffix.Enabled = false;
                                         textBox_suffix.Text = null;
                                         textBox_suffix.Enabled = false;
                                         checkBox_Subfolder.Checked = false;
@@ -221,8 +237,8 @@ namespace ATRACTool_Reloaded
                         {
                             radioButton_spc.Checked = false;
                             radioButton_nml.Checked = true;
-                            label1.Enabled = false;
-                            label2.Enabled = false;
+                            label_IO_Path.Enabled = false;
+                            label_IO_SubfolderSuffix.Enabled = false;
                             button_Clear.Enabled = false;
                             button_Browse.Enabled = false;
                             textBox_Path.Text = null;
@@ -231,6 +247,34 @@ namespace ATRACTool_Reloaded
                             textBox_suffix.Enabled = false;
                             checkBox_Subfolder.Checked = false;
                             checkBox_Subfolder.Enabled = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["Save_NestFolderSource"].Value))
+                {
+                    case true:
+                        {
+                            checkBox_IO_SaveSourcesnest.Checked = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            checkBox_IO_SaveSourcesnest.Checked = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["Save_DeleteHzSuffix"].Value))
+                {
+                    case true:
+                        {
+                            checkBox_SaveDeleteHzSuffix.Checked = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            checkBox_SaveDeleteHzSuffix.Checked = false;
                             break;
                         }
                 }
@@ -248,6 +292,114 @@ namespace ATRACTool_Reloaded
                             break;
                         }
                 }
+
+                switch (uint.Parse(Config.Entry["LPCPlaybackMethod"].Value))
+                {
+                    case 0:
+                        {
+                            comboBox_LPCplayback.SelectedIndex = 0;
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                    case 1:
+                        {
+                            comboBox_LPCplayback.SelectedIndex = 1;
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                    case 2:
+                        {
+                            comboBox_LPCplayback.SelectedIndex = 2;
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                    case 3:
+                        {
+                            comboBox_LPCplayback.SelectedIndex = 3;
+                            label_LPC_ASIODriver.Enabled = true;
+                            comboBox_LPCASIODriver.Enabled = true;
+                            break;
+                        }
+                    default:
+                        {
+                            comboBox_LPCplayback.SelectedIndex = 0;
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                }
+
+                switch (string.IsNullOrWhiteSpace(Config.Entry["LPCUseASIODriver"].Value))
+                {
+                    case true:
+                        {
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                    case false:
+                        {
+                            label_LPC_ASIODriver.Enabled = false;
+                            comboBox_LPCASIODriver.Enabled = false;
+                            break;
+                        }
+                }
+
+                switch (bool.Parse(Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value))
+                {
+                    case true:
+                        {
+                            checkBox_MultisoundDontDS.Checked = true;
+                            break;
+                        }
+                    case false:
+                        {
+                            checkBox_MultisoundDontDS.Checked = false;
+                            break;
+                        }
+                }
+
+                switch (uint.Parse(Config.Entry["LPCMultipleStreamPlaybackMethod"].Value))
+                {
+                    case 0:
+                        {
+                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
+                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                            break;
+                        }
+                    case 1:
+                        {
+                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 1;
+                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                            break;
+                        }
+                    case 2:
+                        {
+                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 2;
+                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                            break;
+                        }
+                    default:
+                        {
+                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
+                            label_LPC_MultiplesourcePlaybackmode.Enabled = false;
+                            comboBox_LPCMultisourcePlaybackmode.Enabled = false;
+                            break;
+                        }
+                }
+
+                comboBox_DSBuffers.SelectedIndex = int.Parse(Config.Entry["DirectSoundBuffers"].Value);
+                comboBox_DSLatencys.SelectedIndex = int.Parse(Config.Entry["DirectSoundLatency"].Value);
+                comboBox_WASAPILatencysS.SelectedIndex = int.Parse(Config.Entry["WASAPILatencyShared"].Value);
+                comboBox_WASAPILatencysE.SelectedIndex = int.Parse(Config.Entry["WASAPILatencyExclusived"].Value);
+                comboBox_PlaybackThreadCounts.SelectedIndex = int.Parse(Config.Entry["PlaybackThreadCount"].Value);
+
             }
             catch (Exception ex)
             {
@@ -259,8 +411,8 @@ namespace ATRACTool_Reloaded
 
         private void RadioButton_nml_CheckedChanged(object sender, EventArgs e)
         {
-            label1.Enabled = false;
-            label2.Enabled = false;
+            label_IO_Path.Enabled = false;
+            label_IO_SubfolderSuffix.Enabled = false;
             button_Clear.Enabled = false;
             button_Browse.Enabled = false;
             textBox_Path.Text = null;
@@ -273,7 +425,7 @@ namespace ATRACTool_Reloaded
 
         private void RadioButton_spc_CheckedChanged(object sender, EventArgs e)
         {
-            label1.Enabled = true;
+            label_IO_Path.Enabled = true;
             button_Clear.Enabled = true;
             button_Browse.Enabled = true;
             textBox_Path.Text = null;
@@ -306,13 +458,13 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_Subfolder.Checked != true)
             {
-                label2.Enabled = false;
+                label_IO_SubfolderSuffix.Enabled = false;
                 textBox_suffix.Text = null;
                 textBox_suffix.Enabled = false;
             }
             else
             {
-                label2.Enabled = true;
+                label_IO_SubfolderSuffix.Enabled = true;
                 textBox_suffix.Enabled = true;
             }
         }
@@ -477,6 +629,24 @@ namespace ATRACTool_Reloaded
                 Config.Entry["Save_Subfolder_Suffix"].Value = "";
             }
 
+            if (checkBox_IO_SaveSourcesnest.Checked)
+            {
+                Config.Entry["Save_NestFolderSource"].Value = "true";
+            }
+            else
+            {
+                Config.Entry["Save_NestFolderSource"].Value = "false";
+            }
+
+            if (checkBox_SaveDeleteHzSuffix.Checked)
+            {
+                Config.Entry["Save_DeleteHzSuffix"].Value = "true";
+            }
+            else
+            {
+                Config.Entry["Save_DeleteHzSuffix"].Value = "false";
+            }
+
             if (checkBox_ShowFolder.Checked != true)
             {
                 Config.Entry["ShowFolder"].Value = "false";
@@ -485,6 +655,42 @@ namespace ATRACTool_Reloaded
             {
                 Config.Entry["ShowFolder"].Value = "true";
             }
+
+            Config.Entry["LPCPlaybackMethod"].Value = comboBox_LPCplayback.SelectedIndex.ToString();
+
+            if (comboBox_LPCASIODriver.Items.Count != 0)
+            {
+                Config.Entry["LPCUseASIODriver"].Value = comboBox_LPCASIODriver.Items[comboBox_LPCASIODriver.SelectedIndex].ToString();
+            }
+            else
+            {
+                Config.Entry["LPCUseASIODriver"].Value = "";
+            }
+
+            if (checkBox_MultisoundDontDS.Checked)
+            {
+                Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value = "true";
+                Config.Entry["LPCMultipleStreamPlaybackMethod"].Value = comboBox_LPCMultisourcePlaybackmode.SelectedIndex.ToString();
+            }
+            else
+            {
+                Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value = "false";
+                Config.Entry["LPCMultipleStreamPlaybackMethod"].Value = "65535";
+            }
+
+            if (!checkBox_Smoothsamples.Checked)
+            {
+                Config.Entry["DirectSoundBuffers"].Value = comboBox_DSBuffers.SelectedIndex.ToString();
+                Config.Entry["DirectSoundBuffersValue"].Value = comboBox_DSBuffers.Text;
+                Config.Entry["DirectSoundLatency"].Value = comboBox_DSLatencys.SelectedIndex.ToString();
+                Config.Entry["DirectSoundLatencyValue"].Value = comboBox_DSLatencys.Text;
+                Config.Entry["WASAPILatencyShared"].Value = comboBox_WASAPILatencysS.SelectedIndex.ToString();
+                Config.Entry["WASAPILatencySharedValue"].Value = comboBox_WASAPILatencysS.Text;
+                Config.Entry["WASAPILatencyExclusived"].Value = comboBox_WASAPILatencysE.SelectedIndex.ToString();
+                Config.Entry["WASAPILatencyExclusivedValue"].Value = comboBox_WASAPILatencysE.Text;
+            }
+
+            Config.Entry["PlaybackThreadCount"].Value = comboBox_PlaybackThreadCounts.SelectedIndex.ToString();
 
             Config.Save(xmlpath);
 
@@ -590,6 +796,99 @@ namespace ATRACTool_Reloaded
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void ComboBox_LPCplayback_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_LPCplayback.SelectedIndex)
+            {
+                case 0:
+                    label_LPC_ASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Items.Clear();
+                    break;
+                case 1:
+                    label_LPC_ASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Items.Clear();
+                    break;
+                case 2:
+                    label_LPC_ASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Items.Clear();
+                    break;
+                case 3:
+                    MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    label_LPC_ASIODriver.Enabled = true;
+                    comboBox_LPCASIODriver.Enabled = true;
+                    break;
+                default:
+                    label_LPC_ASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Items.Clear();
+                    break;
+            }
+        }
+
+        private void CheckBox_MultisoundDontDS_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_MultisoundDontDS.Checked)
+            {
+                label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+            }
+            else
+            {
+                label_LPC_MultiplesourcePlaybackmode.Enabled = false;
+                comboBox_LPCMultisourcePlaybackmode.Enabled = false;
+            }
+        }
+
+        private void ComboBox_LPCMultisourcePlaybackmode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox_LPCMultisourcePlaybackmode.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void tabPageAdvanced_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_Smoothsamples_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Smoothsamples.Checked)
+            {
+                label_DSBuffers.Enabled = false;
+                label_DSLatency.Enabled = false;
+                label_WASAPILatencyS.Enabled = false;
+                label_WASAPILatencyE.Enabled = false;
+                comboBox_DSBuffers.Enabled = false;
+                comboBox_DSLatencys.Enabled = false;
+                comboBox_WASAPILatencysS.Enabled = false;
+                comboBox_WASAPILatencysE.Enabled = false;
+            }
+            else
+            {
+                label_DSBuffers.Enabled = true;
+                label_DSLatency.Enabled = true;
+                label_WASAPILatencyS.Enabled = true;
+                label_WASAPILatencyE.Enabled = true;
+                comboBox_DSBuffers.Enabled = true;
+                comboBox_DSLatencys.Enabled = true;
+                comboBox_WASAPILatencysS.Enabled = true;
+                comboBox_WASAPILatencysE.Enabled = true;
             }
         }
     }

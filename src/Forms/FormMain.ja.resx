@@ -171,22 +171,34 @@
     <value>ファイル (&amp;F)</value>
   </data>
   <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを開く (&amp;O)</value>
   </data>
+  <data name="filesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 22</value>
+  </data>
+  <data name="filesToolStripMenuItem.Text" xml:space="preserve">
+    <value>ファイル (&amp;F)...</value>
+  </data>
+  <data name="folderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 22</value>
+  </data>
+  <data name="folderToolStripMenuItem.Text" xml:space="preserve">
+    <value>フォルダー (&amp;D)...</value>
+  </data>
   <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
     <value>ファイルを閉じる (&amp;C)</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 6</value>
+    <value>202, 6</value>
   </data>
   <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
     <value>終了 (&amp;X)</value>
@@ -198,16 +210,16 @@
     <value>設定 (&amp;C)</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>189, 22</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>変換設定 (&amp;S)</value>
+    <value>変換設定 (&amp;S)...</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>189, 22</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
-    <value>詳細設定 (&amp;P)</value>
+    <value>詳細設定 (&amp;P)...</value>
   </data>
   <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 20</value>
@@ -216,28 +228,28 @@
     <value>ツール (&amp;T)</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+    <value>257, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>音声形式の変換 (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>203, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
-    <value>別形式からWAVEに変換</value>
+    <value>別形式からWAVEに変換...</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
+    <value>203, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>WAVEから別形式に変換</value>
+    <value>WAVEから別形式に変換...</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+    <value>257, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
-    <value>ループポイント作成</value>
+    <value>ループポイント作成 (&amp;L)...</value>
   </data>
   <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 20</value>
@@ -246,16 +258,16 @@
     <value>ヘルプ (&amp;H)</value>
   </data>
   <data name="aboutATRACToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
+    <value>237, 22</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>184, 6</value>
+    <value>234, 6</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 22</value>
+    <value>237, 22</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Text" xml:space="preserve">
-    <value>アップデートの確認 (&amp;U)</value>
+    <value>アップデートの確認 (&amp;U)...</value>
   </data>
   <data name="button_Decode.Text" xml:space="preserve">
     <value>デコード (ATRAC⇒WAVE)</value>

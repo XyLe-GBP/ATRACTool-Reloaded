@@ -137,13 +137,13 @@
     <value>将文件保存至指定位置作为固定位置。
 若启用了“常规-&gt;加载ATRAC时启用播放界面”选项，此功能将失效。（仅适用于编码操作期间）</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
+  <data name="groupBox_IO_Behavior.Text" xml:space="preserve">
     <value>保存文件时的行为</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_IO_Path.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 15</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="label_IO_Path.Text" xml:space="preserve">
     <value>路径：</value>
   </data>
   <data name="button_Browse.ToolTip" xml:space="preserve">
@@ -161,17 +161,36 @@
   <data name="checkBox_Subfolder.ToolTip" xml:space="preserve">
     <value>在指定目录中创建一个子文件夹。</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_IO_SubfolderSuffix.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 15</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="label_IO_SubfolderSuffix.Text" xml:space="preserve">
     <value>子文件夹后缀：</value>
   </data>
   <data name="textBox_suffix.ToolTip" xml:space="preserve">
     <value>输入子文件夹名称</value>
   </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>一般</value>
+  <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 19</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.Text" xml:space="preserve">
+    <value>加载ATRAC作为编码源</value>
+  </data>
+  <data name="checkBox_ATRACEncodeSource.ToolTip" xml:space="preserve">
+    <value>加载ATRAC作为编码源。
+启用此选项将禁用ATRAC解码功能。
+此功能在编辑现有ATRAC文件并将其转换回ATRAC格式时可能有所帮助。
+当启用“加载ATRAC时启用播放界面”选项时，此选项将被忽略。</value>
+  </data>
+  <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 19</value>
+  </data>
+  <data name="checkBox_Hidesplash.Text" xml:space="preserve">
+    <value>不显示启动画面</value>
+  </data>
+  <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
+    <value>启动时不显示启动画面。
+当您希望加快应用程序启动速度时，此设置可能有所帮助。</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 19</value>
@@ -182,26 +201,6 @@
   <data name="checkBox_DisablePreviewWarning.ToolTip" xml:space="preserve">
     <value>启用此选项后，将禁用读取编码音频时出现的警告信息。
 但为避免错误，通常建议保持该选项禁用状态。</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
-    <value>加载ATRAC时启用播放界面</value>
-  </data>
-  <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
-    <value>启用此功能可在加载ATRAC格式时进行播放。
-启用此功能后，将无法使用“IO-&gt;输出至指定文件夹”功能。</value>
-  </data>
-  <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
-    <value>播放过程中平滑更新采样值</value>
-  </data>
-  <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
-    <value>平滑播放期间的采样值更新，但会消耗大量CPU资源。
-禁用该功能可减少CPU资源消耗，但会延迟值更新。</value>
   </data>
   <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 19</value>
@@ -222,6 +221,26 @@
   <data name="checkBox_Checkupdate.ToolTip" xml:space="preserve">
     <value>应用程序启动时检查更新。</value>
   </data>
+  <data name="checkBox_SaveDeleteHzSuffix.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 19</value>
+  </data>
+  <data name="checkBox_SaveDeleteHzSuffix.Text" xml:space="preserve">
+    <value>禁用保存文件时附加在文件名末尾的Hz后缀</value>
+  </data>
+  <data name="checkBox_SaveDeleteHzSuffix.ToolTip" xml:space="preserve">
+    <value>禁用保存文件时在文件名末尾添加Hz标记的功能。
+移除此标记可保留原始文件名，但会降低对所用编码方式的识别度。请根据自身需求谨慎使用此选项。</value>
+  </data>
+  <data name="checkBox_IO_SaveSourcesnest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>386, 19</value>
+  </data>
+  <data name="checkBox_IO_SaveSourcesnest.Text" xml:space="preserve">
+    <value>加载和保存嵌套文件夹时，请使用与源文件相同的嵌套结构进行保存</value>
+  </data>
+  <data name="checkBox_IO_SaveSourcesnest.ToolTip" xml:space="preserve">
+    <value>读取嵌套文件夹结构，并使用与源文件相同的嵌套方式进行保存。
+当处理按项目组织结构的源文件夹时，此功能可能非常有用。</value>
+  </data>
   <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 19</value>
   </data>
@@ -231,19 +250,130 @@
   <data name="checkBox_ShowFolder.ToolTip" xml:space="preserve">
     <value>操作完成后打开目标文件夹。</value>
   </data>
-  <data name="tabPage3.Text" xml:space="preserve">
-    <value>高级</value>
+  <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
   </data>
-  <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 19</value>
+  <data name="checkBox_EnableATRACPlayback.Text" xml:space="preserve">
+    <value>加载ATRAC时启用播放界面</value>
   </data>
-  <data name="checkBox_ATRACEncodeSource.Text" xml:space="preserve">
-    <value>加载ATRAC作为编码源</value>
+  <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
+    <value>启用此功能可在加载ATRAC格式时进行播放。
+启用此功能后，将无法使用“IO-&gt;输出至指定文件夹”功能。</value>
   </data>
-  <data name="checkBox_ATRACEncodeSource.ToolTip" xml:space="preserve">
-    <value>加载ATRAC作为编码源。
-启用此选项将禁用ATRAC解码功能。
-此功能在编辑现有ATRAC文件并将其转换回ATRAC格式时可能有所帮助。</value>
+  <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="checkBox_Smoothsamples.Text" xml:space="preserve">
+    <value>播放过程中平滑更新采样值</value>
+  </data>
+  <data name="checkBox_Smoothsamples.ToolTip" xml:space="preserve">
+    <value>平滑播放期间的采样值更新，但会消耗大量CPU资源。
+禁用该功能可减少CPU资源消耗，但会延迟值更新。
+禁用此选项可启用“Advanced”选项卡中的高级设置，例如播放缓冲区和延迟。</value>
+  </data>
+  <data name="comboBox_LPCMultisourcePlaybackmode.ToolTip" xml:space="preserve">
+    <value>加载多声道音频时的播放模式设置。
+WASAPI（共享）：采用WASAPI共享模式播放。提供比DirectSound更高的音质。
+WASAPI（独占）：采用WASAPI独占模式播放。提供比DirectSound更高的音质，但使用此选项时其他系统声音将不可闻。此为设计特性，并非故障。
+ASIO：需专用驱动程序及兼容DAC设备支持播放。
+否则应用程序将返回错误。</value>
+  </data>
+  <data name="label_LPC_MultiplesourcePlaybackmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 15</value>
+  </data>
+  <data name="label_LPC_MultiplesourcePlaybackmode.Text" xml:space="preserve">
+    <value>多声道音频使用的播放模式：</value>
+  </data>
+  <data name="comboBox_LPCASIODriver.ToolTip" xml:space="preserve">
+    <value>选择一个ASIO驱动程序。
+如果没有有效的驱动程序可用，该字段将保持空白。</value>
+  </data>
+  <data name="label_LPC_ASIODriver.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 15</value>
+  </data>
+  <data name="label_LPC_ASIODriver.Text" xml:space="preserve">
+    <value>选择要与ASIO配合使用的驱动程序：</value>
+  </data>
+  <data name="checkBox_MultisoundDontDS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>311, 19</value>
+  </data>
+  <data name="checkBox_MultisoundDontDS.Text" xml:space="preserve">
+    <value>加载多声道音频文件时请始终使用WASAPI或ASIO接口</value>
+  </data>
+  <data name="checkBox_MultisoundDontDS.ToolTip" xml:space="preserve">
+    <value>DirectSound 不支持多声道音频播放。
+因此，我们强烈建议启用此选项。</value>
+  </data>
+  <data name="comboBox_LPCplayback.ToolTip" xml:space="preserve">
+    <value>指定播放模式。
+DirectSound：最常见的播放方式；通常选择此选项。
+WASAPI（共享）：使用WASAPI共享模式播放。提供比DirectSound更高的音质。
+WASAPI（独占）：采用WASAPI独占模式播放。音质优于DirectSound，但启用时系统其他声音将不可闻。此为设计特性，非故障现象。
+ASIO：需专用驱动程序及兼容DAC设备支持播放。
+否则应用程序将返回错误。</value>
+  </data>
+  <data name="label_LPC_PlaybackMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="label_LPC_PlaybackMode.Text" xml:space="preserve">
+    <value>播放模式：</value>
+  </data>
+  <data name="comboBox_WASAPILatencysS.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="comboBox_WASAPILatencysE.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="comboBox_PlaybackThreadCounts.ToolTip" xml:space="preserve">
+    <value>调整线程数以匹配您的CPU。
+降低该值可减少CPU占用，但可能导致处理延迟。
+提高该值可提升流畅度，但会增加CPU占用。</value>
+  </data>
+  <data name="comboBox_DSBuffers.ToolTip" xml:space="preserve">
+    <value>降低缓冲值会导致处理延迟，但可降低电脑功耗。
+提高缓冲值会增加电脑功耗，但能实现更流畅的处理效果。</value>
+  </data>
+  <data name="comboBox_DSLatencys.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="label_WASAPILatencyE.Text" xml:space="preserve">
+    <value>使用WASAPI（独占模式）时的延迟：</value>
+  </data>
+  <data name="label_WASAPILatencyE.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="label_WASAPILatencyS.Text" xml:space="preserve">
+    <value>使用WASAPI（共享）时的延迟：</value>
+  </data>
+  <data name="label_WASAPILatencyS.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="label_Usingthreads.Text" xml:space="preserve">
+    <value>播放过程中使用的线程数：</value>
+  </data>
+  <data name="label_Usingthreads.ToolTip" xml:space="preserve">
+    <value>调整线程数以匹配您的CPU。
+降低该值可减少CPU占用，但可能导致处理延迟。
+提高该值可提升流畅度，但会增加CPU占用。</value>
+  </data>
+  <data name="label_DSLatency.Text" xml:space="preserve">
+    <value>使用DirectSound时的延迟：</value>
+  </data>
+  <data name="label_DSLatency.ToolTip" xml:space="preserve">
+    <value>增加延迟值会降低处理速度，但能减少电脑的功耗。
+降低延迟值会增加电脑功耗，但能使处理更流畅。</value>
+  </data>
+  <data name="label_DSBuffers.Text" xml:space="preserve">
+    <value>使用DirectSound时的缓冲区数量：</value>
+  </data>
+  <data name="label_DSBuffers.ToolTip" xml:space="preserve">
+    <value>降低缓冲值会导致处理延迟，但可降低电脑功耗。
+提高缓冲值会增加电脑功耗，但能实现更流畅的处理效果。</value>
   </data>
   <data name="checkBox_ForceConvertWaveOnly.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 19</value>
@@ -269,9 +399,6 @@
   <data name="comboBox_Fixconvert.Items3" xml:space="preserve">
     <value>[适用于ATRAC9] 24kHz</value>
   </data>
-  <data name="comboBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 23</value>
-  </data>
   <data name="checkBox_Fixconvert.Size" type="System.Drawing.Size, System.Drawing">
     <value>175, 19</value>
   </data>
@@ -293,16 +420,6 @@
   <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
     <value>读取ATRAC时立即进行转换。
 若启用此选项，则忽略“常规-&gt;加载ATRAC时启用播放接口”和“将ATRAC作为编码源加载”选项。</value>
-  </data>
-  <data name="checkBox_Hidesplash.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 19</value>
-  </data>
-  <data name="checkBox_Hidesplash.Text" xml:space="preserve">
-    <value>不显示启动画面</value>
-  </data>
-  <data name="checkBox_Hidesplash.ToolTip" xml:space="preserve">
-    <value>启动时不显示启动画面。
-当您希望加快应用程序启动速度时，此设置可能有所帮助。</value>
   </data>
   <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 19</value>

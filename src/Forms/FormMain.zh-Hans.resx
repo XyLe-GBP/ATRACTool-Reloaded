@@ -158,22 +158,34 @@
     <value>文件 (&amp;F)</value>
   </data>
   <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
     <value>打开文件 (&amp;O)</value>
   </data>
+  <data name="filesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 22</value>
+  </data>
+  <data name="filesToolStripMenuItem.Text" xml:space="preserve">
+    <value>文件 (&amp;F)...</value>
+  </data>
+  <data name="folderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 22</value>
+  </data>
+  <data name="folderToolStripMenuItem.Text" xml:space="preserve">
+    <value>文件夹 (&amp;D)...</value>
+  </data>
   <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
     <value>关闭文件 (&amp;C)</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 6</value>
+    <value>181, 6</value>
   </data>
   <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
     <value>退出 (&amp;X)</value>
@@ -185,16 +197,16 @@
     <value>配置 (&amp;C)</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>189, 22</value>
   </data>
   <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>转换设置 (&amp;S)</value>
+    <value>转换设置 (&amp;S)...</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>189, 22</value>
   </data>
   <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
-    <value>偏好设置 (&amp;P)</value>
+    <value>偏好设置 (&amp;P)...</value>
   </data>
   <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 20</value>
@@ -203,28 +215,28 @@
     <value>工具 (&amp;T)</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>231, 22</value>
   </data>
   <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>音频转换器 (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
-    <value>音频转WAVE格式</value>
+    <value>音频转WAVE格式...</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>WAVE转音频</value>
+    <value>WAVE转音频...</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>231, 22</value>
   </data>
   <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
-    <value>循环点创建</value>
+    <value>循环点创建 (&amp;L)...</value>
   </data>
   <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 20</value>
@@ -233,19 +245,19 @@
     <value>帮助 (&amp;H)</value>
   </data>
   <data name="aboutATRACToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 22</value>
+    <value>225, 22</value>
   </data>
   <data name="aboutATRACToolToolStripMenuItem.Text" xml:space="preserve">
-    <value>关于ATRACTool (&amp;A)</value>
+    <value>关于ATRACTool (&amp;A)...</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 6</value>
+    <value>222, 6</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 22</value>
+    <value>225, 22</value>
   </data>
   <data name="checkForUpdatesUToolStripMenuItem.Text" xml:space="preserve">
-    <value>检查更新 (&amp;U)</value>
+    <value>检查更新 (&amp;U)...</value>
   </data>
   <data name="button_Decode.Text" xml:space="preserve">
     <value>解码（ATRAC转WAVE）</value>
@@ -267,18 +279,6 @@
   </data>
   <data name="toolStripDropDownButton_EF.Text" xml:space="preserve">
     <value>选择编码方法</value>
-  </data>
-  <data name="aTRAC3ATRAC3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="aTRAC9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 6</value>
-  </data>
-  <data name="walkmanToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
   </data>
   <data name="groupBox_Loop.Text" xml:space="preserve">
     <value>循环点信息</value>

@@ -94,14 +94,31 @@ namespace ATRACTool_Reloaded
             /// 変換先の形式を判別するための変数
             /// </summary>
             public static sbyte WTAFlag = -1;
+            /// <summary>
+            /// 開いたファイルパスの格納用
+            /// </summary>
             public static string[] OpenFilePaths = null!;
+
+            public static string[] FolderOpenPaths = null!;
+            public static string[] SubFolderOpenPaths = null!;
+            /// <summary>
+            /// フォルダーを読み込んだ場合はtrue
+            /// </summary>
+            public static bool IsLoadFolder = false;
+            /// <summary>
+            /// 開いたATRACパスの格納用
+            /// </summary>
             public static string[] pATRACOpenFilePaths = null!;
             public static string[] ATAOpenFilePaths = null!;
+            /// <summary>
+            /// デフォルトのソースファイルパスの格納用
+            /// </summary>
             public static string[] OriginOpenFilePaths = null!;
+
             //public static string[] OpenFilePathsWithMultiExt = null!;
             public static bool IsOpenMulti = false;
             public static string SavePath = null!;
-            public static string FolderSavePath = null!;
+            public static string FolderSavePath = "";
             public static string pATRACSavePath = null!;
             public static string pATRACFolderSavePath = null!;
             public static int WTAmethod = -1;
@@ -122,6 +139,7 @@ namespace ATRACTool_Reloaded
             public static StreamReader Log = null!;
             public static Exception GlobalException = null!;
             public static Exception CommonException = null!;
+            public static bool LPCException = false;
 
             public static bool IsLPCStreamingReloaded = false;
             public static long LPCTotalSamples = 0;
@@ -199,6 +217,59 @@ namespace ATRACTool_Reloaded
             {
                 DateTime dt = DateTime.Now;
                 return dt.Year + "-" + dt.Month + "-" + dt.Day + "-" + dt.Hour + "-" + dt.Minute + "-" + dt.Second;
+            }
+
+            public static void GetFolderAllFiles(string FolderPath)
+            {
+                Generic.FolderOpenPaths = FolderPath.Split('/');
+                uint filecount = 0, subfoldercount = 0;
+
+                // フォルダ内のすべてのファイルを取得
+                string[] files = Directory.GetFiles(FolderPath);
+                List<string> lst = [.. files];
+                if (Generic.SubFolderOpenPaths is not null && Generic.SubFolderOpenPaths.Length != 0)
+                {
+                    Generic.OpenFilePaths = Generic.OpenFilePaths.Concat(lst.ToArray()).ToArray();
+                    Generic.OriginOpenFilePaths = Generic.OriginOpenFilePaths.Concat(lst.ToArray()).ToArray();
+                }
+                else
+                {
+                    Generic.OpenFilePaths = lst.ToArray();
+                    Generic.OriginOpenFilePaths = lst.ToArray();
+                }
+
+                foreach (string file in files)
+                {
+                    Debug.WriteLine($"ファイル: {Path.GetFileName(file)}");
+                    filecount++;
+                }
+                
+                // フォルダ内のすべてのサブディレクトリを取得
+                string[] directories = Directory.GetDirectories(FolderPath);
+                List<string> dlst = [.. directories];
+
+                if (Generic.SubFolderOpenPaths is not null && directories.Length != 0)
+                {
+                    
+                    Generic.SubFolderOpenPaths = Generic.SubFolderOpenPaths.Concat(dlst.ToArray()).ToArray();
+                }
+                else
+                {
+                    if (dlst.Count != 0)
+                    {
+                        Generic.SubFolderOpenPaths = dlst.ToArray();
+                    }
+                    
+                }
+                    
+
+                foreach (string directory in directories)
+                {
+                    Debug.WriteLine($"サブフォルダ: {Path.GetFileName(directory)}");
+                    subfoldercount++;
+                    // 再帰的に呼び出す
+                    GetFolderAllFiles(directory);
+                }
             }
 
             /// <summary>
@@ -385,14 +456,22 @@ namespace ATRACTool_Reloaded
 
             public static string ATWSuffix()
             {
-                return Generic.WTAmethod switch
+                Config.Load(xmlpath);
+                if (bool.Parse(Config.Entry["Save_DeleteHzSuffix"].Value))
                 {
-                    0 => "_44k",
-                    1 => "_48k",
-                    2 => "_12k",
-                    3 => "_24k",
-                    _ => "",
-                };
+                    return string.Empty;
+                }
+                else
+                {
+                    return Generic.WTAmethod switch
+                    {
+                        0 => "_44k",
+                        1 => "_48k",
+                        2 => "_12k",
+                        3 => "_24k",
+                        _ => string.Empty,
+                    };
+                }
             }
 
             /// <summary>
@@ -1286,21 +1365,22 @@ namespace ATRACTool_Reloaded
 
                 // 設定ダイアログ
 
+                // General 項目
                 if (Config.Entry["Check_Update"].Value == null) // アップデートを確認 (bool)
                 {
                     Config.Entry["Check_Update"].Value = "true";
                 }
-                if (Config.Entry["SmoothSamples"].Value == null) // サンプル値の更新を滑らかにする (bool)
+                if (Config.Entry["HideSplash"].Value == null) // スプラッシュスクリーンを無効化 (bool)
                 {
-                    Config.Entry["SmoothSamples"].Value = "true";
-                }
-                if (Config.Entry["PlaybackATRAC"].Value == null) // ATRAC読み込み時の再生インターフェースの有効 (bool)
-                {
-                    Config.Entry["PlaybackATRAC"].Value = "true";
+                    Config.Entry["HideSplash"].Value = "false";
                 }
                 if (Config.Entry["DisablePreviewWarning"].Value == null) // 警告メッセージ無効化 (bool)
                 {
                     Config.Entry["DisablePreviewWarning"].Value = "false";
+                }
+                if (Config.Entry["ATRACEncodeSource"].Value == null) // ATRACをエンコード用ソースとして読み込み (bool)
+                {
+                    Config.Entry["ATRACEncodeSource"].Value = "false";
                 }
                 if (Config.Entry["SplashImage"].Value == null) // スプラッシュスクリーン画像 (bool)
                 {
@@ -1310,35 +1390,8 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["SplashImage_Path"].Value = "";
                 }
-                if (Config.Entry["Oldmode"].Value == null) // 従来のモード (bool)
-                {
-                    Config.Entry["Oldmode"].Value = "false";
-                }
-                if (Config.Entry["HideSplash"].Value == null) // スプラッシュスクリーンを無効化 (bool)
-                {
-                    Config.Entry["HideSplash"].Value = "false";
-                }
-                if (Config.Entry["FasterATRAC"].Value == null) // ATRAC即時変換 (bool)
-                {
-                    Config.Entry["FasterATRAC"].Value = "false";
-                }
-                if (Config.Entry["FixedConvert"].Value == null) // 形式固定 (bool)
-                {
-                    Config.Entry["FixedConvert"].Value = "false";
-                }
-                if (Config.Entry["ConvertType"].Value == null) // 形式固定有効化時の形式 (int)
-                {
-                    Config.Entry["ConvertType"].Value = "";
-                }
-                if (Config.Entry["ForceConvertWaveOnly"].Value == null) // waveファイルのみの読み込みでも変換を強制する (bool)
-                {
-                    Config.Entry["ForceConvertWaveOnly"].Value = "false";
-                }
-                if (Config.Entry["ATRACEncodeSource"].Value == null) // ATRACをエンコード用ソースとして読み込み (bool)
-                {
-                    Config.Entry["ATRACEncodeSource"].Value = "false";
-                }
 
+                // IO 項目
                 if (Config.Entry["Save_IsManual"].Value == null) // ファイル保存方法 (bool)
                 {
                     Config.Entry["Save_IsManual"].Value = "false";
@@ -1355,14 +1408,111 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["Save_Subfolder_Suffix"].Value = "";
                 }
+                if (Config.Entry["Save_NestFolderSource"].Value == null) // ネスト方式のフォルダを読み込み、保存時にソースと同じネスト方式で保存 (bool)
+                {
+                    Config.Entry["Save_NestFolderSource"].Value = "false";
+                }
+                if (Config.Entry["Save_DeleteHzSuffix"].Value == null) // ファイル保存時、ファイル名の最後に追加されるHz表記を無効にする (bool)
+                {
+                    Config.Entry["Save_DeleteHzSuffix"].Value = "false";
+                }
                 if (Config.Entry["ShowFolder"].Value == null) // 変換後にフォルダを表示 (bool)
                 {
                     Config.Entry["ShowFolder"].Value = "true";
                 }
-                if (Config.Entry["ToolStrip"].Value == null) // ts (int)
+
+                // LPC 項目
+                if (Config.Entry["LPCPlaybackMethod"].Value == null) // LPC 再生方法 (uint)
+                {
+                    Config.Entry["LPCPlaybackMethod"].Value = "0";
+                }
+                if (Config.Entry["LPCUseASIODriver"].Value == null) // LPC 使用するASIOドライバ (string)
+                {
+                    Config.Entry["LPCUseASIODriver"].Value = "";
+                }
+                if (Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value == null) // LPC マルチオーディオ再生時、常にWASAPIまたはASIO使用 (bool)
+                {
+                    Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value = "true";
+                }
+                if (Config.Entry["LPCMultipleStreamPlaybackMethod"].Value == null) // LPC マルチオーディオファイル再生方法 (uint)
+                {
+                    Config.Entry["LPCMultipleStreamPlaybackMethod"].Value = "0";
+                }
+                if (Config.Entry["SmoothSamples"].Value == null) // サンプル値の更新を滑らかにする (bool)
+                {
+                    Config.Entry["SmoothSamples"].Value = "true";
+                }
+                if (Config.Entry["PlaybackATRAC"].Value == null) // ATRAC読み込み時の再生インターフェースの有効 (bool)
+                {
+                    Config.Entry["PlaybackATRAC"].Value = "true";
+                }
+
+                // Advanced 項目
+                if (Config.Entry["FasterATRAC"].Value == null) // ATRAC即時変換 (bool)
+                {
+                    Config.Entry["FasterATRAC"].Value = "false";
+                }
+                if (Config.Entry["FixedConvert"].Value == null) // 形式固定 (bool)
+                {
+                    Config.Entry["FixedConvert"].Value = "false";
+                }
+                if (Config.Entry["ConvertType"].Value == null) // 形式固定有効化時の形式 (int)
+                {
+                    Config.Entry["ConvertType"].Value = "";
+                }
+                if (Config.Entry["ForceConvertWaveOnly"].Value == null) // waveファイルのみの読み込みでも変換を強制する (bool)
+                {
+                    Config.Entry["ForceConvertWaveOnly"].Value = "false";
+                }
+
+                if (Config.Entry["DirectSoundBuffers"].Value == null) // DirectSound使用時のバッファ (uint)
+                {
+                    Config.Entry["DirectSoundBuffers"].Value = "1";
+                }
+                if (Config.Entry["DirectSoundBuffersValue"].Value == null) // DirectSound使用時のバッファ値 (uint)
+                {
+                    Config.Entry["DirectSoundBuffersValue"].Value = "16";
+                }
+                if (Config.Entry["DirectSoundLatency"].Value == null) // DirectSound使用時のレイテンシ (uint)
+                {
+                    Config.Entry["DirectSoundLatency"].Value = "2";
+                }
+                if (Config.Entry["DirectSoundLatencyValue"].Value == null) // DirectSound使用時のレイテンシ値 (uint)
+                {
+                    Config.Entry["DirectSoundLatencyValue"].Value = "200";
+                }
+                if (Config.Entry["WASAPILatencyShared"].Value == null) // WASAPI(共有)使用時のレイテンシ (uint)
+                {
+                    Config.Entry["WASAPILatencyShared"].Value = "0";
+                }
+                if (Config.Entry["WASAPILatencySharedValue"].Value == null) // WASAPI(共有)使用時のレイテンシ値 (uint)
+                {
+                    Config.Entry["WASAPILatencySharedValue"].Value = "0";
+                }
+                if (Config.Entry["WASAPILatencyExclusived"].Value == null) // WASAPI(排他)使用時のレイテンシ (uint)
+                {
+                    Config.Entry["WASAPILatencyExclusived"].Value = "0";
+                }
+                if (Config.Entry["WASAPILatencyExclusivedValue"].Value == null) // WASAPI(排他)使用時のレイテンシ値 (uint)
+                {
+                    Config.Entry["WASAPILatencyExclusivedValue"].Value = "0";
+                }
+                if (Config.Entry["PlaybackThreadCount"].Value == null) // 再生時に使用するスレッド数 (uint)
+                {
+                    Config.Entry["PlaybackThreadCount"].Value = "3";
+                }
+
+                if (Config.Entry["Oldmode"].Value == null) // 従来のモード (bool)
+                {
+                    Config.Entry["Oldmode"].Value = "false";
+                }
+
+                // その他
+                if (Config.Entry["ToolStrip"].Value == null) // メイン画面ToolStrip (int)
                 {
                     Config.Entry["ToolStrip"].Value = "0";
                 }
+
                 Config.Save(xmlpath);
             }
         }

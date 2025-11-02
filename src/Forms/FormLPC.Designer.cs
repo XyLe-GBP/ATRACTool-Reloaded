@@ -172,8 +172,8 @@
             // 
             // label_File
             // 
-            resources.ApplyResources(label_File, "label_File");
             label_File.AutoEllipsis = true;
+            resources.ApplyResources(label_File, "label_File");
             label_File.Name = "label_File";
             // 
             // button_Prev
@@ -232,8 +232,8 @@
             // 
             // label_trk
             // 
-            resources.ApplyResources(label_trk, "label_trk");
             label_trk.BackColor = Color.Transparent;
+            resources.ApplyResources(label_trk, "label_trk");
             label_trk.Name = "label_trk";
             // 
             // label_end
@@ -302,7 +302,6 @@
             customTrackBar_Trk.TrackThickness = 30;
             customTrackBar_Trk.Value = 0;
             customTrackBar_Trk.Scroll += customTrackBar_Trk_Scroll;
-            customTrackBar_Trk.Click += customTrackBar_Trk_Click;
             // 
             // customTrackBar_Start
             // 
@@ -328,7 +327,6 @@
             customTrackBar_Start.TrackThickness = 10;
             customTrackBar_Start.Value = 0;
             customTrackBar_Start.Scroll += customTrackBar_Start_Scroll;
-            customTrackBar_Start.Click += customTrackBar_Start_Click;
             // 
             // label_previewwarn
             // 
@@ -388,7 +386,6 @@
 
         #endregion
 
-        private TrackBar trackBar_trk;
         private Button button_Play;
         private Button button_Stop;
         private Button button_OK;
@@ -396,7 +393,6 @@
         private Label label_Samples;
         private System.Windows.Forms.Timer timer_Reload;
         private Label label_Length;
-        private TrackBar trackBar_End;
         private Label label_LoopStartSamples;
         private Label label_LoopEndSamples;
         private Button button_SetStart;

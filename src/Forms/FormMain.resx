@@ -117,674 +117,893 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
-    <value>Close File (&amp;C)</value>
+  <data name="&gt;&gt;label_Sizetxt.Name" xml:space="preserve">
+    <value>label_Sizetxt</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button_Decode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 14.25pt, style=Bold</value>
+  <data name="&gt;&gt;label_Sizetxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="toolStripDropDownButton_EF.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="textBox_LoopStart.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;fileFToolStripMenuItem.Name" xml:space="preserve">
-    <value>fileFToolStripMenuItem</value>
-  </data>
-  <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>AudioConverter (&amp;C)</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panel_Main.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel_Status.Name" xml:space="preserve">
-    <value>toolStripStatusLabel_Status</value>
-  </data>
-  <data name="button_Decode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="label_Size.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 15</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>WAVE to Audio</value>
-  </data>
-  <data name="&gt;&gt;label_Filepath.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_Sizetxt.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="label_Filepath.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label_NotReaded.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="loopPointCreationToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel_EncMethod.Name" xml:space="preserve">
-    <value>toolStripStatusLabel_EncMethod</value>
-  </data>
-  <data name="label_Sizetxt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 15</value>
-  </data>
-  <data name="label_LoopStart.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;label_Sizetxt.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label_SSample.Parent" xml:space="preserve">
-    <value>groupBox_Loop</value>
+  <data name="&gt;&gt;label_Size.Name" xml:space="preserve">
+    <value>label_Size</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
+  <data name="&gt;&gt;label_Size.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Loop point creation</value>
+  <data name="&gt;&gt;label_Size.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Format.Name" xml:space="preserve">
-    <value>label_Format</value>
-  </data>
-  <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
-    <value>Open File (&amp;O)</value>
-  </data>
-  <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 20</value>
-  </data>
-  <data name="button_Decode.Text" xml:space="preserve">
-    <value>Decode (ATRAC to WAVE)</value>
-  </data>
-  <data name="&gt;&gt;label_NotReaded.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label_LoopEnd.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="label_NotReaded.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 21.75pt, style=Bold</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>884, 24</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>884, 561</value>
-  </data>
-  <data name="label_SSample.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="panel_Control.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 489</value>
-  </data>
-  <data name="&gt;&gt;wAVEToAudioToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Formattxt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 15</value>
-  </data>
-  <data name="panel_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 27</value>
-  </data>
-  <data name="&gt;&gt;panel_Main.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;walkmanToolStripMenuItem.Name" xml:space="preserve">
-    <value>walkmanToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;audioToWAVEToolStripMenuItem.Name" xml:space="preserve">
-    <value>audioToWAVEToolStripMenuItem</value>
-  </data>
-  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label_Size.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label_LoopStart.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;label_Formattxt.Name" xml:space="preserve">
+    <value>label_Formattxt</value>
   </data>
-  <data name="&gt;&gt;helpHToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label_Formattxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label_File.Name" xml:space="preserve">
-    <value>label_File</value>
-  </data>
-  <data name="&gt;&gt;closeFileCToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Sizetxt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;panel_Main.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="toolStripDropDownButton_EF.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 20</value>
-  </data>
-  <data name="label_Size.Text" xml:space="preserve">
-    <value>Size:</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopEnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="aboutATRACToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 6</value>
+  <data name="&gt;&gt;label_Formattxt.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label_Formattxt.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_Filepath.Name" xml:space="preserve">
+    <value>label_Filepath</value>
+  </data>
+  <data name="&gt;&gt;label_Filepath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Filepath.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Filepath.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Name" xml:space="preserve">
+    <value>label_Format</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Format.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label_File.Name" xml:space="preserve">
+    <value>label_File</value>
+  </data>
+  <data name="&gt;&gt;label_File.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_File.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 415</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 68</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="button_Encode.Text" xml:space="preserve">
-    <value>Encode (WAVE to ATRAC)</value>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;exitXToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label_Sizetxt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;checkForUpdatesUToolStripMenuItem.Name" xml:space="preserve">
-    <value>checkForUpdatesUToolStripMenuItem</value>
+  <data name="label_Sizetxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 45</value>
+  </data>
+  <data name="label_Sizetxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 15</value>
+  </data>
+  <data name="label_Sizetxt.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label_Sizetxt.Text" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="&gt;&gt;label_Sizetxt.Name" xml:space="preserve">
+    <value>label_Sizetxt</value>
+  </data>
+  <data name="&gt;&gt;label_Sizetxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Sizetxt.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Sizetxt.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_Size.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Size.Location" type="System.Drawing.Point, System.Drawing">
+    <value>375, 45</value>
+  </data>
+  <data name="label_Size.Size" type="System.Drawing.Size, System.Drawing">
+    <value>30, 15</value>
+  </data>
+  <data name="label_Size.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_Size.Text" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="&gt;&gt;label_Size.Name" xml:space="preserve">
+    <value>label_Size</value>
+  </data>
+  <data name="&gt;&gt;label_Size.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Size.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Size.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_Formattxt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>55, 45</value>
+  </data>
+  <data name="label_Formattxt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>304, 15</value>
+  </data>
+  <data name="label_Formattxt.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_Formattxt.Text" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="&gt;&gt;label_Formattxt.Name" xml:space="preserve">
+    <value>label_Formattxt</value>
+  </data>
+  <data name="&gt;&gt;label_Formattxt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Formattxt.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Formattxt.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_Filepath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>35, 17</value>
+  </data>
+  <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>609, 28</value>
+  </data>
+  <data name="label_Filepath.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="label_Filepath.Text" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="&gt;&gt;wAVEToAudioToolStripMenuItem.Name" xml:space="preserve">
-    <value>wAVEToAudioToolStripMenuItem</value>
+  <data name="&gt;&gt;label_Filepath.Name" xml:space="preserve">
+    <value>label_Filepath</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel_Status.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label_Filepath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label_Sizetxt.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;label_Filepath.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Filepath.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_Format.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_Format.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 45</value>
+  </data>
+  <data name="label_Format.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 15</value>
+  </data>
+  <data name="label_Format.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label_Format.Text" xml:space="preserve">
+    <value>Format:</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Name" xml:space="preserve">
+    <value>label_Format</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_Format.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_Format.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label_File.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 17</value>
+  </data>
+  <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 15</value>
+  </data>
+  <data name="label_File.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label_File.Text" xml:space="preserve">
+    <value>File:</value>
+  </data>
+  <data name="&gt;&gt;label_File.Name" xml:space="preserve">
+    <value>label_File</value>
+  </data>
+  <data name="&gt;&gt;label_File.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_File.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
   <data name="textBox_LoopEnd.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;label_ESample.Name" xml:space="preserve">
-    <value>label_ESample</value>
+  <data name="textBox_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 41</value>
   </data>
-  <data name="&gt;&gt;label_Format.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="textBox_LoopEnd.MaxLength" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 6</value>
+  <data name="textBox_LoopEnd.PlaceholderText" xml:space="preserve">
+    <value>1234567890</value>
   </data>
-  <data name="&gt;&gt;label_ESample.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="textBox_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="textBox_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 23</value>
   </data>
-  <data name="&gt;&gt;label_NotReaded.Name" xml:space="preserve">
-    <value>label_NotReaded</value>
-  </data>
-  <data name="&gt;&gt;aTRAC3ATRAC3ToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Format.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;button_Encode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_ESample.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStart.Parent" xml:space="preserve">
-    <value>groupBox_Loop</value>
-  </data>
-  <data name="textBox_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 18</value>
-  </data>
-  <data name="label_SSample.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="walkmanToolStripMenuItem.Text" xml:space="preserve">
-    <value>Walkman</value>
-  </data>
-  <data name="helpHToolStripMenuItem.Text" xml:space="preserve">
-    <value>Help (&amp;H)</value>
-  </data>
-  <data name="label_ESample.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;button_Encode.Name" xml:space="preserve">
-    <value>button_Encode</value>
-  </data>
-  <data name="aTRAC9ToolStripMenuItem.Text" xml:space="preserve">
-    <value>ATRAC9</value>
-  </data>
-  <data name="&gt;&gt;label_Size.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEnd.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label_Format.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 45</value>
-  </data>
-  <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
-    <value>Exit (&amp;X)</value>
-  </data>
-  <data name="&gt;&gt;label_Filepath.Name" xml:space="preserve">
-    <value>label_Filepath</value>
-  </data>
-  <data name="label_SSample.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 15</value>
-  </data>
-  <data name="aTRAC3ATRAC3ToolStripMenuItem.Text" xml:space="preserve">
-    <value>ATRAC3 / ATRAC3+</value>
+  <data name="textBox_LoopEnd.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;textBox_LoopEnd.Name" xml:space="preserve">
     <value>textBox_LoopEnd</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>884, 22</value>
+  <data name="&gt;&gt;textBox_LoopEnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="textBox_LoopStart.MaxLength" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
-  </data>
-  <data name="&gt;&gt;convertAudioToolStripMenuItem.Name" xml:space="preserve">
-    <value>convertAudioToolStripMenuItem</value>
-  </data>
-  <data name="button_Encode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>474, 0</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel_EncMethod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Encode.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;button_Encode.Parent" xml:space="preserve">
-    <value>panel_Control</value>
-  </data>
-  <data name="&gt;&gt;label_ESample.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Formattxt.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="button_Decode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="&gt;&gt;label_Filepath.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;label_Size.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label_LoopEnd.Text" xml:space="preserve">
-    <value>LoopEnd:</value>
-  </data>
-  <data name="&gt;&gt;groupBox_Loop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEnd.Name" xml:space="preserve">
-    <value>label_LoopEnd</value>
-  </data>
-  <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 20</value>
-  </data>
-  <data name="&gt;&gt;settingsSToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBox_Loop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 68</value>
-  </data>
-  <data name="label_Filepath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 17</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopStart.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="label_ESample.Text" xml:space="preserve">
-    <value>Samples</value>
-  </data>
-  <data name="toolsTToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tool (&amp;T)</value>
-  </data>
-  <data name="&gt;&gt;label_Sizetxt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_LoopEnd.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
-    <value>Audio to WAVE</value>
-  </data>
-  <data name="label_Format.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 15</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="aTRAC3ATRAC3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 22</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Name" xml:space="preserve">
-    <value>toolStripMenuItem3</value>
-  </data>
-  <data name="toolStripStatusLabel_Status.Text" xml:space="preserve">
-    <value>Ready.</value>
-  </data>
-  <data name="panel_Main.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="&gt;&gt;panel_Control.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label_LoopEnd.Parent" xml:space="preserve">
-    <value>groupBox_Loop</value>
-  </data>
-  <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>884, 375</value>
-  </data>
-  <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="&gt;&gt;openFileOToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Decode.Name" xml:space="preserve">
-    <value>button_Decode</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_Decode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_SSample.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 21</value>
-  </data>
-  <data name="label_Formattxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>55, 45</value>
-  </data>
-  <data name="&gt;&gt;label_ESample.Parent" xml:space="preserve">
+  <data name="&gt;&gt;textBox_LoopEnd.Parent" xml:space="preserve">
     <value>groupBox_Loop</value>
   </data>
   <data name="&gt;&gt;textBox_LoopEnd.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="panel_Main.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="textBox_LoopStart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="label_LoopStart.Text" xml:space="preserve">
-    <value>LoopStart :</value>
+  <data name="textBox_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 18</value>
   </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;button_Decode.Parent" xml:space="preserve">
-    <value>panel_Control</value>
+  <data name="textBox_LoopStart.MaxLength" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="textBox_LoopStart.PlaceholderText" xml:space="preserve">
     <value>1234567890</value>
   </data>
-  <data name="&gt;&gt;walkmanToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 15</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="toolStripStatusLabel_EncMethod.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;groupBox_Loop.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label_Format.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="aTRAC9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 22</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormMain</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="groupBox_Loop.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="label_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 42</value>
-  </data>
-  <data name="&gt;&gt;label_SSample.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="textBox_LoopEnd.MaxLength" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="panel_Control.Size" type="System.Drawing.Size, System.Drawing">
-    <value>884, 50</value>
-  </data>
-  <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Conversion settings (&amp;S)</value>
-  </data>
-  <data name="toolStripStatusLabel_Status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 17</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 415</value>
-  </data>
-  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStripStatusLabel_EncMethod.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;toolsTToolStripMenuItem.Name" xml:space="preserve">
-    <value>toolsTToolStripMenuItem</value>
-  </data>
-  <data name="label_SSample.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_File.Text" xml:space="preserve">
-    <value>File:</value>
+  <data name="textBox_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 23</value>
   </data>
   <data name="textBox_LoopStart.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;audioToWAVEToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;textBox_LoopStart.Name" xml:space="preserve">
+    <value>textBox_LoopStart</value>
   </data>
-  <data name="label_Formattxt.Text" xml:space="preserve">
-    <value>Unknown</value>
+  <data name="&gt;&gt;textBox_LoopStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;textBox_LoopStart.Parent" xml:space="preserve">
+    <value>groupBox_Loop</value>
   </data>
-  <data name="&gt;&gt;settingsSToolStripMenuItem.Name" xml:space="preserve">
-    <value>settingsSToolStripMenuItem</value>
+  <data name="&gt;&gt;textBox_LoopStart.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="&gt;&gt;label_Sizetxt.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="label_NotReaded.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 21.75pt, style=Bold</value>
   </data>
-  <data name="&gt;&gt;convertAudioToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label_NotReaded.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="label_File.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="label_NotReaded.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
+    <value>884, 375</value>
+  </data>
+  <data name="label_NotReaded.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="label_NotReaded.Text" xml:space="preserve">
     <value>Drag and drop a file here or Open the file...</value>
   </data>
-  <data name="&gt;&gt;toolStripDropDownButton_EF.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 15</value>
-  </data>
-  <data name="&gt;&gt;fileFToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;aTRAC9ToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 539</value>
-  </data>
   <data name="label_NotReaded.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">
-    <value>toolStripMenuItem2</value>
+  <data name="&gt;&gt;label_NotReaded.Name" xml:space="preserve">
+    <value>label_NotReaded</value>
   </data>
-  <data name="label_ESample.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopStart.Name" xml:space="preserve">
-    <value>textBox_LoopStart</value>
-  </data>
-  <data name="toolStripStatusLabel_EncMethod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 17</value>
-  </data>
-  <data name="&gt;&gt;button_Decode.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="settingsSToolStripMenuItem.Text" xml:space="preserve">
-    <value>Config (&amp;C)</value>
-  </data>
-  <data name="&gt;&gt;helpHToolStripMenuItem.Name" xml:space="preserve">
-    <value>helpHToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;checkForUpdatesUToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_Size.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 45</value>
-  </data>
-  <data name="&gt;&gt;label_Formattxt.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_NotReaded.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label_ESample.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 43</value>
+  <data name="&gt;&gt;label_NotReaded.Parent" xml:space="preserve">
+    <value>panel_Main</value>
   </data>
-  <data name="&gt;&gt;label_File.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label_NotReaded.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;label_Sizetxt.Name" xml:space="preserve">
-    <value>label_Sizetxt</value>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="label_Size.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>884, 24</value>
   </data>
-  <data name="button_Encode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 14.25pt, style=Bold</value>
-  </data>
-  <data name="&gt;&gt;aboutATRACToolToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;convertSettingsToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel_Control.Name" xml:space="preserve">
-    <value>panel_Control</value>
-  </data>
-  <data name="&gt;&gt;label_Format.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;aboutATRACToolToolStripMenuItem.Name" xml:space="preserve">
-    <value>aboutATRACToolToolStripMenuItem</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 22</value>
-  </data>
-  <data name="&gt;&gt;label_Formattxt.Name" xml:space="preserve">
-    <value>label_Formattxt</value>
-  </data>
-  <data name="label_Format.TabIndex" type="System.Int32, mscorlib">
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
-    <value>statusStrip1</value>
   </data>
   <data name="menuStrip1.Text" xml:space="preserve">
     <value>menuStrip1</value>
   </data>
-  <data name="label_Filepath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>609, 28</value>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="fileFToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+F</value>
+  </data>
+  <data name="fileFToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="fileFToolStripMenuItem.Text" xml:space="preserve">
+    <value>File (&amp;F)</value>
+  </data>
+  <data name="openFileOToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+O</value>
+  </data>
+  <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="openFileOToolStripMenuItem.Text" xml:space="preserve">
+    <value>Open File (&amp;O)</value>
+  </data>
+  <data name="filesToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+F</value>
+  </data>
+  <data name="filesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 22</value>
+  </data>
+  <data name="filesToolStripMenuItem.Text" xml:space="preserve">
+    <value>File(s) (&amp;F)...</value>
+  </data>
+  <data name="folderToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+D</value>
+  </data>
+  <data name="folderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 22</value>
+  </data>
+  <data name="folderToolStripMenuItem.Text" xml:space="preserve">
+    <value>Folder (&amp;D)...</value>
+  </data>
+  <data name="closeFileCToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+C</value>
+  </data>
+  <data name="closeFileCToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="closeFileCToolStripMenuItem.Text" xml:space="preserve">
+    <value>Close File (&amp;C)</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 6</value>
+  </data>
+  <data name="exitXToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 9pt, style=Bold</value>
+  </data>
+  <data name="exitXToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+X</value>
+  </data>
+  <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="exitXToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exit (&amp;X)</value>
+  </data>
+  <data name="settingsSToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+C</value>
+  </data>
+  <data name="settingsSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 20</value>
+  </data>
+  <data name="settingsSToolStripMenuItem.Text" xml:space="preserve">
+    <value>Config (&amp;C)</value>
+  </data>
+  <data name="convertSettingsToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+S</value>
+  </data>
+  <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 22</value>
+  </data>
+  <data name="convertSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Conversion settings (&amp;S)...</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+P</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 22</value>
+  </data>
+  <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
+    <value>Preferences (&amp;P)...</value>
+  </data>
+  <data name="toolsTToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+T</value>
+  </data>
+  <data name="toolsTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 20</value>
+  </data>
+  <data name="toolsTToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tool (&amp;T)</value>
+  </data>
+  <data name="convertAudioToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+C</value>
+  </data>
+  <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>275, 22</value>
+  </data>
+  <data name="convertAudioToolStripMenuItem.Text" xml:space="preserve">
+    <value>AudioConverter (&amp;C)</value>
+  </data>
+  <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 22</value>
+  </data>
+  <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
+    <value>Audio to WAVE...</value>
+  </data>
+  <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 22</value>
+  </data>
+  <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
+    <value>WAVE to Audio...</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+L</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>275, 22</value>
+  </data>
+  <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Loop point creation (&amp;L)...</value>
+  </data>
+  <data name="helpHToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+H</value>
+  </data>
+  <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 20</value>
+  </data>
+  <data name="helpHToolStripMenuItem.Text" xml:space="preserve">
+    <value>Help (&amp;H)</value>
+  </data>
+  <data name="aboutATRACToolToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="aboutATRACToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 22</value>
+  </data>
+  <data name="aboutATRACToolToolStripMenuItem.Text" xml:space="preserve">
+    <value>About ATRACTool (&amp;A)...</value>
+  </data>
+  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 6</value>
+  </data>
+  <data name="checkForUpdatesUToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+U</value>
+  </data>
+  <data name="checkForUpdatesUToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 22</value>
+  </data>
+  <data name="checkForUpdatesUToolStripMenuItem.Text" xml:space="preserve">
+    <value>Check For Updates (&amp;U)...</value>
+  </data>
+  <data name="button_Decode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="button_Decode.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_Decode.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 14.25pt, style=Bold</value>
+  </data>
+  <data name="button_Decode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="button_Decode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 50</value>
+  </data>
+  <data name="button_Decode.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="button_Decode.Text" xml:space="preserve">
+    <value>Decode (ATRAC to WAVE)</value>
+  </data>
+  <data name="&gt;&gt;button_Decode.Name" xml:space="preserve">
+    <value>button_Decode</value>
+  </data>
+  <data name="&gt;&gt;button_Decode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Decode.Parent" xml:space="preserve">
+    <value>panel_Control</value>
+  </data>
+  <data name="&gt;&gt;button_Decode.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_Encode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="button_Encode.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_Encode.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Yu Gothic UI, 14.25pt, style=Bold</value>
+  </data>
+  <data name="button_Encode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>474, 0</value>
+  </data>
+  <data name="button_Encode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 50</value>
+  </data>
+  <data name="button_Encode.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="button_Encode.Text" xml:space="preserve">
+    <value>Encode (WAVE to ATRAC)</value>
+  </data>
+  <data name="&gt;&gt;button_Encode.Name" xml:space="preserve">
+    <value>button_Encode</value>
+  </data>
+  <data name="&gt;&gt;button_Encode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_Encode.Parent" xml:space="preserve">
+    <value>panel_Control</value>
+  </data>
+  <data name="&gt;&gt;button_Encode.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>132, 17</value>
+  </metadata>
+  <data name="toolStripStatusLabel_Status.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 17</value>
+  </data>
+  <data name="toolStripStatusLabel_Status.Text" xml:space="preserve">
+    <value>Ready.</value>
+  </data>
+  <data name="aTRAC3ATRAC3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="aTRAC3ATRAC3ToolStripMenuItem.Text" xml:space="preserve">
+    <value>ATRAC3 / ATRAC3+</value>
+  </data>
+  <data name="aTRAC9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="aTRAC9ToolStripMenuItem.Text" xml:space="preserve">
+    <value>ATRAC9</value>
+  </data>
+  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 6</value>
+  </data>
+  <data name="walkmanToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="walkmanToolStripMenuItem.Text" xml:space="preserve">
+    <value>Walkman</value>
+  </data>
+  <data name="toolStripDropDownButton_EF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACNSURBVDhPY/j27dt/SjADiHByciILoxjw4f1HkjDJBjy/
+        dfL/iW5TME2WASe6Tf4fqpUCG0KWARAXmBB2waSzr/4vuPQawwB0jNWArH0v/ksvfATGhAzBMABZMzGG
+        oBig07ASQzM2Q0Ds1hMvMQ1A14SOQRpBGMYHuZYkA7BhkKspMgCEqWcAJZiBUgAABzX8nOIkzeMAAAAA
+        SUVORK5CYII=
+</value>
+  </data>
+  <data name="toolStripDropDownButton_EF.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripDropDownButton_EF.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 20</value>
+  </data>
+  <data name="toolStripDropDownButton_EF.Text" xml:space="preserve">
+    <value>Select Encoding method</value>
+  </data>
+  <data name="toolStripStatusLabel_EncMethod.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toolStripStatusLabel_EncMethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 17</value>
+  </data>
+  <data name="toolStripStatusLabel_EncMethod.Text" xml:space="preserve">
+    <value>Select Encoding method:</value>
+  </data>
+  <data name="toolStripStatusLabel_EncMethod.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 539</value>
+  </data>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>884, 22</value>
+  </data>
+  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="statusStrip1.Text" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="panel_Control.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 489</value>
+  </data>
+  <data name="panel_Control.Size" type="System.Drawing.Size, System.Drawing">
+    <value>884, 50</value>
   </data>
   <data name="panel_Control.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;label_Size.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;panel_Control.Name" xml:space="preserve">
+    <value>panel_Control</value>
   </data>
-  <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 22</value>
+  <data name="&gt;&gt;panel_Control.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="checkForUpdatesUToolStripMenuItem.Text" xml:space="preserve">
-    <value>Check For Updates (&amp;U)</value>
+  <data name="&gt;&gt;panel_Control.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox_Loop.Name" xml:space="preserve">
-    <value>groupBox_Loop</value>
+  <data name="&gt;&gt;panel_Control.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="panel_Main.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="panel_Main.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="panel_Main.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 27</value>
+  </data>
+  <data name="panel_Main.Size" type="System.Drawing.Size, System.Drawing">
+    <value>885, 375</value>
+  </data>
+  <data name="panel_Main.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;panel_Main.Name" xml:space="preserve">
+    <value>panel_Main</value>
+  </data>
+  <data name="&gt;&gt;panel_Main.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel_Main.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel_Main.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_LoopStart.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label_LoopStart.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>ATRACTool Reloaded</value>
+  <data name="label_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 21</value>
   </data>
-  <data name="label_File.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="label_LoopStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 15</value>
   </data>
-  <data name="groupBox_Loop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>658, 415</value>
+  <data name="label_LoopStart.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="&gt;&gt;toolStripDropDownButton_EF.Name" xml:space="preserve">
-    <value>toolStripDropDownButton_EF</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopEnd.Parent" xml:space="preserve">
-    <value>groupBox_Loop</value>
+  <data name="label_LoopStart.Text" xml:space="preserve">
+    <value>LoopStart :</value>
   </data>
   <data name="&gt;&gt;label_LoopStart.Name" xml:space="preserve">
     <value>label_LoopStart</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>650, 68</value>
+  <data name="&gt;&gt;label_LoopStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;label_LoopStart.Parent" xml:space="preserve">
+    <value>groupBox_Loop</value>
+  </data>
+  <data name="&gt;&gt;label_LoopStart.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_LoopEnd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_LoopEnd.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
+  </data>
+  <data name="label_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 15</value>
+  </data>
+  <data name="label_LoopEnd.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label_LoopEnd.Text" xml:space="preserve">
+    <value>LoopEnd:</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEnd.Name" xml:space="preserve">
+    <value>label_LoopEnd</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEnd.Parent" xml:space="preserve">
+    <value>groupBox_Loop</value>
+  </data>
+  <data name="&gt;&gt;label_LoopEnd.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_SSample.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_SSample.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_SSample.Location" type="System.Drawing.Point, System.Drawing">
+    <value>164, 21</value>
+  </data>
+  <data name="label_SSample.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 15</value>
+  </data>
+  <data name="label_SSample.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label_SSample.Text" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="&gt;&gt;label_SSample.Name" xml:space="preserve">
+    <value>label_SSample</value>
+  </data>
+  <data name="&gt;&gt;label_SSample.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_SSample.Parent" xml:space="preserve">
+    <value>groupBox_Loop</value>
+  </data>
+  <data name="&gt;&gt;label_SSample.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_ESample.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_ESample.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label_ESample.Location" type="System.Drawing.Point, System.Drawing">
+    <value>164, 43</value>
+  </data>
+  <data name="label_ESample.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 15</value>
+  </data>
+  <data name="label_ESample.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label_ESample.Text" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="&gt;&gt;label_ESample.Name" xml:space="preserve">
+    <value>label_ESample</value>
+  </data>
+  <data name="&gt;&gt;label_ESample.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_ESample.Parent" xml:space="preserve">
+    <value>groupBox_Loop</value>
+  </data>
+  <data name="&gt;&gt;label_ESample.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_Loop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="groupBox_Loop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>658, 415</value>
+  </data>
+  <data name="groupBox_Loop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 68</value>
+  </data>
+  <data name="groupBox_Loop.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="groupBox_Loop.Text" xml:space="preserve">
+    <value>Loop point information</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Loop.Name" xml:space="preserve">
+    <value>groupBox_Loop</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Loop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Loop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Loop.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>884, 561</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -6999,249 +7218,172 @@
         ///////////////////////////////////////+f////////////////////w==
 </value>
   </data>
-  <data name="exitXToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="button_Encode.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="label_Format.Text" xml:space="preserve">
-    <value>Format:</value>
-  </data>
-  <data name="&gt;&gt;label_SSample.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="button_Decode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 50</value>
-  </data>
-  <data name="groupBox_Loop.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;panel_Main.Name" xml:space="preserve">
-    <value>panel_Main</value>
-  </data>
-  <data name="button_Encode.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;label_File.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="aboutATRACToolToolStripMenuItem.Text" xml:space="preserve">
-    <value>About ATRACTool (&amp;A)</value>
-  </data>
-  <data name="&gt;&gt;label_NotReaded.Parent" xml:space="preserve">
-    <value>panel_Main</value>
-  </data>
-  <data name="label_File.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 17</value>
-  </data>
-  <data name="&gt;&gt;convertSettingsToolStripMenuItem.Name" xml:space="preserve">
-    <value>convertSettingsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;label_NotReaded.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="button_Encode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 50</value>
-  </data>
-  <data name="&gt;&gt;label_Size.Name" xml:space="preserve">
-    <value>label_Size</value>
-  </data>
-  <data name="toolStripStatusLabel_EncMethod.Text" xml:space="preserve">
-    <value>Select Encoding method:</value>
-  </data>
-  <data name="checkForUpdatesUToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 22</value>
-  </data>
-  <data name="button_Encode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="&gt;&gt;textBox_LoopStart.Parent" xml:space="preserve">
-    <value>groupBox_Loop</value>
-  </data>
-  <data name="convertSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
-  </data>
-  <data name="label_ESample.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 15</value>
-  </data>
-  <data name="saveMethodSettingsMToolStripMenuItem.Text" xml:space="preserve">
-    <value>Preferences (&amp;P)</value>
-  </data>
-  <data name="label_LoopStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 21</value>
-  </data>
-  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Name" xml:space="preserve">
-    <value>saveMethodSettingsMToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;label_LoopStart.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;panel_Control.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;label_Sizetxt.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="fileFToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
-  </data>
-  <data name="toolStripDropDownButton_EF.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAAI1JREFUOE9j+Pbt239KMAOIcHJyIgujGPDh/UeSMMkGPL918v+JblMwTZYBJ7pN
-        /h+qlQIbQpYBEBeYEHbBpLOv/i+49BrDAHSM1YCsfS/+Sy98BMaEDMEwAFkzMYagGKDTsBJDMzZDQOzW
-        Ey8xDUDXhI5BGkEYxge5liQDsGGQqykyAISpZwAlmIFSAAAHNfyc4iTN4wAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="openFileOToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 22</value>
-  </data>
-  <data name="&gt;&gt;groupBox_Loop.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="settingsSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 20</value>
-  </data>
-  <data name="label_Size.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="toolStripDropDownButton_EF.Text" xml:space="preserve">
-    <value>Select Encoding method</value>
-  </data>
-  <data name="&gt;&gt;label_SSample.Name" xml:space="preserve">
-    <value>label_SSample</value>
-  </data>
-  <data name="panel_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>885, 375</value>
-  </data>
-  <data name="&gt;&gt;toolsTToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 15</value>
-  </data>
-  <data name="textBox_LoopEnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 41</value>
-  </data>
-  <data name="&gt;&gt;aTRAC3ATRAC3ToolStripMenuItem.Name" xml:space="preserve">
-    <value>aTRAC3ATRAC3ToolStripMenuItem</value>
-  </data>
-  <data name="label_NotReaded.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
-  <data name="textBox_LoopEnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 23</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ATRACTool Reloaded</value>
   </data>
-  <data name="&gt;&gt;closeFileCToolStripMenuItem.Name" xml:space="preserve">
-    <value>closeFileCToolStripMenuItem</value>
+  <data name="&gt;&gt;fileFToolStripMenuItem.Name" xml:space="preserve">
+    <value>fileFToolStripMenuItem</value>
   </data>
-  <data name="textBox_LoopEnd.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="button_Decode.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="label_LoopEnd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="textBox_LoopEnd.PlaceholderText" xml:space="preserve">
-    <value>1234567890</value>
-  </data>
-  <data name="&gt;&gt;label_Filepath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="walkmanToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 22</value>
-  </data>
-  <data name="&gt;&gt;label_Formattxt.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="convertAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 22</value>
-  </data>
-  <data name="&gt;&gt;aTRAC9ToolStripMenuItem.Name" xml:space="preserve">
-    <value>aTRAC9ToolStripMenuItem</value>
-  </data>
-  <data name="label_Sizetxt.Text" xml:space="preserve">
-    <value>Unknown</value>
+  <data name="&gt;&gt;fileFToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;openFileOToolStripMenuItem.Name" xml:space="preserve">
     <value>openFileOToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;openFileOToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="exitXToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Yu Gothic UI, 9pt, style=Bold</value>
+  <data name="&gt;&gt;filesToolStripMenuItem.Name" xml:space="preserve">
+    <value>filesToolStripMenuItem</value>
   </data>
-  <data name="button_Decode.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="&gt;&gt;filesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="fileFToolStripMenuItem.Text" xml:space="preserve">
-    <value>File (&amp;F)</value>
+  <data name="&gt;&gt;folderToolStripMenuItem.Name" xml:space="preserve">
+    <value>folderToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;label_LoopStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;folderToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;closeFileCToolStripMenuItem.Name" xml:space="preserve">
+    <value>closeFileCToolStripMenuItem</value>
   </data>
-  <data name="label_Sizetxt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>400, 45</value>
+  <data name="&gt;&gt;closeFileCToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
   </data>
-  <data name="&gt;&gt;panel_Control.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label_NotReaded.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Name" xml:space="preserve">
-    <value>loopPointCreationToolStripMenuItem</value>
-  </data>
-  <data name="groupBox_Loop.Text" xml:space="preserve">
-    <value>Loop point information</value>
-  </data>
-  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 6</value>
-  </data>
-  <data name="label_SSample.Text" xml:space="preserve">
-    <value>Samples</value>
-  </data>
-  <data name="&gt;&gt;panel_Main.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;exitXToolStripMenuItem.Name" xml:space="preserve">
     <value>exitXToolStripMenuItem</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>132, 17</value>
-  </metadata>
+  <data name="&gt;&gt;exitXToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;settingsSToolStripMenuItem.Name" xml:space="preserve">
+    <value>settingsSToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;settingsSToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;convertSettingsToolStripMenuItem.Name" xml:space="preserve">
+    <value>convertSettingsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;convertSettingsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Name" xml:space="preserve">
+    <value>saveMethodSettingsMToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;saveMethodSettingsMToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolsTToolStripMenuItem.Name" xml:space="preserve">
+    <value>toolsTToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;toolsTToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;convertAudioToolStripMenuItem.Name" xml:space="preserve">
+    <value>convertAudioToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;convertAudioToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;audioToWAVEToolStripMenuItem.Name" xml:space="preserve">
+    <value>audioToWAVEToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;audioToWAVEToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;wAVEToAudioToolStripMenuItem.Name" xml:space="preserve">
+    <value>wAVEToAudioToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;wAVEToAudioToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Name" xml:space="preserve">
+    <value>loopPointCreationToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loopPointCreationToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;helpHToolStripMenuItem.Name" xml:space="preserve">
+    <value>helpHToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;helpHToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;aboutATRACToolToolStripMenuItem.Name" xml:space="preserve">
+    <value>aboutATRACToolToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;aboutATRACToolToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">
+    <value>toolStripMenuItem2</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkForUpdatesUToolStripMenuItem.Name" xml:space="preserve">
+    <value>checkForUpdatesUToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;checkForUpdatesUToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel_Status.Name" xml:space="preserve">
+    <value>toolStripStatusLabel_Status</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel_Status.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripDropDownButton_EF.Name" xml:space="preserve">
+    <value>toolStripDropDownButton_EF</value>
+  </data>
+  <data name="&gt;&gt;toolStripDropDownButton_EF.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;aTRAC3ATRAC3ToolStripMenuItem.Name" xml:space="preserve">
+    <value>aTRAC3ATRAC3ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;aTRAC3ATRAC3ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;aTRAC9ToolStripMenuItem.Name" xml:space="preserve">
+    <value>aTRAC9ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;aTRAC9ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem3.Name" xml:space="preserve">
+    <value>toolStripMenuItem3</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;walkmanToolStripMenuItem.Name" xml:space="preserve">
+    <value>walkmanToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;walkmanToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel_EncMethod.Name" xml:space="preserve">
+    <value>toolStripStatusLabel_EncMethod</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel_EncMethod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormMain</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
