@@ -432,4 +432,21 @@ GitHubリポジトリのページを開きますか？</value>
   <data name="FilesizeLargeCaption" xml:space="preserve">
     <value>ファイルサイズが大きすぎるため、読み込みできません。</value>
   </data>
+  <data name="NotAllowedMultiFolderCaption" xml:space="preserve">
+    <value>複数のフォルダーを同時に読み込むことはサポートされていません。</value>
+  </data>
+  <data name="NotAllowedFolderWFileCaption" xml:space="preserve">
+    <value>フォルダーとファイルを同時に読み込むことはサポートされていません。</value>
+  </data>
+  <data name="FolderLoadDialogTitle" xml:space="preserve">
+    <value>開くフォルダーを選択</value>
+  </data>
+  <data name="LPCUnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>{0}
+この形式は再生プレビューを読み込めません。</value>
+  </data>
+  <data name="ASIOWarningCaption" xml:space="preserve">
+    <value>ASIOを使用して再生するには、有効なASIOドライバーが必要です。
+ドライバーがない、またはDACがASIOをサポートしていない場合、このオプションは使用できません。</value>
+  </data>
 </root>

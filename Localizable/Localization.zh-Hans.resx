@@ -432,4 +432,21 @@
   <data name="FilesizeLargeCaption" xml:space="preserve">
     <value>文件过大，无法加载。</value>
   </data>
+  <data name="NotAllowedMultiFolderCaption" xml:space="preserve">
+    <value>不支持同时读取多个文件夹。</value>
+  </data>
+  <data name="NotAllowedFolderWFileCaption" xml:space="preserve">
+    <value>不支持同时读取文件夹和文件。</value>
+  </data>
+  <data name="FolderLoadDialogTitle" xml:space="preserve">
+    <value>选择要打开的文件夹</value>
+  </data>
+  <data name="LPCUnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>{0}
+此格式无法加载播放预览。</value>
+  </data>
+  <data name="ASIOWarningCaption" xml:space="preserve">
+    <value>要使用ASIO进行播放，需要有效的ASIO驱动程序。
+如果没有驱动程序，或者DAC不支持ASIO，则无法使用此选项。</value>
+  </data>
 </root>

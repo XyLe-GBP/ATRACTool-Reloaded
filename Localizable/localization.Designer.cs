@@ -73,6 +73,16 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   To playback using ASIO, a valid ASIO driver is required.
+        ///If no driver is available or the DAC does not support ASIO, this option cannot be used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ASIOWarningCaption {
+            get {
+                return ResourceManager.GetString("ASIOWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   If the “Loop from start to end of audio source” or “Set loop point” option is enabled in the settings screen, you cannot configure it here.
         ///To configure it, disable the above option in the ATRAC3/ATRAC3+ and ATRAC9 groups. に類似しているローカライズされた文字列を検索します。
         /// </summary>
@@ -384,6 +394,15 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   Select the folder to open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderLoadDialogTitle {
+            get {
+                return ResourceManager.GetString("FolderLoadDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Specify a folder to save the file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderSaveDialogTitle {
@@ -514,6 +533,16 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   {0}
+        ///This format cannot load the playback preview. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LPCUnsupportedFormatErrorCaption {
+            get {
+                return ResourceManager.GetString("LPCUnsupportedFormatErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Loop is enabled on the main screen, so this option cannot be activated. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MainLoopingAlreadyEnabledWarnig {
@@ -601,6 +630,24 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string NotAllowedExtensionCaption {
             get {
                 return ResourceManager.GetString("NotAllowedExtensionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reading folders and files simultaneously is not supported. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotAllowedFolderWFileCaption {
+            get {
+                return ResourceManager.GetString("NotAllowedFolderWFileCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loading multiple folders simultaneously is not supported. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotAllowedMultiFolderCaption {
+            get {
+                return ResourceManager.GetString("NotAllowedMultiFolderCaption", resourceCulture);
             }
         }
         

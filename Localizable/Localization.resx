@@ -426,4 +426,21 @@ To configure it, disable the above option in the ATRAC3/ATRAC3+ and ATRAC9 group
   <data name="FilesizeLargeCaption" xml:space="preserve">
     <value>The file size is too large to load.</value>
   </data>
+  <data name="NotAllowedMultiFolderCaption" xml:space="preserve">
+    <value>Loading multiple folders simultaneously is not supported.</value>
+  </data>
+  <data name="NotAllowedFolderWFileCaption" xml:space="preserve">
+    <value>Reading folders and files simultaneously is not supported.</value>
+  </data>
+  <data name="FolderLoadDialogTitle" xml:space="preserve">
+    <value>Select the folder to open</value>
+  </data>
+  <data name="LPCUnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>{0}
+This format cannot load the playback preview.</value>
+  </data>
+  <data name="ASIOWarningCaption" xml:space="preserve">
+    <value>To playback using ASIO, a valid ASIO driver is required.
+If no driver is available or the DAC does not support ASIO, this option cannot be used.</value>
+  </data>
 </root>
