@@ -7,13 +7,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.35.2520.10191</AssemblyVersion>
-    <FileVersion>1.35.2520.10191</FileVersion>
+    <AssemblyVersion>1.36.2520.1102</AssemblyVersion>
+    <FileVersion>1.36.2520.1102</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
     <Copyright>Copyright © 2025 - XyLe. All Rights Reserved.</Copyright>
-    <PackageTags>ATRAC, ATRAC3, ATRAC9, at3, at9, Converter, GUI</PackageTags>
+    <PackageTags>ATRAC, ATRAC3, ATRAC9, walkman, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
   </PropertyGroup>
 
