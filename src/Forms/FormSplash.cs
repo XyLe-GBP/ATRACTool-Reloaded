@@ -13,7 +13,17 @@ namespace ATRACTool_Reloaded
 
         private void FormSplash_Load(object sender, EventArgs e)
         {
-            Common.Config.Load(Common.xmlpath);
+            Config.Load(Common.xmlpath);
+            Screen screen = null!;
+            if (Screen.PrimaryScreen is not null)
+            {
+                screen = Screen.PrimaryScreen;
+            }
+            else
+            {
+                MessageBox.Show(this, "PrimaryScreen is null.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             try
             {
@@ -26,8 +36,8 @@ namespace ATRACTool_Reloaded
                     g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
                     Width = cimg.Width;
                     Height = cimg.Height;
-                    Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2;
-                    Top = (Screen.PrimaryScreen.Bounds.Height - Height) / 2;
+                    Left = (screen.Bounds.Width - Width) / 2;
+                    Top = (screen.Bounds.Height - Height) / 2;
                     BackgroundImage = cimg;
                 }
                 else
@@ -38,8 +48,8 @@ namespace ATRACTool_Reloaded
                     g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
                     Width = cimg.Width;
                     Height = cimg.Height;
-                    Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2;
-                    Top = (Screen.PrimaryScreen.Bounds.Height - Height) / 2;
+                    Left = (screen.Bounds.Width - Width) / 2;
+                    Top = (screen.Bounds.Height - Height) / 2;
                     BackgroundImage = cimg;
                 }
             }
@@ -52,8 +62,8 @@ namespace ATRACTool_Reloaded
                 g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
                 Width = cimg.Width;
                 Height = cimg.Height;
-                Left = (Screen.PrimaryScreen.Bounds.Width - Width) / 2;
-                Top = (Screen.PrimaryScreen.Bounds.Height - Height) / 2;
+                Left = (screen.Bounds.Width - Width) / 2;
+                Top = (screen.Bounds.Height - Height) / 2;
                 BackgroundImage = cimg;
             }
 

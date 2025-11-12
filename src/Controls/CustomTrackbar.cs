@@ -8,15 +8,14 @@ namespace ATRACTool_Reloaded.src.Controls
 
     public partial class CustomTrackBar : Control
     {
-        bool IsFirst = true;
         private bool isScrolling = false;
         private DateTime lastScrollTime = DateTime.MinValue;
         private const int scrollInterval = 16;
 
-        private SolidBrush trackBrush;
-        private SolidBrush thumbBrush;
-        private Pen tickPen;
-        private List<Point> tickPositions;
+        private SolidBrush trackBrush = null!;
+        private SolidBrush thumbBrush = null!;
+        private Pen tickPen = null!;
+        private List<Point> tickPositions = null!;
         private int cachedValue = -1;
 
         private int minimum = 0;
@@ -31,14 +30,15 @@ namespace ATRACTool_Reloaded.src.Controls
         private Color thumbColor = Color.Red;
         private Color backgroundColor = Color.White;
 
-        private ToolTip toolTip = new ToolTip();
+        private ToolTip toolTip = new();
         private DateTime lastToolTipUpdate = DateTime.MinValue;
         private const int toolTipUpdateInterval = 100; // ツールチップの更新間隔 (ms)
 
         private bool showLPCSamples = true;
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description("Specifies the color of the trackbar's bar.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color TrackColor
         {
             get => trackColor;
@@ -48,14 +48,15 @@ namespace ATRACTool_Reloaded.src.Controls
                 {
                     trackColor = value;
                     trackBrush?.Dispose();
-                    trackBrush = null; // 再生成をトリガー
+                    trackBrush = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description("Specifies the color of the trackbar's thumb.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color ThumbColor
         {
             get => thumbColor;
@@ -65,23 +66,26 @@ namespace ATRACTool_Reloaded.src.Controls
                 {
                     thumbColor = value;
                     thumbBrush?.Dispose();
-                    thumbBrush = null; // 再生成をトリガー
+                    thumbBrush = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description("Specifies the color of the knob when it is being dragged.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color DraggedThumbColor { get; set; } = Color.DarkRed;
         private bool isDragging = false; // ドラッグ中を追跡
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description("Specify the width of the knob.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ThumbWidth { get; set; } = 10; // デフォルトの横幅
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Description("Specify the height of the knob.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ThumbHeight
         {
             get => thumbHeight;
@@ -94,7 +98,7 @@ namespace ATRACTool_Reloaded.src.Controls
         private int thumbHeight = 20; // 初期値
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int ThumbSize { get; set; } = 10;
 
         public enum ThumbShape
@@ -107,11 +111,11 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public ThumbShape Shape { get; set; } = ThumbShape.Circle;
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int TrackThickness
         {
             get => trackThickness;
@@ -126,7 +130,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color BackgroundColor
         {
             get => backgroundColor;
@@ -149,11 +153,11 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public TickPosition TickPos { get; set; } = TickPosition.Below;
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ShowTicks
         {
             get => showTicks;
@@ -168,7 +172,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool ShowLPCSamples
         {
             get => showLPCSamples;
@@ -183,7 +187,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int TickFrequency
         {
             get => tickFrequency;
@@ -199,7 +203,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int TickSize
         {
             get => tickSize;
@@ -214,7 +218,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Appearance")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color TickColor
         {
             get => tickColor;
@@ -224,14 +228,14 @@ namespace ATRACTool_Reloaded.src.Controls
                 {
                     tickColor = value;
                     tickPen?.Dispose();
-                    tickPen = null; // 再生成をトリガー
+                    tickPen = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
         }
 
         [Category("Behavior")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int Minimum
         {
             get => minimum;
@@ -247,7 +251,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int Maximum
         {
             get => maximum;
@@ -262,7 +266,7 @@ namespace ATRACTool_Reloaded.src.Controls
             }
         }
 
-        public event EventHandler Scroll;
+        public event EventHandler Scroll = null!;
 
         protected virtual void OnScroll(EventArgs e)
         {
@@ -270,7 +274,7 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int Value
         {
             get => value;
@@ -291,10 +295,10 @@ namespace ATRACTool_Reloaded.src.Controls
         }
 
         [Category("Behavior")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
-        public event EventHandler ValueChanged;
+        public event EventHandler ValueChanged = null!;
 
         protected virtual void OnValueChanged(EventArgs e)
         {
@@ -591,12 +595,6 @@ namespace ATRACTool_Reloaded.src.Controls
                 // 古い位置と新しい位置のみ再描画
                 Invalidate(new Rectangle(Math.Min(oldThumbX, newThumbX), (Height - ThumbHeight) / 2, ThumbWidth, ThumbHeight));
             }
-            /*if (newValue != Value)
-            {
-                Value = newValue;
-                OnScrollEvent();
-                Invalidate(new Rectangle(0, 0, Width, Height / 2));
-            }*/
         }
 
         private void OnScrollEvent()
@@ -640,9 +638,7 @@ namespace ATRACTool_Reloaded.src.Controls
                 [
                     
                     new Point(rect.X, rect.Y),                          // 左上
-                    //new Point(rect.X, rect.Top),
                     new Point(rect.Right, rect.Y),                      // 右上
-                    //new Point(rect.Right, rect.Top)
                     new Point(rect.X + rect.Width / 2, rect.Bottom)     // 下の頂点
                 ];
             }

@@ -255,9 +255,9 @@
             // 
             // customTrackBar_End
             // 
-            resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
             customTrackBar_End.BackgroundColor = SystemColors.Control;
             customTrackBar_End.DraggedThumbColor = Color.DarkRed;
+            resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
             customTrackBar_End.Maximum = 100;
             customTrackBar_End.Minimum = 0;
             customTrackBar_End.Name = "customTrackBar_End";
@@ -273,16 +273,16 @@
             customTrackBar_End.TickFrequency = 10;
             customTrackBar_End.TickPos = src.Controls.CustomTrackBar.TickPosition.Below;
             customTrackBar_End.TickSize = 5;
-            customTrackBar_End.TrackColor = Color.LightGray;
+            customTrackBar_End.TrackColor = Color.Gainsboro;
             customTrackBar_End.TrackThickness = 8;
             customTrackBar_End.Value = 0;
             customTrackBar_End.Scroll += customTrackBar_End_Scroll;
             // 
             // customTrackBar_Trk
             // 
-            resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
             customTrackBar_Trk.BackgroundColor = SystemColors.Control;
             customTrackBar_Trk.DraggedThumbColor = Color.DarkBlue;
+            resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
             customTrackBar_Trk.Maximum = 100;
             customTrackBar_Trk.Minimum = 0;
             customTrackBar_Trk.Name = "customTrackBar_Trk";
@@ -298,16 +298,16 @@
             customTrackBar_Trk.TickFrequency = 10;
             customTrackBar_Trk.TickPos = src.Controls.CustomTrackBar.TickPosition.Both;
             customTrackBar_Trk.TickSize = 5;
-            customTrackBar_Trk.TrackColor = Color.LightGray;
+            customTrackBar_Trk.TrackColor = Color.Gainsboro;
             customTrackBar_Trk.TrackThickness = 30;
             customTrackBar_Trk.Value = 0;
             customTrackBar_Trk.Scroll += customTrackBar_Trk_Scroll;
             // 
             // customTrackBar_Start
             // 
-            resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
             customTrackBar_Start.BackgroundColor = SystemColors.Control;
             customTrackBar_Start.DraggedThumbColor = Color.DarkGreen;
+            resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
             customTrackBar_Start.Maximum = 100;
             customTrackBar_Start.Minimum = 0;
             customTrackBar_Start.Name = "customTrackBar_Start";
@@ -315,7 +315,7 @@
             customTrackBar_Start.Shape = src.Controls.CustomTrackBar.ThumbShape.UpArrow;
             customTrackBar_Start.ShowLPCSamples = true;
             customTrackBar_Start.ShowTicks = true;
-            customTrackBar_Start.ThumbColor = Color.ForestGreen;
+            customTrackBar_Start.ThumbColor = Color.Green;
             customTrackBar_Start.ThumbHeight = 25;
             customTrackBar_Start.ThumbSize = 10;
             customTrackBar_Start.ThumbWidth = 8;
@@ -323,7 +323,7 @@
             customTrackBar_Start.TickFrequency = 10;
             customTrackBar_Start.TickPos = src.Controls.CustomTrackBar.TickPosition.Above;
             customTrackBar_Start.TickSize = 5;
-            customTrackBar_Start.TrackColor = Color.LightGray;
+            customTrackBar_Start.TrackColor = Color.Gainsboro;
             customTrackBar_Start.TrackThickness = 10;
             customTrackBar_Start.Value = 0;
             customTrackBar_Start.Scroll += customTrackBar_Start_Scroll;

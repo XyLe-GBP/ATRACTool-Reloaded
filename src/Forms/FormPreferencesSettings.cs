@@ -1,5 +1,6 @@
 ﻿using ATRACTool_Reloaded.Localizable;
 using Microsoft.VisualBasic;
+using NAudio.Wave;
 using static ATRACTool_Reloaded.Common;
 
 namespace ATRACTool_Reloaded
@@ -25,6 +26,7 @@ namespace ATRACTool_Reloaded
         }
 
         private static string Path = null!;
+        private static bool FirstLoad = true, ASIODriverNotFound = true;
 
         private void FormPreferencesSettings_Load(object sender, EventArgs e)
         {
@@ -32,6 +34,7 @@ namespace ATRACTool_Reloaded
 
             Config.Load(xmlpath);
 
+            FirstLoad = true;
             try
             {
                 switch (bool.Parse(Config.Entry["Check_Update"].Value))
@@ -342,8 +345,29 @@ namespace ATRACTool_Reloaded
                         }
                     case false:
                         {
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
+                            int count = 0;
+                            if (ASIODriverNotFound)
+                            {
+                                label_LPC_ASIODriver.Enabled = false;
+                                comboBox_LPCASIODriver.Enabled = false;
+                                break;
+                            }
+                            else
+                            {
+                                foreach (var obj in comboBox_LPCASIODriver.Items!)
+                                {
+                                    if (Config.Entry["LPCUseASIODriver"].Value == comboBox_LPCASIODriver.Items[count]!.ToString())
+                                    {
+                                        comboBox_LPCASIODriver.SelectedIndex = count;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        count++;
+                                        continue;
+                                    }
+                                }
+                            }
                             break;
                         }
                 }
@@ -400,6 +424,7 @@ namespace ATRACTool_Reloaded
                 comboBox_WASAPILatencysE.SelectedIndex = int.Parse(Config.Entry["WASAPILatencyExclusived"].Value);
                 comboBox_PlaybackThreadCounts.SelectedIndex = int.Parse(Config.Entry["PlaybackThreadCount"].Value);
 
+                FirstLoad = false;
             }
             catch (Exception ex)
             {
@@ -660,7 +685,7 @@ namespace ATRACTool_Reloaded
 
             if (comboBox_LPCASIODriver.Items.Count != 0)
             {
-                Config.Entry["LPCUseASIODriver"].Value = comboBox_LPCASIODriver.Items[comboBox_LPCASIODriver.SelectedIndex].ToString();
+                Config.Entry["LPCUseASIODriver"].Value = comboBox_LPCASIODriver.Items[comboBox_LPCASIODriver.SelectedIndex]?.ToString()!;
             }
             else
             {
@@ -804,25 +829,42 @@ namespace ATRACTool_Reloaded
             switch (comboBox_LPCplayback.SelectedIndex)
             {
                 case 0:
-                    label_LPC_ASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Items.Clear();
+                    if (comboBox_LPCMultisourcePlaybackmode.SelectedIndex != 2)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Items.Clear();
+                    }
                     break;
                 case 1:
-                    label_LPC_ASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Items.Clear();
+                    if (comboBox_LPCMultisourcePlaybackmode.SelectedIndex != 2)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Items.Clear();
+                    }
                     break;
                 case 2:
-                    label_LPC_ASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Enabled = false;
-                    comboBox_LPCASIODriver.Items.Clear();
+                    if (comboBox_LPCMultisourcePlaybackmode.SelectedIndex != 2)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Items.Clear();
+                    }
                     break;
                 case 3:
-                    MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    label_LPC_ASIODriver.Enabled = true;
-                    comboBox_LPCASIODriver.Enabled = true;
-                    break;
+                    {
+                        if (comboBox_LPCMultisourcePlaybackmode.SelectedIndex != 2)
+                        {
+                            if (!FirstLoad)
+                            {
+                                MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            GetandSetASIODrivers();
+                        }
+
+                        break;
+                    }
                 default:
                     label_LPC_ASIODriver.Enabled = false;
                     comboBox_LPCASIODriver.Enabled = false;
@@ -850,11 +892,30 @@ namespace ATRACTool_Reloaded
             switch (comboBox_LPCMultisourcePlaybackmode.SelectedIndex)
             {
                 case 0:
+                    if (comboBox_LPCASIODriver.Enabled && comboBox_LPCplayback.SelectedIndex != 3)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Items.Clear();
+                    }
                     break;
                 case 1:
+                    if (comboBox_LPCASIODriver.Enabled && comboBox_LPCplayback.SelectedIndex != 3)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Items.Clear();
+                    }
                     break;
                 case 2:
-                    MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (!comboBox_LPCASIODriver.Enabled && comboBox_LPCplayback.SelectedIndex != 3)
+                    {
+                        if (!FirstLoad)
+                        {
+                            MessageBox.Show(Localization.ASIOWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        GetandSetASIODrivers();
+                    }
                     break;
                 default:
                     break;
@@ -889,6 +950,39 @@ namespace ATRACTool_Reloaded
                 comboBox_DSLatencys.Enabled = true;
                 comboBox_WASAPILatencysS.Enabled = true;
                 comboBox_WASAPILatencysE.Enabled = true;
+            }
+        }
+
+        private void GetandSetASIODrivers()
+        {
+            label_LPC_ASIODriver.Enabled = true;
+            comboBox_LPCASIODriver.Enabled = true;
+
+            comboBox_LPCASIODriver.Items.Clear();
+            string[] DriverList = AsioOut.GetDriverNames();
+            foreach (string s in DriverList)
+            {
+                if (string.IsNullOrWhiteSpace(s))
+                {
+                    continue;
+                }
+                else
+                {
+                    comboBox_LPCASIODriver.Items.Add(s);
+                }
+            }
+
+            if (comboBox_LPCASIODriver.Items is null)
+            {
+                MessageBox.Show(Localization.ASIODriverNotFoundCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ASIODriverNotFound = true;
+                label_LPC_ASIODriver.Enabled = false;
+                comboBox_LPCASIODriver.Enabled = false;
+            }
+            else
+            {
+                ASIODriverNotFound = false;
+                comboBox_LPCASIODriver.SelectedIndex = 0;
             }
         }
     }

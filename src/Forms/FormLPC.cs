@@ -16,13 +16,14 @@ namespace ATRACTool_Reloaded
         private MMDevice? mmDevice;
         private WasapiOut wasapiOut = null!;
         private AsioOut asioOut = null!;
+        private string asioDriver = null!;
         private readonly List<IDisposable> _disposables = new();
         WaveFileReader reader = null!;
         BufferedWaveProvider BufwaveProvider = null!;
         VolumeSampleProvider volumeSmplProvider = null!;
         PanningSampleProvider panSmplProvider = null!;
         long Sample, Start = 0, End = 0;
-        int bytePerSec, position, length, smplrate, WASAPILatency = 0, WASAPIexLatency = 0, ASIOLatency = 0, UseThreads = 3;
+        int bytePerSec, position, length, smplrate, WASAPILatency = 0, WASAPIexLatency = 0, UseThreads = 3;
         long totalsamples;
         uint btnpos;
         TimeSpan time;
@@ -316,6 +317,27 @@ namespace ATRACTool_Reloaded
                     }
             }
 
+            switch (string.IsNullOrWhiteSpace(Config.Entry["LPCUseASIODriver"].Value))
+            {
+                case true:
+                    {
+                        asioDriver = string.Empty;
+                        if (int.Parse(Config.Entry["LPCPlaybackMethod"].Value) == 3 || int.Parse(Config.Entry["LPCMultipleStreamPlaybackMethod"].Value) == 2)
+                        {
+                            MessageBox.Show("It is configured to play using ASIO, but no valid driver was found.\r\nIt will play using WASAPI exclusive mode instead.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            IsWASAPI = false;
+                            IsWASAPIex = true;
+                            IsASIO = false;
+                        }
+                        break;
+                    }
+                case false:
+                    {
+                        asioDriver = Config.Entry["LPCUseASIODriver"].Value;
+                        break;
+                    }
+            }
+
             if (SmoothSamples)
             {
                 if (IsWASAPI || IsWASAPIex)
@@ -324,7 +346,7 @@ namespace ATRACTool_Reloaded
                 }
                 else if (IsASIO)
                 {
-                    ASIOLatency = 0;
+                    //ASIOLatency = 0;
                 }
                 else
                 {
@@ -344,7 +366,7 @@ namespace ATRACTool_Reloaded
                 }
                 else if (IsASIO)
                 {
-                    ASIOLatency = 100;
+                    //ASIOLatency = 100;
                 }
                 else
                 {
@@ -634,7 +656,7 @@ namespace ATRACTool_Reloaded
                         }
                         else if (IsASIO)
                         {
-                            asioOut = new();
+                            asioOut = new(asioDriver);
                             asioOut.Init(new WaveChannel32(reader));
                         }
                         else
@@ -654,7 +676,7 @@ namespace ATRACTool_Reloaded
                         }
                         else if (IsASIO)
                         {
-                            asioOut = new();
+                            asioOut = new(asioDriver);
                             asioOut.Init(new WaveChannel32(reader));
                         }
                         else
@@ -677,7 +699,7 @@ namespace ATRACTool_Reloaded
                             }
                             else if (IsASIO)
                             {
-                                asioOut = new();
+                                asioOut = new(asioDriver);
                                 asioOut.Init(output);
                             }
                             else
@@ -701,7 +723,7 @@ namespace ATRACTool_Reloaded
                             }
                             else if (IsASIO)
                             {
-                                asioOut = new();
+                                asioOut = new(asioDriver);
                                 asioOut.Init(output);
                             }
                             else

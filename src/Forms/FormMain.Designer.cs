@@ -447,8 +447,6 @@
         internal Label label_Filepath;
         internal TextBox textBox_LoopEnd;
         internal TextBox textBox_LoopStart;
-        private Label label2;
-        private Label label4;
         internal Button button_Encode;
         internal Label label_LoopStart;
         internal Label label_LoopEnd;

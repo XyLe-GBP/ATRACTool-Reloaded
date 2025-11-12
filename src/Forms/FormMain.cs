@@ -86,65 +86,327 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
-            FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
-            Text = "ATRACTool Rel";
-
-            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_temp\"))
+            try
             {
-                Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp\");
-            }
-            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
-            {
-                Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_tempAudio");
-            }
+                FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+                Text = "ATRACTool Rel";
 
-            if (!File.Exists(Common.xmlpath))
-            {
-                Common.Utils.InitConfig();
-            }
-
-            Common.Config.Load(Common.xmlpath);
-
-            if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
-            {
-                TopMost = true;
-                TopMost = false;
-            }
-
-            FormMainInstance = this;
-
-            if (!bool.Parse(Config.Entry["HideSplash"].Value)) // Splash
-            {
-                lockobj = new object();
-
-                lock (lockobj)
+                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_temp\"))
                 {
-                    ThreadStart tds = new(StartThread);
-                    Thread thread = new(tds)
-                    {
-                        Name = "Splash",
-                        IsBackground = true
-                    };
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.Start();
+                    Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp\");
+                }
+                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
+                {
+                    Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_tempAudio");
+                }
 
-                    Dmes d = new(ShowMessage);
-                    fs?.Invoke(d, "Initializing...");
-                    Thread.Sleep(1000);
-                    foreach (var files in Directory.GetFiles(Directory.GetCurrentDirectory() + @"\res", "*", SearchOption.AllDirectories))
+                if (!File.Exists(Common.xmlpath))
+                {
+                    Common.Utils.InitConfig();
+                }
+
+                Common.Config.Load(Common.xmlpath);
+
+                if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                {
+                    TopMost = true;
+                    TopMost = false;
+                }
+
+                FormMainInstance = this;
+
+                if (!bool.Parse(Config.Entry["HideSplash"].Value)) // Splash
+                {
+                    lockobj = new object();
+
+                    lock (lockobj)
                     {
-                        FileInfo fi = new(files);
-                        if (fs != null)
+                        ThreadStart tds = new(StartThread);
+                        Thread thread = new(tds)
                         {
-                            fs.Invoke(d, string.Format(Localization.SplashFormFileCaption, fi.Name));
-                            Thread.Sleep(50);
+                            Name = "Splash",
+                            IsBackground = true
+                        };
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.Start();
+
+                        Dmes d = new(ShowMessage);
+                        fs?.Invoke(d, "Initializing...");
+                        Thread.Sleep(1000);
+                        foreach (var files in Directory.GetFiles(Directory.GetCurrentDirectory() + @"\res", "*", SearchOption.AllDirectories))
+                        {
+                            FileInfo fi = new(files);
+                            if (fs != null)
+                            {
+                                fs.Invoke(d, string.Format(Localization.SplashFormFileCaption, fi.Name));
+                                Thread.Sleep(50);
+                            }
                         }
+
+                        Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
+                        ResetStatus();
+
+                        fs?.Invoke(d, Localization.SplashFormConfigCaption);
+
+                        int ts = int.Parse(Config.Entry["ToolStrip"].Value);
+                        string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
+                        if (ts != 65535)
+                        {
+                            switch (ts)
+                            {
+                                case 0:
+                                    Common.Generic.ATRACFlag = 0;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
+                                    aTRAC9ToolStripMenuItem.Checked = false;
+                                    walkmanToolStripMenuItem.Checked = false;
+                                    toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
+                                    EncodeMethodIsATRAC(true);
+                                    break;
+                                case 1:
+                                    Common.Generic.ATRACFlag = 1;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                    aTRAC9ToolStripMenuItem.Checked = true;
+                                    walkmanToolStripMenuItem.Checked = false;
+                                    toolStripDropDownButton_EF.Text = "ATRAC9";
+                                    EncodeMethodIsATRAC(true);
+                                    break;
+                                case 2:
+                                    Common.Generic.ATRACFlag = 2;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                    aTRAC9ToolStripMenuItem.Checked = false;
+                                    walkmanToolStripMenuItem.Checked = true;
+                                    toolStripDropDownButton_EF.Text = "Walkman";
+                                    EncodeMethodIsATRAC(false);
+                                    break;
+                            }
+                        }
+                        if (prm1 != "" || prm1 != null)
+                        {
+                            Common.Generic.EncodeParamAT3 = prm1;
+                        }
+                        else
+                        {
+                            Common.Generic.EncodeParamAT3 = "";
+                        }
+                        if (prm2 != "" || prm2 != null)
+                        {
+                            Common.Generic.EncodeParamAT9 = prm2;
+                        }
+                        else
+                        {
+                            Common.Generic.EncodeParamAT9 = "";
+                        }
+                        if (prm3 != "" || prm3 != null)
+                        {
+                            Common.Generic.EncodeParamWalkman = prm3;
+                        }
+                        else
+                        {
+                            Common.Generic.EncodeParamWalkman = "";
+                        }
+                        if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                        {
+                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                        }
+                        else
+                        {
+                            switch (int.Parse(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
+                            {
+                                case 0:
+                                    Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
+                                    break;
+                                case 1:
+                                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                                    break;
+                                case 2:
+                                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
+                                    break;
+                                case 3:
+                                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
+                                    break;
+                                case 4:
+                                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
+                                    break;
+                                case 5:
+                                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
+                                    break;
+                                case 6:
+                                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
+                                    break;
+                                case 7:
+                                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
+                                    break;
+                                case 8:
+                                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
+                                    break;
+                            }
+                        }
+
+                        switch (bool.Parse(Config.Entry["LPC_Create"].Value))
+                        {
+                            case true:
+                                Generic.lpcreate = true;
+                                break;
+                            case false:
+                                Generic.lpcreate = false;
+                                break;
+                        }
+
+                        switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
+                        {
+                            case 0:
+                                {
+                                    Generic.IsAT3PS3 = false;
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    Generic.IsAT3PS3 = true;
+                                    break;
+                                }
+                            default:
+                                {
+                                    Generic.IsAT3PS3 = false;
+                                    break;
+                                }
+                        }
+
+                        switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
+                        {
+                            case 0:
+                                {
+                                    Generic.IsAT9PS4 = false;
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    Generic.IsAT9PS4 = true;
+                                    break;
+                                }
+                            default:
+                                {
+                                    Generic.IsAT9PS4 = false;
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
+                        {
+                            case true:
+                                {
+                                    Generic.IsAT3LoopPoint = true;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    Generic.IsAT3LoopPoint = false;
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Config.Entry["ATRAC3_LoopSound"].Value))
+                        {
+                            case true:
+                                {
+                                    Generic.IsAT3LoopSound = true;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    Generic.IsAT3LoopSound = false;
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
+                        {
+                            case true:
+                                {
+                                    Generic.IsAT9LoopPoint = true;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    Generic.IsAT9LoopPoint = false;
+                                    break;
+                                }
+                        }
+
+                        switch (bool.Parse(Config.Entry["ATRAC9_LoopSound"].Value))
+                        {
+                            case true:
+                                {
+                                    Generic.IsAT9LoopSound = true;
+                                    break;
+                                }
+                            case false:
+                                {
+                                    Generic.IsAT9LoopSound = false;
+                                    break;
+                                }
+                        }
+
+                        loopPointCreationToolStripMenuItem.Enabled = false;
+                        Thread.Sleep(1000);
+
+                        if (bool.Parse(Config.Entry["Oldmode"].Value))
+                        {
+                            fs?.Invoke(d, "Legacy mode is activated");
+                            Thread.Sleep(500);
+                            loopPointCreationToolStripMenuItem.Enabled = true;
+                        }
+                        else
+                        {
+                            loopPointCreationToolStripMenuItem.Enabled = false;
+                        }
+
+                        try
+                        {
+                            if (bool.Parse(Config.Entry["Check_Update"].Value))
+                            {
+                                fs?.Invoke(d, Localization.SplashFormUpdateCaption);
+                                Thread.Sleep(500);
+                                if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
+                                {
+                                    fs?.Invoke(d, Localization.SplashFormUpdatingCaption);
+                                    File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
+                                    string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
+                                    DirectoryInfo di = new(updpath + @"\updater-temp");
+                                    Common.Utils.RemoveReadonlyAttribute(di);
+                                    File.Delete(updpath + @"\updater.exe");
+                                    File.Delete(updpath + @"\atractool-rel.zip");
+                                    Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
+
+                                    fs?.Invoke(d, Localization.SplashFormUpdatedCaption);
+                                    MessageBox.Show(fs, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    var update = Task.Run(CheckForUpdatesForInit);
+                                    update.Wait();
+                                }
+                            }
+                            else
+                            {
+                                fs?.Invoke(d, "Skip Update");
+                                Thread.Sleep(500);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
+                        fs?.Invoke(d, "Starting...");
+                        Thread.Sleep(1000);
                     }
 
+                    CloseSplash();
+                }
+                else // No Splash
+                {
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
                     ResetStatus();
-
-                    fs?.Invoke(d, Localization.SplashFormConfigCaption);
 
                     int ts = int.Parse(Config.Entry["ToolStrip"].Value);
                     string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
@@ -240,14 +502,13 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
-                    switch (bool.Parse(Config.Entry["LPC_Create"].Value))
+                    if (bool.Parse(Config.Entry["LPC_Create"].Value))
                     {
-                        case true:
-                            Generic.lpcreate = true;
-                            break;
-                        case false:
-                            Generic.lpcreate = false;
-                            break;
+                        Generic.lpcreate = true;
+                    }
+                    else
+                    {
+                        Generic.lpcreate = false;
                     }
 
                     switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
@@ -345,28 +606,13 @@ namespace ATRACTool_Reloaded
                     }
 
                     loopPointCreationToolStripMenuItem.Enabled = false;
-                    Thread.Sleep(1000);
 
-                    if (bool.Parse(Config.Entry["Oldmode"].Value))
+                    if (bool.Parse(Config.Entry["Check_Update"].Value))
                     {
-                        fs?.Invoke(d, "Legacy mode is activated");
-                        Thread.Sleep(500);
-                        loopPointCreationToolStripMenuItem.Enabled = true;
-                    }
-                    else
-                    {
-                        loopPointCreationToolStripMenuItem.Enabled = false;
-                    }
-
-                    try
-                    {
-                        if (bool.Parse(Config.Entry["Check_Update"].Value))
+                        try
                         {
-                            fs?.Invoke(d, Localization.SplashFormUpdateCaption);
-                            Thread.Sleep(500);
                             if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
                             {
-                                fs?.Invoke(d, Localization.SplashFormUpdatingCaption);
                                 File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
                                 string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
                                 DirectoryInfo di = new(updpath + @"\updater-temp");
@@ -375,8 +621,7 @@ namespace ATRACTool_Reloaded
                                 File.Delete(updpath + @"\atractool-rel.zip");
                                 Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
 
-                                fs?.Invoke(d, Localization.SplashFormUpdatedCaption);
-                                MessageBox.Show(fs, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show(this, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             else
                             {
@@ -384,281 +629,44 @@ namespace ATRACTool_Reloaded
                                 update.Wait();
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            fs?.Invoke(d, "Skip Update");
-                            Thread.Sleep(500);
+                            MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
 
-                    fs?.Invoke(d, "Starting...");
-                    Thread.Sleep(1000);
                 }
 
-                CloseSplash();
-            }
-            else // No Splash
-            {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
-                ResetStatus();
+                toolStripStatusLabel_EncMethod.Alignment = ToolStripItemAlignment.Right;
 
-                int ts = int.Parse(Config.Entry["ToolStrip"].Value);
-                string prm1 = Config.Entry["ATRAC3_Params"].Value, prm2 = Config.Entry["ATRAC9_Params"].Value, prm3 = Config.Entry["Walkman_Params"].Value;
-                if (ts != 65535)
+
+
+                if (ver.FileVersion != null)
                 {
-                    switch (ts)
-                    {
-                        case 0:
-                            Common.Generic.ATRACFlag = 0;
-                            aTRAC3ATRAC3ToolStripMenuItem.Checked = true;
-                            aTRAC9ToolStripMenuItem.Checked = false;
-                            walkmanToolStripMenuItem.Checked = false;
-                            toolStripDropDownButton_EF.Text = "ATRAC3 / ATRAC3+";
-                            EncodeMethodIsATRAC(true);
-                            break;
-                        case 1:
-                            Common.Generic.ATRACFlag = 1;
-                            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
-                            aTRAC9ToolStripMenuItem.Checked = true;
-                            walkmanToolStripMenuItem.Checked = false;
-                            toolStripDropDownButton_EF.Text = "ATRAC9";
-                            EncodeMethodIsATRAC(true);
-                            break;
-                        case 2:
-                            Common.Generic.ATRACFlag = 2;
-                            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
-                            aTRAC9ToolStripMenuItem.Checked = false;
-                            walkmanToolStripMenuItem.Checked = true;
-                            toolStripDropDownButton_EF.Text = "Walkman";
-                            EncodeMethodIsATRAC(false);
-                            break;
-                    }
-                }
-                if (prm1 != "" || prm1 != null)
-                {
-                    Common.Generic.EncodeParamAT3 = prm1;
+                    Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
                 }
                 else
                 {
-                    Common.Generic.EncodeParamAT3 = "";
-                }
-                if (prm2 != "" || prm2 != null)
-                {
-                    Common.Generic.EncodeParamAT9 = prm2;
-                }
-                else
-                {
-                    Common.Generic.EncodeParamAT9 = "";
-                }
-                if (prm3 != "" || prm3 != null)
-                {
-                    Common.Generic.EncodeParamWalkman = prm3;
-                }
-                else
-                {
-                    Common.Generic.EncodeParamWalkman = "";
-                }
-                if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
-                {
-                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
-                }
-                else
-                {
-                    switch (int.Parse(Config.Entry["Walkman_EveryFmt_OutputFmt"].Value))
-                    {
-                        case 0:
-                            Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
-                            break;
-                        case 1:
-                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
-                            break;
-                        case 2:
-                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
-                            break;
-                        case 3:
-                            Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
-                            break;
-                        case 4:
-                            Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
-                            break;
-                        case 5:
-                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
-                            break;
-                        case 6:
-                            Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
-                            break;
-                        case 7:
-                            Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
-                            break;
-                        case 8:
-                            Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
-                            break;
-                    }
+                    Text = "ATRACTool Rel";
                 }
 
-                if (bool.Parse(Config.Entry["LPC_Create"].Value))
-                {
-                    Generic.lpcreate = true;
-                }
-                else
-                {
-                    Generic.lpcreate = false;
-                }
+                panel_Main.BackgroundImage = Resources.SIEv2;
+                Activate();
 
-                switch (int.Parse(Config.Entry["ATRAC3_Console"].Value))
+                if (!Utils.OpenMGCheck64() && !Utils.OpenMGCheck64_32())
                 {
-                    case 0:
-                        {
-                            Generic.IsAT3PS3 = false;
-                            break;
-                        }
-                    case 1:
-                        {
-                            Generic.IsAT3PS3 = true;
-                            break;
-                        }
-                    default:
-                        {
-                            Generic.IsAT3PS3 = false;
-                            break;
-                        }
+                    MessageBox.Show(fs, "There are no libraries installed on this PC to process OpenMG.\r\nTo generate files for Walkman, Sony Media Library Earth must be installed.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
-                switch (int.Parse(Config.Entry["ATRAC9_Console"].Value))
+                if (Generic.GlobalException is not null)
                 {
-                    case 0:
-                        {
-                            Generic.IsAT9PS4 = false;
-                            break;
-                        }
-                    case 1:
-                        {
-                            Generic.IsAT9PS4 = true;
-                            break;
-                        }
-                    default:
-                        {
-                            Generic.IsAT9PS4 = false;
-                            break;
-                        }
+                    MessageBox.Show(fs, string.Format(Localization.UnExpectedCaption, Generic.GlobalException), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-                switch (bool.Parse(Config.Entry["ATRAC3_LoopPoint"].Value))
-                {
-                    case true:
-                        {
-                            Generic.IsAT3LoopPoint = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            Generic.IsAT3LoopPoint = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["ATRAC3_LoopSound"].Value))
-                {
-                    case true:
-                        {
-                            Generic.IsAT3LoopSound = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            Generic.IsAT3LoopSound = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["ATRAC9_LoopPoint"].Value))
-                {
-                    case true:
-                        {
-                            Generic.IsAT9LoopPoint = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            Generic.IsAT9LoopPoint = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["ATRAC9_LoopSound"].Value))
-                {
-                    case true:
-                        {
-                            Generic.IsAT9LoopSound = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            Generic.IsAT9LoopSound = false;
-                            break;
-                        }
-                }
-
-                loopPointCreationToolStripMenuItem.Enabled = false;
-
-                if (bool.Parse(Config.Entry["Check_Update"].Value))
-                {
-                    try
-                    {
-                        if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
-                        {
-                            File.Delete(Directory.GetCurrentDirectory() + @"\updated.dat");
-                            string updpath = Directory.GetCurrentDirectory()[..Directory.GetCurrentDirectory().LastIndexOf('\\')];
-                            DirectoryInfo di = new(updpath + @"\updater-temp");
-                            Common.Utils.RemoveReadonlyAttribute(di);
-                            File.Delete(updpath + @"\updater.exe");
-                            File.Delete(updpath + @"\atractool-rel.zip");
-                            Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
-
-                            MessageBox.Show(this, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            var update = Task.Run(CheckForUpdatesForInit);
-                            update.Wait();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(fs, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-
             }
-
-            toolStripStatusLabel_EncMethod.Alignment = ToolStripItemAlignment.Right;
-
-
-
-            if (ver.FileVersion != null)
+            catch (Exception ex)
             {
-                Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
-            }
-            else
-            {
-                Text = "ATRACTool Rel";
-            }
-
-            panel_Main.BackgroundImage = Resources.SIEv2;
-            Activate();
-
-            if (!Utils.OpenMGCheck64() && !Utils.OpenMGCheck64_32())
-            {
-                MessageBox.Show(this, "There are no libraries installed on this PC to process OpenMG.\r\nTo generate files for Walkman, Sony Media Library Earth must be installed.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            if (Generic.GlobalException is not null)
-            {
-                MessageBox.Show(this, string.Format(Localization.UnExpectedCaption, Generic.GlobalException), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Utils.CreateExceptionLog(ex, true, fs);
+                Close();
             }
         }
 
@@ -862,10 +870,6 @@ namespace ATRACTool_Reloaded
                     }
                 }
             }
-            else
-            {
-
-            }
         }
 
         /// <summary>
@@ -993,7 +997,7 @@ namespace ATRACTool_Reloaded
                                 MessageBox.Show(this, Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UptodateCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 break;
                             case 1:
-                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString());
+                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
                         }
                         return;
                     }
@@ -1121,7 +1125,7 @@ namespace ATRACTool_Reloaded
                             case 0:
                                 break;
                             case 1:
-                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString());
+                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
                         }
                         return;
                     }
@@ -1790,6 +1794,15 @@ namespace ATRACTool_Reloaded
                 false => false,
                 true => true,
             };
+
+            if (Generic.ATRACFlag == 0 || Generic.ATRACFlag == 1)
+            {
+                if (Utils.CheckATRACFormatError(FormLPC.FormLPCInstance.SampleRate))
+                {
+                    MessageBox.Show(this, Localization.UnsupportedFormatErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
 
             if (Common.Generic.ATRACFlag == 0 || Common.Generic.ATRACFlag == 1 || Generic.ATRACFlag == 2)
             {

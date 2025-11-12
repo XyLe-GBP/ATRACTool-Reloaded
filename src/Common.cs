@@ -1,9 +1,10 @@
-﻿using System.Diagnostics;
+﻿using ATRACTool_Reloaded.Localizable;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Xml.Serialization;
 using System.Xml;
-using System.Diagnostics.Eventing.Reader;
+using System.Xml.Serialization;
 
 namespace ATRACTool_Reloaded
 {
@@ -480,7 +481,7 @@ namespace ATRACTool_Reloaded
             /// <returns></returns>
             public static bool OpenMGCheck64()
             {
-                List<string> ret = new List<string>();
+                List<string> ret = [];
 
                 string uninstall_path = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
                 Microsoft.Win32.RegistryKey uninstall = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path, false)!;
@@ -524,7 +525,7 @@ namespace ATRACTool_Reloaded
             /// <returns></returns>
             public static bool OpenMGCheck64_32()
             {
-                List<string> ret = new List<string>();
+                List<string> ret = [];
 
                 string uninstall_path = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
                 Microsoft.Win32.RegistryKey uninstall = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(uninstall_path, false)!;
@@ -560,6 +561,31 @@ namespace ATRACTool_Reloaded
                 {
                     return false;
                 }
+            }
+
+            public static void CreateExceptionLog(Exception ex, bool FolderOpen, IWin32Window? owner = null)
+            {
+                string logname = @"Exception_" + Utils.SFDRandomNumber() + @".log";
+                GenerateLog(logname, Utils.SFDRandomNumber() + @": " + ex.Message + "\n\nSource:\n" + ex.Source + "\n\nStack trace:\n" + ex.StackTrace + "\n\nEOF.\n");
+                MessageBox.Show(owner, "An unexpected error has occurred.\nThe log file was output to the same location as the application directory.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowFolder(Directory.GetCurrentDirectory() + @"\Logs\" + logname, FolderOpen);
+            }
+
+            public static void GenerateLog(string Logfilename, string Logs)
+            {
+                if (string.IsNullOrWhiteSpace(Logfilename) || string.IsNullOrWhiteSpace(Logs))
+                {
+                    return;
+                }
+                if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Logs\"))
+                {
+                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Logs\");
+                }
+                using var stream = new StreamWriter(Directory.GetCurrentDirectory() + @"\Logs\" + Logfilename, true, Encoding.UTF8) { AutoFlush = true };
+                stream.WriteLine(Logs);
+                stream.Close();
+
+                return;
             }
 
             public static void PictureboxImageDispose(PictureBox pictureBox)
@@ -841,10 +867,17 @@ namespace ATRACTool_Reloaded
                 catch (Exception e)
                 {
                     Generic.CommonException = e;
+                    Utils.CreateExceptionLog(e, true);
                     return false;
                 }
             }
 
+            /// <summary>
+            /// ATRACの生データを読み取りバッファに保存
+            /// </summary>
+            /// <param name="ATRACfile">ATRACファイル</param>
+            /// <param name="mbuffer">多次元配列バッファ</param>
+            /// <returns></returns>
             public static bool ReadMetadatasMulti(string[] ATRACfile, int[,] mbuffer)
             {
                 try
@@ -1093,8 +1126,137 @@ namespace ATRACTool_Reloaded
                 catch (Exception e)
                 {
                     Generic.CommonException = e;
+                    Utils.CreateExceptionLog(e, true);
                     return false;
                 }
+            }
+
+            /// <summary>
+            /// ATRAC変換時にエラーがないかチェック
+            /// </summary>
+            /// <param name="sourceSampleRate">今現在読み込まれているファイルのサンプリング周波数</param>
+            /// <returns>false: エラーなし<br />true: エラーあり</returns>
+            public static bool CheckATRACFormatError(int sourceSampleRate)
+            {
+                try
+                {
+                    Config.Load(xmlpath);
+                    int ConfigAT9SampleRate = int.Parse(Config.Entry["ATRAC9_Sampling"].Value);
+
+                    if (Generic.ReadedATRACFlag == 0) // ATRAC3
+                    {
+                        if (Generic.IsAT3PS3) // PS3
+                        {
+                            if (sourceSampleRate == 48000)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                        else // PSP
+                        {
+                            if (sourceSampleRate == 44100)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    else if (Generic.ReadedATRACFlag == 1) // ATRAC9
+                    {
+                        if (Generic.IsAT9PS4) // PS4
+                        {
+                            if (ConfigAT9SampleRate == sourceSampleRate)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                        else // PSV
+                        {
+                            if (ConfigAT9SampleRate == sourceSampleRate)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Generic.ATRACFlag == 0)
+                        {
+                            if (Generic.IsAT3PS3) // PS3
+                            {
+                                if (sourceSampleRate == 48000)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else // PSP
+                            {
+                                if (sourceSampleRate == 44100)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        else if (Generic.ATRACFlag == 1)
+                        {
+                            if (Generic.IsAT9PS4) // PS4
+                            {
+                                if (ConfigAT9SampleRate == sourceSampleRate)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else // PSV
+                            {
+                                if (ConfigAT9SampleRate == sourceSampleRate)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Utils.CreateExceptionLog(ex, true);
+                    return true;
+                }
+
             }
 
             /// <summary>
@@ -1580,11 +1742,11 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// 設定レコードののキー
             /// </summary>
-            public string Key { get; set; }
+            public string Key { get; set; } = null!;
             /// <summary>
             /// 設定レコードの値
             /// </summary>
-            public string Value { get; set; }
+            public string Value { get; set; } = null!;
             /// <summary>
             /// 子アイテム
             /// </summary>
@@ -1615,12 +1777,12 @@ namespace ATRACTool_Reloaded
             {
                 ConfigEntry? entry = Children?.FirstOrDefault(rec => rec.Key == key);
                 if (entry != null)
-                    entry.Value = o;
+                    entry.Value = o!;
                 else
                 {
                     if (Children == null)
                         Children = new List<ConfigEntry>();
-                    entry = new ConfigEntry() { Key = key, Value = o };
+                    entry = new ConfigEntry() { Key = key, Value = o! };
                     Children.Add(entry);
                 }
             }
