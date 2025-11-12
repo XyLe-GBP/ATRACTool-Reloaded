@@ -443,4 +443,13 @@ This format cannot load the playback preview.</value>
     <value>To playback using ASIO, a valid ASIO driver is required.
 If no driver is available or the DAC does not support ASIO, this option cannot be used.</value>
   </data>
+  <data name="UnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>The specified file sampling frequency differs from the sampling frequency of the selected format.
+Processing cannot continue with this format combination.
+Please select a valid combination.
+(For 44100Hz, only formats supporting 44100Hz [PSP]; for 48000Hz, only formats supporting 48000Hz [PS3, PS4, PSV])</value>
+  </data>
+  <data name="ASIODriverNotFoundCaption" xml:space="preserve">
+    <value>No valid ASIO driver was found.</value>
+  </data>
 </root>

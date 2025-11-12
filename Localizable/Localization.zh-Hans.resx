@@ -449,4 +449,13 @@
     <value>要使用ASIO进行播放，需要有效的ASIO驱动程序。
 如果没有驱动程序，或者DAC不支持ASIO，则无法使用此选项。</value>
   </data>
+  <data name="UnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>指定文件采样频率与设置的格式采样频率不一致。
+此格式组合无法继续处理。
+请选择正确的组合。
+（44100Hz仅支持44100Hz格式的[PSP]，48000Hz仅支持48000Hz格式的[PS3,PS4,PSV]）</value>
+  </data>
+  <data name="ASIODriverNotFoundCaption" xml:space="preserve">
+    <value>未找到有效的ASIO驱动程序。</value>
+  </data>
 </root>

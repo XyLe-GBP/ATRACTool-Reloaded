@@ -73,6 +73,15 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   No valid ASIO driver was found. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ASIODriverNotFoundCaption {
+            get {
+                return ResourceManager.GetString("ASIODriverNotFoundCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   To playback using ASIO, a valid ASIO driver is required.
         ///If no driver is available or the DAC does not support ASIO, this option cannot be used. に類似しているローカライズされた文字列を検索します。
         /// </summary>
@@ -880,6 +889,18 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string UnExpectedCaption {
             get {
                 return ResourceManager.GetString("UnExpectedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The specified file sampling frequency differs from the sampling frequency of the selected format.
+        ///Processing cannot continue with this format combination.
+        ///Please select a valid combination.
+        ///(For 44100Hz, only formats supporting 44100Hz [PSP]; for 48000Hz, only formats supporting 48000Hz [PS3, PS4, PSV]) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnsupportedFormatErrorCaption {
+            get {
+                return ResourceManager.GetString("UnsupportedFormatErrorCaption", resourceCulture);
             }
         }
         

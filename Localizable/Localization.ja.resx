@@ -449,4 +449,13 @@ GitHubリポジトリのページを開きますか？</value>
     <value>ASIOを使用して再生するには、有効なASIOドライバーが必要です。
 ドライバーがない、またはDACがASIOをサポートしていない場合、このオプションは使用できません。</value>
   </data>
+  <data name="UnsupportedFormatErrorCaption" xml:space="preserve">
+    <value>指定されたファイルサンプリング周波数と設定された形式のサンプリング周波数が異なります。
+このフォーマットの組み合わせでは処理を続行できません。
+正しい組み合わせを選択してください。
+(44100Hzに対しては44100Hzをサポートする形式のみ[PSP]、48000Hzに対しては48000Hzをサポートする形式のみ[PS3,PS4,PSV])</value>
+  </data>
+  <data name="ASIODriverNotFoundCaption" xml:space="preserve">
+    <value>有効なASIOドライバーが見つかりませんでした。</value>
+  </data>
 </root>
