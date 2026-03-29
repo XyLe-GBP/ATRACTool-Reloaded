@@ -458,4 +458,20 @@
   <data name="ASIODriverNotFoundCaption" xml:space="preserve">
     <value>未找到有效的ASIO驱动程序。</value>
   </data>
+  <data name="DebugmodeEnableWarningCaption" xml:space="preserve">
+    <value>调试模式已启用。
+执行用于调试的程序函数。</value>
+  </data>
+  <data name="DebugModeUpdateConfirmCaption" xml:space="preserve">
+    <value>应用程序下载已完成。
+是否执行更新操作？
+（请注意，更新后的应用程序版本反而较旧）</value>
+  </data>
+  <data name="WalkmanMetadataConfirmCaption" xml:space="preserve">
+    <value>是否继续转换而不添加元数据信息（标题/艺术家/专辑/封面等）？
+
+是：无标签继续
+否：中止转换
+取消：返回编辑界面</value>
+  </data>
 </root>

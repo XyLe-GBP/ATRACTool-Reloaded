@@ -19,7 +19,7 @@ namespace ATRACTool_Reloaded.Localizable {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -254,6 +254,27 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string CustomSplashSizeErrorCaption {
             get {
                 return ResourceManager.GetString("CustomSplashSizeErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Debug mode is enabled.
+        ///Execute program functions for debugging. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DebugmodeEnableWarningCaption {
+            get {
+                return ResourceManager.GetString("DebugmodeEnableWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The application download is complete.
+        ///Would you like to run the update process?
+        ///(Please note that the updated application is older.) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DebugModeUpdateConfirmCaption {
+            get {
+                return ResourceManager.GetString("DebugModeUpdateConfirmCaption", resourceCulture);
             }
         }
         
@@ -938,6 +959,19 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string WalkmanFilter {
             get {
                 return ResourceManager.GetString("WalkmanFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Continue conversion without adding metadata (title/artist/album/cover art, etc.)?
+        ///
+        ///Yes: Continue without tags
+        ///No: Stop conversion
+        ///Cancel: Return to edit screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WalkmanMetadataConfirmCaption {
+            get {
+                return ResourceManager.GetString("WalkmanMetadataConfirmCaption", resourceCulture);
             }
         }
         

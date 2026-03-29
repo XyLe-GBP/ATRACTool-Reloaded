@@ -452,4 +452,20 @@ Please select a valid combination.
   <data name="ASIODriverNotFoundCaption" xml:space="preserve">
     <value>No valid ASIO driver was found.</value>
   </data>
+  <data name="DebugmodeEnableWarningCaption" xml:space="preserve">
+    <value>Debug mode is enabled.
+Execute program functions for debugging.</value>
+  </data>
+  <data name="DebugModeUpdateConfirmCaption" xml:space="preserve">
+    <value>The application download is complete.
+Would you like to run the update process?
+(Please note that the updated application is older.)</value>
+  </data>
+  <data name="WalkmanMetadataConfirmCaption" xml:space="preserve">
+    <value>Continue conversion without adding metadata (title/artist/album/cover art, etc.)?
+
+Yes: Continue without tags
+No: Stop conversion
+Cancel: Return to edit screen</value>
+  </data>
 </root>

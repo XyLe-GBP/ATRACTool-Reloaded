@@ -458,4 +458,20 @@ GitHubリポジトリのページを開きますか？</value>
   <data name="ASIODriverNotFoundCaption" xml:space="preserve">
     <value>有効なASIOドライバーが見つかりませんでした。</value>
   </data>
+  <data name="DebugmodeEnableWarningCaption" xml:space="preserve">
+    <value>デバッグモードが有効になっています。
+デバッグ用のプログラム関数を実行します。</value>
+  </data>
+  <data name="DebugModeUpdateConfirmCaption" xml:space="preserve">
+    <value>アプリケーションのダウンロードは完了しました。
+更新処理も実行しますか？
+(更新後のアプリケーションの方が古いので、注意してください)</value>
+  </data>
+  <data name="WalkmanMetadataConfirmCaption" xml:space="preserve">
+    <value>メタデータ情報（タイトル/アーティスト/アルバム/ジャケット等）を付けずに変換を続行しますか？
+
+はい：タグ無しで続行
+いいえ：変換を中止
+キャンセル：編集画面に戻る</value>
+  </data>
 </root>
