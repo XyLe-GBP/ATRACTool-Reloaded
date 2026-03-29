@@ -2,19 +2,20 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <RootNamespace>ATRACTool_Reloaded</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.37.2520.1112</AssemblyVersion>
-    <FileVersion>1.37.2520.1112</FileVersion>
+    <AssemblyVersion>1.38.2620.329</AssemblyVersion>
+    <FileVersion>1.38.2620.329</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
     <Copyright>Copyright © 2025 - XyLe. All Rights Reserved.</Copyright>
     <PackageTags>ATRAC, ATRAC3, ATRAC9, walkman, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
+    <UseWPF>True</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,12 +25,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Properties\ATRACTool.ico" />
+    <None Remove="Properties\IMG_1540.JPG" />
+    <None Remove="Properties\SIEv2.png" />
+    <None Remove="src\Forms\ATRACTool.ico" />
+    <None Remove="src\Forms\IMG_1540.JPG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Properties\ATRACTool.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Properties\IMG_1540.JPG">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Properties\SIEv2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,10 +58,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Update="Localizable\XAMLWindowLocalization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>XAMLWindowLocalization.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="src\Forms\FormWalkmanInformations.cs">
+      <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
 
@@ -52,6 +80,10 @@
     <EmbeddedResource Update="Localizable\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localizable\XAMLWindowLocalization.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>XAMLWindowLocalization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
