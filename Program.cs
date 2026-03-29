@@ -1,3 +1,6 @@
+using System.IO;
+using System.Windows.Threading;
+
 namespace ATRACTool_Reloaded
 {
     internal static class Program
@@ -53,6 +56,7 @@ namespace ATRACTool_Reloaded
                     return;
                 }
 
+                WpfBootstrap.Ensure();
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -67,6 +71,46 @@ namespace ATRACTool_Reloaded
                 }
                 mutex.Close();
             }
+        }
+    }
+
+    internal static class WpfBootstrap
+    {
+        private static bool _initialized;
+        public static System.Windows.Application? App { get; private set; }
+        public static Dispatcher? Dispatcher { get; private set; }
+
+        public static void Ensure()
+        {
+            if (_initialized) return;
+
+            // ここは WinForms の UI スレッド (STA) で呼ぶ前提
+            App = System.Windows.Application.Current ?? new System.Windows.Application
+            {
+                ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown
+            };
+
+            Dispatcher = App.Dispatcher;
+            _initialized = true;
+        }
+
+        public static void Invoke(Action action)
+        {
+            if (Dispatcher == null)
+                throw new InvalidOperationException("WPF Dispatcher が初期化されていません。WpfBootstrap.Ensure() を先に呼んでください。");
+
+            if (Dispatcher.CheckAccess())
+                action();
+            else
+                Dispatcher.Invoke(action);
+        }
+
+        public static T Invoke<T>(Func<T> func)
+        {
+            if (Dispatcher == null)
+                throw new InvalidOperationException("WPF Dispatcher が初期化されていません。WpfBootstrap.Ensure() を先に呼んでください。");
+
+            return Dispatcher.CheckAccess() ? func() : Dispatcher.Invoke(func);
         }
     }
 }
