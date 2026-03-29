@@ -1002,6 +1002,9 @@ PSVita、PS4で形式が異なります。
   <data name="groupBox_walkman_general.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="checkBox_Unattended.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_everyFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 19</value>
   </data>

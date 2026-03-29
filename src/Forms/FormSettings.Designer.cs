@@ -154,6 +154,7 @@
             label12 = new Label();
             label11 = new Label();
             groupBox_walkman_general = new GroupBox();
+            checkBox_Unattended = new CheckBox();
             checkBox_everyFormats = new CheckBox();
             comboBox_DecodeFormats = new ComboBox();
             label_Decodeformat = new Label();
@@ -178,7 +179,6 @@
             // 
             resources.ApplyResources(button_OK, "button_OK");
             button_OK.Name = "button_OK";
-            toolTip_info.SetToolTip(button_OK, resources.GetString("button_OK.ToolTip"));
             button_OK.UseVisualStyleBackColor = true;
             button_OK.Click += Button_OK_Click;
             // 
@@ -186,7 +186,6 @@
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            toolTip_info.SetToolTip(button_Cancel, resources.GetString("button_Cancel.ToolTip"));
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += Button_Cancel_Click;
             // 
@@ -207,17 +206,14 @@
             // 
             resources.ApplyResources(label_at3_cmd, "label_at3_cmd");
             label_at3_cmd.Name = "label_at3_cmd";
-            toolTip_info.SetToolTip(label_at3_cmd, resources.GetString("label_at3_cmd.ToolTip"));
             // 
             // label_at9_cmd
             // 
             resources.ApplyResources(label_at9_cmd, "label_at9_cmd");
             label_at9_cmd.Name = "label_at9_cmd";
-            toolTip_info.SetToolTip(label_at9_cmd, resources.GetString("label_at9_cmd.ToolTip"));
             // 
             // groupBox_at3
             // 
-            resources.ApplyResources(groupBox_at3, "groupBox_at3");
             groupBox_at3.Controls.Add(radioButton_PS3);
             groupBox_at3.Controls.Add(label_at3_times);
             groupBox_at3.Controls.Add(radioButton_PSP);
@@ -234,9 +230,9 @@
             groupBox_at3.Controls.Add(checkBox_at3_looppoint);
             groupBox_at3.Controls.Add(comboBox_at3_encmethod);
             groupBox_at3.Controls.Add(label_at3_encmethod);
+            resources.ApplyResources(groupBox_at3, "groupBox_at3");
             groupBox_at3.Name = "groupBox_at3";
             groupBox_at3.TabStop = false;
-            toolTip_info.SetToolTip(groupBox_at3, resources.GetString("groupBox_at3.ToolTip"));
             // 
             // radioButton_PS3
             // 
@@ -250,7 +246,6 @@
             // 
             resources.ApplyResources(label_at3_times, "label_at3_times");
             label_at3_times.Name = "label_at3_times";
-            toolTip_info.SetToolTip(label_at3_times, resources.GetString("label_at3_times.ToolTip"));
             // 
             // radioButton_PSP
             // 
@@ -274,13 +269,11 @@
             // 
             resources.ApplyResources(label_at3_console, "label_at3_console");
             label_at3_console.Name = "label_at3_console";
-            toolTip_info.SetToolTip(label_at3_console, resources.GetString("label_at3_console.ToolTip"));
             // 
             // label_at3_nol
             // 
             resources.ApplyResources(label_at3_nol, "label_at3_nol");
             label_at3_nol.Name = "label_at3_nol";
-            toolTip_info.SetToolTip(label_at3_nol, resources.GetString("label_at3_nol.ToolTip"));
             // 
             // checkBox_at3_looptimes
             // 
@@ -294,7 +287,6 @@
             // 
             resources.ApplyResources(label_at3_samples, "label_at3_samples");
             label_at3_samples.Name = "label_at3_samples";
-            toolTip_info.SetToolTip(label_at3_samples, resources.GetString("label_at3_samples.ToolTip"));
             // 
             // textBox_at3_loopend
             // 
@@ -316,13 +308,11 @@
             // 
             resources.ApplyResources(label_at3_loopend, "label_at3_loopend");
             label_at3_loopend.Name = "label_at3_loopend";
-            toolTip_info.SetToolTip(label_at3_loopend, resources.GetString("label_at3_loopend.ToolTip"));
             // 
             // label_at3_loopstart
             // 
             resources.ApplyResources(label_at3_loopstart, "label_at3_loopstart");
             label_at3_loopstart.Name = "label_at3_loopstart";
-            toolTip_info.SetToolTip(label_at3_loopstart, resources.GetString("label_at3_loopstart.ToolTip"));
             // 
             // checkBox_at3_loopsound
             // 
@@ -342,10 +332,10 @@
             // 
             // comboBox_at3_encmethod
             // 
-            resources.ApplyResources(comboBox_at3_encmethod, "comboBox_at3_encmethod");
             comboBox_at3_encmethod.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_at3_encmethod.FormattingEnabled = true;
             comboBox_at3_encmethod.Items.AddRange(new object[] { resources.GetString("comboBox_at3_encmethod.Items"), resources.GetString("comboBox_at3_encmethod.Items1"), resources.GetString("comboBox_at3_encmethod.Items2"), resources.GetString("comboBox_at3_encmethod.Items3"), resources.GetString("comboBox_at3_encmethod.Items4"), resources.GetString("comboBox_at3_encmethod.Items5"), resources.GetString("comboBox_at3_encmethod.Items6"), resources.GetString("comboBox_at3_encmethod.Items7"), resources.GetString("comboBox_at3_encmethod.Items8"), resources.GetString("comboBox_at3_encmethod.Items9"), resources.GetString("comboBox_at3_encmethod.Items10"), resources.GetString("comboBox_at3_encmethod.Items11"), resources.GetString("comboBox_at3_encmethod.Items12"), resources.GetString("comboBox_at3_encmethod.Items13"), resources.GetString("comboBox_at3_encmethod.Items14"), resources.GetString("comboBox_at3_encmethod.Items15") });
+            resources.ApplyResources(comboBox_at3_encmethod, "comboBox_at3_encmethod");
             comboBox_at3_encmethod.Name = "comboBox_at3_encmethod";
             toolTip_info.SetToolTip(comboBox_at3_encmethod, resources.GetString("comboBox_at3_encmethod.ToolTip"));
             comboBox_at3_encmethod.SelectedIndexChanged += ComboBox_at3_encmethod_SelectedIndexChanged;
@@ -354,11 +344,9 @@
             // 
             resources.ApplyResources(label_at3_encmethod, "label_at3_encmethod");
             label_at3_encmethod.Name = "label_at3_encmethod";
-            toolTip_info.SetToolTip(label_at3_encmethod, resources.GetString("label_at3_encmethod.ToolTip"));
             // 
             // groupBox_at9
             // 
-            resources.ApplyResources(groupBox_at9, "groupBox_at9");
             groupBox_at9.Controls.Add(radioButton_PS4);
             groupBox_at9.Controls.Add(radioButton_PSV);
             groupBox_at9.Controls.Add(label_at9_times);
@@ -380,9 +368,9 @@
             groupBox_at9.Controls.Add(label_at9_loopend);
             groupBox_at9.Controls.Add(label_at9_console);
             groupBox_at9.Controls.Add(label_at9_nol);
+            resources.ApplyResources(groupBox_at9, "groupBox_at9");
             groupBox_at9.Name = "groupBox_at9";
             groupBox_at9.TabStop = false;
-            toolTip_info.SetToolTip(groupBox_at9, resources.GetString("groupBox_at9.ToolTip"));
             // 
             // radioButton_PS4
             // 
@@ -406,7 +394,6 @@
             // 
             resources.ApplyResources(label_at9_times, "label_at9_times");
             label_at9_times.Name = "label_at9_times";
-            toolTip_info.SetToolTip(label_at9_times, resources.GetString("label_at9_times.ToolTip"));
             // 
             // textBox_at9_looptimes
             // 
@@ -420,7 +407,6 @@
             // 
             resources.ApplyResources(label_at9_samples, "label_at9_samples");
             label_at9_samples.Name = "label_at9_samples";
-            toolTip_info.SetToolTip(label_at9_samples, resources.GetString("label_at9_samples.ToolTip"));
             // 
             // textBox_at9_loopend
             // 
@@ -442,7 +428,6 @@
             // 
             resources.ApplyResources(label_at9_loopstart, "label_at9_loopstart");
             label_at9_loopstart.Name = "label_at9_loopstart";
-            toolTip_info.SetToolTip(label_at9_loopstart, resources.GetString("label_at9_loopstart.ToolTip"));
             // 
             // checkBox_at9_looptimes
             // 
@@ -456,7 +441,6 @@
             // 
             resources.ApplyResources(button_at9_looplist, "button_at9_looplist");
             button_at9_looplist.Name = "button_at9_looplist";
-            toolTip_info.SetToolTip(button_at9_looplist, resources.GetString("button_at9_looplist.ToolTip"));
             button_at9_looplist.UseVisualStyleBackColor = true;
             button_at9_looplist.Click += Button_at9_looplist_Click;
             // 
@@ -465,7 +449,6 @@
             resources.ApplyResources(textBox_at9_looplist, "textBox_at9_looplist");
             textBox_at9_looplist.Name = "textBox_at9_looplist";
             textBox_at9_looplist.ReadOnly = true;
-            toolTip_info.SetToolTip(textBox_at9_looplist, resources.GetString("textBox_at9_looplist.ToolTip"));
             // 
             // checkBox_at9_looplist
             // 
@@ -493,10 +476,10 @@
             // 
             // comboBox_at9_sampling
             // 
-            resources.ApplyResources(comboBox_at9_sampling, "comboBox_at9_sampling");
             comboBox_at9_sampling.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_at9_sampling.FormattingEnabled = true;
             comboBox_at9_sampling.Items.AddRange(new object[] { resources.GetString("comboBox_at9_sampling.Items"), resources.GetString("comboBox_at9_sampling.Items1"), resources.GetString("comboBox_at9_sampling.Items2") });
+            resources.ApplyResources(comboBox_at9_sampling, "comboBox_at9_sampling");
             comboBox_at9_sampling.Name = "comboBox_at9_sampling";
             toolTip_info.SetToolTip(comboBox_at9_sampling, resources.GetString("comboBox_at9_sampling.ToolTip"));
             comboBox_at9_sampling.SelectedIndexChanged += ComboBox_at9_sampling_SelectedIndexChanged;
@@ -505,14 +488,13 @@
             // 
             resources.ApplyResources(label_at9_samplingfreq, "label_at9_samplingfreq");
             label_at9_samplingfreq.Name = "label_at9_samplingfreq";
-            toolTip_info.SetToolTip(label_at9_samplingfreq, resources.GetString("label_at9_samplingfreq.ToolTip"));
             // 
             // comboBox_at9_bitrate
             // 
-            resources.ApplyResources(comboBox_at9_bitrate, "comboBox_at9_bitrate");
             comboBox_at9_bitrate.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_at9_bitrate.FormattingEnabled = true;
             comboBox_at9_bitrate.Items.AddRange(new object[] { resources.GetString("comboBox_at9_bitrate.Items"), resources.GetString("comboBox_at9_bitrate.Items1"), resources.GetString("comboBox_at9_bitrate.Items2"), resources.GetString("comboBox_at9_bitrate.Items3"), resources.GetString("comboBox_at9_bitrate.Items4"), resources.GetString("comboBox_at9_bitrate.Items5"), resources.GetString("comboBox_at9_bitrate.Items6"), resources.GetString("comboBox_at9_bitrate.Items7"), resources.GetString("comboBox_at9_bitrate.Items8") });
+            resources.ApplyResources(comboBox_at9_bitrate, "comboBox_at9_bitrate");
             comboBox_at9_bitrate.Name = "comboBox_at9_bitrate";
             toolTip_info.SetToolTip(comboBox_at9_bitrate, resources.GetString("comboBox_at9_bitrate.ToolTip"));
             comboBox_at9_bitrate.SelectedIndexChanged += ComboBox_at9_bitrate_SelectedIndexChanged;
@@ -521,29 +503,24 @@
             // 
             resources.ApplyResources(label_at9_bitrate, "label_at9_bitrate");
             label_at9_bitrate.Name = "label_at9_bitrate";
-            toolTip_info.SetToolTip(label_at9_bitrate, resources.GetString("label_at9_bitrate.ToolTip"));
             // 
             // label_at9_loopend
             // 
             resources.ApplyResources(label_at9_loopend, "label_at9_loopend");
             label_at9_loopend.Name = "label_at9_loopend";
-            toolTip_info.SetToolTip(label_at9_loopend, resources.GetString("label_at9_loopend.ToolTip"));
             // 
             // label_at9_console
             // 
             resources.ApplyResources(label_at9_console, "label_at9_console");
             label_at9_console.Name = "label_at9_console";
-            toolTip_info.SetToolTip(label_at9_console, resources.GetString("label_at9_console.ToolTip"));
             // 
             // label_at9_nol
             // 
             resources.ApplyResources(label_at9_nol, "label_at9_nol");
             label_at9_nol.Name = "label_at9_nol";
-            toolTip_info.SetToolTip(label_at9_nol, resources.GetString("label_at9_nol.ToolTip"));
             // 
             // groupBox_at9_advanced
             // 
-            resources.ApplyResources(groupBox_at9_advanced, "groupBox_at9_advanced");
             groupBox_at9_advanced.Controls.Add(checkBox_LFE);
             groupBox_at9_advanced.Controls.Add(checkBox_wband);
             groupBox_at9_advanced.Controls.Add(checkBox_bex);
@@ -558,16 +535,15 @@
             groupBox_at9_advanced.Controls.Add(checkBox_at9_dualenc);
             groupBox_at9_advanced.Controls.Add(checkBox_at9_supframe);
             groupBox_at9_advanced.Controls.Add(checkBox_at9_advanced);
+            resources.ApplyResources(groupBox_at9_advanced, "groupBox_at9_advanced");
             groupBox_at9_advanced.Name = "groupBox_at9_advanced";
             groupBox_at9_advanced.TabStop = false;
-            toolTip_info.SetToolTip(groupBox_at9_advanced, resources.GetString("groupBox_at9_advanced.ToolTip"));
             groupBox_at9_advanced.Enter += groupBox3_Enter;
             // 
             // checkBox_LFE
             // 
             resources.ApplyResources(checkBox_LFE, "checkBox_LFE");
             checkBox_LFE.Name = "checkBox_LFE";
-            toolTip_info.SetToolTip(checkBox_LFE, resources.GetString("checkBox_LFE.ToolTip"));
             checkBox_LFE.UseVisualStyleBackColor = true;
             checkBox_LFE.CheckedChanged += CheckBox_LFE_CheckedChanged;
             // 
@@ -575,7 +551,6 @@
             // 
             resources.ApplyResources(checkBox_wband, "checkBox_wband");
             checkBox_wband.Name = "checkBox_wband";
-            toolTip_info.SetToolTip(checkBox_wband, resources.GetString("checkBox_wband.ToolTip"));
             checkBox_wband.UseVisualStyleBackColor = true;
             checkBox_wband.CheckedChanged += CheckBox_wband_CheckedChanged;
             // 
@@ -583,71 +558,62 @@
             // 
             resources.ApplyResources(checkBox_bex, "checkBox_bex");
             checkBox_bex.Name = "checkBox_bex";
-            toolTip_info.SetToolTip(checkBox_bex, resources.GetString("checkBox_bex.ToolTip"));
             checkBox_bex.UseVisualStyleBackColor = true;
             checkBox_bex.CheckedChanged += CheckBox_bex_CheckedChanged;
             // 
             // comboBox_at9_enctype
             // 
-            resources.ApplyResources(comboBox_at9_enctype, "comboBox_at9_enctype");
             comboBox_at9_enctype.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_at9_enctype, "comboBox_at9_enctype");
             comboBox_at9_enctype.FormattingEnabled = true;
             comboBox_at9_enctype.Items.AddRange(new object[] { resources.GetString("comboBox_at9_enctype.Items"), resources.GetString("comboBox_at9_enctype.Items1"), resources.GetString("comboBox_at9_enctype.Items2"), resources.GetString("comboBox_at9_enctype.Items3"), resources.GetString("comboBox_at9_enctype.Items4"), resources.GetString("comboBox_at9_enctype.Items5") });
             comboBox_at9_enctype.Name = "comboBox_at9_enctype";
-            toolTip_info.SetToolTip(comboBox_at9_enctype, resources.GetString("comboBox_at9_enctype.ToolTip"));
             comboBox_at9_enctype.SelectedIndexChanged += ComboBox_at9_enctype_SelectedIndexChanged;
             // 
             // label_at9_enctype
             // 
             resources.ApplyResources(label_at9_enctype, "label_at9_enctype");
             label_at9_enctype.Name = "label_at9_enctype";
-            toolTip_info.SetToolTip(label_at9_enctype, resources.GetString("label_at9_enctype.ToolTip"));
             // 
             // comboBox_at9_startband
             // 
-            resources.ApplyResources(comboBox_at9_startband, "comboBox_at9_startband");
             comboBox_at9_startband.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_at9_startband, "comboBox_at9_startband");
             comboBox_at9_startband.FormattingEnabled = true;
             comboBox_at9_startband.Items.AddRange(new object[] { resources.GetString("comboBox_at9_startband.Items"), resources.GetString("comboBox_at9_startband.Items1") });
             comboBox_at9_startband.Name = "comboBox_at9_startband";
-            toolTip_info.SetToolTip(comboBox_at9_startband, resources.GetString("comboBox_at9_startband.ToolTip"));
             comboBox_at9_startband.SelectedIndexChanged += ComboBox_at9_startband_SelectedIndexChanged;
             // 
             // checkBox_at9_enctype
             // 
             resources.ApplyResources(checkBox_at9_enctype, "checkBox_at9_enctype");
             checkBox_at9_enctype.Name = "checkBox_at9_enctype";
-            toolTip_info.SetToolTip(checkBox_at9_enctype, resources.GetString("checkBox_at9_enctype.ToolTip"));
             checkBox_at9_enctype.UseVisualStyleBackColor = true;
             checkBox_at9_enctype.CheckedChanged += CheckBox_at9_enctype_CheckedChanged;
             // 
             // comboBox_at9_useband
             // 
-            resources.ApplyResources(comboBox_at9_useband, "comboBox_at9_useband");
             comboBox_at9_useband.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_at9_useband, "comboBox_at9_useband");
             comboBox_at9_useband.FormattingEnabled = true;
             comboBox_at9_useband.Items.AddRange(new object[] { resources.GetString("comboBox_at9_useband.Items"), resources.GetString("comboBox_at9_useband.Items1"), resources.GetString("comboBox_at9_useband.Items2"), resources.GetString("comboBox_at9_useband.Items3"), resources.GetString("comboBox_at9_useband.Items4"), resources.GetString("comboBox_at9_useband.Items5"), resources.GetString("comboBox_at9_useband.Items6"), resources.GetString("comboBox_at9_useband.Items7"), resources.GetString("comboBox_at9_useband.Items8"), resources.GetString("comboBox_at9_useband.Items9"), resources.GetString("comboBox_at9_useband.Items10"), resources.GetString("comboBox_at9_useband.Items11"), resources.GetString("comboBox_at9_useband.Items12"), resources.GetString("comboBox_at9_useband.Items13"), resources.GetString("comboBox_at9_useband.Items14"), resources.GetString("comboBox_at9_useband.Items15") });
             comboBox_at9_useband.Name = "comboBox_at9_useband";
-            toolTip_info.SetToolTip(comboBox_at9_useband, resources.GetString("comboBox_at9_useband.ToolTip"));
             comboBox_at9_useband.SelectedIndexChanged += ComboBox_at9_useband_SelectedIndexChanged;
             // 
             // label_at9_useband
             // 
             resources.ApplyResources(label_at9_useband, "label_at9_useband");
             label_at9_useband.Name = "label_at9_useband";
-            toolTip_info.SetToolTip(label_at9_useband, resources.GetString("label_at9_useband.ToolTip"));
             // 
             // label_at9_startband
             // 
             resources.ApplyResources(label_at9_startband, "label_at9_startband");
             label_at9_startband.Name = "label_at9_startband";
-            toolTip_info.SetToolTip(label_at9_startband, resources.GetString("label_at9_startband.ToolTip"));
             // 
             // checkBox_at9_advband
             // 
             resources.ApplyResources(checkBox_at9_advband, "checkBox_at9_advband");
             checkBox_at9_advband.Name = "checkBox_at9_advband";
-            toolTip_info.SetToolTip(checkBox_at9_advband, resources.GetString("checkBox_at9_advband.ToolTip"));
             checkBox_at9_advband.UseVisualStyleBackColor = true;
             checkBox_at9_advband.CheckedChanged += CheckBox_at9_advband_CheckedChanged;
             // 
@@ -655,7 +621,6 @@
             // 
             resources.ApplyResources(checkBox_at9_dualenc, "checkBox_at9_dualenc");
             checkBox_at9_dualenc.Name = "checkBox_at9_dualenc";
-            toolTip_info.SetToolTip(checkBox_at9_dualenc, resources.GetString("checkBox_at9_dualenc.ToolTip"));
             checkBox_at9_dualenc.UseVisualStyleBackColor = true;
             checkBox_at9_dualenc.CheckedChanged += CheckBox_at9_dualenc_CheckedChanged;
             // 
@@ -663,7 +628,6 @@
             // 
             resources.ApplyResources(checkBox_at9_supframe, "checkBox_at9_supframe");
             checkBox_at9_supframe.Name = "checkBox_at9_supframe";
-            toolTip_info.SetToolTip(checkBox_at9_supframe, resources.GetString("checkBox_at9_supframe.ToolTip"));
             checkBox_at9_supframe.UseVisualStyleBackColor = true;
             checkBox_at9_supframe.CheckedChanged += CheckBox_at9_supframe_CheckedChanged;
             // 
@@ -671,7 +635,6 @@
             // 
             resources.ApplyResources(checkBox_at9_advanced, "checkBox_at9_advanced");
             checkBox_at9_advanced.Name = "checkBox_at9_advanced";
-            toolTip_info.SetToolTip(checkBox_at9_advanced, resources.GetString("checkBox_at9_advanced.ToolTip"));
             checkBox_at9_advanced.UseVisualStyleBackColor = true;
             checkBox_at9_advanced.CheckedChanged += CheckBox_at9_advanced_CheckedChanged;
             // 
@@ -685,17 +648,15 @@
             // 
             // tabControl_Main
             // 
-            resources.ApplyResources(tabControl_Main, "tabControl_Main");
             tabControl_Main.Controls.Add(tabPage1);
             tabControl_Main.Controls.Add(tabPage2);
+            resources.ApplyResources(tabControl_Main, "tabControl_Main");
             tabControl_Main.Name = "tabControl_Main";
             tabControl_Main.SelectedIndex = 0;
-            toolTip_info.SetToolTip(tabControl_Main, resources.GetString("tabControl_Main.ToolTip"));
             tabControl_Main.Selecting += TabControl_Main_Selecting;
             // 
             // tabPage1
             // 
-            resources.ApplyResources(tabPage1, "tabPage1");
             tabPage1.Controls.Add(checkBox_lpcreate);
             tabPage1.Controls.Add(groupBox_at9);
             tabPage1.Controls.Add(label_at3_cmd);
@@ -704,24 +665,22 @@
             tabPage1.Controls.Add(groupBox_at9_advanced);
             tabPage1.Controls.Add(groupBox_at3);
             tabPage1.Controls.Add(textBox_at9_cmd);
+            resources.ApplyResources(tabPage1, "tabPage1");
             tabPage1.Name = "tabPage1";
-            toolTip_info.SetToolTip(tabPage1, resources.GetString("tabPage1.ToolTip"));
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            resources.ApplyResources(tabPage2, "tabPage2");
             tabPage2.Controls.Add(groupBox_walkman_others);
             tabPage2.Controls.Add(groupBox_walkman_general);
             tabPage2.Controls.Add(textBox_cmd_walkman);
             tabPage2.Controls.Add(label8);
+            resources.ApplyResources(tabPage2, "tabPage2");
             tabPage2.Name = "tabPage2";
-            toolTip_info.SetToolTip(tabPage2, resources.GetString("tabPage2.ToolTip"));
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox_walkman_others
             // 
-            resources.ApplyResources(groupBox_walkman_others, "groupBox_walkman_others");
             groupBox_walkman_others.Controls.Add(label_Linerpath);
             groupBox_walkman_others.Controls.Add(label_Lyricspath);
             groupBox_walkman_others.Controls.Add(label_Jacketpath);
@@ -779,72 +738,64 @@
             groupBox_walkman_others.Controls.Add(label13);
             groupBox_walkman_others.Controls.Add(label12);
             groupBox_walkman_others.Controls.Add(label11);
+            resources.ApplyResources(groupBox_walkman_others, "groupBox_walkman_others");
             groupBox_walkman_others.Name = "groupBox_walkman_others";
             groupBox_walkman_others.TabStop = false;
-            toolTip_info.SetToolTip(groupBox_walkman_others, resources.GetString("groupBox_walkman_others.ToolTip"));
             groupBox_walkman_others.Enter += groupBox_walkman_others_Enter;
             // 
             // label_Linerpath
             // 
             resources.ApplyResources(label_Linerpath, "label_Linerpath");
             label_Linerpath.Name = "label_Linerpath";
-            toolTip_info.SetToolTip(label_Linerpath, resources.GetString("label_Linerpath.ToolTip"));
             // 
             // label_Lyricspath
             // 
             resources.ApplyResources(label_Lyricspath, "label_Lyricspath");
             label_Lyricspath.Name = "label_Lyricspath";
-            toolTip_info.SetToolTip(label_Lyricspath, resources.GetString("label_Lyricspath.ToolTip"));
             // 
             // label_Jacketpath
             // 
             resources.ApplyResources(label_Jacketpath, "label_Jacketpath");
             label_Jacketpath.Name = "label_Jacketpath";
-            toolTip_info.SetToolTip(label_Jacketpath, resources.GetString("label_Jacketpath.ToolTip"));
             // 
             // comboBox_Jacketmode
             // 
-            resources.ApplyResources(comboBox_Jacketmode, "comboBox_Jacketmode");
             comboBox_Jacketmode.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_Jacketmode.FormattingEnabled = true;
             comboBox_Jacketmode.Items.AddRange(new object[] { resources.GetString("comboBox_Jacketmode.Items"), resources.GetString("comboBox_Jacketmode.Items1"), resources.GetString("comboBox_Jacketmode.Items2"), resources.GetString("comboBox_Jacketmode.Items3") });
+            resources.ApplyResources(comboBox_Jacketmode, "comboBox_Jacketmode");
             comboBox_Jacketmode.Name = "comboBox_Jacketmode";
-            toolTip_info.SetToolTip(comboBox_Jacketmode, resources.GetString("comboBox_Jacketmode.ToolTip"));
             comboBox_Jacketmode.SelectedIndexChanged += ComboBox_Jacketmode_SelectedIndexChanged;
             // 
             // comboBox_Linermode
             // 
-            resources.ApplyResources(comboBox_Linermode, "comboBox_Linermode");
             comboBox_Linermode.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_Linermode.FormattingEnabled = true;
             comboBox_Linermode.Items.AddRange(new object[] { resources.GetString("comboBox_Linermode.Items"), resources.GetString("comboBox_Linermode.Items1"), resources.GetString("comboBox_Linermode.Items2"), resources.GetString("comboBox_Linermode.Items3"), resources.GetString("comboBox_Linermode.Items4") });
+            resources.ApplyResources(comboBox_Linermode, "comboBox_Linermode");
             comboBox_Linermode.Name = "comboBox_Linermode";
-            toolTip_info.SetToolTip(comboBox_Linermode, resources.GetString("comboBox_Linermode.ToolTip"));
             comboBox_Linermode.SelectedIndexChanged += ComboBox_Linermode_SelectedIndexChanged;
             // 
             // button_Linerpath
             // 
             resources.ApplyResources(button_Linerpath, "button_Linerpath");
             button_Linerpath.Name = "button_Linerpath";
-            toolTip_info.SetToolTip(button_Linerpath, resources.GetString("button_Linerpath.ToolTip"));
             button_Linerpath.UseVisualStyleBackColor = true;
             button_Linerpath.Click += Button_Linerpath_Click;
             // 
             // comboBox_Lyricsmode
             // 
-            resources.ApplyResources(comboBox_Lyricsmode, "comboBox_Lyricsmode");
             comboBox_Lyricsmode.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_Lyricsmode.FormattingEnabled = true;
             comboBox_Lyricsmode.Items.AddRange(new object[] { resources.GetString("comboBox_Lyricsmode.Items"), resources.GetString("comboBox_Lyricsmode.Items1"), resources.GetString("comboBox_Lyricsmode.Items2"), resources.GetString("comboBox_Lyricsmode.Items3"), resources.GetString("comboBox_Lyricsmode.Items4") });
+            resources.ApplyResources(comboBox_Lyricsmode, "comboBox_Lyricsmode");
             comboBox_Lyricsmode.Name = "comboBox_Lyricsmode";
-            toolTip_info.SetToolTip(comboBox_Lyricsmode, resources.GetString("comboBox_Lyricsmode.ToolTip"));
             comboBox_Lyricsmode.SelectedIndexChanged += ComboBox_Lyricsmode_SelectedIndexChanged;
             // 
             // button_Lyricspath
             // 
             resources.ApplyResources(button_Lyricspath, "button_Lyricspath");
             button_Lyricspath.Name = "button_Lyricspath";
-            toolTip_info.SetToolTip(button_Lyricspath, resources.GetString("button_Lyricspath.ToolTip"));
             button_Lyricspath.UseVisualStyleBackColor = true;
             button_Lyricspath.Click += Button_Lyricspath_Click;
             // 
@@ -852,7 +803,6 @@
             // 
             resources.ApplyResources(button_Jacketpath, "button_Jacketpath");
             button_Jacketpath.Name = "button_Jacketpath";
-            toolTip_info.SetToolTip(button_Jacketpath, resources.GetString("button_Jacketpath.ToolTip"));
             button_Jacketpath.UseVisualStyleBackColor = true;
             button_Jacketpath.Click += Button_Jacketpath_Click;
             // 
@@ -860,19 +810,16 @@
             // 
             resources.ApplyResources(label37, "label37");
             label37.Name = "label37";
-            toolTip_info.SetToolTip(label37, resources.GetString("label37.ToolTip"));
             // 
             // label32
             // 
             resources.ApplyResources(label32, "label32");
             label32.Name = "label32";
-            toolTip_info.SetToolTip(label32, resources.GetString("label32.ToolTip"));
             // 
             // textBox_Bitrates
             // 
             resources.ApplyResources(textBox_Bitrates, "textBox_Bitrates");
             textBox_Bitrates.Name = "textBox_Bitrates";
-            toolTip_info.SetToolTip(textBox_Bitrates, resources.GetString("textBox_Bitrates.ToolTip"));
             textBox_Bitrates.TextChanged += TextBox_Bitrates_TextChanged;
             textBox_Bitrates.KeyPress += TextBox_Bitrates_KeyPress;
             // 
@@ -881,13 +828,11 @@
             resources.ApplyResources(pictureBox_Jacket, "pictureBox_Jacket");
             pictureBox_Jacket.Name = "pictureBox_Jacket";
             pictureBox_Jacket.TabStop = false;
-            toolTip_info.SetToolTip(pictureBox_Jacket, resources.GetString("pictureBox_Jacket.ToolTip"));
             // 
             // textBox_MilliSecond
             // 
             resources.ApplyResources(textBox_MilliSecond, "textBox_MilliSecond");
             textBox_MilliSecond.Name = "textBox_MilliSecond";
-            toolTip_info.SetToolTip(textBox_MilliSecond, resources.GetString("textBox_MilliSecond.ToolTip"));
             textBox_MilliSecond.TextChanged += TextBox_MilliSecond_TextChanged;
             textBox_MilliSecond.KeyPress += TextBox_MilliSecond_KeyPress;
             // 
@@ -895,7 +840,6 @@
             // 
             resources.ApplyResources(textBox_Duration, "textBox_Duration");
             textBox_Duration.Name = "textBox_Duration";
-            toolTip_info.SetToolTip(textBox_Duration, resources.GetString("textBox_Duration.ToolTip"));
             textBox_Duration.TextChanged += TextBox_Duration_TextChanged;
             textBox_Duration.KeyPress += TextBox_Duration_KeyPress;
             // 
@@ -903,7 +847,6 @@
             // 
             resources.ApplyResources(textBox_TotalTracks, "textBox_TotalTracks");
             textBox_TotalTracks.Name = "textBox_TotalTracks";
-            toolTip_info.SetToolTip(textBox_TotalTracks, resources.GetString("textBox_TotalTracks.ToolTip"));
             textBox_TotalTracks.TextChanged += TextBox_TotalTracks_TextChanged;
             textBox_TotalTracks.KeyPress += TextBox_TotalTracks_KeyPress;
             // 
@@ -911,7 +854,6 @@
             // 
             resources.ApplyResources(textBox_TrackNumber, "textBox_TrackNumber");
             textBox_TrackNumber.Name = "textBox_TrackNumber";
-            toolTip_info.SetToolTip(textBox_TrackNumber, resources.GetString("textBox_TrackNumber.ToolTip"));
             textBox_TrackNumber.TextChanged += TextBox_TrackNumber_TextChanged;
             textBox_TrackNumber.KeyPress += TextBox_TrackNumber_KeyPress;
             // 
@@ -919,84 +861,72 @@
             // 
             resources.ApplyResources(textBox_Lyricist, "textBox_Lyricist");
             textBox_Lyricist.Name = "textBox_Lyricist";
-            toolTip_info.SetToolTip(textBox_Lyricist, resources.GetString("textBox_Lyricist.ToolTip"));
             textBox_Lyricist.TextChanged += TextBox_Lyricist_TextChanged;
             // 
             // textBox_Composer
             // 
             resources.ApplyResources(textBox_Composer, "textBox_Composer");
             textBox_Composer.Name = "textBox_Composer";
-            toolTip_info.SetToolTip(textBox_Composer, resources.GetString("textBox_Composer.ToolTip"));
             textBox_Composer.TextChanged += TextBox_Composer_TextChanged;
             // 
             // textBox_Genre
             // 
             resources.ApplyResources(textBox_Genre, "textBox_Genre");
             textBox_Genre.Name = "textBox_Genre";
-            toolTip_info.SetToolTip(textBox_Genre, resources.GetString("textBox_Genre.ToolTip"));
             textBox_Genre.TextChanged += TextBox_Genre_TextChanged;
             // 
             // textBox_SortAlbumArtist
             // 
             resources.ApplyResources(textBox_SortAlbumArtist, "textBox_SortAlbumArtist");
             textBox_SortAlbumArtist.Name = "textBox_SortAlbumArtist";
-            toolTip_info.SetToolTip(textBox_SortAlbumArtist, resources.GetString("textBox_SortAlbumArtist.ToolTip"));
             textBox_SortAlbumArtist.TextChanged += TextBox_SortAlbumArtist_TextChanged;
             // 
             // textBox_AlbumArtist
             // 
             resources.ApplyResources(textBox_AlbumArtist, "textBox_AlbumArtist");
             textBox_AlbumArtist.Name = "textBox_AlbumArtist";
-            toolTip_info.SetToolTip(textBox_AlbumArtist, resources.GetString("textBox_AlbumArtist.ToolTip"));
             textBox_AlbumArtist.TextChanged += TextBox_AlbumArtist_TextChanged;
             // 
             // textBox_SortAlbum
             // 
             resources.ApplyResources(textBox_SortAlbum, "textBox_SortAlbum");
             textBox_SortAlbum.Name = "textBox_SortAlbum";
-            toolTip_info.SetToolTip(textBox_SortAlbum, resources.GetString("textBox_SortAlbum.ToolTip"));
             textBox_SortAlbum.TextChanged += TextBox_SortAlbum_TextChanged;
             // 
             // textBox_Album
             // 
             resources.ApplyResources(textBox_Album, "textBox_Album");
             textBox_Album.Name = "textBox_Album";
-            toolTip_info.SetToolTip(textBox_Album, resources.GetString("textBox_Album.ToolTip"));
             textBox_Album.TextChanged += TextBox_Album_TextChanged;
             // 
             // textBox_SortArtist
             // 
             resources.ApplyResources(textBox_SortArtist, "textBox_SortArtist");
             textBox_SortArtist.Name = "textBox_SortArtist";
-            toolTip_info.SetToolTip(textBox_SortArtist, resources.GetString("textBox_SortArtist.ToolTip"));
             textBox_SortArtist.TextChanged += TextBox_SortArtist_TextChanged;
             // 
             // textBox_Artist
             // 
             resources.ApplyResources(textBox_Artist, "textBox_Artist");
             textBox_Artist.Name = "textBox_Artist";
-            toolTip_info.SetToolTip(textBox_Artist, resources.GetString("textBox_Artist.ToolTip"));
             textBox_Artist.TextChanged += TextBox_Artist_TextChanged;
             // 
             // textBox_SortSubtitle
             // 
             resources.ApplyResources(textBox_SortSubtitle, "textBox_SortSubtitle");
             textBox_SortSubtitle.Name = "textBox_SortSubtitle";
-            toolTip_info.SetToolTip(textBox_SortSubtitle, resources.GetString("textBox_SortSubtitle.ToolTip"));
             textBox_SortSubtitle.TextChanged += TextBox_SortSubtitle_TextChanged;
             // 
             // textBox_Subtitle
             // 
             resources.ApplyResources(textBox_Subtitle, "textBox_Subtitle");
             textBox_Subtitle.Name = "textBox_Subtitle";
-            toolTip_info.SetToolTip(textBox_Subtitle, resources.GetString("textBox_Subtitle.ToolTip"));
             textBox_Subtitle.TextChanged += TextBox_Subtitle_TextChanged;
             // 
             // textBox_SortTitle
             // 
             resources.ApplyResources(textBox_SortTitle, "textBox_SortTitle");
             textBox_SortTitle.Name = "textBox_SortTitle";
-            toolTip_info.SetToolTip(textBox_SortTitle, resources.GetString("textBox_SortTitle.ToolTip"));
             textBox_SortTitle.TextChanged += TextBox_SortTitle_TextChanged;
             // 
             // dateTimePicker_Import
@@ -1004,7 +934,6 @@
             resources.ApplyResources(dateTimePicker_Import, "dateTimePicker_Import");
             dateTimePicker_Import.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             dateTimePicker_Import.Name = "dateTimePicker_Import";
-            toolTip_info.SetToolTip(dateTimePicker_Import, resources.GetString("dateTimePicker_Import.ToolTip"));
             dateTimePicker_Import.ValueChanged += DateTimePicker_Import_ValueChanged;
             // 
             // dateTimePicker_Release
@@ -1012,169 +941,142 @@
             resources.ApplyResources(dateTimePicker_Release, "dateTimePicker_Release");
             dateTimePicker_Release.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             dateTimePicker_Release.Name = "dateTimePicker_Release";
-            toolTip_info.SetToolTip(dateTimePicker_Release, resources.GetString("dateTimePicker_Release.ToolTip"));
             dateTimePicker_Release.ValueChanged += DateTimePicker_Release_ValueChanged;
             // 
             // textBox_Title
             // 
             resources.ApplyResources(textBox_Title, "textBox_Title");
             textBox_Title.Name = "textBox_Title";
-            toolTip_info.SetToolTip(textBox_Title, resources.GetString("textBox_Title.ToolTip"));
             textBox_Title.TextChanged += TextBox_Title_TextChanged;
             // 
             // label36
             // 
             resources.ApplyResources(label36, "label36");
             label36.Name = "label36";
-            toolTip_info.SetToolTip(label36, resources.GetString("label36.ToolTip"));
             // 
             // label35
             // 
             resources.ApplyResources(label35, "label35");
             label35.Name = "label35";
-            toolTip_info.SetToolTip(label35, resources.GetString("label35.ToolTip"));
             // 
             // label34
             // 
             resources.ApplyResources(label34, "label34");
             label34.Name = "label34";
-            toolTip_info.SetToolTip(label34, resources.GetString("label34.ToolTip"));
             // 
             // label33
             // 
             resources.ApplyResources(label33, "label33");
             label33.Name = "label33";
-            toolTip_info.SetToolTip(label33, resources.GetString("label33.ToolTip"));
             // 
             // label31
             // 
             resources.ApplyResources(label31, "label31");
             label31.Name = "label31";
-            toolTip_info.SetToolTip(label31, resources.GetString("label31.ToolTip"));
             // 
             // label30
             // 
             resources.ApplyResources(label30, "label30");
             label30.Name = "label30";
-            toolTip_info.SetToolTip(label30, resources.GetString("label30.ToolTip"));
             // 
             // label29
             // 
             resources.ApplyResources(label29, "label29");
             label29.Name = "label29";
-            toolTip_info.SetToolTip(label29, resources.GetString("label29.ToolTip"));
             // 
             // label28
             // 
             resources.ApplyResources(label28, "label28");
             label28.Name = "label28";
-            toolTip_info.SetToolTip(label28, resources.GetString("label28.ToolTip"));
             // 
             // label27
             // 
             resources.ApplyResources(label27, "label27");
             label27.Name = "label27";
-            toolTip_info.SetToolTip(label27, resources.GetString("label27.ToolTip"));
             // 
             // label26
             // 
             resources.ApplyResources(label26, "label26");
             label26.Name = "label26";
-            toolTip_info.SetToolTip(label26, resources.GetString("label26.ToolTip"));
             // 
             // label25
             // 
             resources.ApplyResources(label25, "label25");
             label25.Name = "label25";
-            toolTip_info.SetToolTip(label25, resources.GetString("label25.ToolTip"));
             // 
             // label24
             // 
             resources.ApplyResources(label24, "label24");
             label24.Name = "label24";
-            toolTip_info.SetToolTip(label24, resources.GetString("label24.ToolTip"));
             // 
             // label23
             // 
             resources.ApplyResources(label23, "label23");
             label23.Name = "label23";
-            toolTip_info.SetToolTip(label23, resources.GetString("label23.ToolTip"));
             // 
             // label22
             // 
             resources.ApplyResources(label22, "label22");
             label22.Name = "label22";
-            toolTip_info.SetToolTip(label22, resources.GetString("label22.ToolTip"));
             // 
             // label21
             // 
             resources.ApplyResources(label21, "label21");
             label21.Name = "label21";
-            toolTip_info.SetToolTip(label21, resources.GetString("label21.ToolTip"));
             // 
             // label20
             // 
             resources.ApplyResources(label20, "label20");
             label20.Name = "label20";
-            toolTip_info.SetToolTip(label20, resources.GetString("label20.ToolTip"));
             // 
             // label19
             // 
             resources.ApplyResources(label19, "label19");
             label19.Name = "label19";
-            toolTip_info.SetToolTip(label19, resources.GetString("label19.ToolTip"));
             // 
             // label18
             // 
             resources.ApplyResources(label18, "label18");
             label18.Name = "label18";
-            toolTip_info.SetToolTip(label18, resources.GetString("label18.ToolTip"));
             // 
             // label17
             // 
             resources.ApplyResources(label17, "label17");
             label17.Name = "label17";
-            toolTip_info.SetToolTip(label17, resources.GetString("label17.ToolTip"));
             // 
             // label16
             // 
             resources.ApplyResources(label16, "label16");
             label16.Name = "label16";
-            toolTip_info.SetToolTip(label16, resources.GetString("label16.ToolTip"));
             // 
             // label15
             // 
             resources.ApplyResources(label15, "label15");
             label15.Name = "label15";
-            toolTip_info.SetToolTip(label15, resources.GetString("label15.ToolTip"));
             // 
             // label14
             // 
             resources.ApplyResources(label14, "label14");
             label14.Name = "label14";
-            toolTip_info.SetToolTip(label14, resources.GetString("label14.ToolTip"));
             // 
             // label13
             // 
             resources.ApplyResources(label13, "label13");
             label13.Name = "label13";
-            toolTip_info.SetToolTip(label13, resources.GetString("label13.ToolTip"));
             // 
             // label12
             // 
             resources.ApplyResources(label12, "label12");
             label12.Name = "label12";
-            toolTip_info.SetToolTip(label12, resources.GetString("label12.ToolTip"));
             // 
             // label11
             // 
             resources.ApplyResources(label11, "label11");
             label11.Name = "label11";
-            toolTip_info.SetToolTip(label11, resources.GetString("label11.ToolTip"));
             // 
             // groupBox_walkman_general
             // 
-            resources.ApplyResources(groupBox_walkman_general, "groupBox_walkman_general");
+            groupBox_walkman_general.Controls.Add(checkBox_Unattended);
             groupBox_walkman_general.Controls.Add(checkBox_everyFormats);
             groupBox_walkman_general.Controls.Add(comboBox_DecodeFormats);
             groupBox_walkman_general.Controls.Add(label_Decodeformat);
@@ -1182,48 +1084,49 @@
             groupBox_walkman_general.Controls.Add(comboBox_OutputFormats);
             groupBox_walkman_general.Controls.Add(radioButton_each);
             groupBox_walkman_general.Controls.Add(radioButton_specified);
+            resources.ApplyResources(groupBox_walkman_general, "groupBox_walkman_general");
             groupBox_walkman_general.Name = "groupBox_walkman_general";
             groupBox_walkman_general.TabStop = false;
-            toolTip_info.SetToolTip(groupBox_walkman_general, resources.GetString("groupBox_walkman_general.ToolTip"));
+            // 
+            // checkBox_Unattended
+            // 
+            resources.ApplyResources(checkBox_Unattended, "checkBox_Unattended");
+            checkBox_Unattended.Name = "checkBox_Unattended";
+            checkBox_Unattended.UseVisualStyleBackColor = true;
             // 
             // checkBox_everyFormats
             // 
             resources.ApplyResources(checkBox_everyFormats, "checkBox_everyFormats");
             checkBox_everyFormats.Name = "checkBox_everyFormats";
-            toolTip_info.SetToolTip(checkBox_everyFormats, resources.GetString("checkBox_everyFormats.ToolTip"));
             checkBox_everyFormats.UseVisualStyleBackColor = true;
             checkBox_everyFormats.CheckedChanged += CheckBox_everyFormats_CheckedChanged;
             // 
             // comboBox_DecodeFormats
             // 
-            resources.ApplyResources(comboBox_DecodeFormats, "comboBox_DecodeFormats");
             comboBox_DecodeFormats.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_DecodeFormats.FormattingEnabled = true;
             comboBox_DecodeFormats.Items.AddRange(new object[] { resources.GetString("comboBox_DecodeFormats.Items"), resources.GetString("comboBox_DecodeFormats.Items1"), resources.GetString("comboBox_DecodeFormats.Items2") });
+            resources.ApplyResources(comboBox_DecodeFormats, "comboBox_DecodeFormats");
             comboBox_DecodeFormats.Name = "comboBox_DecodeFormats";
-            toolTip_info.SetToolTip(comboBox_DecodeFormats, resources.GetString("comboBox_DecodeFormats.ToolTip"));
             comboBox_DecodeFormats.SelectedIndexChanged += ComboBox_DecodeFormats_SelectedIndexChanged;
             // 
             // label_Decodeformat
             // 
             resources.ApplyResources(label_Decodeformat, "label_Decodeformat");
             label_Decodeformat.Name = "label_Decodeformat";
-            toolTip_info.SetToolTip(label_Decodeformat, resources.GetString("label_Decodeformat.ToolTip"));
             // 
             // label_Outputformat
             // 
             resources.ApplyResources(label_Outputformat, "label_Outputformat");
             label_Outputformat.Name = "label_Outputformat";
-            toolTip_info.SetToolTip(label_Outputformat, resources.GetString("label_Outputformat.ToolTip"));
             // 
             // comboBox_OutputFormats
             // 
-            resources.ApplyResources(comboBox_OutputFormats, "comboBox_OutputFormats");
             comboBox_OutputFormats.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_OutputFormats.FormattingEnabled = true;
             comboBox_OutputFormats.Items.AddRange(new object[] { resources.GetString("comboBox_OutputFormats.Items"), resources.GetString("comboBox_OutputFormats.Items1"), resources.GetString("comboBox_OutputFormats.Items2"), resources.GetString("comboBox_OutputFormats.Items3"), resources.GetString("comboBox_OutputFormats.Items4"), resources.GetString("comboBox_OutputFormats.Items5"), resources.GetString("comboBox_OutputFormats.Items6"), resources.GetString("comboBox_OutputFormats.Items7"), resources.GetString("comboBox_OutputFormats.Items8") });
+            resources.ApplyResources(comboBox_OutputFormats, "comboBox_OutputFormats");
             comboBox_OutputFormats.Name = "comboBox_OutputFormats";
-            toolTip_info.SetToolTip(comboBox_OutputFormats, resources.GetString("comboBox_OutputFormats.ToolTip"));
             comboBox_OutputFormats.SelectedIndexChanged += ComboBox_OutputFormats_SelectedIndexChanged;
             // 
             // radioButton_each
@@ -1231,7 +1134,6 @@
             resources.ApplyResources(radioButton_each, "radioButton_each");
             radioButton_each.Name = "radioButton_each";
             radioButton_each.TabStop = true;
-            toolTip_info.SetToolTip(radioButton_each, resources.GetString("radioButton_each.ToolTip"));
             radioButton_each.UseVisualStyleBackColor = true;
             radioButton_each.CheckedChanged += RadioButton_each_CheckedChanged;
             // 
@@ -1240,7 +1142,6 @@
             resources.ApplyResources(radioButton_specified, "radioButton_specified");
             radioButton_specified.Name = "radioButton_specified";
             radioButton_specified.TabStop = true;
-            toolTip_info.SetToolTip(radioButton_specified, resources.GetString("radioButton_specified.ToolTip"));
             radioButton_specified.UseVisualStyleBackColor = true;
             radioButton_specified.CheckedChanged += RadioButton_specified_CheckedChanged;
             // 
@@ -1248,13 +1149,11 @@
             // 
             resources.ApplyResources(textBox_cmd_walkman, "textBox_cmd_walkman");
             textBox_cmd_walkman.Name = "textBox_cmd_walkman";
-            toolTip_info.SetToolTip(textBox_cmd_walkman, resources.GetString("textBox_cmd_walkman.ToolTip"));
             // 
             // label8
             // 
             resources.ApplyResources(label8, "label8");
             label8.Name = "label8";
-            toolTip_info.SetToolTip(label8, resources.GetString("label8.ToolTip"));
             // 
             // FormSettings
             // 
@@ -1268,7 +1167,7 @@
             Controls.Add(tabControl_Main);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormSettings";
-            toolTip_info.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            FormClosed += FormSettings_FormClosed;
             Load += FormSettings_Load;
             groupBox_at3.ResumeLayout(false);
             groupBox_at3.PerformLayout();
@@ -1424,5 +1323,6 @@
         private Label label_Lyricspath;
         internal CheckBox checkBox_at9_loopsound;
         internal CheckBox checkBox_at3_loopsound;
+        private CheckBox checkBox_Unattended;
     }
 }

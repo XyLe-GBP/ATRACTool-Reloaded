@@ -1,18 +1,238 @@
 ﻿using ATRACTool_Reloaded.Localizable;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing.Imaging;
+using System.Globalization;
+using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using static ATRACTool_Reloaded.Common.Constants;
 
 namespace ATRACTool_Reloaded
 {
     public class Common
     {
         public static readonly string xmlpath = Directory.GetCurrentDirectory() + @"\app.config";
+
+        internal static class AssemblyState
+        {
+            public const bool IsDebug =
+        #if DEBUG
+            true;
+        #else
+            false;
+        #endif
+        }
+
+        public static class Constants
+        {
+            public enum ProcessType
+            {
+                None = -1,
+                Decode = 0,
+                Encode = 1,
+                AudioToWave = 2,
+                WaveToAudio = 3,
+                Update = 4,
+            }
+
+            public enum WTAType
+            {
+                Hz8000 = 0,
+                Hz12000 = 1,
+                Hz16000 = 2,
+                Hz24000 = 3,
+                Hz32000 = 4,
+                Hz44100 = 5,
+                Hz48000 = 6,
+            }
+
+            public enum WalkmanFormatType
+            {
+                ATRAC3_OMA = 0,
+                ATRAC3_OMG = 1,
+                ATRAC3_AL = 2,
+                ATRAC3_KDR = 3,
+                ATRAC3plus_OMA = 4,
+                ATRAC3plus_OMG = 5,
+                ATRAC3plus_AL = 6,
+                ATRAC3plus_KDR = 7,
+            }
+
+            public enum ATRAC3ConsoleType
+            {
+                PSP = 0,
+                PS3 = 1
+            }
+
+            public enum ATRAC9ConsoleType
+            {
+                PSV = 0,
+                PS4 = 1
+            }
+
+            public enum LPCPlaybackMethodType
+            {
+                DirectSound = 0,
+                WasapiShared = 1,
+                WasapiExclusive = 2,
+                ASIO = 3
+            }
+        }
+
+        public sealed class WalkmanMeta
+        {
+            public string Title { get; set; } = "";
+            public string SortTitle { get; set; } = "";
+            public string Artist { get; set; } = "";
+            public string SortArtist { get; set; } = "";
+            public string Album { get; set; } = "";
+            public string SortAlbum { get; set; } = "";
+            public string AlbumArtist { get; set; } = "";
+            public string SortAlbumArtist { get; set; } = "";
+            public string Genre { get; set; } = "";
+            public string Composer { get; set; } = "";
+            public string Lyricist { get; set; } = "";
+            public string TrackNumber { get; set; } = "";
+            public string TotalTracks { get; set; } = "";
+            public string ReleaseYear { get; set; } = "";
+            public string Import { get; set; } = "";
+
+            // ★必須：--FileType（未指定だとPCM16になりタグが付かない）
+            public string FileType { get; set; } = "";   // 例: "OMA3" / "OMAP" 等
+
+            // ★Jacket
+            public string JacketPath { get; set; } = ""; // 画像ファイルパス
+            public string JacketMode { get; set; } = "Auto"; // Auto/Picture/Text/Delete (traconv仕様に合わせる)
+
+            public string LyricsMode { get; set; } = "";
+            public string LyricsPath { get; set; } = "";
+
+            public string LinerNotesMode { get; set; } = "";
+            public string LinerNotesPath { get; set; } = "";
+
+            public WalkmanMeta Clone()
+            {
+                return (WalkmanMeta)MemberwiseClone();
+            }
+
+            public void ClearTagFieldsKeepRequired()
+            {
+                // タグ類だけ消す
+                Title = "";
+                SortTitle = "";
+                Artist = "";
+                SortArtist = "";
+                Album = "";
+                SortAlbum = "";
+                AlbumArtist = "";
+                SortAlbumArtist = "";
+                Genre = "";
+                Composer = "";
+                Lyricist = "";
+                TrackNumber = "";
+                TotalTracks = "";
+                ReleaseYear = "";
+                Import = "";
+                JacketPath = "";
+
+                // Lyrics/LinerNotes を持っているなら同様に
+                LyricsPath = "";
+                LinerNotesPath = "";
+
+                // ★重要：FileType は残す（OMA3 が必須という要件）
+                if (string.IsNullOrWhiteSpace(FileType))
+                    FileType = "OMA3";
+
+                // JacketMode は Picture 強制でも良いが、JacketPath を消すので Auto でOK
+                JacketMode = "Auto";
+            }
+        }
+
+        public sealed class InputJob
+        {
+            public int Index { get; init; }
+            // メタデータ取得に使う “本来の入力”
+            public string OriginPath { get; init; } = "";
+
+            // 実際に traconv に渡す “作業用入力”（WAV化したらこちらが変わる）
+            public string WorkPath { get; set; } = "";
+
+            // フォルダ入力時に、出力側で構造を再現するための情報（任意）
+            public string? RootFolder { get; init; } = "";
+            public string? RelativePath { get; init; } = "";
+            // 表示名 (ハッシュを含めないようにする)
+            public string DisplayName { get; init; } = "";
+
+            public bool UserCancelled { get; set; } = false;
+
+            public WalkmanMeta Meta { get; } = new WalkmanMeta();
+        }
+
         public class Generic
         {
+            /// <summary>
+            /// インデックス整合の“唯一の真実”。Origin(元)とWork(処理用/WAV化後など)をペアで保持する。
+            /// </summary>
+            public static List<InputJob> InputJobs { get; set; } = [];
+            public static string? LoadFolderRootPath = null;
+
+            public static void BuildInputJobsFromPaths(string[] openPaths, string[] originPaths)
+            {
+                if (openPaths is null) throw new ArgumentNullException(nameof(openPaths));
+                if (originPaths is null) throw new ArgumentNullException(nameof(originPaths));
+                if (openPaths.Length != originPaths.Length)
+                    throw new InvalidOperationException($"Open/Origin length mismatch: {openPaths.Length} vs {originPaths.Length}");
+
+                InputJobs.Clear();
+
+                for (int i = 0; i < openPaths.Length; i++)
+                {
+                    var job = new InputJob
+                    {
+                        Index = i,
+                        OriginPath = originPaths[i],
+                        WorkPath = openPaths[i],
+                        RootFolder = LoadFolderRootPath,
+                        RelativePath = (!string.IsNullOrEmpty(LoadFolderRootPath)) ? Path.GetRelativePath(LoadFolderRootPath, originPaths[i]) : Path.GetFileName(originPaths[i]),
+                        DisplayName = Path.GetFileName(originPaths[i]),
+                    };
+
+                    // ★ここで Walkman メタを初期投入
+                    Utils.PopulateWalkmanMetaFromOrigin(job);
+
+                    InputJobs.Add(job);
+                }
+            }
+
+            /// <summary>
+            /// InputJobs → Open/Origin 配列へ同期（必要に応じて既存コード互換のため）
+            /// </summary>
+            public static void SyncPathsFromInputJobs()
+            {
+                OpenFilePaths = InputJobs.Select(j => j.WorkPath).ToArray();
+                OriginOpenFilePaths = InputJobs.Select(j => j.OriginPath).ToArray();
+            }
+
+            /// <summary>
+            /// 既存コードで OpenFilePaths を直接差し替えた場合に、InputJobs 側へ反映する
+            /// </summary>
+            public static void SyncJobsWorkPathsFromOpenFilePaths()
+            {
+                if (OpenFilePaths is null) return;
+                if (InputJobs.Count != OpenFilePaths.Length)
+                    throw new InvalidOperationException($"InputJobs/OpenFilePaths length mismatch: {InputJobs.Count} vs {OpenFilePaths.Length}");
+
+                for (int i = 0; i < OpenFilePaths.Length; i++)
+                {
+                    InputJobs[i].WorkPath = OpenFilePaths[i];
+                }
+            }
+
             public static CancellationTokenSource cts = null!;
 
             public static bool Result = false;
@@ -38,10 +258,12 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static readonly string Walkman_TraConv = Directory.GetCurrentDirectory() + @"\res\traconv.exe";
             /// <summary>
-            /// デコードもしくはエンコードを判定するための変数
+            /// Progressフォームの動作を判定するための変数
             /// </summary>
-            public static sbyte ProcessFlag = -1;
+            public static ProcessType ProcessFlag;
+            //public static sbyte ProcessFlag = -1;
             public static int ProgressMax = 0;
+            
             /// <summary>
             /// エンコードする際にループポイントを作成するかのフラグ
             /// </summary>
@@ -82,10 +304,12 @@ namespace ATRACTool_Reloaded
             /// AT3の変換メソッド判別
             /// </summary>
             public static bool IsAT3PS3 = false;
+            public static ATRAC3ConsoleType ATRAC3ConsoleType;
             /// <summary>
             /// AT9の変換メソッド判別
             /// </summary>
             public static bool IsAT9PS4 = false;
+            public static ATRAC9ConsoleType ATRAC9ConsoleType;
             /// <summary>
             /// ファイルをWaveに変換したかどうかを判別するための変数
             /// </summary>
@@ -122,8 +346,11 @@ namespace ATRACTool_Reloaded
             public static string FolderSavePath = "";
             public static string pATRACSavePath = null!;
             public static string pATRACFolderSavePath = null!;
-            public static int WTAmethod = -1;
+
+            //public static int WTAmethod = -1;
+            public static WTAType WTAmethod;
             public static string WTAFmt = null!;
+            
 
             public static string DecodeParamAT3 = "at3tool -d $InFile $OutFile";
             public static string DecodeParamAT9 = "at9tool -d $InFile $OutFile";
@@ -137,6 +364,8 @@ namespace ATRACTool_Reloaded
             public static string WalkmanMultiConvFmt = "";
             public static string WalkmanMultiConvExt = "";
 
+            public static string? CurrentWalkmanInputFile;
+
             public static StreamReader Log = null!;
             public static Exception GlobalException = null!;
             public static Exception CommonException = null!;
@@ -144,6 +373,7 @@ namespace ATRACTool_Reloaded
 
             public static bool IsLPCStreamingReloaded = false;
             public static long LPCTotalSamples = 0;
+            public static LPCPlaybackMethodType LPCPlaybackMethod;
 
             public static bool IsPlaybackATRAC = false;
             /// <summary>
@@ -162,7 +392,6 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// ダウンロード機能用変数
             /// </summary>
-            public static System.Net.WebClient downloadClient = null!;
             public static bool IsDownloading = false;
             public static string DownloadedStatus = "";
             public static int DownloadProgress = 0;
@@ -220,7 +449,13 @@ namespace ATRACTool_Reloaded
                 return dt.Year + "-" + dt.Month + "-" + dt.Day + "-" + dt.Hour + "-" + dt.Minute + "-" + dt.Second;
             }
 
-            public static void GetFolderAllFiles(string FolderPath)
+            public static string[] GetFolderAllFiles(string folderPath)
+            {
+                // 必要ならフィルタ（拡張子制限）をここでかける
+                return Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories).ToArray();
+            }
+
+            /*public static void GetFolderAllFiles(string FolderPath)
             {
                 Generic.FolderOpenPaths = FolderPath.Split('/');
                 uint filecount = 0, subfoldercount = 0;
@@ -271,7 +506,7 @@ namespace ATRACTool_Reloaded
                     // 再帰的に呼び出す
                     GetFolderAllFiles(directory);
                 }
-            }
+            }*/
 
             /// <summary>
             /// 指定したディレクトリ内のファイルも含めてディレクトリを削除する
@@ -279,25 +514,88 @@ namespace ATRACTool_Reloaded
             /// <param name="targetDirectoryPath">削除するディレクトリのパス</param>
             public static void DeleteDirectory(string targetDirectoryPath)
             {
-                if (!Directory.Exists(targetDirectoryPath))
+                if (string.IsNullOrWhiteSpace(targetDirectoryPath)) return;
+                if (!Directory.Exists(targetDirectoryPath)) return;
+
+                // 再試行回数と間隔（現実的に効く設定）
+                const int maxRetry = 20;
+                const int delayMs = 50;
+
+                // まず属性を正規化（ディレクトリも含めて）
+                try { RemoveReadonlyAttribute(new DirectoryInfo(targetDirectoryPath)); } catch { /* ignore */ }
+
+                for (int attempt = 1; attempt <= maxRetry; attempt++)
                 {
-                    return;
+                    try
+                    {
+                        // ファイルを先に消す（下位から消す）
+                        foreach (var filePath in Directory.EnumerateFiles(targetDirectoryPath, "*", SearchOption.AllDirectories))
+                        {
+                            try
+                            {
+                                File.SetAttributes(filePath, FileAttributes.Normal);
+                                File.Delete(filePath);
+                            }
+                            catch (IOException ioe)
+                            {
+                                // ロック等。次のリトライへ
+                                FormMain.DebugError($"IOException: {filePath}\n{ioe}");
+                            }
+                            catch (UnauthorizedAccessException uae)
+                            {
+                                // アクセス権や一時ロック。次のリトライへ
+                                FormMain.DebugError($"UnauthorizedAccessException: {filePath}\n{uae}");
+                            }
+                        }
+
+                        // ディレクトリを消す（再帰）
+                        Directory.Delete(targetDirectoryPath, recursive: true);
+                        return; // 成功
+                    }
+                    catch (IOException)
+                    {
+                        Thread.Sleep(delayMs);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        Thread.Sleep(delayMs);
+                    }
                 }
 
-                string[] filePaths = Directory.GetFiles(targetDirectoryPath);
-                foreach (string filePath in filePaths)
+                // ここまで来たら、かなり頑固に掴まれている。
+                // 例外にして呼び出し側で MessageBox などに出した方が原因究明が早いです。
+                throw new IOException($"Failed to delete directory after retries: {targetDirectoryPath}");
+            }
+
+            public static void TryDeleteDirectoryContents(string dir)
+            {
+                if (!Directory.Exists(dir)) return;
+
+                // ファイルを消せるだけ消す（ロックは無視）
+                foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
                 {
-                    File.SetAttributes(filePath, FileAttributes.Normal);
-                    File.Delete(filePath);
+                    try
+                    {
+                        File.SetAttributes(file, FileAttributes.Normal);
+                        File.Delete(file);
+                    }
+                    catch (IOException)
+                    {
+                        // 他プロセスが掴んでいる → 残す
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        // 権限/ロック → 残す
+                    }
                 }
 
-                string[] directoryPaths = Directory.GetDirectories(targetDirectoryPath);
-                foreach (string directoryPath in directoryPaths)
+                // 空になったディレクトリだけ消す（下から順に）
+                var subDirs = Directory.EnumerateDirectories(dir, "*", SearchOption.AllDirectories)
+                    .OrderByDescending(d => d.Length);
+                foreach (var d in subDirs)
                 {
-                    DeleteDirectory(directoryPath);
+                    try { Directory.Delete(d, recursive: false); } catch { /* 残す */ }
                 }
-
-                Directory.Delete(targetDirectoryPath, false);
             }
 
             /// <summary>
@@ -466,12 +764,93 @@ namespace ATRACTool_Reloaded
                 {
                     return Generic.WTAmethod switch
                     {
-                        0 => "_44k",
-                        1 => "_48k",
-                        2 => "_12k",
-                        3 => "_24k",
+                        WTAType.Hz44100 => "_44.1k",
+                        WTAType.Hz48000 => "_48k",
+                        WTAType.Hz8000 => "_8k",
+                        WTAType.Hz12000 => "_12k",
+                        WTAType.Hz16000 => "_16k",
+                        WTAType.Hz24000 => "_24k",
+                        WTAType.Hz32000 => "_32k",
                         _ => string.Empty,
                     };
+                }
+            }
+
+            public static string MakeUniquePath(string fullPath)
+            {
+                if (!File.Exists(fullPath)) return fullPath;
+
+                string dir = Path.GetDirectoryName(fullPath)!;
+                string name = Path.GetFileNameWithoutExtension(fullPath);
+                string ext = Path.GetExtension(fullPath);
+
+                for (int i = 2; i < 10000; i++)
+                {
+                    string cand = Path.Combine(dir, $"{name} ({i}){ext}");
+                    if (!File.Exists(cand)) return cand;
+                }
+
+                return Path.Combine(dir, $"{name}_{Guid.NewGuid():N}{ext}");
+            }
+
+            public static string MakeTempUniqueName(string originPathOrName, int index, string newExt)
+            {
+                // originPathOrName はフルパスでもファイル名でもOK
+                string stem = Path.GetFileNameWithoutExtension(originPathOrName);
+
+                // 連番で一意化（ハッシュは使わない）
+                return $"{stem}__{index:D4}{newExt}";
+            }
+
+            public static string MakeTempUniquePath(string tempDir, string originPathOrName, int index, string newExt)
+            {
+                return Path.Combine(tempDir, MakeTempUniqueName(originPathOrName, index, newExt));
+            }
+
+            private static string MakeTempBaseName(string originPath)
+            {
+                // 表示用ではない（内部ファイル名専用）
+                var stem = Path.GetFileNameWithoutExtension(originPath);
+
+                using var sha1 = System.Security.Cryptography.SHA1.Create();
+                var bytes = System.Text.Encoding.UTF8.GetBytes(originPath);
+                var hash = Convert.ToHexString(sha1.ComputeHash(bytes)).Substring(0, 8);
+
+                return $"{stem}__{hash}";
+            }
+
+            public static string MakeNonCollidingPath(string desiredPath)
+            {
+                if (!File.Exists(desiredPath)) return desiredPath;
+
+                string dir = Path.GetDirectoryName(desiredPath)!;
+                string name = Path.GetFileNameWithoutExtension(desiredPath);
+                string ext = Path.GetExtension(desiredPath);
+
+                int n = 1;
+                while (true)
+                {
+                    string p = Path.Combine(dir, $"{name}({n}){ext}");
+                    if (!File.Exists(p)) return p;
+                    n++;
+                }
+            }
+
+            public static string EnsureDirectory(string dir)
+            {
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                return dir;
+            }
+
+            public static string MakeUniqueDestPath(string destDir, string baseName, string ext)
+            {
+                string candidate = Path.Combine(destDir, baseName + ext);
+                if (!File.Exists(candidate)) return candidate;
+
+                for (int i = 1; ; i++)
+                {
+                    string c = Path.Combine(destDir, $"{baseName}({i}){ext}");
+                    if (!File.Exists(c)) return c;
                 }
             }
 
@@ -1141,7 +1520,7 @@ namespace ATRACTool_Reloaded
                 try
                 {
                     Config.Load(xmlpath);
-                    int ConfigAT9SampleRate = int.Parse(Config.Entry["ATRAC9_Sampling"].Value);
+                    int ConfigAT9SampleRate = Utils.GetInt("ATRAC9_SamplingValue");
 
                     if (Generic.ReadedATRACFlag == 0) // ATRAC3
                     {
@@ -1172,24 +1551,144 @@ namespace ATRACTool_Reloaded
                     {
                         if (Generic.IsAT9PS4) // PS4
                         {
-                            if (ConfigAT9SampleRate == sourceSampleRate)
+                            switch (sourceSampleRate)
                             {
-                                return false;
-                            }
-                            else
-                            {
-                                return true;
+                                case 8000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 12000:
+                                    if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 12000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 16000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 24000:
+                                    if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 24000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 32000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 44100:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 48000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                default:
+                                    return true;
                             }
                         }
                         else // PSV
                         {
-                            if (ConfigAT9SampleRate == sourceSampleRate)
+                            switch (sourceSampleRate)
                             {
-                                return false;
-                            }
-                            else
-                            {
-                                return true;
+                                case 8000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 12000:
+                                    if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 12000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 16000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 24000:
+                                    if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 24000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 32000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 44100:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                case 48000:
+                                    if (ConfigAT9SampleRate == 48000)
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                default:
+                                    return true;
                             }
                         }
                     }
@@ -1224,24 +1723,144 @@ namespace ATRACTool_Reloaded
                         {
                             if (Generic.IsAT9PS4) // PS4
                             {
-                                if (ConfigAT9SampleRate == sourceSampleRate)
+                                switch (sourceSampleRate)
                                 {
-                                    return false;
-                                }
-                                else
-                                {
-                                    return true;
+                                    case 8000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 12000:
+                                        if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 12000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 16000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 24000:
+                                        if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 24000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 32000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 44100:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 48000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    default:
+                                        return true;
                                 }
                             }
                             else // PSV
                             {
-                                if (ConfigAT9SampleRate == sourceSampleRate)
+                                switch (sourceSampleRate)
                                 {
-                                    return false;
-                                }
-                                else
-                                {
-                                    return true;
+                                    case 8000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 12000:
+                                        if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 12000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 16000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 24000:
+                                        if (ConfigAT9SampleRate == 48000 || ConfigAT9SampleRate == 24000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 32000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 44100:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    case 48000:
+                                        if (ConfigAT9SampleRate == 48000)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    default:
+                                        return true;
                                 }
                             }
                         }
@@ -1283,6 +1902,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["ATRAC9_Sampling"].Value == null) // ATRAC9 サンプリング周波数 (int)
                 {
                     Config.Entry["ATRAC9_Sampling"].Value = "2";
+                }
+                if (Config.Entry["ATRAC9_SamplingValue"].Value == null) // ATRAC9 サンプリング周波数値 (int)
+                {
+                    Config.Entry["ATRAC9_SamplingValue"].Value = "48000";
                 }
                 if (Config.Entry["ATRAC3_LoopSound"].Value == null)　// ATRAC3 ループ (bool)
                 {
@@ -1398,11 +2021,15 @@ namespace ATRACTool_Reloaded
                 }
                 if (Config.Entry["Walkman_Params"].Value == null) // Walkman 引数 (string)
                 {
-                    Config.Entry["Walkman_Params"].Value = "traconv --Convert --FileType OMA --BitRate -1 --Output $OutFile $InFile";
+                    Config.Entry["Walkman_Params"].Value = "traconv --Convert --FileType OMA3 --BitRate -1 --Output $OutFile $InFile";
                 }
                 if (Config.Entry["Walkman_EveryFmt"].Value == null) // Walkman 常に形式固定
                 {
                     Config.Entry["Walkman_EveryFmt"].Value = "false";
+                }
+                if (Config.Entry["Walkman_Unattended"].Value == null) // Walkman 無人（確認ダイアログを出さない）
+                {
+                    Config.Entry["Walkman_Unattended"].Value = "false";
                 }
                 if (Config.Entry["Walkman_EveryFmt_OutputFmt"].Value == null) // Walkman 出力フォーマット
                 {
@@ -1415,6 +2042,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["Walkman_FixSongInformation"].Value == null) // Walkman 楽曲情報固定
                 {
                     Config.Entry["Walkman_FixSongInformation"].Value = "false";
+                }
+                if (Config.Entry["Walkman_FileType"].Value == null) // Walkman ファイル形式
+                {
+                    Config.Entry["Walkman_FileType"].Value = "OMA3";
                 }
                 if (Config.Entry["Walkman_Bitrate"].Value == null) // Walkman ビットレート
                 {
@@ -1659,6 +2290,10 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["WASAPILatencyExclusivedValue"].Value = "0";
                 }
+                if (Config.Entry["UseParallelMethod"].Value == null) // 再生にParallel.ForEachを使用する (bool)
+                {
+                    Config.Entry["UseParallelMethod"].Value = "false";
+                }
                 if (Config.Entry["PlaybackThreadCount"].Value == null) // 再生時に使用するスレッド数 (uint)
                 {
                     Config.Entry["PlaybackThreadCount"].Value = "3";
@@ -1667,6 +2302,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["Oldmode"].Value == null) // 従来のモード (bool)
                 {
                     Config.Entry["Oldmode"].Value = "false";
+                }
+                if (Config.Entry["Debugmode"].Value == null) // デバッグモード (bool)
+                {
+                    Config.Entry["Debugmode"].Value = "false";
                 }
 
                 // その他
@@ -1677,6 +2316,633 @@ namespace ATRACTool_Reloaded
 
                 Config.Save(xmlpath);
             }
+
+            /// <summary>
+            /// Config から bool を安全に取得する。キーがなかったり値が壊れていたら defaultValue。
+            /// </summary>
+            public static bool GetBool(string key, bool defaultValue = false)
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(key))
+                        return defaultValue;
+
+                    var raw = Config.Entry[key].Value;
+                    if (string.IsNullOrWhiteSpace(raw))
+                        return defaultValue;
+
+                    return bool.TryParse(raw, out var v) ? v : defaultValue;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            /// <summary>
+            /// 階層キー版 (Config.Entry["Group","Key"] 用)
+            /// </summary>
+            public static bool GetBool(string[] keys, bool defaultValue = false)
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(keys))
+                        return defaultValue;
+
+                    var raw = Config.Entry[keys].Value;
+                    if (string.IsNullOrWhiteSpace(raw))
+                        return defaultValue;
+
+                    return bool.TryParse(raw, out var v) ? v : defaultValue;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            /// <summary>
+            /// Config から int を安全に取得する。
+            /// </summary>
+            public static int GetInt(string key, int defaultValue = 0)
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(key))
+                        return defaultValue;
+
+                    var raw = Config.Entry[key].Value;
+                    if (string.IsNullOrWhiteSpace(raw))
+                        return defaultValue;
+
+                    return int.TryParse(raw, out var v) ? v : defaultValue;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            public static int GetInt(string[] keys, int defaultValue = 0)
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(keys))
+                        return defaultValue;
+
+                    var raw = Config.Entry[keys].Value;
+                    if (string.IsNullOrWhiteSpace(raw))
+                        return defaultValue;
+
+                    return int.TryParse(raw, out var v) ? v : defaultValue;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            /// <summary>
+            /// Config から string を安全に取得する。空や null のときは defaultValue。
+            /// </summary>
+            public static string GetString(string key, string defaultValue = "")
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(key))
+                        return defaultValue;
+
+                    var raw = Config.Entry[key].Value;
+                    return string.IsNullOrWhiteSpace(raw) ? defaultValue : raw;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            public static string GetString(string[] keys, string defaultValue = "")
+            {
+                try
+                {
+                    if (!Config.Entry.Exists(keys))
+                        return defaultValue;
+
+                    var raw = Config.Entry[keys].Value;
+                    return string.IsNullOrWhiteSpace(raw) ? defaultValue : raw;
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+            private static string Q(string s)
+            {
+                // traconv へ渡す用：ダブルクォートはエスケープ
+                return "\"" + (s ?? "").Replace("\"", "\\\"") + "\"";
+            }
+
+            public static string QuoteArg(string value)
+            {
+                // traconv の引数として安全にクォート
+                // " を \" にする（ProcessStartInfo.Arguments 前提の定番）
+                value ??= "";
+                value = value.Replace("\"", "\\\"");
+                return $"\"{value}\"";
+            }
+
+            private static string BuildStrOpt(string key, string? value)
+            {
+                if (string.IsNullOrWhiteSpace(value)) return "";
+                return " " + key + " " + Q(value.Trim());
+            }
+
+            public static string BuildStrOptQ(string optName, string? value)
+            {
+                value = value?.Trim() ?? "";
+                if (value.Length == 0) return "";
+                return $" {optName} {QuoteArg(value)}";
+            }
+
+            public static string BuildNumOpt(string optName, string? value, int min = int.MinValue, int max = int.MaxValue)
+            {
+                value = value?.Trim() ?? "";
+                if (value.Length == 0) return "";
+
+                if (!int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int n))
+                    return ""; // 数値でないなら付与しない（ここは要件次第でエラー扱いも可）
+
+                if (n < min || n > max)
+                    return ""; // 範囲外は付与しない
+
+                return $" {optName} \"{n}\"";
+            }
+
+            public sealed class SimpleTags
+            {
+                public string? Title;
+                public string? Artist;
+                public string? Album;
+                public string? Genre;
+                public string? TrackNumber;
+                public string? TotalTracks;
+            }
+
+            /// <summary>
+            /// ID3からタグ情報を取得
+            /// </summary>
+            /// <param name="path"></param>
+            /// <param name="tags"></param>
+            /// <returns></returns>
+            public static bool TryReadId3v2Mp3(string path, out SimpleTags tags)
+            {
+                tags = new SimpleTags();
+
+                try
+                {
+                    if (!File.Exists(path)) return false;
+                    if (!path.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)) return false;
+
+                    using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var br = new BinaryReader(fs);
+
+                    // ID3 header: "ID3" + ver(2) + flags(1) + size(4 synchsafe)
+                    var head = br.ReadBytes(10);
+                    if (head.Length < 10) return false;
+                    if (head[0] != (byte)'I' || head[1] != (byte)'D' || head[2] != (byte)'3') return false;
+
+                    int tagSize =
+                        ((head[6] & 0x7F) << 21) |
+                        ((head[7] & 0x7F) << 14) |
+                        ((head[8] & 0x7F) << 7) |
+                        (head[9] & 0x7F);
+
+                    if (tagSize <= 0) return false;
+
+                    long tagEnd = 10L + tagSize;
+                    while (fs.Position + 10 <= tagEnd)
+                    {
+                        byte[] frameHeader = br.ReadBytes(10);
+                        if (frameHeader.Length < 10) break;
+
+                        string id = Encoding.ASCII.GetString(frameHeader, 0, 4);
+                        int size = (frameHeader[4] << 24) | (frameHeader[5] << 16) | (frameHeader[6] << 8) | frameHeader[7];
+                        if (size <= 0 || fs.Position + size > tagEnd) { fs.Position = tagEnd; break; }
+
+                        byte[] payload = br.ReadBytes(size);
+                        if (payload.Length < 2) continue;
+
+                        // テキストフレームは先頭1バイトが encoding
+                        byte enc = payload[0];
+                        string text = DecodeId3Text(enc, payload.AsSpan(1)).Trim('\0', ' ', '\r', '\n', '\t');
+
+                        switch (id)
+                        {
+                            case "TIT2": tags.Title = text; break;
+                            case "TPE1": tags.Artist = text; break;
+                            case "TALB": tags.Album = text; break;
+                            case "TCON": tags.Genre = text; break;
+                            case "TRCK":
+                                // "3/12" 形式あり
+                                var parts = text.Split('/');
+                                tags.TrackNumber = parts.Length >= 1 ? parts[0] : text;
+                                tags.TotalTracks = parts.Length >= 2 ? parts[1] : tags.TotalTracks;
+                                break;
+                        }
+                    }
+
+                    return !(string.IsNullOrWhiteSpace(tags.Title) &&
+                             string.IsNullOrWhiteSpace(tags.Artist) &&
+                             string.IsNullOrWhiteSpace(tags.Album) &&
+                             string.IsNullOrWhiteSpace(tags.Genre) &&
+                             string.IsNullOrWhiteSpace(tags.TrackNumber));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            private static string DecodeId3Text(byte encoding, ReadOnlySpan<byte> data)
+            {
+                // 0: ISO-8859-1, 1: UTF-16 with BOM, 2: UTF-16BE, 3: UTF-8
+                return encoding switch
+                {
+                    0 => Encoding.GetEncoding("ISO-8859-1").GetString(data),
+                    1 => Encoding.Unicode.GetString(data),
+                    2 => Encoding.BigEndianUnicode.GetString(data),
+                    3 => Encoding.UTF8.GetString(data),
+                    _ => Encoding.UTF8.GetString(data),
+                };
+            }
+
+            public static bool TryReadTagsAny(string path, out SimpleTags tags)
+            {
+                tags = new SimpleTags();
+
+                try
+                {
+                    if (!File.Exists(path)) return false;
+
+                    using var f = TagLib.File.Create(path);
+                    var t = f.Tag;
+
+                    tags.Title = string.IsNullOrWhiteSpace(t.Title) ? null : t.Title;
+                    tags.Artist = (t.Performers?.Length ?? 0) > 0 ? t.Performers[0] : null;
+                    tags.Album = string.IsNullOrWhiteSpace(t.Album) ? null : t.Album;
+                    tags.Genre = (t.Genres?.Length ?? 0) > 0 ? t.Genres[0] : null;
+
+                    if (t.Track > 0) tags.TrackNumber = t.Track.ToString();
+                    if (t.TrackCount > 0) tags.TotalTracks = t.TrackCount.ToString();
+                    // 年（Release）は TagLib 側では Year
+                    // 必要なら tags.Release = t.Year > 0 ? t.Year.ToString() : null;
+
+                    return !(string.IsNullOrWhiteSpace(tags.Title) &&
+                             string.IsNullOrWhiteSpace(tags.Artist) &&
+                             string.IsNullOrWhiteSpace(tags.Album) &&
+                             string.IsNullOrWhiteSpace(tags.Genre) &&
+                             string.IsNullOrWhiteSpace(tags.TrackNumber));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            public static void PopulateWalkmanMetaFromOrigin(InputJob job)
+            {
+                try
+                {
+                    using var tfile = TagLib.File.Create(job.OriginPath);
+
+                    job.Meta.Title = tfile.Tag.Title ?? "";
+                    job.Meta.Artist = (tfile.Tag.Performers?.Length > 0) ? tfile.Tag.Performers[0] : "";
+                    job.Meta.Album = tfile.Tag.Album ?? "";
+                    job.Meta.Genre = (tfile.Tag.Genres?.Length > 0) ? tfile.Tag.Genres[0] : "";
+                    job.Meta.TrackNumber = (tfile.Tag.Track != 0) ? tfile.Tag.Track.ToString() : "";
+                    job.Meta.ReleaseYear = (tfile.Tag.Year != 0) ? tfile.Tag.Year.ToString() : "";
+
+                    // ★ジャケット抽出（既に手動指定されているなら上書きしない方が安全）
+                    if (string.IsNullOrWhiteSpace(job.Meta.JacketPath))
+                    {
+                        string tempJacketDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp", "jacket");
+                        string? jacket = WalkmanJacketExtractor.TryExtractEmbeddedJacketToTemp(job.OriginPath, tempJacketDir, job.Index);
+                        if (!string.IsNullOrWhiteSpace(jacket))
+                        {
+                            job.Meta.JacketPath = jacket;
+                            if (string.IsNullOrWhiteSpace(job.Meta.JacketMode))
+                                job.Meta.JacketMode = "Picture"; // or "Auto"（あなたのtraconv仕様に合わせて）
+                        }
+                    }
+                }
+                catch
+                {
+                    // タグ取得不可は空のまま（WAV/未知形式/破損など）
+                }
+            }
+
+            public static string BuildTraConvMetaArgs(Common.WalkmanMeta meta)
+            {
+                var sb = new StringBuilder();
+
+                sb.Append(BuildStrOptQ("--Title", meta.Title));
+                sb.Append(BuildStrOptQ("--Artist", meta.Artist));
+                sb.Append(BuildStrOptQ("--Album", meta.Album));
+                sb.Append(BuildStrOptQ("--Genre", meta.Genre));
+
+                // TrackNumber は 1～9999 程度に制限（必要なら変更）
+                sb.Append(BuildNumOpt("--TrackNumber", meta.TrackNumber, 1, 9999));
+
+                // ReleaseYear は年（1～9999）
+                sb.Append(BuildNumOpt("--Release", meta.ReleaseYear, 1, 9999));
+
+                return sb.ToString();
+            }
+
+            public static string BuildTraConvArgsForJob(InputJob job, string inFile, string outFile)
+            {
+                if (job == null) throw new ArgumentNullException(nameof(job));
+                if (job.Meta == null) throw new InvalidOperationException("job.Meta is null.");
+                if (string.IsNullOrWhiteSpace(inFile)) throw new ArgumentException("inFile is empty.", nameof(inFile));
+                if (string.IsNullOrWhiteSpace(outFile)) throw new ArgumentException("outFile is empty.", nameof(outFile));
+
+                var meta = job.Meta;
+
+                // ★FileType 必須（未指定＝PCM16化＆タグ無しになり得る）
+                string fileType = meta.FileType?.Trim() ?? "";
+                if (fileType.Length == 0)
+                {
+                    // 既存の設定キー名に合わせてください（例）
+                    fileType = Utils.GetString("Walkman_FileType", "").Trim();
+                }
+                if (fileType.Length == 0)
+                {
+                    throw new InvalidOperationException("Walkman FileType is required. Set job.Meta.FileType (or config Walkman_FileType).");
+                }
+
+                // Bitrate は既存運用（未指定なら -1）
+                string bitrate = Utils.GetString("Walkman_Bitrate", "-1").Trim();
+                if (bitrate.Length == 0) bitrate = "-1";
+
+                // Import は任意（未指定なら今日）
+                string import = Utils.GetString("Walkman_Import", DateTime.Now.ToString("yyyy/MM/dd")).Trim();
+
+                var sb = new StringBuilder();
+                sb.Append("--Convert");
+
+                sb.Append(BuildStrOpt("--FileType", fileType));
+                sb.Append(" --Bitrate ").Append(bitrate);
+
+                sb.Append(BuildStrOpt("--Title", meta.Title));
+                sb.Append(BuildStrOpt("--SortTitle", meta.SortTitle));
+                sb.Append(BuildStrOpt("--Artist", meta.Artist));
+                sb.Append(BuildStrOpt("--SortArtist", meta.SortArtist));
+                sb.Append(BuildStrOpt("--Album", meta.Album));
+                sb.Append(BuildStrOpt("--SortAlbum", meta.SortAlbum));
+                sb.Append(BuildStrOpt("--AlbumArtist", meta.AlbumArtist));
+                sb.Append(BuildStrOpt("--SortAlbumArtist", meta.SortAlbumArtist));
+                sb.Append(BuildStrOpt("--Genre", meta.Genre));
+                sb.Append(BuildStrOpt("--Composer", meta.Composer));
+                sb.Append(BuildStrOpt("--Lyricist", meta.Lyricist));
+
+                // 数値化しない：空なら出さない
+                sb.Append(BuildStrOpt("--TrackNumber", meta.TrackNumber));
+                sb.Append(BuildStrOpt("--TotalTracks", meta.TotalTracks));
+
+                // Release は年文字列（あなたのMeta設計通り）
+                sb.Append(BuildStrOpt("--Release", meta.ReleaseYear));
+
+                sb.Append(BuildStrOpt("--Import", import));
+
+                // Jacket（任意）
+                if (!string.IsNullOrWhiteSpace(meta.JacketPath))
+                {
+                    sb.Append(BuildStrOpt("--Jacket", meta.JacketPath));
+                    if (!string.IsNullOrWhiteSpace(meta.JacketMode))
+                        sb.Append(" --JacketMode ").Append(meta.JacketMode.Trim());
+                    else
+                        sb.Append(" --JacketMode Picture");
+                }
+                else
+                {
+                    // Jacket無しでも Mode は Auto を入れておきたいならここ
+                    sb.Append(" --JacketMode Auto");
+                }
+
+                if (!string.IsNullOrWhiteSpace(meta.LyricsPath))
+                {
+                    sb.Append(BuildStrOpt("--Lyrics", meta.LyricsPath));
+                    if (!string.IsNullOrWhiteSpace(meta.LyricsMode))
+                        sb.Append(" --LyricsMode ").Append(meta.LyricsMode.Trim());
+                    else
+                        sb.Append(" --LyricsMode Auto");
+                }
+                else
+                {
+                    sb.Append(" --LyricsMode Auto");
+                }
+
+                if (!string.IsNullOrWhiteSpace(meta.LinerNotesPath))
+                {
+                    sb.Append(BuildStrOpt("--LinerNotes", meta.LinerNotesPath));
+                    if (!string.IsNullOrWhiteSpace(meta.LinerNotesMode))
+                        sb.Append(" --LinerNotesMode ").Append(meta.LinerNotesMode.Trim());
+                    else
+                        sb.Append(" --LinerNotesMode Auto");
+                }
+                else
+                {
+                    sb.Append(" --LinerNotesMode Auto");
+                }
+
+                // 既存踏襲（必要なら）
+                //sb.Append(" --LyricsMode Auto --LinerNotesMode Auto");
+
+                // 入出力（※RunAtracToolWithValidation に任せるなら $InFile/$OutFile でもよい）
+                sb.Append(" --Output ").Append(QuoteArg(outFile)).Append(' ').Append(QuoteArg(inFile));
+
+                return sb.ToString();
+            }
+            // 既に同等があるならそれを使ってOK
+            private static string Quote(string s) => "\"" + (s ?? "").Replace("\"", "\\\"") + "\"";
+
+
+        }
+
+        public static class WalkmanJacketExtractor
+        {
+            public static string? TryExtractEmbeddedJacketToTemp(string originPath, string tempDir, int index = 0)
+            {
+                if (string.IsNullOrWhiteSpace(originPath) || !System.IO.File.Exists(originPath))
+                    return null;
+
+                Directory.CreateDirectory(tempDir);
+
+                try
+                {
+                    // ★ 明示的に TagLib.File
+                    using var tf = TagLib.File.Create(originPath);
+
+                    var pics = tf.Tag.Pictures;
+                    if (pics == null || pics.Length == 0)
+                        return null;
+
+                    var pic =
+                        pics.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover)
+                        ?? pics[0];
+
+                    if (pic?.Data == null || pic.Data.Count == 0)
+                        return null;
+
+                    string ext = MimeToExtension(pic.MimeType);
+                    if (string.IsNullOrEmpty(ext))
+                        ext = GuessExtensionFromHeader(pic.Data.Data) ?? ".jpg";
+
+                    string baseName = Path.GetFileNameWithoutExtension(originPath);
+                    string hash = ShortHash(originPath + "|" + index);
+
+                    string outPath = Path.Combine(tempDir, $"{baseName}__jkt_{hash}{ext}");
+
+                    // ★ 明示的に System.IO.File
+                    //System.IO.File.WriteAllBytes(outPath, pic.Data.Data);
+
+                    //return outPath;
+
+                    System.IO.File.WriteAllBytes(outPath, pic.Data.Data);
+
+                    // ★traconv 向けに正規化して返す
+                    var normalized = NormalizeJacketForTraConv(outPath, maxSize: 600);
+                    if (!string.IsNullOrWhiteSpace(normalized) && !string.Equals(normalized, outPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // 最適化前を削除（残す必要なし）
+                        try { System.IO.File.Delete(outPath); } catch { /* 無視 */ }
+                        return normalized;
+                    }
+
+                    return outPath;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            private static string MimeToExtension(string? mime)
+            {
+                mime = (mime ?? "").ToLowerInvariant();
+                return mime switch
+                {
+                    "image/jpeg" or "image/jpg" => ".jpg",
+                    "image/png" => ".png",
+                    "image/gif" => ".gif",
+                    "image/bmp" => ".bmp",
+                    "image/webp" => ".webp",
+                    _ => ""
+                };
+            }
+
+            private static string? GuessExtensionFromHeader(byte[] data)
+            {
+                if (data.Length >= 8 &&
+                    data[0] == 0x89 && data[1] == 0x50 &&
+                    data[2] == 0x4E && data[3] == 0x47)
+                    return ".png";
+
+                if (data.Length >= 3 &&
+                    data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF)
+                    return ".jpg";
+
+                return null;
+            }
+
+            private static string ShortHash(string s)
+            {
+                using var sha1 = SHA1.Create();
+                var bytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(s));
+                return BitConverter.ToString(bytes, 0, 8).Replace("-", "").ToLowerInvariant();
+            }
+
+            public static string? NormalizeJacketForTraConv(string srcPath, int maxSize = 600)
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(srcPath) || !System.IO.File.Exists(srcPath))
+                        return null;
+
+                    // traconv 安定化のため、常に JPG に寄せる（PNG透明などが必要なら PNG にしてもOK）
+                    string dir = Path.GetDirectoryName(srcPath)!;
+                    string name = Path.GetFileNameWithoutExtension(srcPath);
+                    string outPath = Path.Combine(dir, $"{name}__traconv.jpg");
+
+                    using var fs = new FileStream(srcPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using var img = Image.FromStream(fs);
+
+                    int w = img.Width;
+                    int h = img.Height;
+
+                    // リサイズ判定
+                    double scale = 1.0;
+                    if (w > maxSize || h > maxSize)
+                    {
+                        scale = Math.Min((double)maxSize / w, (double)maxSize / h);
+                    }
+
+                    int nw = Math.Max(1, (int)Math.Round(w * scale));
+                    int nh = Math.Max(1, (int)Math.Round(h * scale));
+
+                    using var bmp = new Bitmap(nw, nh);
+                    using (var g = Graphics.FromImage(bmp))
+                    {
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                        g.DrawImage(img, 0, 0, nw, nh);
+                    }
+
+                    // JPG（品質 90）
+                    var enc = ImageCodecInfo.GetImageEncoders().First(e => e.MimeType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase));
+                    var ep = new EncoderParameters(1);
+                    ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
+
+                    bmp.Save(outPath, enc, ep);
+
+                    return System.IO.File.Exists(outPath) ? outPath : null;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public static class WpfWindowRegistry
+        {
+            private static readonly HashSet<WeakReference<System.Windows.Window>> _windows = new();
+
+            public static void Register(System.Windows.Window w)
+            {
+                Cleanup();
+                _windows.Add(new WeakReference<System.Windows.Window>(w));
+                w.Closed += (_, __) => Cleanup();
+            }
+
+            public static IReadOnlyList<System.Windows.Window> Windows
+            {
+                get
+                {
+                    Cleanup();
+                    return _windows
+                        .Select(r => r.TryGetTarget(out var w) ? w : null)
+                        .Where(w => w != null)
+                        .ToList()!;
+                }
+            }
+
+            public static T? Find<T>() where T : System.Windows.Window
+                => Windows.OfType<T>().FirstOrDefault();
+
+            private static void Cleanup()
+                => _windows.RemoveWhere(r => !r.TryGetTarget(out _));
         }
 
         /// <summary>

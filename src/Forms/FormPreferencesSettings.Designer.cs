@@ -56,6 +56,7 @@
             checkBox_IO_SaveSourcesnest = new CheckBox();
             checkBox_ShowFolder = new CheckBox();
             tabPageLPC = new TabPage();
+            checkBox_Usepal = new CheckBox();
             checkBox_EnableATRACPlayback = new CheckBox();
             checkBox_Smoothsamples = new CheckBox();
             comboBox_LPCMultisourcePlaybackmode = new ComboBox();
@@ -66,6 +67,7 @@
             comboBox_LPCplayback = new ComboBox();
             label_LPC_PlaybackMode = new Label();
             tabPageAdvanced = new TabPage();
+            checkBox_debug = new CheckBox();
             comboBox_WASAPILatencysS = new ComboBox();
             comboBox_WASAPILatencysE = new ComboBox();
             comboBox_PlaybackThreadCounts = new ComboBox();
@@ -110,31 +112,27 @@
             // 
             // groupBox_IO_Behavior
             // 
-            resources.ApplyResources(groupBox_IO_Behavior, "groupBox_IO_Behavior");
             groupBox_IO_Behavior.Controls.Add(radioButton_spc);
             groupBox_IO_Behavior.Controls.Add(radioButton_nml);
+            resources.ApplyResources(groupBox_IO_Behavior, "groupBox_IO_Behavior");
             groupBox_IO_Behavior.Name = "groupBox_IO_Behavior";
             groupBox_IO_Behavior.TabStop = false;
-            toolTip_Description.SetToolTip(groupBox_IO_Behavior, resources.GetString("groupBox_IO_Behavior.ToolTip"));
             // 
             // textBox_Path
             // 
             resources.ApplyResources(textBox_Path, "textBox_Path");
             textBox_Path.Name = "textBox_Path";
             textBox_Path.ReadOnly = true;
-            toolTip_Description.SetToolTip(textBox_Path, resources.GetString("textBox_Path.ToolTip"));
             // 
             // label_IO_Path
             // 
             resources.ApplyResources(label_IO_Path, "label_IO_Path");
             label_IO_Path.Name = "label_IO_Path";
-            toolTip_Description.SetToolTip(label_IO_Path, resources.GetString("label_IO_Path.ToolTip"));
             // 
             // button_OK
             // 
             resources.ApplyResources(button_OK, "button_OK");
             button_OK.Name = "button_OK";
-            toolTip_Description.SetToolTip(button_OK, resources.GetString("button_OK.ToolTip"));
             button_OK.UseVisualStyleBackColor = true;
             button_OK.Click += Button_OK_Click;
             // 
@@ -142,7 +140,6 @@
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            toolTip_Description.SetToolTip(button_Cancel, resources.GetString("button_Cancel.ToolTip"));
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += Button_Cancel_Click;
             // 
@@ -174,7 +171,6 @@
             // 
             resources.ApplyResources(label_IO_SubfolderSuffix, "label_IO_SubfolderSuffix");
             label_IO_SubfolderSuffix.Name = "label_IO_SubfolderSuffix";
-            toolTip_Description.SetToolTip(label_IO_SubfolderSuffix, resources.GetString("label_IO_SubfolderSuffix.ToolTip"));
             // 
             // textBox_suffix
             // 
@@ -184,18 +180,16 @@
             // 
             // tabControl1
             // 
-            resources.ApplyResources(tabControl1, "tabControl1");
             tabControl1.Controls.Add(tabPageGeneral);
             tabControl1.Controls.Add(tabPageIO);
             tabControl1.Controls.Add(tabPageLPC);
             tabControl1.Controls.Add(tabPageAdvanced);
+            resources.ApplyResources(tabControl1, "tabControl1");
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            toolTip_Description.SetToolTip(tabControl1, resources.GetString("tabControl1.ToolTip"));
             // 
             // tabPageGeneral
             // 
-            resources.ApplyResources(tabPageGeneral, "tabPageGeneral");
             tabPageGeneral.Controls.Add(checkBox_ATRACEncodeSource);
             tabPageGeneral.Controls.Add(checkBox_Hidesplash);
             tabPageGeneral.Controls.Add(checkBox_DisablePreviewWarning);
@@ -203,8 +197,8 @@
             tabPageGeneral.Controls.Add(textBox_Splashimg);
             tabPageGeneral.Controls.Add(checkBox_Splashimg);
             tabPageGeneral.Controls.Add(checkBox_Checkupdate);
+            resources.ApplyResources(tabPageGeneral, "tabPageGeneral");
             tabPageGeneral.Name = "tabPageGeneral";
-            toolTip_Description.SetToolTip(tabPageGeneral, resources.GetString("tabPageGeneral.ToolTip"));
             tabPageGeneral.UseVisualStyleBackColor = true;
             // 
             // checkBox_ATRACEncodeSource
@@ -232,7 +226,6 @@
             // 
             resources.ApplyResources(button_Splashimg, "button_Splashimg");
             button_Splashimg.Name = "button_Splashimg";
-            toolTip_Description.SetToolTip(button_Splashimg, resources.GetString("button_Splashimg.ToolTip"));
             button_Splashimg.UseVisualStyleBackColor = true;
             button_Splashimg.Click += Button_Splashimg_Click;
             // 
@@ -241,7 +234,6 @@
             resources.ApplyResources(textBox_Splashimg, "textBox_Splashimg");
             textBox_Splashimg.Name = "textBox_Splashimg";
             textBox_Splashimg.ReadOnly = true;
-            toolTip_Description.SetToolTip(textBox_Splashimg, resources.GetString("textBox_Splashimg.ToolTip"));
             // 
             // checkBox_Splashimg
             // 
@@ -263,7 +255,6 @@
             // 
             // tabPageIO
             // 
-            resources.ApplyResources(tabPageIO, "tabPageIO");
             tabPageIO.Controls.Add(checkBox_SaveDeleteHzSuffix);
             tabPageIO.Controls.Add(checkBox_IO_SaveSourcesnest);
             tabPageIO.Controls.Add(checkBox_ShowFolder);
@@ -275,8 +266,8 @@
             tabPageIO.Controls.Add(checkBox_Subfolder);
             tabPageIO.Controls.Add(button_Browse);
             tabPageIO.Controls.Add(button_Clear);
+            resources.ApplyResources(tabPageIO, "tabPageIO");
             tabPageIO.Name = "tabPageIO";
-            toolTip_Description.SetToolTip(tabPageIO, resources.GetString("tabPageIO.ToolTip"));
             tabPageIO.UseVisualStyleBackColor = true;
             // 
             // checkBox_SaveDeleteHzSuffix
@@ -304,7 +295,7 @@
             // 
             // tabPageLPC
             // 
-            resources.ApplyResources(tabPageLPC, "tabPageLPC");
+            tabPageLPC.Controls.Add(checkBox_Usepal);
             tabPageLPC.Controls.Add(checkBox_EnableATRACPlayback);
             tabPageLPC.Controls.Add(checkBox_Smoothsamples);
             tabPageLPC.Controls.Add(comboBox_LPCMultisourcePlaybackmode);
@@ -314,9 +305,15 @@
             tabPageLPC.Controls.Add(checkBox_MultisoundDontDS);
             tabPageLPC.Controls.Add(comboBox_LPCplayback);
             tabPageLPC.Controls.Add(label_LPC_PlaybackMode);
+            resources.ApplyResources(tabPageLPC, "tabPageLPC");
             tabPageLPC.Name = "tabPageLPC";
-            toolTip_Description.SetToolTip(tabPageLPC, resources.GetString("tabPageLPC.ToolTip"));
             tabPageLPC.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_Usepal
+            // 
+            resources.ApplyResources(checkBox_Usepal, "checkBox_Usepal");
+            checkBox_Usepal.Name = "checkBox_Usepal";
+            checkBox_Usepal.UseVisualStyleBackColor = true;
             // 
             // checkBox_EnableATRACPlayback
             // 
@@ -333,14 +330,14 @@
             checkBox_Smoothsamples.Name = "checkBox_Smoothsamples";
             toolTip_Description.SetToolTip(checkBox_Smoothsamples, resources.GetString("checkBox_Smoothsamples.ToolTip"));
             checkBox_Smoothsamples.UseVisualStyleBackColor = true;
-            checkBox_Smoothsamples.CheckedChanged += checkBox_Smoothsamples_CheckedChanged;
+            checkBox_Smoothsamples.CheckedChanged += CheckBox_Smoothsamples_CheckedChanged;
             // 
             // comboBox_LPCMultisourcePlaybackmode
             // 
-            resources.ApplyResources(comboBox_LPCMultisourcePlaybackmode, "comboBox_LPCMultisourcePlaybackmode");
             comboBox_LPCMultisourcePlaybackmode.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_LPCMultisourcePlaybackmode.FormattingEnabled = true;
             comboBox_LPCMultisourcePlaybackmode.Items.AddRange(new object[] { resources.GetString("comboBox_LPCMultisourcePlaybackmode.Items"), resources.GetString("comboBox_LPCMultisourcePlaybackmode.Items1"), resources.GetString("comboBox_LPCMultisourcePlaybackmode.Items2") });
+            resources.ApplyResources(comboBox_LPCMultisourcePlaybackmode, "comboBox_LPCMultisourcePlaybackmode");
             comboBox_LPCMultisourcePlaybackmode.Name = "comboBox_LPCMultisourcePlaybackmode";
             toolTip_Description.SetToolTip(comboBox_LPCMultisourcePlaybackmode, resources.GetString("comboBox_LPCMultisourcePlaybackmode.ToolTip"));
             comboBox_LPCMultisourcePlaybackmode.SelectedIndexChanged += ComboBox_LPCMultisourcePlaybackmode_SelectedIndexChanged;
@@ -349,12 +346,11 @@
             // 
             resources.ApplyResources(label_LPC_MultiplesourcePlaybackmode, "label_LPC_MultiplesourcePlaybackmode");
             label_LPC_MultiplesourcePlaybackmode.Name = "label_LPC_MultiplesourcePlaybackmode";
-            toolTip_Description.SetToolTip(label_LPC_MultiplesourcePlaybackmode, resources.GetString("label_LPC_MultiplesourcePlaybackmode.ToolTip"));
             // 
             // comboBox_LPCASIODriver
             // 
-            resources.ApplyResources(comboBox_LPCASIODriver, "comboBox_LPCASIODriver");
             comboBox_LPCASIODriver.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_LPCASIODriver, "comboBox_LPCASIODriver");
             comboBox_LPCASIODriver.FormattingEnabled = true;
             comboBox_LPCASIODriver.Name = "comboBox_LPCASIODriver";
             toolTip_Description.SetToolTip(comboBox_LPCASIODriver, resources.GetString("comboBox_LPCASIODriver.ToolTip"));
@@ -363,7 +359,6 @@
             // 
             resources.ApplyResources(label_LPC_ASIODriver, "label_LPC_ASIODriver");
             label_LPC_ASIODriver.Name = "label_LPC_ASIODriver";
-            toolTip_Description.SetToolTip(label_LPC_ASIODriver, resources.GetString("label_LPC_ASIODriver.ToolTip"));
             // 
             // checkBox_MultisoundDontDS
             // 
@@ -377,10 +372,10 @@
             // 
             // comboBox_LPCplayback
             // 
-            resources.ApplyResources(comboBox_LPCplayback, "comboBox_LPCplayback");
             comboBox_LPCplayback.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_LPCplayback.FormattingEnabled = true;
             comboBox_LPCplayback.Items.AddRange(new object[] { resources.GetString("comboBox_LPCplayback.Items"), resources.GetString("comboBox_LPCplayback.Items1"), resources.GetString("comboBox_LPCplayback.Items2"), resources.GetString("comboBox_LPCplayback.Items3") });
+            resources.ApplyResources(comboBox_LPCplayback, "comboBox_LPCplayback");
             comboBox_LPCplayback.Name = "comboBox_LPCplayback";
             toolTip_Description.SetToolTip(comboBox_LPCplayback, resources.GetString("comboBox_LPCplayback.ToolTip"));
             comboBox_LPCplayback.SelectedIndexChanged += ComboBox_LPCplayback_SelectedIndexChanged;
@@ -389,11 +384,10 @@
             // 
             resources.ApplyResources(label_LPC_PlaybackMode, "label_LPC_PlaybackMode");
             label_LPC_PlaybackMode.Name = "label_LPC_PlaybackMode";
-            toolTip_Description.SetToolTip(label_LPC_PlaybackMode, resources.GetString("label_LPC_PlaybackMode.ToolTip"));
             // 
             // tabPageAdvanced
             // 
-            resources.ApplyResources(tabPageAdvanced, "tabPageAdvanced");
+            tabPageAdvanced.Controls.Add(checkBox_debug);
             tabPageAdvanced.Controls.Add(comboBox_WASAPILatencysS);
             tabPageAdvanced.Controls.Add(comboBox_WASAPILatencysE);
             tabPageAdvanced.Controls.Add(comboBox_PlaybackThreadCounts);
@@ -409,52 +403,58 @@
             tabPageAdvanced.Controls.Add(checkBox_Fixconvert);
             tabPageAdvanced.Controls.Add(checkBox_FasterATRAC);
             tabPageAdvanced.Controls.Add(checkBox_Oldmode);
+            resources.ApplyResources(tabPageAdvanced, "tabPageAdvanced");
             tabPageAdvanced.Name = "tabPageAdvanced";
-            toolTip_Description.SetToolTip(tabPageAdvanced, resources.GetString("tabPageAdvanced.ToolTip"));
             tabPageAdvanced.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_debug
+            // 
+            resources.ApplyResources(checkBox_debug, "checkBox_debug");
+            checkBox_debug.Name = "checkBox_debug";
+            checkBox_debug.UseVisualStyleBackColor = true;
             // 
             // comboBox_WASAPILatencysS
             // 
-            resources.ApplyResources(comboBox_WASAPILatencysS, "comboBox_WASAPILatencysS");
             comboBox_WASAPILatencysS.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_WASAPILatencysS.FormattingEnabled = true;
             comboBox_WASAPILatencysS.Items.AddRange(new object[] { resources.GetString("comboBox_WASAPILatencysS.Items"), resources.GetString("comboBox_WASAPILatencysS.Items1"), resources.GetString("comboBox_WASAPILatencysS.Items2"), resources.GetString("comboBox_WASAPILatencysS.Items3"), resources.GetString("comboBox_WASAPILatencysS.Items4"), resources.GetString("comboBox_WASAPILatencysS.Items5"), resources.GetString("comboBox_WASAPILatencysS.Items6"), resources.GetString("comboBox_WASAPILatencysS.Items7") });
+            resources.ApplyResources(comboBox_WASAPILatencysS, "comboBox_WASAPILatencysS");
             comboBox_WASAPILatencysS.Name = "comboBox_WASAPILatencysS";
             toolTip_Description.SetToolTip(comboBox_WASAPILatencysS, resources.GetString("comboBox_WASAPILatencysS.ToolTip"));
             // 
             // comboBox_WASAPILatencysE
             // 
-            resources.ApplyResources(comboBox_WASAPILatencysE, "comboBox_WASAPILatencysE");
             comboBox_WASAPILatencysE.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_WASAPILatencysE.FormattingEnabled = true;
             comboBox_WASAPILatencysE.Items.AddRange(new object[] { resources.GetString("comboBox_WASAPILatencysE.Items"), resources.GetString("comboBox_WASAPILatencysE.Items1"), resources.GetString("comboBox_WASAPILatencysE.Items2"), resources.GetString("comboBox_WASAPILatencysE.Items3"), resources.GetString("comboBox_WASAPILatencysE.Items4"), resources.GetString("comboBox_WASAPILatencysE.Items5"), resources.GetString("comboBox_WASAPILatencysE.Items6"), resources.GetString("comboBox_WASAPILatencysE.Items7") });
+            resources.ApplyResources(comboBox_WASAPILatencysE, "comboBox_WASAPILatencysE");
             comboBox_WASAPILatencysE.Name = "comboBox_WASAPILatencysE";
             toolTip_Description.SetToolTip(comboBox_WASAPILatencysE, resources.GetString("comboBox_WASAPILatencysE.ToolTip"));
             // 
             // comboBox_PlaybackThreadCounts
             // 
-            resources.ApplyResources(comboBox_PlaybackThreadCounts, "comboBox_PlaybackThreadCounts");
             comboBox_PlaybackThreadCounts.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_PlaybackThreadCounts.FormattingEnabled = true;
             comboBox_PlaybackThreadCounts.Items.AddRange(new object[] { resources.GetString("comboBox_PlaybackThreadCounts.Items"), resources.GetString("comboBox_PlaybackThreadCounts.Items1"), resources.GetString("comboBox_PlaybackThreadCounts.Items2"), resources.GetString("comboBox_PlaybackThreadCounts.Items3"), resources.GetString("comboBox_PlaybackThreadCounts.Items4"), resources.GetString("comboBox_PlaybackThreadCounts.Items5"), resources.GetString("comboBox_PlaybackThreadCounts.Items6"), resources.GetString("comboBox_PlaybackThreadCounts.Items7") });
+            resources.ApplyResources(comboBox_PlaybackThreadCounts, "comboBox_PlaybackThreadCounts");
             comboBox_PlaybackThreadCounts.Name = "comboBox_PlaybackThreadCounts";
             toolTip_Description.SetToolTip(comboBox_PlaybackThreadCounts, resources.GetString("comboBox_PlaybackThreadCounts.ToolTip"));
             // 
             // comboBox_DSBuffers
             // 
-            resources.ApplyResources(comboBox_DSBuffers, "comboBox_DSBuffers");
             comboBox_DSBuffers.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_DSBuffers.FormattingEnabled = true;
             comboBox_DSBuffers.Items.AddRange(new object[] { resources.GetString("comboBox_DSBuffers.Items"), resources.GetString("comboBox_DSBuffers.Items1"), resources.GetString("comboBox_DSBuffers.Items2"), resources.GetString("comboBox_DSBuffers.Items3") });
+            resources.ApplyResources(comboBox_DSBuffers, "comboBox_DSBuffers");
             comboBox_DSBuffers.Name = "comboBox_DSBuffers";
             toolTip_Description.SetToolTip(comboBox_DSBuffers, resources.GetString("comboBox_DSBuffers.ToolTip"));
             // 
             // comboBox_DSLatencys
             // 
-            resources.ApplyResources(comboBox_DSLatencys, "comboBox_DSLatencys");
             comboBox_DSLatencys.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_DSLatencys.FormattingEnabled = true;
             comboBox_DSLatencys.Items.AddRange(new object[] { resources.GetString("comboBox_DSLatencys.Items"), resources.GetString("comboBox_DSLatencys.Items1"), resources.GetString("comboBox_DSLatencys.Items2"), resources.GetString("comboBox_DSLatencys.Items3"), resources.GetString("comboBox_DSLatencys.Items4"), resources.GetString("comboBox_DSLatencys.Items5"), resources.GetString("comboBox_DSLatencys.Items6"), resources.GetString("comboBox_DSLatencys.Items7"), resources.GetString("comboBox_DSLatencys.Items8") });
+            resources.ApplyResources(comboBox_DSLatencys, "comboBox_DSLatencys");
             comboBox_DSLatencys.Name = "comboBox_DSLatencys";
             toolTip_Description.SetToolTip(comboBox_DSLatencys, resources.GetString("comboBox_DSLatencys.ToolTip"));
             // 
@@ -497,12 +497,11 @@
             // 
             // comboBox_Fixconvert
             // 
-            resources.ApplyResources(comboBox_Fixconvert, "comboBox_Fixconvert");
             comboBox_Fixconvert.DropDownStyle = ComboBoxStyle.DropDownList;
+            resources.ApplyResources(comboBox_Fixconvert, "comboBox_Fixconvert");
             comboBox_Fixconvert.FormattingEnabled = true;
-            comboBox_Fixconvert.Items.AddRange(new object[] { resources.GetString("comboBox_Fixconvert.Items"), resources.GetString("comboBox_Fixconvert.Items1"), resources.GetString("comboBox_Fixconvert.Items2"), resources.GetString("comboBox_Fixconvert.Items3") });
+            comboBox_Fixconvert.Items.AddRange(new object[] { resources.GetString("comboBox_Fixconvert.Items"), resources.GetString("comboBox_Fixconvert.Items1"), resources.GetString("comboBox_Fixconvert.Items2"), resources.GetString("comboBox_Fixconvert.Items3"), resources.GetString("comboBox_Fixconvert.Items4"), resources.GetString("comboBox_Fixconvert.Items5"), resources.GetString("comboBox_Fixconvert.Items6") });
             comboBox_Fixconvert.Name = "comboBox_Fixconvert";
-            toolTip_Description.SetToolTip(comboBox_Fixconvert, resources.GetString("comboBox_Fixconvert.ToolTip"));
             comboBox_Fixconvert.SelectedIndexChanged += ComboBox_Fixconvert_SelectedIndexChanged;
             // 
             // checkBox_Fixconvert
@@ -540,7 +539,7 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "FormPreferencesSettings";
-            toolTip_Description.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            FormClosed += FormPreferencesSettings_FormClosed;
             Load += FormPreferencesSettings_Load;
             groupBox_IO_Behavior.ResumeLayout(false);
             groupBox_IO_Behavior.PerformLayout();
@@ -610,5 +609,7 @@
         private ComboBox comboBox_PlaybackThreadCounts;
         private ComboBox comboBox_DSBuffers;
         private CheckBox checkBox_SaveDeleteHzSuffix;
+        private CheckBox checkBox_Usepal;
+        private CheckBox checkBox_debug;
     }
 }

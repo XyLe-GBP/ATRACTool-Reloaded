@@ -12,12 +12,12 @@
             comboBox_fmt.SelectedIndex = 0;
         }
 
-        private void button_Cancel_Click(object sender, EventArgs e)
+        private void Button_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void button_OK_Click(object sender, EventArgs e)
+        private void Button_OK_Click(object sender, EventArgs e)
         {
             Common.Generic.WTAFlag = (sbyte)comboBox_fmt.SelectedIndex;
             Close();

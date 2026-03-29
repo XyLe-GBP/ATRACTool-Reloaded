@@ -40,14 +40,14 @@
             resources.ApplyResources(button_OK, "button_OK");
             button_OK.Name = "button_OK";
             button_OK.UseVisualStyleBackColor = true;
-            button_OK.Click += button_OK_Click;
+            button_OK.Click += Button_OK_Click;
             // 
             // button_Cancel
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
             button_Cancel.UseVisualStyleBackColor = true;
-            button_Cancel.Click += button_Cancel_Click;
+            button_Cancel.Click += Button_Cancel_Click;
             // 
             // label1
             // 

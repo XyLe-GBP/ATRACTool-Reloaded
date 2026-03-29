@@ -131,15 +131,15 @@
             // 
             resources.ApplyResources(textBox_LoopEnd, "textBox_LoopEnd");
             textBox_LoopEnd.Name = "textBox_LoopEnd";
-            textBox_LoopEnd.TextChanged += textBox_LoopEnd_TextChanged;
-            textBox_LoopEnd.KeyPress += textBox_LoopEnd_KeyPress;
+            textBox_LoopEnd.TextChanged += TextBox_LoopEnd_TextChanged;
+            textBox_LoopEnd.KeyPress += TextBox_LoopEnd_KeyPress;
             // 
             // textBox_LoopStart
             // 
             resources.ApplyResources(textBox_LoopStart, "textBox_LoopStart");
             textBox_LoopStart.Name = "textBox_LoopStart";
-            textBox_LoopStart.TextChanged += textBox_LoopStart_TextChanged;
-            textBox_LoopStart.KeyPress += textBox_LoopStart_KeyPress;
+            textBox_LoopStart.TextChanged += TextBox_LoopStart_TextChanged;
+            textBox_LoopStart.KeyPress += TextBox_LoopStart_KeyPress;
             // 
             // label_NotReaded
             // 
@@ -389,6 +389,7 @@
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "FormMain";
+            FormClosing += FormMain_FormClosing;
             FormClosed += FormMain_FormClosed;
             Load += FormMain_Load;
             DragDrop += FormMain_DragDrop;

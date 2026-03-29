@@ -74,6 +74,7 @@
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormProgress";
+            FormClosed += FormProgress_FormClosed;
             Load += FormProgress_Load;
             ResumeLayout(false);
 

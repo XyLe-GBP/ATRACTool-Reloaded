@@ -42,6 +42,8 @@
             linkLabel3 = new LinkLabel();
             label7 = new Label();
             label8 = new Label();
+            label9 = new Label();
+            linkLabel4 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -97,13 +99,13 @@
             // 
             // button_OK
             // 
-            button_OK.Location = new Point(398, 403);
+            button_OK.Location = new Point(402, 438);
             button_OK.Name = "button_OK";
             button_OK.Size = new Size(75, 23);
             button_OK.TabIndex = 5;
             button_OK.Text = "Done!";
             button_OK.UseVisualStyleBackColor = true;
-            button_OK.Click += button_OK_Click;
+            button_OK.Click += Button_OK_Click;
             // 
             // label5
             // 
@@ -123,7 +125,7 @@
             linkLabel1.TabIndex = 7;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "MediaToolKit";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            linkLabel1.LinkClicked += LinkLabel1_LinkClicked;
             // 
             // label6
             // 
@@ -142,31 +144,31 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 9;
             pictureBox2.TabStop = false;
-            pictureBox2.Paint += pictureBox2_Paint;
+            pictureBox2.Paint += PictureBox2_Paint;
             // 
             // linkLabel2
             // 
             linkLabel2.AutoSize = true;
             linkLabel2.Font = new Font("Yu Gothic UI", 12F);
-            linkLabel2.Location = new Point(190, 349);
+            linkLabel2.Location = new Point(200, 349);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(107, 21);
             linkLabel2.TabIndex = 10;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "XyLe's GitHub";
-            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
+            linkLabel2.LinkClicked += LinkLabel2_LinkClicked;
             // 
             // linkLabel3
             // 
             linkLabel3.AutoSize = true;
             linkLabel3.Font = new Font("Yu Gothic UI", 12F);
-            linkLabel3.Location = new Point(326, 349);
+            linkLabel3.Location = new Point(340, 349);
             linkLabel3.Name = "linkLabel3";
-            linkLabel3.Size = new Size(65, 21);
+            linkLabel3.Size = new Size(99, 21);
             linkLabel3.TabIndex = 11;
             linkLabel3.TabStop = true;
-            linkLabel3.Text = "Website";
-            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
+            linkLabel3.Text = "Visit Website";
+            linkLabel3.LinkClicked += LinkLabel3_LinkClicked;
             // 
             // label7
             // 
@@ -175,7 +177,7 @@
             label7.Name = "label7";
             label7.Size = new Size(465, 15);
             label7.TabIndex = 12;
-            label7.Text = "ATRACTool.exe and ATRACTool-Reloaded.exe: Copyright © 2025 - XyLe. All Rights Reserved.";
+            label7.Text = "ATRACTool.exe and ATRACTool-Reloaded.exe: Copyright © 2026 - XyLe. All Rights Reserved.";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -188,13 +190,36 @@
             label8.Text = "ApplicationUpdater (updater.exe): Copyright © 2025 - XyLe. All Rights Reserved.";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(40, 442);
+            label9.Name = "label9";
+            label9.Size = new Size(185, 15);
+            label9.TabIndex = 14;
+            label9.Text = "If you like this app, buy me a beer.";
+            // 
+            // linkLabel4
+            // 
+            linkLabel4.AutoSize = true;
+            linkLabel4.Font = new Font("Yu Gothic UI", 12F);
+            linkLabel4.Location = new Point(230, 437);
+            linkLabel4.Name = "linkLabel4";
+            linkLabel4.Size = new Size(162, 21);
+            linkLabel4.TabIndex = 15;
+            linkLabel4.TabStop = true;
+            linkLabel4.Text = "Donation page is here";
+            linkLabel4.LinkClicked += LinkLabel4_LinkClicked;
+            // 
             // FormAbout
             // 
             AcceptButton = button_OK;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(489, 441);
+            ClientSize = new Size(489, 471);
             ControlBox = false;
+            Controls.Add(linkLabel4);
+            Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(linkLabel3);
@@ -236,5 +261,7 @@
         private LinkLabel linkLabel3;
         private Label label7;
         private Label label8;
+        private Label label9;
+        private LinkLabel linkLabel4;
     }
 }

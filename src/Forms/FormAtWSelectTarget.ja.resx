@@ -125,10 +125,19 @@
     <value>出力方式：</value>
   </data>
   <data name="comboBox_method.Items" xml:space="preserve">
-    <value>[For ATRAC3+/ATRAC9] 44.1kHz (ATRAC3+の場合PSPに適合)</value>
+    <value>[For ATRAC9] 8000Hz (48000Hzのみ)</value>
   </data>
-  <data name="comboBox_method.Items1" xml:space="preserve">
-    <value>[For ATRAC3+/ATRAC9] 48kHz (ATRAC3+の場合PS3に適合)</value>
+  <data name="comboBox_method.Items2" xml:space="preserve">
+    <value>[For ATRAC9] 16000Hz (48000Hzのみ)</value>
+  </data>
+  <data name="comboBox_method.Items4" xml:space="preserve">
+    <value>[For ATRAC9] 32000Hz (48000Hzのみ)</value>
+  </data>
+  <data name="comboBox_method.Items5" xml:space="preserve">
+    <value>[For ATRAC3+ / ATRAC9] 44100Hz (ATRAC3+の場合PSPに適合) (ATRAC9は48000Hzのみ)</value>
+  </data>
+  <data name="comboBox_method.Items6" xml:space="preserve">
+    <value>[For ATRAC3+ / ATRAC9] 48000Hz (ATRAC3+の場合PS3に適合) (ATRAC9は48000Hzのみ)</value>
   </data>
   <data name="comboBox_method.Location" type="System.Drawing.Point, System.Drawing">
     <value>75, 6</value>

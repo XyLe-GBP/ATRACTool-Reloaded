@@ -22,11 +22,13 @@
             {
                 Common.Generic.ApplicationPortable = true;
             }
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }

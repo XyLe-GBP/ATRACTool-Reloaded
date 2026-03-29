@@ -18,6 +18,7 @@ namespace ATRACTool_Reloaded
         public FormSelectWalkmanFormats(bool flag)
         {
             InitializeComponent();
+            FormMain.DebugInfo("[FormSelectWalkmanFormats] Initialized.");
 
             if (flag)
             {
@@ -52,15 +53,58 @@ namespace ATRACTool_Reloaded
 
         private void button_OK_Click(object sender, EventArgs e)
         {
+            // Decode: _flag == false（デコードフォーマット）
             if (_flag)
             {
-                Common.Generic.WalkmanMultiConvFmt = comboBox_OutputFormats.SelectedIndex.ToString();
+                int idx = comboBox_OutputFormats.SelectedIndex;
+
+                // 既存の Generic も更新（即時反映のため）
+                Common.Generic.WalkmanMultiConvFmt = idx.ToString();
+
+                // ★変換が参照しているのはココ（Config/Utils側）なので必ず更新する
+                Common.Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = idx.ToString();
+
+                // ★FileType もここで揃えておく（traconv の --FileType に直結させる想定）
+                // FormSettings の switch と同等のマッピング
+                Common.Config.Entry["Walkman_FileType"].Value = idx switch
+                {
+                    0 => "PCM",
+                    1 => "OMA3",
+                    2 => "OMG3",
+                    3 => "AAL3",
+                    4 => "KDR3",
+                    5 => "OMAP",
+                    6 => "OMGP",
+                    7 => "AALP",
+                    8 => "KDRP",
+                    _ => "OMA3",
+                };
+
+                // 必要なら拡張子もここで更新（あなたの既存設計に合わせて調整）
+                Common.Generic.WalkmanMultiConvExt = idx switch
+                {
+                    2 => ".omg",
+                    4 => ".kdr",
+                    6 => ".omg",
+                    8 => ".kdr",
+                    _ => ".oma",
+                };
             }
             else
             {
-                Common.Generic.WalkmanMultiConvFmt = comboBox_DecodeFormats.SelectedIndex.ToString();
+                int idx = comboBox_DecodeFormats.SelectedIndex;
+
+                // 既存の Generic も更新
+                Common.Generic.WalkmanMultiConvFmt = idx.ToString();
+
+                // Decode 側も Config を更新
+                Common.Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value = idx.ToString();
             }
-            
+
+            // 設定を永続化（この Save/Load の有無で「次回起動」や「変換開始時のロード」に差が出ます）
+            Common.Config.Save(Common.xmlpath);
+            Common.Config.Load(Common.xmlpath);
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -69,6 +113,11 @@ namespace ATRACTool_Reloaded
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void FormSelectWalkmanFormats_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormMain.DebugInfo("[FormSelectWalkmanFormats] Closed.");
         }
     }
 }

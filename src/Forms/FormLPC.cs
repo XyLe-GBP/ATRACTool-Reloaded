@@ -4,8 +4,11 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using static ATRACTool_Reloaded.Common;
+using static ATRACTool_Reloaded.Common.Constants;
 
 namespace ATRACTool_Reloaded
 {
@@ -17,7 +20,7 @@ namespace ATRACTool_Reloaded
         private WasapiOut wasapiOut = null!;
         private AsioOut asioOut = null!;
         private string asioDriver = null!;
-        private readonly List<IDisposable> _disposables = new();
+        private readonly List<IDisposable> _disposables = [];
         WaveFileReader reader = null!;
         BufferedWaveProvider BufwaveProvider = null!;
         VolumeSampleProvider volumeSmplProvider = null!;
@@ -27,7 +30,7 @@ namespace ATRACTool_Reloaded
         long totalsamples;
         uint btnpos;
         TimeSpan time;
-        bool mouseDown = false, stopflag = false, IsPausedMoveTrackbar, SmoothSamples = false, IsPlaybackATRAC = false, IsEncodeSourceATRAC = false, IsMultiChannel = false, IsWASAPI = false, IsWASAPIex = false, IsASIO = false;
+        bool mouseDown = false, stopflag = false, IsPausedMoveTrackbar, SmoothSamples = false, IsPlaybackATRAC = false, IsEncodeSourceATRAC = false, IsMultiChannel = false, IsWASAPI = false, IsWASAPIex = false, IsASIO = false, UseParallel = false;
         float ScaleWidthTrk = 0f, ScaleWidthStart = 0f, ScaleWidthEnd = 0f;
         Point MainDefaultPoint = new(15, 88), StartDefaultPoint = new(15, 160), EndDefaultPoint = new(15, 32);
 
@@ -40,6 +43,9 @@ namespace ATRACTool_Reloaded
         int[] bufferloop = new int[2];
 
         private static FormLPC _formLPCInstance = null!;
+        /// <summary>
+        /// FormLPC インスタンス
+        /// </summary>
         public static FormLPC FormLPCInstance
         {
             get
@@ -90,6 +96,9 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// FormLPCの現在のLoopStart
+        /// </summary>
         public long LoopStart
         {
             get
@@ -106,6 +115,9 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        /// <summary>
+        /// FormLPCの現在のLoopEnd
+        /// </summary>
         public long LoopEnd
         {
             get
@@ -155,6 +167,7 @@ namespace ATRACTool_Reloaded
         public FormLPC(bool IsEnabledBtn)
         {
             InitializeComponent();
+            FormMain.DebugInfo("[FormLPC] Initialized.");
 
             labelTrk = MainDefaultPoint;
             labelStart = StartDefaultPoint;
@@ -180,11 +193,11 @@ namespace ATRACTool_Reloaded
                 checkBox_LoopEnable.Enabled = false;
             }
 
-            customTrackBar_Trk.Scroll += customTrackBar_Trk_Scroll;
-            customTrackBar_Start.Scroll += customTrackBar_Start_Scroll;
-            customTrackBar_End.Scroll += customTrackBar_End_Scroll;
-            customTrackBar_Trk.MouseDown += customTrackBar_Trk_MouseDown;
-            customTrackBar_Trk.MouseUp += customTrackBar_Trk_MouseUp;
+            customTrackBar_Trk.Scroll += CustomTrackBar_Trk_Scroll;
+            customTrackBar_Start.Scroll += CustomTrackBar_Start_Scroll;
+            customTrackBar_End.Scroll += CustomTrackBar_End_Scroll;
+            customTrackBar_Trk.MouseDown += CustomTrackBar_Trk_MouseDown;
+            customTrackBar_Trk.MouseUp += CustomTrackBar_Trk_MouseUp;
             label_trk.Text = "0";
             label_start.Text = "0";
             label_end.Text = "0";
@@ -196,47 +209,30 @@ namespace ATRACTool_Reloaded
             label_LoopEndSamples.Text = "";
             label_previewwarn.Text = "";
             timer_Reload.Interval = 1;
-
-            //label_trk.Visible = false;
-            //label_start.Visible = false;
-            //label_end.Visible = false;
         }
 
-        private void customTrackBar_End_Scroll(object? sender, EventArgs e)
+        private void CustomTrackBar_End_Scroll(object? sender, EventArgs e)
         {
-            //label_end.Text = customTrackBar_End.Value.ToString();
-            //SetTrackbarEnd();
-            //label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X, labelEnd.Y);
             numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
         }
 
-        private void customTrackBar_Start_Scroll(object? sender, EventArgs e)
+        private void CustomTrackBar_Start_Scroll(object? sender, EventArgs e)
         {
-            //label_start.Text = customTrackBar_Start.Value.ToString();
-            //SetTrackbarStart();
-            //label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X, labelStart.Y);
             numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
         }
 
-        private void customTrackBar_Trk_Scroll(object? sender, EventArgs e)
+        private void CustomTrackBar_Trk_Scroll(object? sender, EventArgs e)
         {
-            //if (wo.PlaybackState == PlaybackState.Paused) IsPausedMoveTrackbar = true;
-            //label_trk.Text = customTrackBar_Trk.Value.ToString();
-            //SetTrackbarTrack();
-            //label_trk.Location = new Point(labelTrk.X + (int)((customTrackBar_Trk.Value - customTrackBar_Trk.Minimum) * ScaleWidthTrk) - customTrackBar_Trk.Location.X - labelTrk.X, labelTrk.Y);
-
             reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
-            //Sample = reader.Position;
-            //Sample = reader.Position / reader.BlockAlign;
         }
 
-        private void customTrackBar_Trk_MouseUp(object? sender, MouseEventArgs e)
+        private void CustomTrackBar_Trk_MouseUp(object? sender, MouseEventArgs e)
         {
             if (!mouseDown) return;
             mouseDown = false;
         }
 
-        private void customTrackBar_Trk_MouseDown(object? sender, MouseEventArgs e)
+        private void CustomTrackBar_Trk_MouseDown(object? sender, MouseEventArgs e)
         {
             if (reader == null) return;
             mouseDown = true;
@@ -248,95 +244,73 @@ namespace ATRACTool_Reloaded
 
             FormLPCInstance = this;
 
-            switch (bool.Parse(Config.Entry["SmoothSamples"].Value))
-            {
-                case true:
-                    SmoothSamples = true;
-                    break;
-                case false:
-                    SmoothSamples = false;
-                    break;
-            }
+            // SmoothSamples
+            SmoothSamples = Utils.GetBool("SmoothSamples", false);
 
-            switch (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
-            {
-                case true:
-                    IsPlaybackATRAC = true;
-                    break;
-                case false:
-                    IsPlaybackATRAC = false;
-                    break;
-            }
+            // ATRAC 再生可否
+            IsPlaybackATRAC = Utils.GetBool("PlaybackATRAC", false);
 
-            switch (bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
-            {
-                case true:
-                    IsEncodeSourceATRAC = true;
-                    break;
-                case false:
-                    IsEncodeSourceATRAC = false;
-                    break;
-            }
+            // ATRAC をエンコードソースとして扱うか
+            IsEncodeSourceATRAC = Utils.GetBool("ATRACEncodeSource", false);
 
-            switch (uint.Parse(Config.Entry["LPCPlaybackMethod"].Value))
+            // LPCPlaybackMethod
+            LPCPlaybackMethodType playbackMethod = (LPCPlaybackMethodType)Utils.GetInt("LPCPlaybackMethod", 0);
+            switch (playbackMethod)
             {
-                case 0:
-                    {
-                        IsWASAPI = false;
-                        IsWASAPIex = false;
-                        IsASIO = false;
-                        break;
-                    }
-                case 1:
-                    {
-                        IsWASAPI = true;
-                        IsWASAPIex = false;
-                        IsASIO = false;
-                        break;
-                    }
-                case 2:
-                    {
-                        IsWASAPI = false;
-                        IsWASAPIex = true;
-                        IsASIO = false;
-                        break;
-                    }
-                case 3:
-                    {
-                        IsWASAPI = false;
-                        IsWASAPIex = false;
-                        IsASIO = true;
-                        break;
-                    }
+                case LPCPlaybackMethodType.DirectSound:
+                    IsWASAPI = false;
+                    IsWASAPIex = false;
+                    IsASIO = false;
+                    break;
+                case LPCPlaybackMethodType.WasapiShared:
+                    IsWASAPI = true;
+                    IsWASAPIex = false;
+                    IsASIO = false;
+                    break;
+                case LPCPlaybackMethodType.WasapiExclusive:
+                    IsWASAPI = false;
+                    IsWASAPIex = true;
+                    IsASIO = false;
+                    break;
+                case LPCPlaybackMethodType.ASIO:
+                    IsWASAPI = false;
+                    IsWASAPIex = false;
+                    IsASIO = true;
+                    break;
                 default:
-                    {
-                        IsWASAPI = false;
-                        IsWASAPIex = false;
-                        IsASIO = false;
-                        break;
-                    }
+                    IsWASAPI = false;
+                    IsWASAPIex = false;
+                    IsASIO = false;
+                    break;
             }
 
-            switch (string.IsNullOrWhiteSpace(Config.Entry["LPCUseASIODriver"].Value))
+            // ASIO ドライバ名取得
+            string asioConfig = Utils.GetString("LPCUseASIODriver", string.Empty);
+            if (string.IsNullOrWhiteSpace(asioConfig))
             {
-                case true:
-                    {
-                        asioDriver = string.Empty;
-                        if (int.Parse(Config.Entry["LPCPlaybackMethod"].Value) == 3 || int.Parse(Config.Entry["LPCMultipleStreamPlaybackMethod"].Value) == 2)
-                        {
-                            MessageBox.Show("It is configured to play using ASIO, but no valid driver was found.\r\nIt will play using WASAPI exclusive mode instead.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            IsWASAPI = false;
-                            IsWASAPIex = true;
-                            IsASIO = false;
-                        }
-                        break;
-                    }
-                case false:
-                    {
-                        asioDriver = Config.Entry["LPCUseASIODriver"].Value;
-                        break;
-                    }
+                asioDriver = string.Empty;
+                int lpcPlayback = Utils.GetInt("LPCPlaybackMethod", 0);
+                int multiPlayback = Utils.GetInt("LPCMultipleStreamPlaybackMethod", 65535);
+
+                if (lpcPlayback == 3 || multiPlayback == 2)
+                {
+                    MessageBox.Show(
+                        "It is configured to play using ASIO, but no valid driver was found.\r\nIt will play using WASAPI exclusive mode instead.",
+                        Localization.MSGBoxWarningCaption,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    IsWASAPI = false;
+                    IsWASAPIex = true;
+                    IsASIO = false;
+                }
             }
+            else
+            {
+                asioDriver = asioConfig;
+            }
+
+            UseParallel = Utils.GetBool("UseParallelMethod", false);
 
             if (SmoothSamples)
             {
@@ -358,11 +332,11 @@ namespace ATRACTool_Reloaded
             {
                 if (IsWASAPI)
                 {
-                    WASAPILatency = int.Parse(Config.Entry["WASAPILatencySharedValue"].Value);
+                    WASAPILatency = Utils.GetInt("WASAPILatencySharedValue", 0);
                 }
                 else if (IsWASAPIex)
                 {
-                    WASAPIexLatency = int.Parse(Config.Entry["WASAPILatencyExclusivedValue"].Value);
+                    WASAPIexLatency = Utils.GetInt("WASAPILatencyExclusivedValue", 0);
                 }
                 else if (IsASIO)
                 {
@@ -370,32 +344,33 @@ namespace ATRACTool_Reloaded
                 }
                 else
                 {
-                    wo.DesiredLatency = int.Parse(Config.Entry["DirectSoundLatencyValue"].Value); // 250
-                    wo.NumberOfBuffers = int.Parse(Config.Entry["DirectSoundBuffersValue"].Value); // 8
+                    wo.DesiredLatency = Utils.GetInt("DirectSoundLatencyValue", 200);
+                    wo.NumberOfBuffers = Utils.GetInt("DirectSoundBuffersValue", 16);
                 }
             }
 
-            UseThreads = int.Parse(Config.Entry["PlaybackThreadCount"].Value);
+            UseThreads = Utils.GetInt("PlaybackThreadCount", 4);
 
             Generic.IsLPCStreamingReloaded = true;
-            if (IsPlaybackATRAC && Generic.IsATRAC)
+            if (IsPlaybackATRAC && Generic.IsATRAC) // ATRAC再生機能有効
             {
                 checkBox_LoopEnable.Enabled = false;
                 radioButton_at3.Enabled = false;
                 radioButton_at9.Enabled = false;
-                if (Common.Generic.pATRACOpenFilePaths.Length == 1)
+
+                if (Common.Generic.pATRACOpenFilePaths.Length == 1) // 単一ファイル
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                    //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
+                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
-                else
+                else // 複数ファイル
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                    //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
+                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = true;
                     btnpos = 1;
@@ -406,8 +381,8 @@ namespace ATRACTool_Reloaded
                 if (Common.Generic.pATRACOpenFilePaths.Length == 1) // 単一ファイル
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                    //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
+                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
@@ -444,27 +419,27 @@ namespace ATRACTool_Reloaded
                     else // 複数ファイル
                     {
                         reader = new(Common.Generic.pATRACOpenFilePaths[0]);
-                        FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                        label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                        //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
+                        label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                         button_Prev.Enabled = false;
                         button_Next.Enabled = true;
                         btnpos = 1;
                     }
                 }
             }
-            else
+            else // 通常ファイル
             {
-                if (Common.Generic.OpenFilePaths.Length == 1)
+                if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
                 {
                     reader = new(Common.Generic.OpenFilePaths[0]);
-                    FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                    label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                    //FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
+                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
                 else
                 {
-                    if (Generic.lpcreatev2 && Common.Generic.lpcreate != false)
+                    if (Generic.lpcreatev2 && Common.Generic.lpcreate != false) // LPC有効
                     {
                         reader = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
                         FileInfo fi = new(Common.Generic.OpenFilePaths[Common.Generic.files]);
@@ -492,11 +467,11 @@ namespace ATRACTool_Reloaded
                                 break;
                         }
                     }
-                    else
+                    else // 複数ファイル
                     {
                         reader = new(Common.Generic.OpenFilePaths[0]);
-                        FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                        label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                        //FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
+                        label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                         button_Prev.Enabled = false;
                         button_Next.Enabled = true;
                         btnpos = 1;
@@ -506,6 +481,8 @@ namespace ATRACTool_Reloaded
 
             if (!PlaybackInit())
             {
+                // 再生の初期化に失敗した場合は、このフォーム自体も閉じる
+                Close();
                 return;
             }
 
@@ -515,9 +492,11 @@ namespace ATRACTool_Reloaded
 
             if (!IsMultiChannel)
             {
-                BufwaveProvider = new BufferedWaveProvider(reader.WaveFormat);
-                BufwaveProvider.BufferDuration = TimeSpan.FromMilliseconds(500); // バッファの長さを設定
-                                                                                 //wo.Init(BufwaveProvider);
+                BufwaveProvider = new BufferedWaveProvider(reader.WaveFormat)
+                {
+                    BufferDuration = TimeSpan.FromMilliseconds(500) // バッファの長さを設定
+                };
+                //wo.Init(BufwaveProvider);
                 volumeSmplProvider = new VolumeSampleProvider(BufwaveProvider.ToSampleProvider());
             }
 
@@ -533,12 +512,14 @@ namespace ATRACTool_Reloaded
                 panSlider1.Enabled = false;
             }
 
+            int maxMs = GetSafeDurationMilliseconds();
+
             customTrackBar_Trk.Minimum = 0;
-            customTrackBar_Trk.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_Trk.Maximum = maxMs;
             customTrackBar_Start.Minimum = 0;
-            customTrackBar_Start.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_Start.Maximum = maxMs;
             customTrackBar_End.Minimum = 0;
-            customTrackBar_End.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_End.Maximum = maxMs;
 
             ScaleWidthTrk = (float)customTrackBar_Trk.Size.Width / ((float)customTrackBar_Trk.Maximum - (float)customTrackBar_Trk.Minimum);
             ScaleWidthStart = (float)customTrackBar_Start.Size.Width / ((float)customTrackBar_Start.Maximum - (float)customTrackBar_Start.Minimum);
@@ -548,10 +529,10 @@ namespace ATRACTool_Reloaded
             customTrackBar_Start.TickFrequency = 1000;
             customTrackBar_End.TickFrequency = 1000;
             numericUpDown_LoopStart.Minimum = 0;
-            numericUpDown_LoopStart.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopStart.Maximum = maxMs;
             numericUpDown_LoopStart.Increment = 1;
             numericUpDown_LoopEnd.Minimum = 0;
-            numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopEnd.Maximum = maxMs;
             numericUpDown_LoopEnd.Increment = 1;
 
             wo.Volume = volumeSlider1.Volume;
@@ -560,7 +541,7 @@ namespace ATRACTool_Reloaded
             label_start.Text = "";
             label_end.Text = "";
 
-            int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
+            int tb = GetSafeHalfDurationMillisecondsForLoopEnd();
             numericUpDown_LoopEnd.Value = tb;
 
             smplrate = reader.WaveFormat.SampleRate;
@@ -596,7 +577,7 @@ namespace ATRACTool_Reloaded
         }
 
         // 「WaveFileReader から必ず 32-bit float(ISampleProvider) を得る」ヘルパ
-        private ISampleProvider BuildFloatFromWaveFileReader(WaveFileReader reader)
+        private static ISampleProvider BuildFloatFromWaveFileReader(WaveFileReader reader)
         {
             var wf = reader.WaveFormat;
 
@@ -608,38 +589,198 @@ namespace ATRACTool_Reloaded
             if (wf.Encoding == WaveFormatEncoding.Extensible)
             {
                 IWaveProvider shim = new ExtensiblePcmShim(reader);
-                switch (wf.BitsPerSample)
+                return wf.BitsPerSample switch
                 {
-                    case 16:
-                        return new Wave16ToFloatProvider(shim).ToSampleProvider();
-                    case 24:
-                        return new WaveToSampleProvider(shim); // これ自体が ISampleProvider(float)
-                    case 32:
-                        return new WaveToSampleProvider(shim); // 同上
-                    default:
-                        throw new NotSupportedException($"Extensible {wf.BitsPerSample}bit は未対応です。");
-                }
+                    16 => new Wave16ToFloatProvider(shim).ToSampleProvider(),
+                    24 => new WaveToSampleProvider(shim),// これ自体が ISampleProvider(float)
+                    32 => new WaveToSampleProvider(shim),// 同上
+                    _ => throw new NotSupportedException($"Extensible {wf.BitsPerSample}bit は未対応です。"),
+                };
             }
 
             // 3) 素の PCM（非 Extensible）
             if (wf.Encoding == WaveFormatEncoding.Pcm)
             {
-                switch (wf.BitsPerSample)
+                return wf.BitsPerSample switch
                 {
-                    case 16: return new Wave16ToFloatProvider(reader).ToSampleProvider();
-                    case 24: return new WaveToSampleProvider(reader);
-                    case 32: return new WaveToSampleProvider(reader);
-                    default: throw new NotSupportedException($"PCM {wf.BitsPerSample}bit は未対応です。");
-                }
+                    16 => new Wave16ToFloatProvider(reader).ToSampleProvider(),
+                    24 => new WaveToSampleProvider(reader),
+                    32 => new WaveToSampleProvider(reader),
+                    _ => throw new NotSupportedException($"PCM {wf.BitsPerSample}bit は未対応です。"),
+                };
             }
 
             // 4) それ以外（ADPCM / μ-law 等）は WaveFileReader ではなく MediaFoundationReader を使う
             throw new NotSupportedException("このWAVは圧縮コーデックを含むため、WaveFileReaderではなく MediaFoundationReader を使用してください。");
         }
 
+        // 再生監視スレッドとタイマーを停止するヘルパー
+        private void StopPlaybackLoop()
+        {
+            // Playback() → StartPlaybackThread() が回しているループの終了トリガ
+            SLTAlive = false;
+
+            // 進行状況更新用タイマーも止めておく
+            if (timer_Reload.Enabled)
+            {
+                timer_Reload.Stop();
+            }
+        }
+
+        /// <summary>
+        /// WASAPI(共有/排他)の初期化を行う共通ヘルパー。
+        /// 排他モードでフォーマット未対応の場合は共有モードにフォールバックする。
+        /// </summary>
+        private bool TryInitWasapi(IWaveProvider provider)
+        {
+            mmDevice = new MMDeviceEnumerator()
+                .GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+
+            // まずは現在の設定（共有 or 排他）で試す
+            try
+            {
+                wasapiOut = new WasapiOut(
+                    mmDevice,
+                    IsWASAPIex ? AudioClientShareMode.Exclusive : AudioClientShareMode.Shared,
+                    false,
+                    IsWASAPIex ? WASAPIexLatency : WASAPILatency);
+
+                wasapiOut.Init(provider);
+                return true;
+            }
+            catch (COMException ex) when (IsWASAPIex && ex.HResult == unchecked((int)0x8889000A))
+            {
+                // 排他モードでフォーマット未対応の典型パターン (0x8889000A)
+                // → 共有モードにフォールバック
+                MessageBox.Show(
+                    this,
+                    "このオーディオ形式は WASAPI 排他モードでは再生できません。\r\n" +
+                    "WASAPI 共有モードで再生します。",
+                    Localization.MSGBoxWarningCaption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                try
+                {
+                    // 排他→共有 に切り替え
+                    IsWASAPI = true;
+                    IsWASAPIex = false;
+
+                    wasapiOut = new WasapiOut(
+                        mmDevice,
+                        AudioClientShareMode.Shared,
+                        false,
+                        WASAPILatency);
+
+                    wasapiOut.Init(provider);
+                    return true;
+                }
+                catch (COMException)
+                {
+                    // 共有でもダメなら諦める
+                    MessageBox.Show(
+                        this,
+                        "このオーディオ形式は WASAPI では再生できません。\r\n" +
+                        "再生方法の設定を変更してください。",
+                        Localization.MSGBoxErrorCaption,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    // ★ 再生監視スレッド＆タイマーを即停止
+                    StopPlaybackLoop();
+
+                    // ★ メインフォームを「起動直後の状態」に戻す
+                    FormMain.FormMainInstance.ResetToInitialState();
+
+                    // false を返すことで、FormLPC_Load 側の
+                    // 「if (!PlaybackInit()) { Close(); }」が実行され、
+                    // この LPC フォーム自体も閉じられます。
+                    return false;
+                }
+            }
+            catch (COMException ex)
+            {
+                // その他の WASAPI 初期化エラー
+                MessageBox.Show(
+                    this,
+                    "WASAPI の初期化に失敗しました。\r\n" + ex.Message,
+                    Localization.MSGBoxErrorCaption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                // 念のため監視ループも止める
+                StopPlaybackLoop();
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 曲の長さの半分（ms）を計算し、
+        /// TrackBar / NumericUpDown の上限を超えないようにクランプした値を返します。
+        /// </summary>
+        private int GetSafeHalfDurationMillisecondsForLoopEnd()
+        {
+            if (reader == null)
+            {
+                return 0;
+            }
+
+            // TotalMilliseconds は long で受ける（オーバーフロー対策）
+            long halfMs = (long)(reader.TotalTime.TotalMilliseconds / 2.0);
+
+            // TrackBar と NumericUpDown のどちらでも扱える範囲に合わせる
+            int tbMax = customTrackBar_End.Maximum;
+            int nudMax = (int)numericUpDown_LoopEnd.Maximum;
+            int max = Math.Min(tbMax, nudMax);
+
+            if (max <= 0)
+            {
+                return 0;
+            }
+
+            // 0 ～ max の範囲にクランプして int にキャスト
+            if (halfMs < 0)
+            {
+                return 0;
+            }
+            if (halfMs > max)
+            {
+                return max;
+            }
+
+            return (int)halfMs;
+        }
+
+        /// <summary>
+        /// 曲の全長（ms）を安全に int に収めて返す。
+        /// TrackBar / NumericUpDown の Maximum に使う用。
+        /// </summary>
+        private int GetSafeDurationMilliseconds()
+        {
+            if (reader == null)
+            {
+                return 0;
+            }
+
+            double totalMs = reader.TotalTime.TotalMilliseconds;
+
+            if (totalMs <= 0)
+            {
+                return 0;
+            }
+
+            if (totalMs > int.MaxValue)
+            {
+                return int.MaxValue;
+            }
+
+            return (int)totalMs;
+        }
+
         private bool PlaybackInit()
         {
-            
+
             try
             {
                 switch (reader.WaveFormat.Channels)
@@ -648,11 +789,11 @@ namespace ATRACTool_Reloaded
                         IsMultiChannel = false;
                         if (IsWASAPI || IsWASAPIex)
                         {
-                            mmDevice = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                            wasapiOut = new WasapiOut(mmDevice,
-                                        IsWASAPIex ? AudioClientShareMode.Exclusive : AudioClientShareMode.Shared,
-                                        false, IsWASAPIex ? WASAPIexLatency : WASAPILatency);
-                            wasapiOut.Init(new WaveChannel32(reader));
+                            var provider = new WaveChannel32(reader);
+                            if (!TryInitWasapi(provider))
+                            {
+                                return false; // エラーを出しているのでそのまま抜ける
+                            }
                         }
                         else if (IsASIO)
                         {
@@ -668,11 +809,11 @@ namespace ATRACTool_Reloaded
                         IsMultiChannel = false;
                         if (IsWASAPI || IsWASAPIex)
                         {
-                            mmDevice = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                            wasapiOut = new WasapiOut(mmDevice,
-                                        IsWASAPIex ? AudioClientShareMode.Exclusive : AudioClientShareMode.Shared,
-                                        false, IsWASAPIex ? WASAPIexLatency : WASAPILatency);
-                            wasapiOut.Init(new WaveChannel32(reader));
+                            var provider = new WaveChannel32(reader);
+                            if (!TryInitWasapi(provider))
+                            {
+                                return false; // エラーを出しているのでそのまま抜ける
+                            }
                         }
                         else if (IsASIO)
                         {
@@ -691,11 +832,10 @@ namespace ATRACTool_Reloaded
                             var output = BuildOutputChain(reader);
                             if (IsWASAPI || IsWASAPIex)
                             {
-                                mmDevice = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                                wasapiOut = new WasapiOut(mmDevice,
-                                            IsWASAPIex ? AudioClientShareMode.Exclusive : AudioClientShareMode.Shared,
-                                            false, IsWASAPIex ? WASAPIexLatency : WASAPILatency);
-                                wasapiOut.Init(output);  // ← WaveChannel32 を使わない
+                                if (!TryInitWasapi(output))
+                                {
+                                    return false;
+                                }
                             }
                             else if (IsASIO)
                             {
@@ -715,11 +855,10 @@ namespace ATRACTool_Reloaded
                             var output = BuildOutputChain(reader);
                             if (IsWASAPI || IsWASAPIex)
                             {
-                                mmDevice = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                                wasapiOut = new WasapiOut(mmDevice,
-                                            IsWASAPIex ? AudioClientShareMode.Exclusive : AudioClientShareMode.Shared,
-                                            false, IsWASAPIex ? WASAPIexLatency : WASAPILatency);
-                                wasapiOut.Init(output);  // ← WaveChannel32 を使わない
+                                if (!TryInitWasapi(output))
+                                {
+                                    return false;
+                                }
                             }
                             else if (IsASIO)
                             {
@@ -744,163 +883,133 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        // 再生ボタンの動作を共通化するヘルパー
+        private async Task HandlePlayButtonAsync(IWavePlayer output)
+        {
+            switch (output.PlaybackState)
+            {
+                case PlaybackState.Stopped:
+                    // 再生時間や長さの計算（従来と同じ）
+                    bytePerSec = reader.WaveFormat.BitsPerSample / 8
+                                 * reader.WaveFormat.SampleRate
+                                 * reader.WaveFormat.Channels;
+                    length = (int)reader.Length / bytePerSec;
+
+                    timer_Reload.Enabled = true;
+                    output.Play();
+                    button_Play.Text = Localization.PauseCaption;
+                    await Task.Run(Playback);
+                    stopflag = false;
+                    button_Stop.Enabled = true;
+                    break;
+
+                case PlaybackState.Paused:
+                    if (IsPausedMoveTrackbar)
+                    {
+                        // 一度止めて位置を移動してから再生し直す
+                        output.Stop();
+                        reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
+                        output.Play();
+                        await Task.Run(Playback);
+                        IsPausedMoveTrackbar = false;
+                    }
+                    else
+                    {
+                        output.Play();
+                    }
+
+                    button_Play.Text = Localization.PauseCaption;
+                    break;
+
+                case PlaybackState.Playing:
+                    output.Pause();
+                    button_Play.Text = Localization.PlayCaption;
+                    break;
+            }
+        }
+
         private async void Button_Play_Click(object sender, EventArgs e)
         {
             if (IsWASAPI || IsWASAPIex)
             {
-                switch (wasapiOut.PlaybackState)
-                {
-                    case PlaybackState.Stopped:
-                        bytePerSec = reader.WaveFormat.BitsPerSample / 8 * reader.WaveFormat.SampleRate * reader.WaveFormat.Channels;
-                        length = (int)reader.Length / bytePerSec;
-
-                        timer_Reload.Enabled = true;
-                        wasapiOut.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        await Task.Run(Playback);
-                        stopflag = false;
-                        button_Stop.Enabled = true;
-                        break;
-                    case PlaybackState.Paused:
-                        if (IsPausedMoveTrackbar)
-                        {
-                            wasapiOut.Stop();
-                            reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
-                            wasapiOut.Play();
-                            await Task.Run(Playback);
-                            IsPausedMoveTrackbar = false;
-                        }
-                        else
-                        {
-                            wasapiOut.Play();
-                        }
-
-                        button_Play.Text = Localization.PauseCaption;
-                        break;
-                    case PlaybackState.Playing:
-                        wasapiOut.Pause();
-                        button_Play.Text = Localization.PlayCaption;
-                        break;
-                }
+                await HandlePlayButtonAsync(wasapiOut);
             }
             else if (IsASIO)
             {
-                switch (asioOut.PlaybackState)
-                {
-                    case PlaybackState.Stopped:
-                        bytePerSec = reader.WaveFormat.BitsPerSample / 8 * reader.WaveFormat.SampleRate * reader.WaveFormat.Channels;
-                        length = (int)reader.Length / bytePerSec;
-
-                        timer_Reload.Enabled = true;
-                        asioOut.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        await Task.Run(Playback);
-                        stopflag = false;
-                        button_Stop.Enabled = true;
-                        break;
-                    case PlaybackState.Paused:
-                        if (IsPausedMoveTrackbar)
-                        {
-                            asioOut.Stop();
-                            reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
-                            asioOut.Play();
-                            await Task.Run(Playback);
-                            IsPausedMoveTrackbar = false;
-                        }
-                        else
-                        {
-                            asioOut.Play();
-                        }
-
-                        button_Play.Text = Localization.PauseCaption;
-                        break;
-                    case PlaybackState.Playing:
-                        asioOut.Pause();
-                        button_Play.Text = Localization.PlayCaption;
-                        break;
-                }
+                await HandlePlayButtonAsync(asioOut);
             }
             else
             {
-                switch (wo.PlaybackState)
-                {
-                    case PlaybackState.Stopped:
-                        bytePerSec = reader.WaveFormat.BitsPerSample / 8 * reader.WaveFormat.SampleRate * reader.WaveFormat.Channels;
-                        length = (int)reader.Length / bytePerSec;
-
-                        timer_Reload.Enabled = true;
-                        wo.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        await Task.Run(Playback);
-                        stopflag = false;
-                        button_Stop.Enabled = true;
-                        break;
-                    case PlaybackState.Paused:
-                        if (IsPausedMoveTrackbar)
-                        {
-                            wo.Stop();
-                            reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
-                            wo.Play();
-                            await Task.Run(Playback);
-                            IsPausedMoveTrackbar = false;
-                        }
-                        else
-                        {
-                            wo.Play();
-                        }
-
-                        button_Play.Text = Localization.PauseCaption;
-                        break;
-                    case PlaybackState.Playing:
-                        wo.Pause();
-                        button_Play.Text = Localization.PlayCaption;
-                        break;
-                }
+                await HandlePlayButtonAsync(wo);
             }
         }
+
+        private void HandleStopButton(IWavePlayer output)
+        {
+            if (output.PlaybackState != PlaybackState.Stopped)
+            {
+                stopflag = true;
+                timer_Reload.Stop();
+                output.Stop();
+                button_Play.Text = Localization.PlayCaption;
+                reader.Position = 0;
+                button_Stop.Enabled = false;
+                Resettrackbarlabels();
+            }
+        }
+
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
             if (IsWASAPI || IsWASAPIex)
             {
-                if (wasapiOut.PlaybackState != PlaybackState.Stopped)
-                {
-                    stopflag = true;
-                    timer_Reload.Stop();
-                    wasapiOut.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
-                    button_Stop.Enabled = false;
-                    Resettrackbarlabels();
-                }
+                HandleStopButton(wasapiOut);
             }
             else if (IsASIO)
             {
-                if (asioOut.PlaybackState != PlaybackState.Stopped)
-                {
-                    stopflag = true;
-                    timer_Reload.Stop();
-                    asioOut.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
-                    button_Stop.Enabled = false;
-                    Resettrackbarlabels();
-                }
+                HandleStopButton(asioOut);
             }
             else
             {
-                if (wo.PlaybackState != PlaybackState.Stopped)
+                HandleStopButton(wo);
+            }
+        }
+
+        /// <summary>
+        /// Timer_Reload_Tick から呼び出す、再生終了／再生再開の共通処理。
+        /// </summary>
+        private void HandleTimerReloadForOutput(IWavePlayer output)
+        {
+            // 再生が最後まで到達したら停止処理
+            if (reader.CurrentTime == reader.TotalTime)
+            {
+                stopflag = true;
+                Sample = reader.SampleCount;
+
+                output.Stop();
+                button_Play.Text = Localization.PlayCaption;
+                reader.Position = 0;
+                button_Stop.Enabled = false;
+                Resettrackbarlabels();
+            }
+            // 先頭付近まで戻っていて、ユーザーが Stop していない場合は再生し直す
+            else if (reader.Position == 0 || customTrackBar_Trk.Value == 0)
+            {
+                if (!stopflag)
                 {
-                    stopflag = true;
-                    timer_Reload.Stop();
-                    wo.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
+                    output.Stop();
                     button_Stop.Enabled = false;
-                    Resettrackbarlabels();
+                    Sample = 0;
+                    reader.Position = 0;
+
+                    output.Play();
+                    button_Play.Text = Localization.PauseCaption;
+
+                    // 監視スレッドを再度起動（従来どおり）
+                    Task.Run(Playback);
+                    button_Stop.Enabled = true;
                 }
             }
-
         }
 
         private void Timer_Reload_Tick(object sender, EventArgs e)
@@ -912,86 +1021,18 @@ namespace ATRACTool_Reloaded
                 Sample = reader.Position / reader.BlockAlign;
             }
 
+            // 出力デバイスごとの処理は共通ヘルパーに集約
             if (IsWASAPI || IsWASAPIex)
             {
-                if (reader.CurrentTime == reader.TotalTime)
-                {
-                    stopflag = true;
-                    Sample = reader.SampleCount;
-                    wasapiOut.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
-                    button_Stop.Enabled = false;
-                    Resettrackbarlabels();
-                }
-                else if (reader.Position == 0 || customTrackBar_Trk.Value == 0)
-                {
-                    if (!stopflag)
-                    {
-                        wasapiOut.Stop();
-                        button_Stop.Enabled = false;
-                        Sample = 0;
-                        reader.Position = 0;
-                        wasapiOut.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        Task.Run(Playback);
-                        button_Stop.Enabled = true;
-                    }
-                }
+                HandleTimerReloadForOutput(wasapiOut);
             }
             else if (IsASIO)
             {
-                if (reader.CurrentTime == reader.TotalTime)
-                {
-                    stopflag = true;
-                    Sample = reader.SampleCount;
-                    asioOut.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
-                    button_Stop.Enabled = false;
-                    Resettrackbarlabels();
-                }
-                else if (reader.Position == 0 || customTrackBar_Trk.Value == 0)
-                {
-                    if (!stopflag)
-                    {
-                        asioOut.Stop();
-                        button_Stop.Enabled = false;
-                        Sample = 0;
-                        reader.Position = 0;
-                        asioOut.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        Task.Run(Playback);
-                        button_Stop.Enabled = true;
-                    }
-                }
+                HandleTimerReloadForOutput(asioOut);
             }
             else
             {
-                if (reader.CurrentTime == reader.TotalTime)
-                {
-                    stopflag = true;
-                    Sample = reader.SampleCount;
-                    wo.Stop();
-                    button_Play.Text = Localization.PlayCaption;
-                    reader.Position = 0;
-                    button_Stop.Enabled = false;
-                    Resettrackbarlabels();
-                }
-                else if (reader.Position == 0 || customTrackBar_Trk.Value == 0)
-                {
-                    if (!stopflag)
-                    {
-                        wo.Stop();
-                        button_Stop.Enabled = false;
-                        Sample = 0;
-                        reader.Position = 0;
-                        wo.Play();
-                        button_Play.Text = Localization.PauseCaption;
-                        Task.Run(Playback);
-                        button_Stop.Enabled = true;
-                    }
-                }
+                HandleTimerReloadForOutput(wo);
             }
 
             SetTrackbarTrack();
@@ -1011,102 +1052,68 @@ namespace ATRACTool_Reloaded
 
         private void Playback()
         {
-            if (IsWASAPI || IsWASAPIex)
+            SLTAlive = true;
+
+            StartPlaybackThread_s = new(StartPlaybackThread);
+            Playback_s = new(StartPlaybackThread_s)
             {
-                object lockobj = new();
-                lock (lockobj)
-                {
-                    SLTAlive = true;
-                    StartPlaybackThread_s = new(StartPlaybackThread);
-                    Playback_s = new(StartPlaybackThread_s)
-                    {
-                        Name = "WASAPIOut",
-                        IsBackground = true,
-                        Priority = ThreadPriority.AboveNormal
-                    };
-                    Playback_s.SetApartmentState(ApartmentState.STA);
-                    Playback_s.Start();
-                }
-            }
-            else if (IsASIO)
-            {
-                object lockobj = new();
-                lock (lockobj)
-                {
-                    SLTAlive = true;
-                    StartPlaybackThread_s = new(StartPlaybackThread);
-                    Playback_s = new(StartPlaybackThread_s)
-                    {
-                        Name = "ASIOOut",
-                        IsBackground = true,
-                        Priority = ThreadPriority.AboveNormal
-                    };
-                    Playback_s.SetApartmentState(ApartmentState.STA);
-                    Playback_s.Start();
-                }
-            }
-            else
-            {
-                object lockobj = new();
-                lock (lockobj)
-                {
-                    SLTAlive = true;
-                    StartPlaybackThread_s = new(StartPlaybackThread);
-                    Playback_s = new(StartPlaybackThread_s)
-                    {
-                        Name = "waveOut",
-                        IsBackground = true,
-                        Priority = ThreadPriority.AboveNormal
-                    };
-                    Playback_s.SetApartmentState(ApartmentState.STA);
-                    Playback_s.Start();
-                }
-            }
+                Name = IsWASAPI || IsWASAPIex
+                    ? "WASAPIOut"
+                    : IsASIO
+                        ? "ASIOOut"
+                        : "waveOut",
+                IsBackground = true,
+                Priority = ThreadPriority.AboveNormal
+            };
+
+            Playback_s.SetApartmentState(ApartmentState.STA);
+            Playback_s.Start();
         }
 
         private void StartPlaybackThread()
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = UseThreads }; // 例: 最大2スレッドを使用
-            Parallel.ForEach(Infinite(), options, (ignored, loopState) =>
+            try
             {
-                // 処理内容
-                if (IsWASAPI || IsWASAPIex)
+                while (SLTAlive)
                 {
-                    while (wasapiOut.PlaybackState != PlaybackState.Stopped)
-                    {
-                        if (!SLTAlive) { return; }
-                        position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
-                        time = new(0, 0, position);
-                        Sample = reader.Position / reader.BlockAlign;
-                    }
-                }
-                else if (IsASIO)
-                {
-                    while (asioOut.PlaybackState != PlaybackState.Stopped)
-                    {
-                        if (!SLTAlive) { return; }
-                        position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
-                        time = new(0, 0, position);
-                        Sample = reader.Position / reader.BlockAlign;
-                    }
-                }
-                else
-                {
-                    while (wo.PlaybackState != PlaybackState.Stopped)
-                    {
-                        if (!SLTAlive) { return; }
-                        position = (int)reader.Position / reader.WaveFormat.AverageBytesPerSecond;
-                        time = new(0, 0, position);
-                        Sample = reader.Position / reader.BlockAlign;
-                    }
-                }
-                loopState.Stop();
-            });
-        }
+                    // 再生が止まっていたら監視スレッドも終了
+                    PlaybackState state;
 
-        private IEnumerable<bool> Infinite()
-        {
-            while (true) yield return true;
+                    if (IsWASAPI || IsWASAPIex)
+                    {
+                        state = wasapiOut?.PlaybackState ?? PlaybackState.Stopped;
+                    }
+                    else if (IsASIO)
+                    {
+                        state = asioOut?.PlaybackState ?? PlaybackState.Stopped;
+                    }
+                    else
+                    {
+                        state = wo.PlaybackState;
+                    }
+
+                    if (state == PlaybackState.Stopped)
+                    {
+                        break;
+                    }
+
+                    // 再生位置・サンプル数を更新
+                    position = (int)(reader.Position / (long)reader.WaveFormat.AverageBytesPerSecond);
+                    time = new TimeSpan(0, 0, position);
+                    Sample = reader.Position / reader.BlockAlign;
+
+                    // CPU を休ませる（10〜20ms くらいなら十分）
+                    Thread.Sleep(10);
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // フォームクローズ中に Dispose された場合の保険
+            }
+            catch
+            {
+                // 必要ならここでログ出力など
+            }
         }
 
         private void FormLPC_Paint(object sender, PaintEventArgs e)
@@ -1122,50 +1129,18 @@ namespace ATRACTool_Reloaded
             pos = reader.Position / reader.WaveFormat.BlockAlign;
             reader.CurrentTime = oldc;
             label_LoopStartSamples.Text = "LoopStart: " + pos.ToString() + " " + Localization.SampleCaption;
+            if (pos == 0)
+            {
+                MessageBox.Show(this, "You cannot set the LoopStart value to zero.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             Start = pos;
 
             if (!Generic.lpcreatev2)
             {
-                FormMain.FormMainInstance.textBox_LoopStart.Text = pos.ToString();
-
-                if (Generic.IsOpenMulti)
-                {
-                    Generic.MultipleLoopStarts[btnpos - 1] = (int)pos;
-                    if (Generic.MultipleLoopEnds[btnpos - 1] != 0)
-                    {
-                        Generic.MultipleFilesLoopOKFlags[btnpos - 1] = true;
-                    }
-                    else
-                    {
-                        Generic.MultipleFilesLoopOKFlags[btnpos - 1] = false;
-                    }
-                }
-                else
-                {
-                    Generic.MultipleLoopStarts[0] = (int)pos;
-                    if (Generic.MultipleLoopEnds[0] != 0)
-                    {
-                        Generic.MultipleFilesLoopOKFlags[0] = true;
-                        Generic.LoopStartNG = false;
-                    }
-                    else
-                    {
-                        Generic.MultipleFilesLoopOKFlags[0] = false;
-                        if (string.IsNullOrWhiteSpace(FormMain.FormMainInstance.textBox_LoopStart.Text))
-                        {
-                            Generic.LoopStartNG = true;
-                        }
-                        else
-                        {
-                            Generic.LoopStartNG = false;
-                        }
-                    }
-                    Debug.WriteLine("MultipleFilesLoopOKFlags[]: ", string.Join(", ", Generic.MultipleFilesLoopOKFlags));
-                    Debug.WriteLine("[Flag] LoopStartNG: ", string.Join(", ", Generic.LoopStartNG));
-                }
+                // ★ Generic / FormMain 側の更新はコントローラに丸投げ
+                LoopPointController.UpdateLoopStart(pos, btnpos);
             }
-
-
         }
         private void Button_SetEnd_Click(object sender, EventArgs e)
         {
@@ -1179,56 +1154,40 @@ namespace ATRACTool_Reloaded
 
             if (!Generic.lpcreatev2)
             {
-                FormMain.FormMainInstance.textBox_LoopEnd.Text = pos.ToString();
+                // ★ Generic / FormMain 側はコントローラに任せる
+                LoopPointController.UpdateLoopEnd(pos, btnpos);
 
+                // ラベルを消すロジックだけ LPC 内に残す（UI の話なので）
                 if (Generic.IsOpenMulti)
                 {
-                    Generic.MultipleLoopEnds[btnpos - 1] = (int)pos;
-                    if (Generic.MultipleLoopStarts[btnpos - 1] != 0)
-                    {
-                        Generic.MultipleFilesLoopOKFlags[btnpos - 1] = true;
-                    }
-                    else
+                    if (Generic.MultipleLoopStarts[btnpos - 1] == 0)
                     {
                         label_LoopEndSamples.Text = string.Empty;
-                        Generic.MultipleFilesLoopOKFlags[btnpos - 1] = false;
                     }
                 }
                 else
                 {
-                    Generic.MultipleLoopEnds[0] = (int)pos;
-                    if (Generic.MultipleLoopStarts[0] != 0)
-                    {
-                        Generic.MultipleFilesLoopOKFlags[0] = true;
-                        Generic.LoopEndNG = false;
-                    }
-                    else
+                    if (Generic.MultipleLoopStarts[0] == 0)
                     {
                         label_LoopEndSamples.Text = string.Empty;
-                        Generic.MultipleFilesLoopOKFlags[0] = false;
-                        if (string.IsNullOrWhiteSpace(FormMain.FormMainInstance.textBox_LoopEnd.Text))
-                        {
-                            Generic.LoopEndNG = true;
-                        }
-                        else
-                        {
-                            Generic.LoopEndNG = false;
-                        }
                     }
-                    Debug.WriteLine("MultipleFilesLoopOKFlags[]: ", string.Join(", ", Generic.MultipleFilesLoopOKFlags));
-                    Debug.WriteLine("[Flag] LoopEndNG: ", string.Join(", ", Generic.LoopEndNG));
                 }
             }
-
-
         }
 
 
         private void FormLPC_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (timer_Reload.Enabled == true) timer_Reload.Enabled = false;
             SLTAlive = false;
-            reader.Position = 0;
+
+            if (timer_Reload.Enabled)
+                timer_Reload.Enabled = false;
+
+            // 読み取り位置を先頭に戻しておく
+            if (reader is not null)
+            {
+                reader.Position = 0;
+            }
 
             if (wi is not null)
             {
@@ -1238,24 +1197,48 @@ namespace ATRACTool_Reloaded
 
             if (wo is not null)
             {
-                wo.Stop();
+                if (wo.PlaybackState != PlaybackState.Stopped)
+                    wo.Stop();
                 wo.Dispose();
             }
 
             if (wasapiOut is not null)
             {
-                wasapiOut.Stop();
+                if (wasapiOut.PlaybackState != PlaybackState.Stopped)
+                    wasapiOut.Stop();
                 wasapiOut.Dispose();
             }
 
             if (asioOut is not null)
             {
-                asioOut.Stop();
+                if (asioOut.PlaybackState != PlaybackState.Stopped)
+                    asioOut.Stop();
                 asioOut.Dispose();
             }
 
-            reader.Close();
-            reader = null!;
+            // マルチチャンネル時に保持している追加の IDisposable を解放
+            if (_disposables is not null && _disposables.Count > 0)
+            {
+                foreach (var d in _disposables)
+                {
+                    d?.Dispose();
+                }
+                _disposables.Clear();
+            }
+
+            // WASAPI のデバイスも解放
+            mmDevice?.Dispose();
+            mmDevice = null;
+
+            // WaveFileReader を確実に解放
+            if (reader is not null)
+            {
+                reader.Close();
+                reader.Dispose();
+                reader = null!;
+            }
+
+            FormMain.DebugInfo("[FormLPC] Closed.");
         }
 
         private void Button_Prev_Click(object sender, EventArgs e)
@@ -1271,12 +1254,24 @@ namespace ATRACTool_Reloaded
             Debug.WriteLine("MultipleFilesLoopOKFlags[]: ", string.Join(", ", Generic.MultipleFilesLoopOKFlags));
             Debug.WriteLine("MultipleLoopStarts[]: ", string.Join(", ", Generic.MultipleLoopStarts));
             Debug.WriteLine("MultipleLoopEnds[]: ", string.Join(", ", Generic.MultipleLoopEnds));
+            FormMain.DebugInfo("Prev btnpos: " + string.Format("{0}", btnpos));
+            FormMain.DebugInfo("MultipleFilesLoopOKFlags[]: " + string.Join(", ", Generic.MultipleFilesLoopOKFlags));
+            FormMain.DebugInfo("MultipleLoopStarts[]: " + string.Join(", ", Generic.MultipleLoopStarts));
+            FormMain.DebugInfo("MultipleLoopEnds[]: " + string.Join(", ", Generic.MultipleLoopEnds));
 
-            if (!Generic.MultipleFilesLoopOKFlags[btnpos] && Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked)
+            // ▼ ループ警告ロジック：Generic 直読み → LoopPointController 経由に
+            if (Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked)
             {
-                if (Generic.MultipleLoopStarts[btnpos] == 0 || Generic.MultipleLoopEnds[btnpos] == 0)
+                var (start, end, ok) = LoopPointController.GetLoopState(btnpos + 1);
+
+                if (!ok && (start == 0 || end == 0))
                 {
-                    DialogResult dr = MessageBox.Show(Localization.LoopWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult dr = MessageBox.Show(
+                        Localization.LoopWarningCaption,
+                        Localization.MSGBoxWarningCaption,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
                     if (dr == DialogResult.No)
                     {
                         if (btnpos != Generic.OpenFilePaths.Length)
@@ -1340,7 +1335,7 @@ namespace ATRACTool_Reloaded
                     return;
                 }
                 ResetAFR();
-                label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                 FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
                 FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
                 button_Prev.Enabled = false;
@@ -1354,15 +1349,18 @@ namespace ATRACTool_Reloaded
                     return;
                 }
                 ResetAFR();
-                label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                 FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
                 FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
                 button_Prev.Enabled = true;
                 button_Next.Enabled = true;
             }
 
+            // ATRAC バッファに由来するループ情報は従来通り
             SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, btnpos - 1);
-            SetLoopPointWithMultipleFiles(reader.WaveFormat.SampleRate, btnpos - 1);
+
+            // ▼ MultipleFiles 用ループ表示処理は共通ヘルパーに置き換え
+            ApplyLoopStateFromGeneric();
 
             smplrate = reader.WaveFormat.SampleRate;
             totalsamples = reader.SampleCount;
@@ -1382,12 +1380,25 @@ namespace ATRACTool_Reloaded
             Debug.WriteLine("MultipleFilesLoopOKFlags[]: ", string.Join(", ", Generic.MultipleFilesLoopOKFlags));
             Debug.WriteLine("MultipleLoopStarts[]: ", string.Join(", ", Generic.MultipleLoopStarts));
             Debug.WriteLine("MultipleLoopEnds[]: ", string.Join(", ", Generic.MultipleLoopEnds));
+            FormMain.DebugInfo("Next btnpos: " + string.Format("{0}", btnpos));
+            FormMain.DebugInfo("MultipleFilesLoopOKFlags[]: " + string.Join(", ", Generic.MultipleFilesLoopOKFlags));
+            FormMain.DebugInfo("MultipleLoopStarts[]: " + string.Join(", ", Generic.MultipleLoopStarts));
+            FormMain.DebugInfo("MultipleLoopEnds[]: " + string.Join(", ", Generic.MultipleLoopEnds));
 
-            if (!Generic.MultipleFilesLoopOKFlags[btnpos - 2] && Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked)
+            // ▼ 「今から離れる前のファイル」に対するループ警告
+            if (Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked && btnpos != 1)
             {
-                if (Generic.MultipleLoopStarts[btnpos - 2] == 0 || Generic.MultipleLoopEnds[btnpos - 2] == 0)
+                uint prevButton = (uint)(btnpos - 1);
+                var (start, end, ok) = LoopPointController.GetLoopState(prevButton);
+
+                if (!ok && (start == 0 || end == 0))
                 {
-                    DialogResult dr = MessageBox.Show(Localization.LoopWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult dr = MessageBox.Show(
+                        Localization.LoopWarningCaption,
+                        Localization.MSGBoxWarningCaption,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
                     if (dr == DialogResult.No)
                     {
                         if (btnpos != 1)
@@ -1450,7 +1461,7 @@ namespace ATRACTool_Reloaded
                     return;
                 }
                 ResetAFR();
-                label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                 FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
                 FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
                 button_Next.Enabled = false;
@@ -1464,19 +1475,112 @@ namespace ATRACTool_Reloaded
                     return;
                 }
                 ResetAFR();
-                label_File.Text = fi.Name.Replace(fi.Extension, "") + " [" + reader.WaveFormat.BitsPerSample + "-bit," + reader.WaveFormat.SampleRate + "Hz]";
+                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
                 FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
                 FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
                 button_Next.Enabled = true;
                 button_Prev.Enabled = true;
             }
 
+            // ATRAC 由来のループは従来通り
             SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, btnpos - 1);
-            SetLoopPointWithMultipleFiles(reader.WaveFormat.SampleRate, btnpos - 1);
+
+            // MultipleFiles 用ループ表示は共通処理に任せる
+            ApplyLoopStateFromGeneric();
 
             smplrate = reader.WaveFormat.SampleRate;
             totalsamples = reader.SampleCount;
             Generic.IsLPCStreamingReloaded = false;
+        }
+
+        /// <summary>
+        /// 現在の btnpos / Generic のループ状態を LPC の UI に反映する。
+        /// </summary>
+        private void ApplyLoopStateFromGeneric()
+        {
+            // 現在のボタン（ファイル）のループ状態を取得
+            var (startSamples, endSamples, isLoopOk) = LoopPointController.GetLoopState(btnpos);
+
+            // 一旦ラベルはクリア
+            label_LoopStartSamples.Text = string.Empty;
+            label_LoopEndSamples.Text = string.Empty;
+
+            // ループ未設定ならチェックを外して UI を初期化
+            if (!isLoopOk || (startSamples == 0 && endSamples == 0))
+            {
+                int tb = GetSafeHalfDurationMillisecondsForLoopEnd();
+
+                checkBox_LoopEnable.Checked = false;
+                customTrackBar_Start.Value = 0;
+                customTrackBar_End.Value = tb;
+                numericUpDown_LoopStart.Value = 0;
+                numericUpDown_LoopEnd.Value = tb;
+
+                LoopPointController.SyncMainLoopTextFromGeneric(btnpos);
+                return;
+            }
+
+            // サンプル数 → ミリ秒に変換（元の計算式に合わせる）
+            int sampleRate = reader.WaveFormat.SampleRate;
+
+            if (startSamples > 0)
+            {
+                Start = startSamples;
+                int startMs = (int)(startSamples * 1000L / sampleRate);
+
+                startMs = Math.Clamp(startMs, customTrackBar_Start.Minimum, customTrackBar_Start.Maximum);
+                customTrackBar_Start.Value = startMs;
+
+                decimal nudStart = Math.Clamp(startMs,
+                    (int)numericUpDown_LoopStart.Minimum,
+                    (int)numericUpDown_LoopStart.Maximum);
+                numericUpDown_LoopStart.Value = nudStart;
+
+                label_LoopStartSamples.Text = $"LoopStart: {startSamples} {Localization.SampleCaption}";
+            }
+            else
+            {
+                Start = 0;
+                customTrackBar_Start.Value = 0;
+                numericUpDown_LoopStart.Value = 0;
+            }
+
+            if (endSamples > 0)
+            {
+                End = endSamples;
+                int endMs = (int)(endSamples * 1000L / sampleRate);
+
+                endMs = Math.Clamp(endMs, customTrackBar_End.Minimum, customTrackBar_End.Maximum);
+                customTrackBar_End.Value = endMs;
+
+                decimal nudEnd = Math.Clamp(endMs,
+                    (int)numericUpDown_LoopEnd.Minimum,
+                    (int)numericUpDown_LoopEnd.Maximum);
+                numericUpDown_LoopEnd.Value = nudEnd;
+
+                label_LoopEndSamples.Text = $"LoopEnd: {endSamples} {Localization.SampleCaption}";
+            }
+            else
+            {
+                End = 0;
+                customTrackBar_End.Value = 0;
+                numericUpDown_LoopEnd.Value = 0;
+            }
+
+            // メインフォーム側のテキストボックスも Generic から同期
+            LoopPointController.SyncMainLoopTextFromGeneric(btnpos);
+
+            // ループ OK ならチェック ON & UI 有効化
+            checkBox_LoopEnable.Checked = true;
+            //EnableLoopUiControls();
+            if (!IsPlaybackATRAC && Generic.IsATRAC)
+            {
+                EnableLoopUiControls();
+            }
+            else if (!Generic.IsATRAC)
+            {
+                EnableLoopUiControls();
+            }
         }
 
         private void Button_Cancel_Click(object sender, EventArgs e)
@@ -1516,13 +1620,18 @@ namespace ATRACTool_Reloaded
         {
             if (!Generic.IsOpenMulti) // Single
             {
-                if (checkBox_LoopEnable.Checked != false)
+                if (checkBox_LoopEnable.Checked) // 有効化
                 {
+                    // --- 既存の競合チェック（AT3/AT9, LPC_CREATE） ---
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
-                            MessageBox.Show(this, Localization.AT3AT9LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(this,
+                                Localization.AT3AT9LoopBeginToEndAlreadyEnabledWarning,
+                                Localization.MSGBoxWarningCaption,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                             ResetLoopEnable();
                             return;
                         }
@@ -1530,13 +1639,15 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
-                                MessageBox.Show(this, Localization.AT3LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show(this,
+                                    Localization.AT3LoopBeginToEndAlreadyEnabledWarning,
+                                    Localization.MSGBoxWarningCaption,
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                                 ResetLoopEnable();
                                 return;
                             }
-
                         }
-
                     }
                     else
                     {
@@ -1544,7 +1655,11 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
-                                MessageBox.Show(this, Localization.AT9LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show(this,
+                                    Localization.AT9LoopBeginToEndAlreadyEnabledWarning,
+                                    Localization.MSGBoxWarningCaption,
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                                 ResetLoopEnable();
                                 return;
                             }
@@ -1553,54 +1668,50 @@ namespace ATRACTool_Reloaded
 
                     if (!Generic.lpcreatev2 && Generic.lpcreate != false)
                     {
-                        MessageBox.Show(this, Localization.LPCreateAlreadyEnableWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(this,
+                            Localization.LPCreateAlreadyEnableWarning,
+                            Localization.MSGBoxWarningCaption,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
                         ResetLoopEnable();
                         return;
                     }
 
+                    // --- Main 側のループ UI を有効化 ---
                     if (!Generic.lpcreatev2)
                     {
-                        FormMain.FormMainInstance.groupBox_Loop.Enabled = true;
-                        FormMain.FormMainInstance.textBox_LoopStart.Enabled = true;
-                        FormMain.FormMainInstance.textBox_LoopEnd.Enabled = true;
-                        FormMain.FormMainInstance.label_LoopStart.Enabled = true;
-                        FormMain.FormMainInstance.label_LoopEnd.Enabled = true;
-                        FormMain.FormMainInstance.label_SSample.Enabled = true;
-                        FormMain.FormMainInstance.label_ESample.Enabled = true;
+                        LoopPointController.EnableMainLoopUi();
                     }
 
-
-                    customTrackBar_Start.Enabled = true;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = true;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = true;
-                    numericUpDown_LoopEnd.Enabled = true;
-                    button_LS_Current.Enabled = true;
-                    button_LE_Current.Enabled = true;
-                    button_SetStart.Enabled = true;
-                    button_SetEnd.Enabled = true;
-
-                    label_start.Enabled = true;
-                    label_end.Enabled = true;
+                    // --- LPC 側コントロールをまとめて ON ---
+                    EnableLoopUiControls();
                 }
-                else
+                else // 無効化
                 {
+                    // --- 既存の「ループ消してもいい？」警告ロジック ---
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
+                            // 何もしない（従来どおり空ブロック）
                         }
                         else
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
+                                // 何もしない（従来どおり空ブロック）
                             }
                             else
                             {
-                                if (Generic.IsLoopWarning && Generic.MultipleFilesLoopOKFlags[0] && FormMain.FormMainInstance.button_Encode.Enabled)
+                                if (Generic.IsLoopWarning &&
+                                    Generic.MultipleFilesLoopOKFlags[0] &&
+                                    FormMain.FormMainInstance.button_Encode.Enabled)
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LoopingAlreadySetWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                    DialogResult dr = MessageBox.Show(
+                                        Localization.LoopingAlreadySetWarningCaption,
+                                        Localization.MSGBoxWarningCaption,
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
                                     if (dr == DialogResult.No)
                                     {
                                         checkBox_LoopEnable.Checked = true;
@@ -1609,7 +1720,6 @@ namespace ATRACTool_Reloaded
                                 }
                             }
                         }
-
                     }
                     else
                     {
@@ -1617,12 +1727,19 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
+                                // 何もしない（従来どおり空ブロック）
                             }
                             else
                             {
-                                if (Generic.IsLoopWarning && Generic.MultipleFilesLoopOKFlags[0] && FormMain.FormMainInstance.button_Encode.Enabled)
+                                if (Generic.IsLoopWarning &&
+                                    Generic.MultipleFilesLoopOKFlags[0] &&
+                                    FormMain.FormMainInstance.button_Encode.Enabled)
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LoopingAlreadySetWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                    DialogResult dr = MessageBox.Show(
+                                        Localization.LoopingAlreadySetWarningCaption,
+                                        Localization.MSGBoxWarningCaption,
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
                                     if (dr == DialogResult.No)
                                     {
                                         checkBox_LoopEnable.Checked = true;
@@ -1633,53 +1750,34 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
+                    // --- フラグのリセットはコントローラに任せる ---
+                    LoopPointController.ResetLoop(0);
 
-
-                    Generic.MultipleFilesLoopOKFlags[0] = false;
-                    Generic.MultipleLoopStarts[0] = 0;
-                    Generic.MultipleLoopEnds[0] = 0;
-
+                    // --- Main 側 UI を OFF ---
                     if (!Generic.lpcreatev2)
                     {
-                        FormMain.FormMainInstance.groupBox_Loop.Enabled = false;
-                        FormMain.FormMainInstance.textBox_LoopStart.Text = null;
-                        FormMain.FormMainInstance.textBox_LoopStart.Enabled = false;
-                        FormMain.FormMainInstance.textBox_LoopEnd.Text = null;
-                        FormMain.FormMainInstance.textBox_LoopEnd.Enabled = false;
-                        FormMain.FormMainInstance.label_LoopStart.Enabled = false;
-                        FormMain.FormMainInstance.label_LoopEnd.Enabled = false;
-                        FormMain.FormMainInstance.label_SSample.Enabled = false;
-                        FormMain.FormMainInstance.label_ESample.Enabled = false;
+                        LoopPointController.DisableMainLoopUi();
                     }
 
+                    // --- LPC 側 UI を OFF ---
+                    DisableLoopUiControls();
 
-
-                    customTrackBar_Start.Enabled = false;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = false;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = false;
-                    numericUpDown_LoopEnd.Enabled = false;
-                    button_LS_Current.Enabled = false;
-                    button_LE_Current.Enabled = false;
-                    button_SetStart.Enabled = false;
-                    button_SetEnd.Enabled = false;
-
+                    // ラベルは空にする
                     label_LoopStartSamples.Text = string.Empty;
                     label_LoopEndSamples.Text = string.Empty;
-
-                    label_start.Enabled = false;
-                    label_end.Enabled = false;
                 }
             }
             else // Multiple
             {
-                if (checkBox_LoopEnable.Checked != false)
+                if (checkBox_LoopEnable.Checked) // 有効化
                 {
-
                     if (!Generic.lpcreatev2 && Generic.lpcreate != false)
                     {
-                        MessageBox.Show(this, Localization.LPCreateAlreadyEnableWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(this,
+                            Localization.LPCreateAlreadyEnableWarning,
+                            Localization.MSGBoxWarningCaption,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
                         ResetLoopEnable();
                         return;
                     }
@@ -1688,7 +1786,11 @@ namespace ATRACTool_Reloaded
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
-                            MessageBox.Show(this, Localization.AT3AT9LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show(this,
+                                Localization.AT3AT9LoopBeginToEndAlreadyEnabledWarning,
+                                Localization.MSGBoxWarningCaption,
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                             ResetLoopEnable();
                             return;
                         }
@@ -1696,12 +1798,15 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
-                                MessageBox.Show(this, Localization.AT3LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show(this,
+                                    Localization.AT3LoopBeginToEndAlreadyEnabledWarning,
+                                    Localization.MSGBoxWarningCaption,
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                                 ResetLoopEnable();
                                 return;
                             }
                         }
-
                     }
                     else
                     {
@@ -1709,55 +1814,64 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
-                                MessageBox.Show(this, Localization.AT9LoopBeginToEndAlreadyEnabledWarning, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show(this,
+                                    Localization.AT9LoopBeginToEndAlreadyEnabledWarning,
+                                    Localization.MSGBoxWarningCaption,
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                                 ResetLoopEnable();
                                 return;
                             }
                         }
                     }
 
-                    if (!Generic.lpcreatev2)
+
+
+                    // --- LPC 側コントロール ON ---
+                    if (!IsPlaybackATRAC && Generic.IsATRAC)
                     {
-                        FormMain.FormMainInstance.groupBox_Loop.Enabled = true;
-                        FormMain.FormMainInstance.textBox_LoopStart.Enabled = true;
-                        FormMain.FormMainInstance.textBox_LoopEnd.Enabled = true;
-                        FormMain.FormMainInstance.label_LoopStart.Enabled = true;
-                        FormMain.FormMainInstance.label_LoopEnd.Enabled = true;
-                        FormMain.FormMainInstance.label_SSample.Enabled = true;
-                        FormMain.FormMainInstance.label_ESample.Enabled = true;
+                        if (!Generic.lpcreatev2)
+                        {
+                            LoopPointController.EnableMainLoopUi();
+                        }
+                        EnableLoopUiControls();
+                    }
+                    else if (!Generic.IsATRAC)
+                    {
+                        if (!Generic.lpcreatev2)
+                        {
+                            LoopPointController.EnableMainLoopUi();
+                        }
+                        EnableLoopUiControls();
                     }
 
-                    customTrackBar_Start.Enabled = true;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = true;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = true;
-                    numericUpDown_LoopEnd.Enabled = true;
-                    button_LS_Current.Enabled = true;
-                    button_LE_Current.Enabled = true;
-                    button_SetStart.Enabled = true;
-                    button_SetEnd.Enabled = true;
-
-                    label_start.Enabled = true;
-                    label_end.Enabled = true;
                 }
-                else
+                else // 無効化
                 {
+                    // 既存の「ループ消していい？」警告
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
+                            // 何もしない
                         }
                         else
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
+                                // 何もしない
                             }
                             else
                             {
-                                if (Generic.IsLoopWarning && Generic.MultipleFilesLoopOKFlags[ButtonPosition - 1] && FormMain.FormMainInstance.button_Encode.Enabled)
+                                if (Generic.IsLoopWarning &&
+                                    Generic.MultipleFilesLoopOKFlags[ButtonPosition - 1] &&
+                                    FormMain.FormMainInstance.button_Encode.Enabled)
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LoopingAlreadySetWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                    DialogResult dr = MessageBox.Show(
+                                        Localization.LoopingAlreadySetWarningCaption,
+                                        Localization.MSGBoxWarningCaption,
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
                                     if (dr == DialogResult.No)
                                     {
                                         checkBox_LoopEnable.Checked = true;
@@ -1766,7 +1880,6 @@ namespace ATRACTool_Reloaded
                                 }
                             }
                         }
-
                     }
                     else
                     {
@@ -1774,12 +1887,19 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
+                                // 何もしない
                             }
                             else
                             {
-                                if (Generic.IsLoopWarning && Generic.MultipleFilesLoopOKFlags[ButtonPosition - 1] && FormMain.FormMainInstance.button_Encode.Enabled)
+                                if (Generic.IsLoopWarning &&
+                                    Generic.MultipleFilesLoopOKFlags[ButtonPosition - 1] &&
+                                    FormMain.FormMainInstance.button_Encode.Enabled)
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LoopingAlreadySetWarningCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                    DialogResult dr = MessageBox.Show(
+                                        Localization.LoopingAlreadySetWarningCaption,
+                                        Localization.MSGBoxWarningCaption,
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Warning);
                                     if (dr == DialogResult.No)
                                     {
                                         checkBox_LoopEnable.Checked = true;
@@ -1792,44 +1912,24 @@ namespace ATRACTool_Reloaded
 
                     if (!Generic.lpcreatev2)
                     {
-                        Generic.MultipleFilesLoopOKFlags[ButtonPosition - 1] = false;
-                        Generic.MultipleLoopStarts[ButtonPosition - 1] = 0;
-                        Generic.MultipleLoopEnds[ButtonPosition - 1] = 0;
+                        // このファイルのループ設定をリセット
+                        LoopPointController.ResetLoop(ButtonPosition);
 
-                        FormMain.FormMainInstance.groupBox_Loop.Enabled = false;
-                        FormMain.FormMainInstance.textBox_LoopStart.Enabled = false;
-                        FormMain.FormMainInstance.textBox_LoopEnd.Enabled = false;
-                        FormMain.FormMainInstance.label_LoopStart.Enabled = false;
-                        FormMain.FormMainInstance.label_LoopEnd.Enabled = false;
-                        FormMain.FormMainInstance.label_SSample.Enabled = false;
-                        FormMain.FormMainInstance.label_ESample.Enabled = false;
+                        LoopPointController.DisableMainLoopUi();
                     }
                     else
                     {
-                        Generic.MultipleFilesLoopOKFlags[0] = false;
-                        Generic.MultipleLoopStarts[0] = 0;
-                        Generic.MultipleLoopEnds[0] = 0;
+                        // --- フラグのリセットはコントローラに任せる ---
+                        LoopPointController.ResetLoop(0);
                     }
 
-                    customTrackBar_Start.Enabled = false;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = false;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = false;
-                    numericUpDown_LoopEnd.Enabled = false;
-                    button_LS_Current.Enabled = false;
-                    button_LE_Current.Enabled = false;
-                    button_SetStart.Enabled = false;
-                    button_SetEnd.Enabled = false;
+                    // LPC 側 UI を OFF
+                    DisableLoopUiControls();
 
                     label_LoopStartSamples.Text = string.Empty;
                     label_LoopEndSamples.Text = string.Empty;
-
-                    label_start.Enabled = false;
-                    label_end.Enabled = false;
                 }
             }
-
         }
 
         private void Button_OK_Click(object sender, EventArgs e)
@@ -1885,39 +1985,21 @@ namespace ATRACTool_Reloaded
                 if (radioButton_at3.Checked == true)
                 {
                     Generic.LPCSuffix = " -loop " + Start.ToString() + " " + End.ToString();
-                    //Config.Entry["ATRAC3_LoopSound"].Value = "false";
-                    //Config.Entry["ATRAC3_LoopPoint"].Value = "true";
-                    //Config.Entry["ATRAC3_LoopStart_Samples"].Value = Start.ToString();
-                    //Config.Entry["ATRAC3_LoopEnd_Samples"].Value = End.ToString();
-                    //Config.Entry["ATRAC3_Params"].Value = "";
-                    //Config.Entry["LPC_Create"].Value = "false";
                 }
                 else
                 {
                     Generic.LPCSuffix = " -loop " + Start.ToString() + " " + End.ToString();
-                    //Config.Entry["ATRAC9_LoopSound"].Value = "false";
-                    //Config.Entry["ATRAC9_LoopPoint"].Value = "true";
-                    //Config.Entry["ATRAC9_LoopStart_Samples"].Value = Start.ToString();
-                    //Config.Entry["ATRAC9_LoopEnd_Samples"].Value = End.ToString();
-                    //Config.Entry["ATRAC9_Params"].Value = "";
-                    //Config.Entry["LPC_Create"].Value = "false";
                 }
-                //Config.Save(xmlpath);
 
                 smplrate = reader.WaveFormat.SampleRate;
                 if (Generic.lpcreatev2)
                 {
                     checkBox_LoopEnable.Checked = false;
                     customTrackBar_Start.Enabled = false;
-                    //customTrackBar_Start.Invalidate();
                     customTrackBar_End.Enabled = false;
-                    //customTrackBar_End.Invalidate();
                     label_start.Enabled = false;
                     label_end.Enabled = false;
                 }
-                //using FormSettings form = new(true);
-                //form.ShowDialog();
-
                 Close();
             }
             else
@@ -1947,10 +2029,6 @@ namespace ATRACTool_Reloaded
         {
             customTrackBar_End.Value = (int)numericUpDown_LoopEnd.Value;
         }
-
-
-
-
 
         private static bool CheckLoopSoundEnabled(bool IsAT9)
         {
@@ -1999,57 +2077,87 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void ResetLoopEnable()
+        private void EnableLoopUiControls()
         {
-            checkBox_LoopEnable.Checked = false;
+            customTrackBar_Start.Enabled = true;
+            customTrackBar_Start.Invalidate();
+            customTrackBar_End.Enabled = true;
+            customTrackBar_End.Invalidate();
+
+            numericUpDown_LoopStart.Enabled = true;
+            numericUpDown_LoopEnd.Enabled = true;
+
+            button_LS_Current.Enabled = true;
+            button_LE_Current.Enabled = true;
+            button_SetStart.Enabled = true;
+            button_SetEnd.Enabled = true;
+
+            label_start.Enabled = true;
+            label_end.Enabled = true;
+        }
+
+        // ループ関連コントロールを無効化
+        private void DisableLoopUiControls()
+        {
             customTrackBar_Start.Enabled = false;
             customTrackBar_Start.Invalidate();
             customTrackBar_End.Enabled = false;
             customTrackBar_End.Invalidate();
+
             numericUpDown_LoopStart.Enabled = false;
             numericUpDown_LoopEnd.Enabled = false;
+
             button_LS_Current.Enabled = false;
             button_LE_Current.Enabled = false;
             button_SetStart.Enabled = false;
             button_SetEnd.Enabled = false;
+
+            label_start.Enabled = false;
+            label_end.Enabled = false;
+        }
+
+        private void ResetLoopEnable()
+        {
+            checkBox_LoopEnable.Checked = false;
+
+            // LPC 側コントロールをまとめて OFF
+            DisableLoopUiControls();
+
+            // ラベルは空にする
             label_LoopStartSamples.Text = string.Empty;
             label_LoopEndSamples.Text = string.Empty;
 
-            FormMain.FormMainInstance.groupBox_Loop.Enabled = false;
-            FormMain.FormMainInstance.textBox_LoopStart.Enabled = false;
-            FormMain.FormMainInstance.textBox_LoopEnd.Enabled = false;
-            FormMain.FormMainInstance.label_LoopStart.Enabled = false;
-            FormMain.FormMainInstance.label_LoopEnd.Enabled = false;
-            FormMain.FormMainInstance.label_SSample.Enabled = false;
-            FormMain.FormMainInstance.label_ESample.Enabled = false;
+            // ★ Main 側の Loop UI はコントローラに任せる
+            LoopPointController.DisableMainLoopUi();
         }
 
         private void ResetAFR()
         {
+            int maxMs = GetSafeDurationMilliseconds();
+
             customTrackBar_Trk.Minimum = 0;
-            customTrackBar_Trk.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_Trk.Maximum = maxMs;
             customTrackBar_Start.Minimum = 0;
-            customTrackBar_Start.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_Start.Maximum = maxMs;
             customTrackBar_End.Minimum = 0;
-            customTrackBar_End.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            customTrackBar_End.Maximum = maxMs;
             customTrackBar_Trk.TickFrequency = 1000;
             customTrackBar_Start.TickFrequency = 1000;
             customTrackBar_End.TickFrequency = 1000;
             numericUpDown_LoopStart.Minimum = 0;
-            numericUpDown_LoopStart.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopStart.Maximum = maxMs;
             numericUpDown_LoopStart.Increment = 1;
             numericUpDown_LoopEnd.Minimum = 0;
-            numericUpDown_LoopEnd.Maximum = (int)reader.TotalTime.TotalMilliseconds;
+            numericUpDown_LoopEnd.Maximum = maxMs;
             numericUpDown_LoopEnd.Increment = 1;
             wo.Volume = volumeSlider1.Volume;
 
-            int tb = (int)reader.TotalTime.TotalMilliseconds / 2;
+            int tb = GetSafeHalfDurationMillisecondsForLoopEnd();
             numericUpDown_LoopStart.Value = 0;
             numericUpDown_LoopEnd.Value = tb;
 
             Generic.LPCTotalSamples = reader.SampleCount;
 
-            //ResetLoopEnable();
             Resettrackbarlabels();
         }
 
@@ -2227,18 +2335,8 @@ namespace ATRACTool_Reloaded
                     if (Generic.MultipleFilesLoopOKFlags[pos] && !checkBox_LoopEnable.Checked)
                     {
                         checkBox_LoopEnable.Checked = true;
-                        customTrackBar_Start.Enabled = true;
-                        customTrackBar_Start.Invalidate();
-                        customTrackBar_End.Enabled = true;
-                        customTrackBar_End.Invalidate();
-                        numericUpDown_LoopStart.Enabled = true;
-                        numericUpDown_LoopEnd.Enabled = true;
-                        button_LS_Current.Enabled = true;
-                        button_LE_Current.Enabled = true;
-                        button_SetEnd.Enabled = true;
-                        button_SetStart.Enabled = true;
-                        label_start.Enabled = true;
-                        label_end.Enabled = true;
+                        // ループ UI を共通メソッドで有効化
+                        EnableLoopUiControls();
                     }
                     label_LoopStartSamples.Text = "LoopStart: " + Generic.MultipleLoopStarts[pos].ToString() + " " + Localizable.Localization.SampleCaption;
                     label_LoopEndSamples.Text = "LoopEnd: " + Generic.MultipleLoopEnds[pos].ToString() + " " + Localizable.Localization.SampleCaption;
@@ -2256,86 +2354,14 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void SetLoopPointWithMultipleFiles(int samplerate, uint pos)
+        private string GetCurrentReaderBitAndHzFromLabel(WaveFileReader reader)
         {
-            if (!Generic.IsATRACLooped && Generic.IsOpenMulti && Generic.MultipleFilesLoopOKFlags[pos])
+            if (reader is null)
             {
-                if (Generic.MultipleLoopStarts[pos] == 0 || Generic.MultipleLoopEnds[pos] == 0) { return; }
-
-                switch (samplerate)
-                {
-                    case 12000: // ATRAC9 Only
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 12.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 12.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
-                        break;
-                    case 24000: // ATRAC9 Only
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 24.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 24.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
-                        break;
-                    case 44100:
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 44.1, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 44.1, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
-                        break;
-                    case 48000:
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 48.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 48.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
-                        break;
-                    default:
-                        break;
-                }
-
-                if (Generic.MultipleFilesLoopOKFlags[pos] && !checkBox_LoopEnable.Checked)
-                {
-                    checkBox_LoopEnable.Checked = true;
-                    customTrackBar_Start.Enabled = true;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = true;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = true;
-                    numericUpDown_LoopEnd.Enabled = true;
-                    button_LS_Current.Enabled = true;
-                    button_LE_Current.Enabled = true;
-                    button_SetEnd.Enabled = true;
-                    button_SetStart.Enabled = true;
-                    label_start.Enabled = true;
-                    label_end.Enabled = true;
-                }
-                label_LoopStartSamples.Text = "LoopStart: " + Generic.MultipleLoopStarts[pos].ToString() + " " + Localizable.Localization.SampleCaption;
-                label_LoopEndSamples.Text = "LoopEnd: " + Generic.MultipleLoopEnds[pos].ToString() + " " + Localizable.Localization.SampleCaption;
-                FormMain.FormMainInstance.textBox_LoopStart.Text = Generic.MultipleLoopStarts[pos].ToString();
-                FormMain.FormMainInstance.textBox_LoopEnd.Text = Generic.MultipleLoopEnds[pos].ToString();
+                return string.Empty;
             }
-            else if (!Generic.IsATRACLooped && Generic.IsOpenMulti && !Generic.MultipleFilesLoopOKFlags[pos])
-            {
-                if (checkBox_LoopEnable.Checked)
-                {
-                    checkBox_LoopEnable.Checked = false;
-                    customTrackBar_Start.Enabled = false;
-                    customTrackBar_Start.Invalidate();
-                    customTrackBar_End.Enabled = false;
-                    customTrackBar_End.Invalidate();
-                    numericUpDown_LoopStart.Enabled = false;
-                    numericUpDown_LoopEnd.Enabled = false;
-                    button_LS_Current.Enabled = false;
-                    button_LE_Current.Enabled = false;
-                    button_SetEnd.Enabled = false;
-                    button_SetStart.Enabled = false;
-                    label_start.Enabled = false;
-                    label_end.Enabled = false;
-                }
-                label_LoopStartSamples.Text = string.Empty;
-                label_LoopEndSamples.Text = string.Empty;
-                FormMain.FormMainInstance.textBox_LoopStart.Text = string.Empty;
-                FormMain.FormMainInstance.textBox_LoopEnd.Text = string.Empty;
-            }
+
+            return " [" + reader.WaveFormat.BitsPerSample + "-bit, " + reader.WaveFormat.SampleRate + "Hz]";
         }
     }
 

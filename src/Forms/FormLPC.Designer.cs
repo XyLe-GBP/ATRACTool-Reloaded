@@ -276,7 +276,7 @@
             customTrackBar_End.TrackColor = Color.Gainsboro;
             customTrackBar_End.TrackThickness = 8;
             customTrackBar_End.Value = 0;
-            customTrackBar_End.Scroll += customTrackBar_End_Scroll;
+            customTrackBar_End.Scroll += CustomTrackBar_End_Scroll;
             // 
             // customTrackBar_Trk
             // 
@@ -301,7 +301,7 @@
             customTrackBar_Trk.TrackColor = Color.Gainsboro;
             customTrackBar_Trk.TrackThickness = 30;
             customTrackBar_Trk.Value = 0;
-            customTrackBar_Trk.Scroll += customTrackBar_Trk_Scroll;
+            customTrackBar_Trk.Scroll += CustomTrackBar_Trk_Scroll;
             // 
             // customTrackBar_Start
             // 
@@ -326,7 +326,7 @@
             customTrackBar_Start.TrackColor = Color.Gainsboro;
             customTrackBar_Start.TrackThickness = 10;
             customTrackBar_Start.Value = 0;
-            customTrackBar_Start.Scroll += customTrackBar_Start_Scroll;
+            customTrackBar_Start.Scroll += CustomTrackBar_Start_Scroll;
             // 
             // label_previewwarn
             // 

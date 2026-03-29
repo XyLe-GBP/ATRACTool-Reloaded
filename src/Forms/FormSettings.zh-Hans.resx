@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="button_OK.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Cancel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label_at3_cmd.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 15</value>
@@ -130,20 +124,11 @@
   <data name="label_at3_cmd.Text" xml:space="preserve">
     <value>ATRAC3 / ATRAC3+ 命令行参数：</value>
   </data>
-  <data name="label_at3_cmd.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_at9_cmd.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 15</value>
   </data>
   <data name="label_at9_cmd.Text" xml:space="preserve">
     <value>ATRAC9 命令行参数：</value>
-  </data>
-  <data name="label_at9_cmd.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="groupBox_at3.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="radioButton_PS3.ToolTip" xml:space="preserve">
     <value>指定PlayStation 3的编码过程。</value>
@@ -153,9 +138,6 @@
   </data>
   <data name="label_at3_times.Text" xml:space="preserve">
     <value>时代</value>
-  </data>
-  <data name="label_at3_times.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="radioButton_PSP.ToolTip" xml:space="preserve">
     <value>指定PlayStation Portable的编码过程。</value>
@@ -169,17 +151,11 @@
   <data name="label_at3_console.Text" xml:space="preserve">
     <value>待编码的控制台类型：</value>
   </data>
-  <data name="label_at3_console.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_at3_nol.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 15</value>
   </data>
   <data name="label_at3_nol.Text" xml:space="preserve">
     <value>循环次数：</value>
-  </data>
-  <data name="label_at3_nol.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at3_looptimes.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 19</value>
@@ -190,20 +166,11 @@
   <data name="checkBox_at3_looptimes.ToolTip" xml:space="preserve">
     <value>若启用此功能，可指定音源循环播放的次数。</value>
   </data>
-  <data name="label_at3_samples.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="textBox_at3_loopend.ToolTip" xml:space="preserve">
     <value>指定循环结束时的采样值。</value>
   </data>
   <data name="textBox_at3_loopstart.ToolTip" xml:space="preserve">
     <value>指定循环开始时的采样值。</value>
-  </data>
-  <data name="label_at3_loopend.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label_at3_loopstart.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at3_loopsound.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 19</value>
@@ -237,12 +204,6 @@ PSP与PS3的格式存在差异。
   <data name="label_at3_encmethod.Text" xml:space="preserve">
     <value>编码方法：</value>
   </data>
-  <data name="label_at3_encmethod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="groupBox_at9.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="radioButton_PS4.ToolTip" xml:space="preserve">
     <value>指定PlayStation 4的编码过程。</value>
   </data>
@@ -255,14 +216,8 @@ PSP与PS3的格式存在差异。
   <data name="label_at9_times.Text" xml:space="preserve">
     <value>时代</value>
   </data>
-  <data name="label_at9_times.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="textBox_at9_looptimes.ToolTip" xml:space="preserve">
     <value>指定音源循环播放的次数。</value>
-  </data>
-  <data name="label_at9_samples.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="textBox_at9_loopend.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 23</value>
@@ -276,9 +231,6 @@ PSP与PS3的格式存在差异。
   <data name="textBox_at9_loopstart.ToolTip" xml:space="preserve">
     <value>指定循环开始时的采样值。</value>
   </data>
-  <data name="label_at9_loopstart.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_at9_looptimes.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 19</value>
   </data>
@@ -287,12 +239,6 @@ PSP与PS3的格式存在差异。
   </data>
   <data name="checkBox_at9_looptimes.ToolTip" xml:space="preserve">
     <value>若启用此功能，可指定音源循环播放的次数。</value>
-  </data>
-  <data name="button_at9_looplist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_at9_looplist.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at9_looplist.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 19</value>
@@ -334,9 +280,6 @@ PSP与PS3的格式存在差异。
   <data name="label_at9_samplingfreq.Text" xml:space="preserve">
     <value>采样频率：</value>
   </data>
-  <data name="label_at9_samplingfreq.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="comboBox_at9_bitrate.Location" type="System.Drawing.Point, System.Drawing">
     <value>519, 26</value>
   </data>
@@ -353,20 +296,11 @@ PSVita与PS4的格式不同。
   <data name="label_at9_bitrate.Text" xml:space="preserve">
     <value>比特率：</value>
   </data>
-  <data name="label_at9_bitrate.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label_at9_loopend.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_at9_console.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 15</value>
   </data>
   <data name="label_at9_console.Text" xml:space="preserve">
     <value>待编码的控制台类型：</value>
-  </data>
-  <data name="label_at9_console.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label_at9_nol.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 15</value>
@@ -374,14 +308,8 @@ PSVita与PS4的格式不同。
   <data name="label_at9_nol.Text" xml:space="preserve">
     <value>循环次数：</value>
   </data>
-  <data name="label_at9_nol.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBox_at9_advanced.Text" xml:space="preserve">
     <value>ATRAC9 高级版</value>
-  </data>
-  <data name="groupBox_at9_advanced.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_LFE.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 19</value>
@@ -389,17 +317,11 @@ PSVita与PS4的格式不同。
   <data name="checkBox_LFE.Text" xml:space="preserve">
     <value>启用LFE超低频截止</value>
   </data>
-  <data name="checkBox_LFE.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_wband.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 19</value>
   </data>
   <data name="checkBox_wband.Text" xml:space="preserve">
     <value>启用宽带编码模式</value>
-  </data>
-  <data name="checkBox_wband.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_bex.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 19</value>
@@ -407,23 +329,11 @@ PSVita与PS4的格式不同。
   <data name="checkBox_bex.Text" xml:space="preserve">
     <value>启用频段扩展</value>
   </data>
-  <data name="checkBox_bex.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_at9_enctype.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 15</value>
   </data>
   <data name="label_at9_enctype.Text" xml:space="preserve">
     <value>编码方法：</value>
-  </data>
-  <data name="label_at9_enctype.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_at9_startband.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at9_enctype.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 19</value>
@@ -431,20 +341,11 @@ PSVita与PS4的格式不同。
   <data name="checkBox_at9_enctype.Text" xml:space="preserve">
     <value>指定ATRAC的编码类型</value>
   </data>
-  <data name="checkBox_at9_enctype.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_at9_useband.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_at9_useband.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 15</value>
   </data>
   <data name="label_at9_useband.Text" xml:space="preserve">
     <value>使用的频段数量：</value>
-  </data>
-  <data name="label_at9_useband.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label_at9_startband.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 15</value>
@@ -452,17 +353,11 @@ PSVita与PS4的格式不同。
   <data name="label_at9_startband.Text" xml:space="preserve">
     <value>起始乐队：</value>
   </data>
-  <data name="label_at9_startband.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_at9_advband.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 19</value>
   </data>
   <data name="checkBox_at9_advband.Text" xml:space="preserve">
     <value>启用高级频段设置</value>
-  </data>
-  <data name="checkBox_at9_advband.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at9_dualenc.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 19</value>
@@ -470,17 +365,11 @@ PSVita与PS4的格式不同。
   <data name="checkBox_at9_dualenc.Text" xml:space="preserve">
     <value>启用双重编码模式</value>
   </data>
-  <data name="checkBox_at9_dualenc.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_at9_supframe.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 19</value>
   </data>
   <data name="checkBox_at9_supframe.Text" xml:space="preserve">
     <value>启用超级帧编码</value>
-  </data>
-  <data name="checkBox_at9_supframe.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_at9_advanced.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 19</value>
@@ -488,206 +377,17 @@ PSVita与PS4的格式不同。
   <data name="checkBox_at9_advanced.Text" xml:space="preserve">
     <value>启用高级设置</value>
   </data>
-  <data name="checkBox_at9_advanced.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBox_lpcreate.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 19</value>
   </data>
   <data name="checkBox_lpcreate.Text" xml:space="preserve">
     <value>在转换过程中创建循环点</value>
   </data>
-  <data name="tabControl_Main.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabPage1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabPage2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBox_walkman_others.Text" xml:space="preserve">
     <value>指定歌曲信息</value>
   </data>
-  <data name="groupBox_walkman_others.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label_Linerpath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label_Lyricspath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label_Jacketpath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_Jacketmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_Linermode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Linerpath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_Lyricsmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Lyricspath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="button_Jacketpath.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label37.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label32.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Bitrates.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pictureBox_Jacket.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_MilliSecond.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Duration.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_TotalTracks.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_TrackNumber.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Lyricist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Composer.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Genre.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_SortAlbumArtist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_AlbumArtist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_SortAlbum.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Album.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_SortArtist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Artist.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_SortSubtitle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Subtitle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_SortTitle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="dateTimePicker_Import.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="dateTimePicker_Release.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_Title.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label36.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label35.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label34.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label33.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label31.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label30.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label29.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label28.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label27.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label26.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label25.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label24.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label23.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label22.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label21.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label20.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label19.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label18.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label17.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label16.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label15.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label14.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label13.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label12.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBox_walkman_general.Text" xml:space="preserve">
     <value>一般</value>
-  </data>
-  <data name="groupBox_walkman_general.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox_everyFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 19</value>
@@ -695,20 +395,11 @@ PSVita与PS4的格式不同。
   <data name="checkBox_everyFormats.Text" xml:space="preserve">
     <value>每次选择一种格式</value>
   </data>
-  <data name="checkBox_everyFormats.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_DecodeFormats.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label_Decodeformat.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 15</value>
   </data>
   <data name="label_Decodeformat.Text" xml:space="preserve">
     <value>解码格式：</value>
-  </data>
-  <data name="label_Decodeformat.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label_Outputformat.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 15</value>
@@ -716,20 +407,11 @@ PSVita与PS4的格式不同。
   <data name="label_Outputformat.Text" xml:space="preserve">
     <value>ATRAC3 / ATRAC3+ 输出格式：</value>
   </data>
-  <data name="label_Outputformat.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="comboBox_OutputFormats.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="radioButton_each.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 19</value>
   </data>
   <data name="radioButton_each.Text" xml:space="preserve">
     <value>每次输入歌曲信息</value>
-  </data>
-  <data name="radioButton_each.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="radioButton_specified.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 19</value>
@@ -737,25 +419,13 @@ PSVita与PS4的格式不同。
   <data name="radioButton_specified.Text" xml:space="preserve">
     <value>使用指定的歌曲信息</value>
   </data>
-  <data name="radioButton_specified.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="textBox_cmd_walkman.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 15</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>命令行参数：</value>
   </data>
-  <data name="label8.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>转换设置</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>

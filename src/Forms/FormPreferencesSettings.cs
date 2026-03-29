@@ -23,6 +23,8 @@ namespace ATRACTool_Reloaded
         public FormPreferencesSettings()
         {
             InitializeComponent();
+
+            FormMain.DebugInfo("[FormPreferencesSettings] Initialized.");
         }
 
         private static string Path = null!;
@@ -37,392 +39,250 @@ namespace ATRACTool_Reloaded
             FirstLoad = true;
             try
             {
-                switch (bool.Parse(Config.Entry["Check_Update"].Value))
+                // 更新チェック
+                checkBox_Checkupdate.Checked = Utils.GetBool("Check_Update", true);
+
+                // スムーズサンプル
+                bool smooth = Utils.GetBool("SmoothSamples", false);
+                checkBox_Smoothsamples.Checked = smooth;
+
+                bool latencyControlsEnabled = !smooth;
+                label_DSBuffers.Enabled = latencyControlsEnabled;
+                label_DSLatency.Enabled = latencyControlsEnabled;
+                label_WASAPILatencyS.Enabled = latencyControlsEnabled;
+                label_WASAPILatencyE.Enabled = latencyControlsEnabled;
+                comboBox_DSBuffers.Enabled = latencyControlsEnabled;
+                comboBox_DSLatencys.Enabled = latencyControlsEnabled;
+                comboBox_WASAPILatencysS.Enabled = latencyControlsEnabled;
+                comboBox_WASAPILatencysE.Enabled = latencyControlsEnabled;
+
+                // ATRAC 再生 / プレビュー警告
+                checkBox_EnableATRACPlayback.Checked = Utils.GetBool("PlaybackATRAC", false);
+                checkBox_DisablePreviewWarning.Checked = Utils.GetBool("DisablePreviewWarning", false);
+
+                // スプラッシュ画像
+                bool useSplashImage = Utils.GetBool("SplashImage", false);
+                checkBox_Splashimg.Checked = useSplashImage;
+                textBox_Splashimg.Enabled = useSplashImage;
+                button_Splashimg.Enabled = useSplashImage;
+
+                if (useSplashImage)
                 {
-                    case true:
-                        checkBox_Checkupdate.Checked = true;
-                        break;
-                    case false:
-                        checkBox_Checkupdate.Checked = false;
-                        break;
+                    string splashPath = Utils.GetString("SplashImage_Path", string.Empty);
+                    textBox_Splashimg.Text = splashPath;
+                }
+                else
+                {
+                    textBox_Splashimg.Text = string.Empty;
                 }
 
-                switch (bool.Parse(Config.Entry["SmoothSamples"].Value))
+                // 旧モード / スプラッシュ非表示 / 高速ATRAC
+                checkBox_Oldmode.Checked = Utils.GetBool("Oldmode", false);
+                checkBox_Hidesplash.Checked = Utils.GetBool("HideSplash", false);
+                checkBox_FasterATRAC.Checked = Utils.GetBool("FasterATRAC", false);
+
+                // 固定変換
+                bool fixedConvert = Utils.GetBool("FixedConvert", false);
+                checkBox_Fixconvert.Checked = fixedConvert;
+                comboBox_Fixconvert.Enabled = fixedConvert;
+
+                if (fixedConvert)
                 {
-                    case true:
-                        checkBox_Smoothsamples.Checked = true;
-                        label_DSBuffers.Enabled = false;
-                        label_DSLatency.Enabled = false;
-                        label_WASAPILatencyS.Enabled = false;
-                        label_WASAPILatencyE.Enabled = false;
-                        comboBox_DSBuffers.Enabled = false;
-                        comboBox_DSLatencys.Enabled = false;
-                        comboBox_WASAPILatencysS.Enabled = false;
-                        comboBox_WASAPILatencysE.Enabled = false;
-                        break;
-                    case false:
-                        checkBox_Smoothsamples.Checked = false;
-                        label_DSBuffers.Enabled = true;
-                        label_DSLatency.Enabled = true;
-                        label_WASAPILatencyS.Enabled = true;
-                        label_WASAPILatencyE.Enabled = true;
-                        comboBox_DSBuffers.Enabled = true;
-                        comboBox_DSLatencys.Enabled = true;
-                        comboBox_WASAPILatencysS.Enabled = true;
-                        comboBox_WASAPILatencysE.Enabled = true;
-                        break;
+                    int convertType = Utils.GetInt("ConvertType", 0);
+                    if (convertType < 0 || convertType >= comboBox_Fixconvert.Items.Count)
+                    {
+                        convertType = 0;
+                    }
+                    comboBox_Fixconvert.SelectedIndex = convertType;
                 }
 
-                switch (bool.Parse(Config.Entry["PlaybackATRAC"].Value))
+                // WAV 強制変換 / ATRAC エンコードソース
+                checkBox_ForceConvertWaveOnly.Checked = Utils.GetBool("ForceConvertWaveOnly", false);
+                checkBox_ATRACEncodeSource.Checked = Utils.GetBool("ATRACEncodeSource", false);
+
+                // 保存先（通常 / 指定フォルダ）
+                bool saveIsManual = Utils.GetBool("Save_IsManual", false);
+                if (saveIsManual)
                 {
-                    case true:
-                        checkBox_EnableATRACPlayback.Checked = true;
-                        break;
-                    case false:
-                        checkBox_EnableATRACPlayback.Checked = false;
-                        break;
+                    radioButton_spc.Checked = true;
+                    radioButton_nml.Checked = false;
+
+                    label_IO_Path.Enabled = true;
+                    button_Clear.Enabled = true;
+                    button_Browse.Enabled = true;
+                    textBox_Path.Enabled = true;
+                    checkBox_Subfolder.Enabled = true;
+
+                    string saveFolder = Utils.GetString("Save_Isfolder", string.Empty);
+                    textBox_Path.Text = string.IsNullOrEmpty(saveFolder) ? null : saveFolder;
+
+                    bool saveIsSubfolder = Utils.GetBool("Save_IsSubfolder", false);
+                    if (saveIsSubfolder)
+                    {
+                        label_IO_SubfolderSuffix.Enabled = true;
+                        textBox_suffix.Enabled = true;
+                        checkBox_Subfolder.Checked = true;
+
+                        string suffix = Utils.GetString("Save_Subfolder_Suffix", string.Empty);
+                        textBox_suffix.Text = string.IsNullOrEmpty(suffix) ? null : suffix;
+                    }
+                    else
+                    {
+                        label_IO_SubfolderSuffix.Enabled = false;
+                        textBox_suffix.Text = null;
+                        textBox_suffix.Enabled = false;
+                        checkBox_Subfolder.Checked = false;
+                    }
+                }
+                else
+                {
+                    radioButton_spc.Checked = false;
+                    radioButton_nml.Checked = true;
+
+                    label_IO_Path.Enabled = false;
+                    label_IO_SubfolderSuffix.Enabled = false;
+                    button_Clear.Enabled = false;
+                    button_Browse.Enabled = false;
+                    textBox_Path.Text = null;
+                    textBox_Path.Enabled = false;
+                    textBox_suffix.Text = null;
+                    textBox_suffix.Enabled = false;
+                    checkBox_Subfolder.Checked = false;
+                    checkBox_Subfolder.Enabled = false;
                 }
 
-                switch (bool.Parse(Config.Entry["DisablePreviewWarning"].Value))
-                {
-                    case true:
-                        checkBox_DisablePreviewWarning.Checked = true;
-                        break;
-                    case false:
-                        checkBox_DisablePreviewWarning.Checked = false;
-                        break;
-                }
+                // 保存設定その他
+                checkBox_IO_SaveSourcesnest.Checked = Utils.GetBool("Save_NestFolderSource", false);
+                checkBox_SaveDeleteHzSuffix.Checked = Utils.GetBool("Save_DeleteHzSuffix", false);
+                checkBox_ShowFolder.Checked = Utils.GetBool("ShowFolder", true);
 
-                switch (bool.Parse(Config.Entry["SplashImage"].Value))
-                {
-                    case true:
-                        checkBox_Splashimg.Checked = true;
-                        textBox_Splashimg.Enabled = true;
-                        button_Splashimg.Enabled = true;
-                        if (!string.IsNullOrEmpty(Config.Entry["SplashImage_Path"].Value))
-                        {
-                            textBox_Splashimg.Text = Config.Entry["SplashImage_Path"].Value;
-                        }
-                        else
-                        {
-                            textBox_Splashimg.Text = string.Empty;
-                        }
-                        break;
-                    case false:
-                        checkBox_Splashimg.Checked = false;
-                        textBox_Splashimg.Enabled = false;
-                        button_Splashimg.Enabled = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["Oldmode"].Value))
-                {
-                    case true:
-                        checkBox_Oldmode.Checked = true;
-                        break;
-                    case false:
-                        checkBox_Oldmode.Checked = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["HideSplash"].Value))
-                {
-                    case true:
-                        checkBox_Hidesplash.Checked = true;
-                        break;
-                    case false:
-                        checkBox_Hidesplash.Checked = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["FasterATRAC"].Value))
-                {
-                    case true:
-                        checkBox_FasterATRAC.Checked = true;
-                        break;
-                    case false:
-                        checkBox_FasterATRAC.Checked = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["FixedConvert"].Value))
-                {
-                    case true:
-                        checkBox_Fixconvert.Checked = true;
-                        comboBox_Fixconvert.Enabled = true;
-                        comboBox_Fixconvert.SelectedIndex = int.Parse(Config.Entry["ConvertType"].Value) switch
-                        {
-                            0 => 0,
-                            1 => 1,
-                            2 => 2,
-                            3 => 3,
-                            _ => 0,
-                        };
-                        break;
-                    case false:
-                        checkBox_Fixconvert.Checked = false;
-                        comboBox_Fixconvert.Enabled = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["ForceConvertWaveOnly"].Value))
-                {
-                    case true:
-                        checkBox_ForceConvertWaveOnly.Checked = true;
-                        break;
-                    case false:
-                        checkBox_ForceConvertWaveOnly.Checked = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["ATRACEncodeSource"].Value))
-                {
-                    case true:
-                        checkBox_ATRACEncodeSource.Checked = true;
-                        break;
-                    case false:
-                        checkBox_ATRACEncodeSource.Checked = false;
-                        break;
-                }
-
-                switch (bool.Parse(Config.Entry["Save_IsManual"].Value))
-                {
-                    case true:
-                        {
-                            radioButton_spc.Checked = true;
-                            radioButton_nml.Checked = false;
-                            label_IO_Path.Enabled = true;
-                            button_Clear.Enabled = true;
-                            button_Browse.Enabled = true;
-                            textBox_Path.Enabled = true;
-                            checkBox_Subfolder.Enabled = true;
-
-                            if (Config.Entry["Save_Isfolder"].Value != "")
-                            {
-                                textBox_Path.Text = Config.Entry["Save_Isfolder"].Value;
-                            }
-                            else
-                            {
-                                textBox_Path.Text = null;
-                            }
-
-                            switch (bool.Parse(Config.Entry["Save_IsSubfolder"].Value))
-                            {
-                                case true:
-                                    {
-                                        label_IO_SubfolderSuffix.Enabled = true;
-                                        textBox_suffix.Enabled = true;
-                                        checkBox_Subfolder.Checked = true;
-
-                                        if (Config.Entry["Save_Subfolder_Suffix"].Value != "")
-                                        {
-                                            textBox_suffix.Text = Config.Entry["Save_Subfolder_Suffix"].Value;
-                                        }
-                                        else
-                                        {
-                                            textBox_suffix.Text = null;
-                                        }
-                                        break;
-                                    }
-                                case false:
-                                    {
-                                        label_IO_SubfolderSuffix.Enabled = false;
-                                        textBox_suffix.Text = null;
-                                        textBox_suffix.Enabled = false;
-                                        checkBox_Subfolder.Checked = false;
-                                        break;
-                                    }
-                            }
-
-                            break;
-                        }
-                    case false:
-                        {
-                            radioButton_spc.Checked = false;
-                            radioButton_nml.Checked = true;
-                            label_IO_Path.Enabled = false;
-                            label_IO_SubfolderSuffix.Enabled = false;
-                            button_Clear.Enabled = false;
-                            button_Browse.Enabled = false;
-                            textBox_Path.Text = null;
-                            textBox_Path.Enabled = false;
-                            textBox_suffix.Text = null;
-                            textBox_suffix.Enabled = false;
-                            checkBox_Subfolder.Checked = false;
-                            checkBox_Subfolder.Enabled = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["Save_NestFolderSource"].Value))
-                {
-                    case true:
-                        {
-                            checkBox_IO_SaveSourcesnest.Checked = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            checkBox_IO_SaveSourcesnest.Checked = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["Save_DeleteHzSuffix"].Value))
-                {
-                    case true:
-                        {
-                            checkBox_SaveDeleteHzSuffix.Checked = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            checkBox_SaveDeleteHzSuffix.Checked = false;
-                            break;
-                        }
-                }
-
-                switch (bool.Parse(Config.Entry["ShowFolder"].Value))
-                {
-                    case true:
-                        {
-                            checkBox_ShowFolder.Checked = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            checkBox_ShowFolder.Checked = false;
-                            break;
-                        }
-                }
-
-                switch (uint.Parse(Config.Entry["LPCPlaybackMethod"].Value))
+                // LPC 再生方法
+                int lpcPlaybackMethod = Utils.GetInt("LPCPlaybackMethod", 0);
+                switch (lpcPlaybackMethod)
                 {
                     case 0:
-                        {
-                            comboBox_LPCplayback.SelectedIndex = 0;
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
-                            break;
-                        }
+                        comboBox_LPCplayback.SelectedIndex = 0;
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        break;
                     case 1:
-                        {
-                            comboBox_LPCplayback.SelectedIndex = 1;
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
-                            break;
-                        }
+                        comboBox_LPCplayback.SelectedIndex = 1;
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        break;
                     case 2:
-                        {
-                            comboBox_LPCplayback.SelectedIndex = 2;
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
-                            break;
-                        }
+                        comboBox_LPCplayback.SelectedIndex = 2;
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        break;
                     case 3:
-                        {
-                            comboBox_LPCplayback.SelectedIndex = 3;
-                            label_LPC_ASIODriver.Enabled = true;
-                            comboBox_LPCASIODriver.Enabled = true;
-                            break;
-                        }
+                        comboBox_LPCplayback.SelectedIndex = 3;
+                        label_LPC_ASIODriver.Enabled = true;
+                        comboBox_LPCASIODriver.Enabled = true;
+                        break;
                     default:
-                        {
-                            comboBox_LPCplayback.SelectedIndex = 0;
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
-                            break;
-                        }
+                        comboBox_LPCplayback.SelectedIndex = 0;
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                        break;
                 }
 
-                switch (string.IsNullOrWhiteSpace(Config.Entry["LPCUseASIODriver"].Value))
+                // ASIO ドライバ名
+                string lpcAsioDriver = Utils.GetString("LPCUseASIODriver", string.Empty);
+                if (string.IsNullOrWhiteSpace(lpcAsioDriver))
                 {
-                    case true:
+                    label_LPC_ASIODriver.Enabled = false;
+                    comboBox_LPCASIODriver.Enabled = false;
+                }
+                else
+                {
+                    if (ASIODriverNotFound)
+                    {
+                        label_LPC_ASIODriver.Enabled = false;
+                        comboBox_LPCASIODriver.Enabled = false;
+                    }
+                    else
+                    {
+                        int count = 0;
+                        foreach (var obj in comboBox_LPCASIODriver.Items!)
                         {
-                            label_LPC_ASIODriver.Enabled = false;
-                            comboBox_LPCASIODriver.Enabled = false;
-                            break;
-                        }
-                    case false:
-                        {
-                            int count = 0;
-                            if (ASIODriverNotFound)
+                            if (lpcAsioDriver == comboBox_LPCASIODriver.Items[count]!.ToString())
                             {
-                                label_LPC_ASIODriver.Enabled = false;
-                                comboBox_LPCASIODriver.Enabled = false;
+                                comboBox_LPCASIODriver.SelectedIndex = count;
                                 break;
                             }
-                            else
-                            {
-                                foreach (var obj in comboBox_LPCASIODriver.Items!)
-                                {
-                                    if (Config.Entry["LPCUseASIODriver"].Value == comboBox_LPCASIODriver.Items[count]!.ToString())
-                                    {
-                                        comboBox_LPCASIODriver.SelectedIndex = count;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        count++;
-                                        continue;
-                                    }
-                                }
-                            }
-                            break;
+                            count++;
                         }
+                    }
                 }
 
-                switch (bool.Parse(Config.Entry["LPCMultipleStreamAlwaysWASAPIorASIO"].Value))
-                {
-                    case true:
-                        {
-                            checkBox_MultisoundDontDS.Checked = true;
-                            break;
-                        }
-                    case false:
-                        {
-                            checkBox_MultisoundDontDS.Checked = false;
-                            break;
-                        }
-                }
+                // マルチストリーム設定
+                bool lpcMultiAlwaysWasapiOrAsio = Utils.GetBool("LPCMultipleStreamAlwaysWASAPIorASIO", false);
+                checkBox_MultisoundDontDS.Checked = lpcMultiAlwaysWasapiOrAsio;
 
-                switch (uint.Parse(Config.Entry["LPCMultipleStreamPlaybackMethod"].Value))
+                int lpcMultiPlaybackMethod = Utils.GetInt("LPCMultipleStreamPlaybackMethod", 0);
+                switch (lpcMultiPlaybackMethod)
                 {
                     case 0:
-                        {
-                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
-                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
-                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
-                            break;
-                        }
+                        comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
+                        label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                        comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                        break;
                     case 1:
-                        {
-                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 1;
-                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
-                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
-                            break;
-                        }
+                        comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 1;
+                        label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                        comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                        break;
                     case 2:
-                        {
-                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 2;
-                            label_LPC_MultiplesourcePlaybackmode.Enabled = true;
-                            comboBox_LPCMultisourcePlaybackmode.Enabled = true;
-                            break;
-                        }
+                        comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 2;
+                        label_LPC_MultiplesourcePlaybackmode.Enabled = true;
+                        comboBox_LPCMultisourcePlaybackmode.Enabled = true;
+                        break;
                     default:
-                        {
-                            comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
-                            label_LPC_MultiplesourcePlaybackmode.Enabled = false;
-                            comboBox_LPCMultisourcePlaybackmode.Enabled = false;
-                            break;
-                        }
+                        comboBox_LPCMultisourcePlaybackmode.SelectedIndex = 0;
+                        label_LPC_MultiplesourcePlaybackmode.Enabled = false;
+                        comboBox_LPCMultisourcePlaybackmode.Enabled = false;
+                        break;
                 }
 
-                comboBox_DSBuffers.SelectedIndex = int.Parse(Config.Entry["DirectSoundBuffers"].Value);
-                comboBox_DSLatencys.SelectedIndex = int.Parse(Config.Entry["DirectSoundLatency"].Value);
-                comboBox_WASAPILatencysS.SelectedIndex = int.Parse(Config.Entry["WASAPILatencyShared"].Value);
-                comboBox_WASAPILatencysE.SelectedIndex = int.Parse(Config.Entry["WASAPILatencyExclusived"].Value);
-                comboBox_PlaybackThreadCounts.SelectedIndex = int.Parse(Config.Entry["PlaybackThreadCount"].Value);
+                // レイテンシ等のコンボボックス（範囲チェック付き）
+                int dsBuffers = Utils.GetInt("DirectSoundBuffers", 0);
+                if (dsBuffers < 0 || dsBuffers >= comboBox_DSBuffers.Items.Count) dsBuffers = 0;
+                comboBox_DSBuffers.SelectedIndex = dsBuffers;
+
+                int dsLatency = Utils.GetInt("DirectSoundLatency", 0);
+                if (dsLatency < 0 || dsLatency >= comboBox_DSLatencys.Items.Count) dsLatency = 0;
+                comboBox_DSLatencys.SelectedIndex = dsLatency;
+
+                int wspShared = Utils.GetInt("WASAPILatencyShared", 0);
+                if (wspShared < 0 || wspShared >= comboBox_WASAPILatencysS.Items.Count) wspShared = 0;
+                comboBox_WASAPILatencysS.SelectedIndex = wspShared;
+
+                int wspExclusive = Utils.GetInt("WASAPILatencyExclusived", 0);
+                if (wspExclusive < 0 || wspExclusive >= comboBox_WASAPILatencysE.Items.Count) wspExclusive = 0;
+                comboBox_WASAPILatencysE.SelectedIndex = wspExclusive;
+
+                int playbackThreads = Utils.GetInt("PlaybackThreadCount", 0);
+                if (playbackThreads < 0 || playbackThreads >= comboBox_PlaybackThreadCounts.Items.Count) playbackThreads = 0;
+                comboBox_PlaybackThreadCounts.SelectedIndex = playbackThreads;
+
+                // Parallel.ForEachを使用
+                bool Parallelmethod = Utils.GetBool("UseParallelMethod", false);
+                checkBox_Usepal.Checked = Parallelmethod;
+
+                // デバッグモード
+                if (AssemblyState.IsDebug)
+                {
+                    bool DebugMode = Utils.GetBool("Debugmode", false);
+                    checkBox_debug.Checked = DebugMode;
+                }
+                else
+                {
+#pragma warning disable CS0162 // 到達できないコードが検出されました
+                    checkBox_debug.Checked = false;
+#pragma warning restore CS0162 // 到達できないコードが検出されました
+                    checkBox_debug.Enabled = false;
+                }
 
                 FirstLoad = false;
             }
@@ -571,6 +431,24 @@ namespace ATRACTool_Reloaded
                 Config.Entry["Oldmode"].Value = "true";
             }
 
+            if (checkBox_debug.Checked != true)
+            {
+                Config.Entry["Debugmode"].Value = "false";
+            }
+            else
+            {
+                if (AssemblyState.IsDebug)
+                {
+                    Config.Entry["Debugmode"].Value = "true";
+                }
+                else
+                {
+#pragma warning disable CS0162 // 到達できないコードが検出されました
+                    Config.Entry["Debugmode"].Value = "false";
+#pragma warning restore CS0162 // 到達できないコードが検出されました
+                }
+            }
+
             if (checkBox_Hidesplash.Checked != true)
             {
                 Config.Entry["HideSplash"].Value = "false";
@@ -715,6 +593,15 @@ namespace ATRACTool_Reloaded
                 Config.Entry["WASAPILatencyExclusivedValue"].Value = comboBox_WASAPILatencysE.Text;
             }
 
+            if (checkBox_Usepal.Checked)
+            {
+                Config.Entry["UseParallelMethod"].Value = "true";
+            }
+            else
+            {
+                Config.Entry["UseParallelMethod"].Value = "false";
+            }
+
             Config.Entry["PlaybackThreadCount"].Value = comboBox_PlaybackThreadCounts.SelectedIndex.ToString();
 
             Config.Save(xmlpath);
@@ -811,14 +698,6 @@ namespace ATRACTool_Reloaded
         {
             switch (comboBox_Fixconvert.SelectedIndex)
             {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
                 default:
                     break;
             }
@@ -922,12 +801,7 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void tabPageAdvanced_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox_Smoothsamples_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_Smoothsamples_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_Smoothsamples.Checked)
             {
@@ -984,6 +858,11 @@ namespace ATRACTool_Reloaded
                 ASIODriverNotFound = false;
                 comboBox_LPCASIODriver.SelectedIndex = 0;
             }
+        }
+
+        private void FormPreferencesSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormMain.DebugInfo("[FormPreferencesSettings] Closed.");
         }
     }
 }

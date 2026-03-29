@@ -1032,6 +1032,9 @@
   <data name="&gt;&gt;dateTimePicker_Import.ZOrder" xml:space="preserve">
     <value>29</value>
   </data>
+  <data name="dateTimePicker_Release.CustomFormat" xml:space="preserve">
+    <value>yyyy</value>
+  </data>
   <data name="dateTimePicker_Release.Location" type="System.Drawing.Point, System.Drawing">
     <value>475, 90</value>
   </data>
@@ -1922,7 +1925,7 @@ TotalTracks</value>
     <value>Set Song Informations</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormSetWalkmanInformations</value>
+    <value>FormWalkmanInformations</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

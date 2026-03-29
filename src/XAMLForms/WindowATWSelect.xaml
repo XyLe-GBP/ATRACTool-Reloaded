@@ -1,0 +1,24 @@
+﻿<Window x:Class="ATRACTool_Reloaded.WindowATWSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ATRACTool_Reloaded"
+        mc:Ignorable="d"
+        Title="Specify the destination format" Height="100" Width="420" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid>
+        <Label x:Name="label_Format" Content="Format:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.116,-3.37" Width="75"/>
+        <ComboBox x:Name="combobox_Format" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="300">
+            <ComboBoxItem Content="Advanced Audio Coding (.m4a)"/>
+            <ComboBoxItem Content="AIFF (.aiff)"/>
+            <ComboBoxItem Content="Apple Lossless Audio Codec (.alac)"/>
+            <ComboBoxItem Content="Free Lossless Audio Codec (.flac)"/>
+            <ComboBoxItem Content="LAME (.mp3)"/>
+            <ComboBoxItem Content="RIFF waveform Audio Format (.wav)"/>
+            <ComboBoxItem Content="Vorbis (.ogg)"/>
+        </ComboBox>
+        <Button x:Name="Button_OK" Content="OK" HorizontalAlignment="Left" Margin="265,37,0,0" VerticalAlignment="Top" Width="60" Click="Button_OK_Click" IsDefault="True"/>
+        <Button x:Name="Button_Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="330,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.307,-0.308" Width="60" Click="Button_Cancel_Click" IsCancel="True"/>
+
+    </Grid>
+</Window>

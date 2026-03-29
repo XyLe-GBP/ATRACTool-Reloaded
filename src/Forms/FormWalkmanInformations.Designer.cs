@@ -1,6 +1,6 @@
 ﻿namespace ATRACTool_Reloaded
 {
-    partial class FormSetWalkmanInformations
+    partial class FormWalkmanInformations
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSetWalkmanInformations));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWalkmanInformations));
             button_Cancel = new Button();
             button_OK = new Button();
             groupBox_walkman_others = new GroupBox();
@@ -368,8 +368,10 @@
             // dateTimePicker_Release
             // 
             resources.ApplyResources(dateTimePicker_Release, "dateTimePicker_Release");
+            dateTimePicker_Release.Format = DateTimePickerFormat.Custom;
             dateTimePicker_Release.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             dateTimePicker_Release.Name = "dateTimePicker_Release";
+            dateTimePicker_Release.ShowUpDown = true;
             // 
             // textBox_Title
             // 
@@ -512,7 +514,7 @@
             resources.ApplyResources(label8, "label8");
             label8.Name = "label8";
             // 
-            // FormSetWalkmanInformations
+            // FormWalkmanInformations
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
@@ -523,9 +525,9 @@
             Controls.Add(button_OK);
             Controls.Add(button_Cancel);
             FormBorderStyle = FormBorderStyle.FixedDialog;
-            Name = "FormSetWalkmanInformations";
-            FormClosed += FormSetWalkmanInformations_FormClosed;
-            Load += FormSetWalkmanInformations_Load;
+            Name = "FormWalkmanInformations";
+            FormClosed += FormWalkmanInformations_FormClosed;
+            Load += FormWalkmanInformations_Load;
             groupBox_walkman_others.ResumeLayout(false);
             groupBox_walkman_others.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Jacket).EndInit();

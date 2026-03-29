@@ -125,16 +125,25 @@
     <value>输出方法：</value>
   </data>
   <data name="comboBox_method.Items" xml:space="preserve">
-    <value>[适用于ATRAC3+/ATRAC9] 44.1kHz（ATRAC3+最适合PSP）</value>
+    <value>[适用于ATRAC9] 8000Hz (仅限48000Hz)</value>
   </data>
   <data name="comboBox_method.Items1" xml:space="preserve">
-    <value>[适用于ATRAC3+/ATRAC9] 48kHz（ATRAC3+最适合PS3）</value>
+    <value>[适用于ATRAC9] 12000Hz (12000Hz, 48000Hz)</value>
   </data>
   <data name="comboBox_method.Items2" xml:space="preserve">
-    <value>[适用于ATRAC9] 12kHz</value>
+    <value>[适用于ATRAC9] 16000Hz (仅限48000Hz)</value>
   </data>
   <data name="comboBox_method.Items3" xml:space="preserve">
-    <value>[适用于ATRAC9] 24kHz</value>
+    <value>[适用于ATRAC9] 24000Hz (24000Hz, 48000Hz)</value>
+  </data>
+  <data name="comboBox_method.Items4" xml:space="preserve">
+    <value>[适用于ATRAC9] 32000Hz (仅限48000Hz)</value>
+  </data>
+  <data name="comboBox_method.Items5" xml:space="preserve">
+    <value>[适用于ATRAC3+/ATRAC9] 44100Hz (ATRAC3+时兼容PSP) (ATRAC9仅限48000Hz)</value>
+  </data>
+  <data name="comboBox_method.Items6" xml:space="preserve">
+    <value>[适用于ATRAC3+/ATRAC9] 48000Hz (ATRAC3+时兼容PSP) (ATRAC9仅限48000Hz)</value>
   </data>
   <data name="comboBox_method.Location" type="System.Drawing.Point, System.Drawing">
     <value>85, 6</value>

@@ -83,14 +83,17 @@ namespace ATRACTool_Reloaded
         {
             InitializeComponent();
 
+            FormMain.DebugInfo("[FormSettings] Initialized.");
             if (LPCEnable)
             {
                 LPCUIDisabled();
                 Setloopingpoint = true;
+                FormMain.DebugInfo("[FormSettings] call LPCUIDisabled(). Setloopingpoint=true");
             }
             else
             {
                 Setloopingpoint = false;
+                FormMain.DebugInfo("[FormSettings] Setloopingpoint=false");
             }
         }
 
@@ -1159,6 +1162,15 @@ namespace ATRACTool_Reloaded
                 label_Outputformat.Enabled = true;
                 comboBox_DecodeFormats.Enabled = true;
                 comboBox_OutputFormats.Enabled = true;
+            }
+
+            if (Utils.GetBool("Walkman_Unattended", false))
+            {
+                checkBox_Unattended.Checked = true;
+            }
+            else
+            {
+                checkBox_Unattended.Checked = false;
             }
 
             if (Config.Entry["Walkman_EveryFmt_OutputFmt"].Value is not null)
@@ -2493,6 +2505,21 @@ namespace ATRACTool_Reloaded
             Common.Config.Entry["ATRAC3_Bitrate"].Value = comboBox_at3_encmethod.SelectedIndex.ToString();
             Common.Config.Entry["ATRAC9_Bitrate"].Value = comboBox_at9_bitrate.SelectedIndex.ToString();
             Common.Config.Entry["ATRAC9_Sampling"].Value = comboBox_at9_sampling.SelectedIndex.ToString();
+            switch (comboBox_at9_sampling.SelectedIndex)
+            {
+                case 0:
+                    Config.Entry["ATRAC9_SamplingValue"].Value = "12000";
+                    break;
+                case 1:
+                    Config.Entry["ATRAC9_SamplingValue"].Value = "24000";
+                    break;
+                case 2:
+                    Config.Entry["ATRAC9_SamplingValue"].Value = "48000";
+                    break;
+                default:
+                    Config.Entry["ATRAC9_SamplingValue"].Value = "48000";
+                    break;
+            }
 
             if (checkBox_at3_loopsound.Checked != false)
             {
@@ -2661,36 +2688,54 @@ namespace ATRACTool_Reloaded
                 Config.Entry["Walkman_EveryFmt"].Value = "false";
             }
 
+            if (checkBox_Unattended.Checked)
+            {
+                Config.Entry["Walkman_Unattended"].Value = "true";
+            }
+            else
+            {
+                Config.Entry["Walkman_Unattended"].Value = "false";
+            }
+
             Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value = comboBox_DecodeFormats.SelectedIndex.ToString();
             Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = comboBox_OutputFormats.SelectedIndex.ToString();
             switch (comboBox_OutputFormats.SelectedIndex)
             {
                 case 0:
                     Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
+                    Config.Entry["Walkman_FileType"].Value = "PCM";
                     break;
                 case 1:
                     Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
+                    Config.Entry["Walkman_FileType"].Value = "OMA3";
                     break;
                 case 2:
                     Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
+                    Config.Entry["Walkman_FileType"].Value = "OMG3";
                     break;
                 case 3:
                     Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
+                    Config.Entry["Walkman_FileType"].Value = "AAL3";
                     break;
                 case 4:
                     Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
+                    Config.Entry["Walkman_FileType"].Value = "KDR3";
                     break;
                 case 5:
                     Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
+                    Config.Entry["Walkman_FileType"].Value = "OMAP";
                     break;
                 case 6:
                     Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
+                    Config.Entry["Walkman_FileType"].Value = "OMGP";
                     break;
                 case 7:
                     Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
+                    Config.Entry["Walkman_FileType"].Value = "AALP";
                     break;
                 case 8:
                     Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
+                    Config.Entry["Walkman_FileType"].Value = "KDRP";
                     break;
             }
 
@@ -3777,6 +3822,11 @@ namespace ATRACTool_Reloaded
         private void groupBox_walkman_others_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void FormSettings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormMain.DebugInfo("[FormSettings] Closed.");
         }
     }
 }

@@ -1,9 +1,13 @@
-﻿using static ATRACTool_Reloaded.Common;
+﻿using System.IO;
+using static ATRACTool_Reloaded.Common;
 
 namespace ATRACTool_Reloaded
 {
-    public partial class FormSetWalkmanInformations : Form
+    public partial class FormWalkmanInformations : Form
     {
+        private readonly InputJob _job;
+        private readonly WalkmanMeta _metaBackup;
+
         private string walkmanfmt = null!;
         private string title = null!;
         private string sorttitle = null!;
@@ -36,530 +40,111 @@ namespace ATRACTool_Reloaded
 
         bool iseveryfmt = false;
 
-        public FormSetWalkmanInformations()
+        public FormWalkmanInformations(InputJob job)
         {
             InitializeComponent();
-
-            FormMain.DebugInfo("[FormSetWalkmanInformations] Initialized.");
+            FormMain.DebugInfo("[FormWalkmanInformations] Initialized.");
+            _job = job ?? throw new ArgumentNullException(nameof(job));
+            _metaBackup = _job.Meta.Clone(); // Clone を用意（後述）
         }
 
-        private void FormSetWalkmanInformations_Load(object sender, EventArgs e)
+        private void FormWalkmanInformations_Load(object sender, EventArgs e)
         {
-            Config.Load(xmlpath);
+            // ここで Config を読まない（責務を切る）
+            // Config のデフォルト適用は BuildInputJobsFromPaths / PopulateWalkmanMetaFromOrigin 側に寄せる
 
-            iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
-            if (iseveryfmt)
-            {
-                button_Cancel.Enabled = false;
-            }
+            // 画面へ反映
+            textBox_Title.Text = _job.Meta.Title ?? "";
+            textBox_SortTitle.Text = _job.Meta.SortTitle ?? "";
+            textBox_Artist.Text = _job.Meta.Artist ?? "";
+            textBox_SortArtist.Text = _job.Meta.SortArtist ?? "";
+            textBox_Album.Text = _job.Meta.Album ?? "";
+            textBox_SortAlbum.Text = _job.Meta.SortAlbum ?? "";
+            textBox_AlbumArtist.Text = _job.Meta.AlbumArtist ?? "";
+            textBox_SortAlbumArtist.Text = _job.Meta.SortAlbumArtist ?? "";
+            textBox_Genre.Text = _job.Meta.Genre ?? "";
+            textBox_Composer.Text = _job.Meta.Composer ?? "";
+            textBox_Lyricist.Text = _job.Meta.Lyricist ?? "";
+            textBox_TrackNumber.Text = _job.Meta.TrackNumber ?? "";
+            textBox_TotalTracks.Text = _job.Meta.TotalTracks ?? "";
 
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_FileType"].Value))
+            // ★ReleaseYear (string) → dateTimePicker_Release (DateTimePicker)
+            if (int.TryParse(_job.Meta.ReleaseYear, out int y) && y >= 1 && y <= 9999)
             {
-                walkmanfmt = "";
+                // 年だけ使う（1/1固定）
+                dateTimePicker_Release.Value = new DateTime(y, 1, 1);
+                dateTimePicker_Release.Checked = true; // ShowCheckBox を使っている場合
             }
             else
             {
-                walkmanfmt = BuildStrOpt("--FileType", Config.Entry["Walkman_FileType"].Value);
+                // 未設定扱い
+                dateTimePicker_Release.Value = new DateTime(DateTime.Now.Year, 1, 1);
+
+                // ShowCheckBox を使っているなら未チェックで「未設定」を表現できる
+                if (dateTimePicker_Release.ShowCheckBox)
+                    dateTimePicker_Release.Checked = false;
             }
 
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Bitrate"].Value))
+            if (int.TryParse(_job.Meta.Import, out int i) && i >= 1 && i <= 9999)
             {
-                bitrates = " --Bitrate -1";
-                textBox_Bitrates.Text = "-1";
+                // 年だけ使う（1/1固定）
+                dateTimePicker_Import.Value = new DateTime(i, 1, 1);
+                dateTimePicker_Import.Checked = true; // ShowCheckBox を使っている場合
             }
             else
             {
-                textBox_Bitrates.Text = Config.Entry["Walkman_Bitrate"].Value;
-                //bitrates = " --Bitrate " + textBox_Bitrates.Text;
-                bitrates = BuildNumOpt("--Bitrate", textBox_Bitrates.Text);
+                // 未設定扱い
+                dateTimePicker_Import.Value = new DateTime(DateTime.Now.Year, 1, 1);
+
+                // ShowCheckBox を使っているなら未チェックで「未設定」を表現できる
+                if (dateTimePicker_Import.ShowCheckBox)
+                    dateTimePicker_Import.Checked = false;
             }
 
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Title"].Value))
-            {
-                title = "";
-                textBox_Title.Text = "";
-            }
-            else
-            {
-                textBox_Title.Text = Config.Entry["Walkman_Title"].Value;
-                //title = " --Title " + textBox_Title.Text;
-                title = BuildStrOpt("--Title", textBox_Title.Text);
-            }
+            // 任意：フォームのタイトル/ラベルに表示名
+            this.Text = $"Walkman Metadata - {_job.DisplayName}";
 
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortTitle"].Value))
-            {
-                sorttitle = "";
-                textBox_SortTitle.Text = "";
-            }
-            else
-            {
-                textBox_SortTitle.Text = Config.Entry["Walkman_SortTitle"].Value;
-                sorttitle = BuildStrOpt("--SortTitle", textBox_SortTitle.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SubTitle"].Value))
-            {
-                subtitle = "";
-                textBox_Subtitle.Text = "";
-            }
-            else
-            {
-                textBox_Subtitle.Text = Config.Entry["Walkman_SubTitle"].Value;
-                subtitle = BuildStrOpt("--Subtitle", textBox_Subtitle.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortSubTitle"].Value))
-            {
-                sortsubtitle = "";
-                textBox_SortSubtitle.Text = "";
-            }
-            else
-            {
-                textBox_SortSubtitle.Text = Config.Entry["Walkman_SortSubTitle"].Value;
-                sortsubtitle = BuildStrOpt("--SortSubtitle", textBox_SortSubtitle.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Artist"].Value))
-            {
-                artist = "";
-                textBox_Artist.Text = "";
-            }
-            else
-            {
-                textBox_Artist.Text = Config.Entry["Walkman_Artist"].Value;
-                artist = BuildStrOpt("--Artist", textBox_Artist.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortArtist"].Value))
-            {
-                sortartist = "";
-                textBox_SortArtist.Text = "";
-            }
-            else
-            {
-                textBox_SortArtist.Text = Config.Entry["Walkman_SortArtist"].Value;
-                sortartist = BuildStrOpt("--SortArtist", textBox_SortArtist.Text);
-            }
-
-            /*if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_ArtistURL"].Value))
-            {
-                artisturl = "";
-                textBox_ArtistURL.Text = "";
-            }
-            else
-            {
-                textBox_ArtistURL.Text = Config.Entry["Walkman_ArtistURL"].Value;
-                artisturl = textBox_ArtistURL.Text;
-            }*/
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Album"].Value))
-            {
-                album = "";
-                textBox_Album.Text = "";
-            }
-            else
-            {
-                textBox_Album.Text = Config.Entry["Walkman_Album"].Value;
-                album = BuildStrOpt("--Album", textBox_Album.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortAlbum"].Value))
-            {
-                sortalbum = "";
-                textBox_SortAlbum.Text = "";
-            }
-            else
-            {
-                textBox_SortAlbum.Text = Config.Entry["Walkman_SortAlbum"].Value;
-                sortalbum = BuildStrOpt("--SortAlbum", textBox_SortAlbum.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_AlbumArtist"].Value))
-            {
-                albumartist = "";
-                textBox_AlbumArtist.Text = "";
-            }
-            else
-            {
-                textBox_AlbumArtist.Text = Config.Entry["Walkman_AlbumArtist"].Value;
-                albumartist = BuildStrOpt("--AlbumArtist", textBox_AlbumArtist.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_SortAlbumArtist"].Value))
-            {
-                sortalbumartist = "";
-                textBox_SortAlbumArtist.Text = "";
-            }
-            else
-            {
-                textBox_SortAlbumArtist.Text = Config.Entry["Walkman_SortAlbumArtist"].Value;
-                sortalbumartist = BuildStrOpt("--SortAlbumArtist", textBox_SortAlbumArtist.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Genre"].Value))
-            {
-                genre = "";
-                textBox_Genre.Text = "";
-            }
-            else
-            {
-                textBox_Genre.Text = Config.Entry["Walkman_Genre"].Value;
-                genre = BuildStrOpt("--Genre", textBox_Genre.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Composer"].Value))
-            {
-                composer = "";
-                textBox_Composer.Text = "";
-            }
-            else
-            {
-                textBox_Composer.Text = Config.Entry["Walkman_Composer"].Value;
-                composer = BuildStrOpt("--Composer", textBox_Composer.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Lyricist"].Value))
-            {
-                lyricist = "";
-                textBox_Lyricist.Text = "";
-            }
-            else
-            {
-                textBox_Lyricist.Text = Config.Entry["Walkman_Lyricist"].Value;
-                lyricist = BuildStrOpt("--Lyricist", textBox_Lyricist.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_TrackNumber"].Value))
-            {
-                tracknumber = "";
-                textBox_TrackNumber.Text = "";
-            }
-            else
-            {
-                textBox_TrackNumber.Text = Config.Entry["Walkman_TrackNumber"].Value;
-                tracknumber = BuildNumOpt("--TrackNumber", textBox_TrackNumber.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_TotalTracks"].Value))
-            {
-                totaltracks = "";
-                textBox_TotalTracks.Text = "";
-            }
-            else
-            {
-                textBox_TotalTracks.Text = Config.Entry["Walkman_TotalTracks"].Value;
-                totaltracks = BuildNumOpt("--TotalTracks", textBox_TotalTracks.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Release"].Value))
-            {
-                release = " --Release " + DateTime.Now.ToShortDateString().ToString();
-                dateTimePicker_Release.Value = DateTime.Now;
-            }
-            else
-            {
-                dateTimePicker_Release.Value = DateTime.Parse(Config.Entry["Walkman_Release"].Value);
-                release = BuildStrOpt("--Release", dateTimePicker_Release.Value.ToShortDateString().ToString());
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Import"].Value))
-            {
-                import = " --Import " + DateTime.Now.ToShortDateString().ToString();
-                dateTimePicker_Import.Value = DateTime.Now;
-            }
-            else
-            {
-                dateTimePicker_Import.Value = DateTime.Parse(Config.Entry["Walkman_Import"].Value);
-                import = BuildStrOpt("--Import", dateTimePicker_Import.Value.ToShortDateString().ToString());
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Duration"].Value))
-            {
-                duration = "";
-                textBox_Duration.Text = "";
-            }
-            else
-            {
-                textBox_Duration.Text = Config.Entry["Walkman_Duration"].Value;
-                duration = BuildNumOpt("--Duration", textBox_Duration.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_MilliSecond"].Value))
-            {
-                milliseconds = "";
-                textBox_MilliSecond.Text = "";
-            }
-            else
-            {
-                textBox_MilliSecond.Text = Config.Entry["Walkman_MilliSecond"].Value;
-                milliseconds = BuildNumOpt("--MilliSecond", textBox_MilliSecond.Text);
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Lyrics"].Value))
-            {
-                lyrics = "";
-                label_Lyricspath.Text = "";
-            }
-            else
-            {
-                lyrics = Config.Entry["Walkman_Lyrics"].Value;
-                label_Lyricspath.Text = Config.Entry["Walkman_Lyrics"].Value.Replace(" --Lyrics \"", "").Replace("\"", "");
-            }
-
-            if (Config.Entry["Walkman_LyricsMode"].Value is not null)
-            {
-                comboBox_Lyricsmode.SelectedIndex = int.Parse(Config.Entry["Walkman_LyricsMode"].Value);
-            }
-            else
-            {
-                comboBox_Lyricsmode.SelectedIndex = 3;
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_LinerNotes"].Value))
-            {
-                linernotes = "";
-                label_Linerpath.Text = "";
-            }
-            else
-            {
-                linernotes = Config.Entry["Walkman_LinerNotes"].Value;
-                label_Linerpath.Text = Config.Entry["Walkman_LinerNotes"].Value.Replace(" --LinerNotes \"", "").Replace("\"", "");
-            }
-
-            if (Config.Entry["Walkman_LinerNotesMode"].Value is not null)
-            {
-                comboBox_Linermode.SelectedIndex = int.Parse(Config.Entry["Walkman_LinerNotesMode"].Value);
-            }
-            else
-            {
-                comboBox_Linermode.SelectedIndex = 3;
-            }
-
-            if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Jacket"].Value))
-            {
-                jacket = "";
-                label_Jacketpath.Text = "";
-            }
-            else
-            {
-                jacket = Config.Entry["Walkman_Jacket"].Value;
-                label_Jacketpath.Text = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
-                pictureBox_Jacket.ImageLocation = Config.Entry["Walkman_Jacket"].Value.Replace(" --Jacket \"", "").Replace("\"", "");
-            }
-
-            if (Config.Entry["Walkman_JacketMode"].Value is not null)
-            {
-                comboBox_Jacketmode.SelectedIndex = int.Parse(Config.Entry["Walkman_JacketMode"].Value);
-            }
-            else
-            {
-                comboBox_Jacketmode.SelectedIndex = 3;
-            }
-
-            var src = Common.Generic.CurrentWalkmanInputFile;
-            if (!string.IsNullOrWhiteSpace(src))
-            {
-                if (Common.Utils.TryReadTagsAny(src, out var t))
-                {
-                    // 既存入力が空の項目だけ埋める（ユーザーが固定値を入れている場合を尊重）
-                    if (string.IsNullOrWhiteSpace(textBox_Title.Text)) textBox_Title.Text = t.Title ?? "";
-                    if (string.IsNullOrWhiteSpace(textBox_Artist.Text)) textBox_Artist.Text = t.Artist ?? "";
-                    if (string.IsNullOrWhiteSpace(textBox_Album.Text)) textBox_Album.Text = t.Album ?? "";
-                    if (string.IsNullOrWhiteSpace(textBox_Genre.Text)) textBox_Genre.Text = t.Genre ?? "";
-                    if (string.IsNullOrWhiteSpace(textBox_TrackNumber.Text)) textBox_TrackNumber.Text = t.TrackNumber ?? "";
-                    if (string.IsNullOrWhiteSpace(textBox_TotalTracks.Text)) textBox_TotalTracks.Text = t.TotalTracks ?? "";
-                }
-            }
+            // ★追加：JacketPath → pictureBox/label に反映
+            ApplyJacketToUIFromMeta();
         }
 
         private void Button_OK_Click(object sender, EventArgs e)
         {
+            // job.Meta へ書き戻す
+            _job.Meta.Title = textBox_Title.Text?.Trim() ?? "";
+            _job.Meta.SortTitle = textBox_SortTitle.Text?.Trim() ?? "";
+            _job.Meta.Artist = textBox_Artist.Text?.Trim() ?? "";
+            _job.Meta.SortArtist = textBox_SortArtist.Text?.Trim() ?? "";
+            _job.Meta.Album = textBox_Album.Text?.Trim() ?? "";
+            _job.Meta.SortAlbum = textBox_SortAlbum.Text?.Trim() ?? "";
+            _job.Meta.AlbumArtist = textBox_AlbumArtist.Text?.Trim() ?? "";
+            _job.Meta.SortAlbumArtist = textBox_SortAlbumArtist.Text?.Trim() ?? "";
+            _job.Meta.Genre = textBox_Genre.Text?.Trim() ?? "";
+            _job.Meta.Composer = textBox_Composer.Text?.Trim() ?? "";
+            _job.Meta.Lyricist = textBox_Lyricist.Text?.Trim() ?? "";
 
-            if (string.IsNullOrWhiteSpace(textBox_Bitrates.Text))
+            // 数値系は “空なら空” を許容（traconv 引数化は後段で）
+            _job.Meta.TrackNumber = textBox_TrackNumber.Text?.Trim() ?? "";
+            _job.Meta.TotalTracks = textBox_TotalTracks.Text?.Trim() ?? "";
+
+            // ★dateTimePicker_Release → ReleaseYear
+            if (dateTimePicker_Release.ShowCheckBox && !dateTimePicker_Release.Checked)
             {
-                Config.Entry["Walkman_Bitrate"].Value = "-1";
+                _job.Meta.ReleaseYear = ""; // 未設定
             }
             else
             {
-                Config.Entry["Walkman_Bitrate"].Value = textBox_Bitrates.Text;
+                _job.Meta.ReleaseYear = dateTimePicker_Release.Value.Year.ToString();
             }
 
-            // Walkman Tags
-            if (string.IsNullOrWhiteSpace(textBox_Title.Text))
+            if (dateTimePicker_Import.ShowCheckBox && !dateTimePicker_Import.Checked)
             {
-                Config.Entry["Walkman_Title"].Value = "";
+                _job.Meta.Import = ""; // 未設定
             }
             else
             {
-                Config.Entry["Walkman_Title"].Value = textBox_Title.Text;
+                _job.Meta.Import = dateTimePicker_Import.Value.Year.ToString();
             }
-
-            if (string.IsNullOrWhiteSpace(textBox_SortTitle.Text))
-            {
-                Config.Entry["Walkman_SortTitle"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SortTitle"].Value = textBox_SortTitle.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_Subtitle.Text))
-            {
-                Config.Entry["Walkman_SubTitle"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SubTitle"].Value = textBox_Subtitle.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_SortSubtitle.Text))
-            {
-                Config.Entry["Walkman_SortSubTitle"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SortSubTitle"].Value = textBox_SortSubtitle.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_Artist.Text))
-            {
-                Config.Entry["Walkman_Artist"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Artist"].Value = textBox_Artist.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_SortArtist.Text))
-            {
-                Config.Entry["Walkman_SortArtist"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SortArtist"].Value = textBox_SortArtist.Text;
-            }
-
-            /*if (string.IsNullOrWhiteSpace(textBox_ArtistURL.Text))
-            {
-                Config.Entry["Walkman_ArtistURL"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_ArtistURL"].Value = textBox_ArtistURL.Text;
-            }*/
-
-            if (string.IsNullOrWhiteSpace(textBox_Album.Text))
-            {
-                Config.Entry["Walkman_Album"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Album"].Value = textBox_Album.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_SortAlbum.Text))
-            {
-                Config.Entry["Walkman_SortAlbum"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SortAlbum"].Value = textBox_SortAlbum.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_AlbumArtist.Text))
-            {
-                Config.Entry["Walkman_AlbumArtist"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_AlbumArtist"].Value = textBox_AlbumArtist.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_SortAlbumArtist.Text))
-            {
-                Config.Entry["Walkman_SortAlbumArtist"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_SortAlbumArtist"].Value = textBox_SortAlbumArtist.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_Genre.Text))
-            {
-                Config.Entry["Walkman_Genre"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Genre"].Value = textBox_Genre.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_Composer.Text))
-            {
-                Config.Entry["Walkman_Composer"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Composer"].Value = textBox_Composer.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_Lyricist.Text))
-            {
-                Config.Entry["Walkman_Lyricist"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Lyricist"].Value = textBox_Lyricist.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_TrackNumber.Text))
-            {
-                Config.Entry["Walkman_TrackNumber"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_TrackNumber"].Value = textBox_TrackNumber.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_TotalTracks.Text))
-            {
-                Config.Entry["Walkman_TotalTracks"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_TotalTracks"].Value = textBox_TotalTracks.Text;
-            }
-
-            Config.Entry["Walkman_Release"].Value = dateTimePicker_Release.Value.ToShortDateString();
-            Config.Entry["Walkman_Import"].Value = dateTimePicker_Import.Value.ToShortDateString();
-
-            if (string.IsNullOrWhiteSpace(textBox_Duration.Text))
-            {
-                Config.Entry["Walkman_Duration"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_Duration"].Value = textBox_Duration.Text;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBox_MilliSecond.Text))
-            {
-                Config.Entry["Walkman_MilliSecond"].Value = "";
-            }
-            else
-            {
-                Config.Entry["Walkman_MilliSecond"].Value = textBox_MilliSecond.Text;
-            }
-
-            Config.Entry["Walkman_Lyrics"].Value = lyrics;
-            Config.Entry["Walkman_LyricsMode"].Value = comboBox_Lyricsmode.SelectedIndex.ToString();
-            Config.Entry["Walkman_LinerNotes"].Value = linernotes;
-            Config.Entry["Walkman_LinerNotesMode"].Value = comboBox_Linermode.SelectedIndex.ToString();
-            Config.Entry["Walkman_Jacket"].Value = jacket;
-            Config.Entry["Walkman_JacketMode"].Value = comboBox_Jacketmode.SelectedIndex.ToString();
-
-            Config.Entry["Walkman_Params"].Value = paramWalkman;
-
-            Config.Save(xmlpath);
 
             Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
             DialogResult = DialogResult.OK;
@@ -568,8 +153,48 @@ namespace ATRACTool_Reloaded
 
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            var dr = MessageBox.Show(this, Localizable.Localization.WalkmanMetadataConfirmCaption, Localizable.Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.Cancel)
+                return;
+
+            if (dr == DialogResult.No)
+            {
+                // 変換中止
+                // ★ユーザー中止をジョブに記録
+                _job.UserCancelled = true;
+                DialogResult = DialogResult.Cancel;
+                Close();
+                return;
+            }
+
+            // Yes：タグ無しで続行（Meta 自体は差し替えず、中身だけ消す）
+            _job.Meta.ClearTagFieldsKeepRequired();
+
+            DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void ApplyJacketToUIFromMeta()
+        {
+            // 既存画像を解放（あなたの Common.Utils.PictureboxImageDispose がある前提）
+            Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
+
+            string path = _job.Meta.JacketPath?.Trim() ?? "";
+            if (path.Length == 0 || !System.IO.File.Exists(path))
+            {
+                label_Jacketpath.Text = "";
+                return;
+            }
+
+            label_Jacketpath.Text = path;
+
+            // ★ファイルロック回避：ImageLocation を使わず、メモリに読み込んでから閉じる
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var img = Image.FromStream(fs))
+            {
+                pictureBox_Jacket.Image = new Bitmap(img);
+            }
         }
 
         private string RefleshParamWalkman()
@@ -857,6 +482,11 @@ namespace ATRACTool_Reloaded
                 jacket = " --Jacket \"" + ofd.FileName + "\"";
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
+
+                _job.Meta.JacketPath = ofd.FileName;
+                _job.Meta.JacketMode = "Picture"; // あるいは "Auto"。あなたの traconv 仕様に合わせる
+
+                ApplyJacketToUIFromMeta();
             }
             else
             {
@@ -865,6 +495,10 @@ namespace ATRACTool_Reloaded
                 jacket = "";
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
+
+                _job.Meta.JacketPath = "";
+                _job.Meta.JacketMode = "Auto";
+                ApplyJacketToUIFromMeta();
             }
         }
 
@@ -1123,9 +757,60 @@ namespace ATRACTool_Reloaded
             return " " + key + " " + value.Trim();
         }
 
-        private void FormSetWalkmanInformations_FormClosed(object sender, FormClosedEventArgs e)
+        private void LoadMetaToControls(WalkmanMeta m)
         {
-            FormMain.DebugInfo("[FormSetWalkmanInformations] Closed.");
+            textBox_Title.Text = m.Title ?? "";
+            textBox_SortTitle.Text = m.SortTitle ?? "";
+            textBox_Artist.Text = m.Artist ?? "";
+            textBox_SortArtist.Text = m.SortArtist ?? "";
+            textBox_Album.Text = m.Album ?? "";
+            textBox_SortAlbum.Text = m.SortAlbum ?? "";
+            textBox_AlbumArtist.Text = m.AlbumArtist ?? "";
+            textBox_SortAlbumArtist.Text = m.SortAlbumArtist ?? "";
+            textBox_Genre.Text = m.Genre ?? "";
+            textBox_Composer.Text = m.Composer ?? "";
+            textBox_Lyricist.Text = m.Lyricist ?? "";
+            textBox_TrackNumber.Text = m.TrackNumber ?? "";
+            textBox_TotalTracks.Text = m.TotalTracks ?? "";
+
+            // DateTimePicker の場合（あなたの修正済みの系）
+            if (DateTime.TryParse(m.Import, out var imp)) dateTimePicker_Import.Value = imp;
+            if (int.TryParse(m.ReleaseYear, out var y)) dateTimePicker_Release.Value = new DateTime(y, 1, 1);
+
+            pictureBox_Jacket.ImageLocation = m.JacketPath ?? "";
+            //comboBox_FileType.Text = string.IsNullOrWhiteSpace(m.FileType) ? "OMA3" : m.FileType;
+        }
+
+        private void SaveControlsToMeta(WalkmanMeta m)
+        {
+            m.Title = textBox_Title.Text.Trim();
+            m.SortTitle = textBox_SortTitle.Text.Trim();
+            m.Artist = textBox_Artist.Text.Trim();
+            m.SortArtist = textBox_SortArtist.Text.Trim();
+            m.Album = textBox_Album.Text.Trim();
+            m.SortAlbum = textBox_SortAlbum.Text.Trim();
+            m.AlbumArtist = textBox_AlbumArtist.Text.Trim();
+            m.SortAlbumArtist = textBox_SortAlbumArtist.Text.Trim();
+            m.Genre = textBox_Genre.Text.Trim();
+            m.Composer = textBox_Composer.Text.Trim();
+            m.Lyricist = textBox_Lyricist.Text.Trim();
+            m.TrackNumber = textBox_TrackNumber.Text.Trim();
+            m.TotalTracks = textBox_TotalTracks.Text.Trim();
+
+            m.Import = dateTimePicker_Import.Value.ToString("yyyy/MM/dd");
+            m.ReleaseYear = dateTimePicker_Release.Value.Year.ToString();
+
+            // Jacket は UI の選択結果をそのまま（あなたの抽出済み temp を使う）
+            m.JacketPath = pictureBox_Jacket.ImageLocation ?? "";
+
+            // ★必須：FileType
+            //m.FileType = comboBox_FileType.Text.Trim();
+            if (string.IsNullOrWhiteSpace(m.FileType)) m.FileType = "OMA3";
+        }
+
+        private void FormWalkmanInformations_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormMain.DebugInfo("[FormWalkmanInformations] Closed.");
         }
     }
 }

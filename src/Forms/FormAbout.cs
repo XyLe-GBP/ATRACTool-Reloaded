@@ -23,36 +23,42 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Common.Utils.OpenURI("https://github.com/AydinAdn/MediaToolkit");
             return;
         }
 
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Common.Utils.OpenURI("https://github.com/XyLe-GBP");
             return;
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Common.Utils.OpenURI("https://xyle-official.com");
             return;
         }
 
-        private void button_OK_Click(object sender, EventArgs e)
+        private void LinkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Common.Utils.OpenURI("https://secure.xyle-official.com/payment/donate/");
+            return;
+        }
+
+        private void Button_OK_Click(object sender, EventArgs e)
         {
             Close();
             return;
         }
 
-        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        private void PictureBox2_Paint(object sender, PaintEventArgs e)
         {
             try
             {
                 base.OnPaint(e);
-                Bitmap canvas = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                Bitmap canvas = new(pictureBox2.Width, pictureBox2.Height);
                 Graphics g = Graphics.FromImage(canvas);
                 GraphicsPath gp = new();
                 gp.AddEllipse(g.VisibleClipBounds);
