@@ -1854,6 +1854,7 @@ namespace ATRACTool_Reloaded
 
         private void FormProgress_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Generic.ProcessFlag = Constants.ProcessType.None;
             FormMain.DebugInfo("[FormProgress] Closed.");
         }
     }
