@@ -100,6 +100,7 @@ namespace ATRACTool_Reloaded
         private void FormSettings_Load(object sender, EventArgs e)
         {
             Common.Config.Load(Common.xmlpath);
+            comboBox_at3_encmethod.DropDownWidth = 300;
 
             comboBox_at9_enctype.SelectedIndex = 5;
             comboBox_at9_startband.SelectedIndex = 0;
@@ -127,20 +128,7 @@ namespace ATRACTool_Reloaded
                 case 0:
                     radioButton_PSP.Checked = true;
                     comboBox_at3_encmethod.Items.Clear();
-                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("52kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("105kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("132kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("192kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("256kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("320kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("352kbps, stereo");
+                    AddPspAtrac3BitrateOptions();
                     switch (int.Parse(Config.Entry["ATRAC3_Bitrate"].Value))
                     {
                         case 0: // 32k
@@ -208,22 +196,7 @@ namespace ATRACTool_Reloaded
                 case 1:
                     radioButton_PS3.Checked = true;
                     comboBox_at3_encmethod.Items.Clear();
-                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("48kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("57kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("72kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("114kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("144kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("192kbps, stereo / 6ch");
-                    comboBox_at3_encmethod.Items.Add("256kbps, stereo / 6ch");
-                    comboBox_at3_encmethod.Items.Add("320kbps, stereo / 6ch");
-                    comboBox_at3_encmethod.Items.Add("384kbps, 6ch / 8ch");
-                    comboBox_at3_encmethod.Items.Add("512kbps, 6ch");
-                    comboBox_at3_encmethod.Items.Add("768kbps, 8ch");
+                    AddPs3Atrac3BitrateOptions();
                     switch (int.Parse(Config.Entry["ATRAC3_Bitrate"].Value))
                     {
                         case 0: // 32k
@@ -299,20 +272,7 @@ namespace ATRACTool_Reloaded
                 default:
                     radioButton_PSP.Checked = true;
                     comboBox_at3_encmethod.Items.Clear();
-                    comboBox_at3_encmethod.Items.Add("32kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("52kbps, mono");
-                    comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("105kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
-                    comboBox_at3_encmethod.Items.Add("132kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("160kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("192kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("256kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("320kbps, stereo");
-                    comboBox_at3_encmethod.Items.Add("352kbps, stereo");
+                    AddPspAtrac3BitrateOptions();
                     comboBox_at3_encmethod.SelectedIndex = 7;
                     bitrateAT3 = " -br 128";
                     break;
@@ -3025,20 +2985,7 @@ namespace ATRACTool_Reloaded
         private void RadioButton_PSP_CheckedChanged(object sender, EventArgs e)
         {
             comboBox_at3_encmethod.Items.Clear();
-            comboBox_at3_encmethod.Items.Add("32kbps, mono");
-            comboBox_at3_encmethod.Items.Add("48kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("52kbps, mono");
-            comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("66kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("105kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("132kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("160kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("192kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("256kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("320kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("352kbps, stereo");
+            AddPspAtrac3BitrateOptions();
             comboBox_at3_encmethod.SelectedIndex = 7;
             bitrateAT3 = " -br 128";
         }
@@ -3046,24 +2993,53 @@ namespace ATRACTool_Reloaded
         private void RadioButton_PS3_CheckedChanged(object sender, EventArgs e)
         {
             comboBox_at3_encmethod.Items.Clear();
-            comboBox_at3_encmethod.Items.Add("32kbps, mono");
-            comboBox_at3_encmethod.Items.Add("48kbps, mono");
-            comboBox_at3_encmethod.Items.Add("57kbps, mono");
-            comboBox_at3_encmethod.Items.Add("64kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("72kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("96kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("114kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("128kbps, mono / stereo");
-            comboBox_at3_encmethod.Items.Add("144kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("160kbps, stereo");
-            comboBox_at3_encmethod.Items.Add("192kbps, stereo / 6ch");
-            comboBox_at3_encmethod.Items.Add("256kbps, stereo / 6ch");
-            comboBox_at3_encmethod.Items.Add("320kbps, stereo / 6ch");
-            comboBox_at3_encmethod.Items.Add("384kbps, 6ch / 8ch");
-            comboBox_at3_encmethod.Items.Add("512kbps, 6ch");
-            comboBox_at3_encmethod.Items.Add("768kbps, 8ch");
+            AddPs3Atrac3BitrateOptions();
             comboBox_at3_encmethod.SelectedIndex = 10;
             bitrateAT3 = " -br 192";
+        }
+
+        private void AddPspAtrac3BitrateOptions()
+        {
+            comboBox_at3_encmethod.Items.AddRange(
+            [
+                "[ATRAC3+] 32kbps, mono",
+                "[ATRAC3+] 48kbps, mono / stereo",
+                "[ATRAC3] 52kbps, mono",
+                "[ATRAC3+] 64kbps, mono / stereo",
+                "[ATRAC3] 66kbps, mono / stereo",
+                "[ATRAC3+] 96kbps, mono / stereo",
+                "[ATRAC3] 105kbps, stereo",
+                "[ATRAC3+] 128kbps, mono / stereo",
+                "[ATRAC3] 132kbps, stereo",
+                "[ATRAC3+] 160kbps, stereo",
+                "[ATRAC3+] 192kbps, stereo",
+                "[ATRAC3+] 256kbps, stereo",
+                "[ATRAC3+] 320kbps, stereo",
+                "[ATRAC3+] 352kbps, stereo",
+            ]);
+        }
+
+        private void AddPs3Atrac3BitrateOptions()
+        {
+            comboBox_at3_encmethod.Items.AddRange(
+            [
+                "[ATRAC3+] 32kbps, mono",
+                "[ATRAC3+] 48kbps, mono",
+                "[ATRAC3] 57kbps, mono",
+                "[ATRAC3+] 64kbps, mono / stereo",
+                "[ATRAC3] 72kbps, mono / stereo",
+                "[ATRAC3+] 96kbps, mono / stereo",
+                "[ATRAC3] 114kbps, stereo",
+                "[ATRAC3+] 128kbps, mono / stereo",
+                "[ATRAC3] 144kbps, stereo",
+                "[ATRAC3+] 160kbps, stereo",
+                "[ATRAC3+] 192kbps, stereo / 6ch",
+                "[ATRAC3+] 256kbps, stereo / 6ch",
+                "[ATRAC3+] 320kbps, stereo / 6ch",
+                "[ATRAC3+] 384kbps, 6ch / 8ch",
+                "[ATRAC3+] 512kbps, 6ch",
+                "[ATRAC3+] 768kbps, 8ch",
+            ]);
         }
 
         private void RadioButton_PSV_CheckedChanged(object sender, EventArgs e)

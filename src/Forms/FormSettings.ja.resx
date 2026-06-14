@@ -323,6 +323,9 @@
   <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
     <value>562, 24</value>
   </data>
+  <data name="comboBox_at3_encmethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 23</value>
+  </data>
   <data name="comboBox_at3_encmethod.ToolTip" xml:space="preserve">
     <value>エンコードのビットレート、及びチャンネル数を指定します。
 PSP、PS3で形式が異なります。

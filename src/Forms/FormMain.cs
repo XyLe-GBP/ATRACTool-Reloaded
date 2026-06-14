@@ -314,7 +314,7 @@ namespace ATRACTool_Reloaded
                                     Common.Utils.DeleteDirectory(updpath + @"\updater-temp");
 
                                     fsWPF?.Dispatcher.Invoke(d, Localization.SplashFormUpdatedCaption);
-                                    MessageBox.Show(this, Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show(Localization.UpdateCompletedCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information,  MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                                 }
                                 else
                                 {
@@ -332,7 +332,7 @@ namespace ATRACTool_Reloaded
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(this, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         }
 
                         if (Debugmode)

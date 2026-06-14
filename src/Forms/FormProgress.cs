@@ -922,7 +922,10 @@ namespace ATRACTool_Reloaded
             foreach (var file in fp)
             {
                 bool mloop = Generic.MultipleFilesLoopOKFlags[mpfloop];
-                FileInfo fi = new(file);
+                string originPath =
+                    Generic.InputJobs != null && Generic.InputJobs.Count == fp.Length
+                        ? Generic.InputJobs[fs].OriginPath
+                        : file;
 
                 switch (Generic.ATRACFlag)
                 {
@@ -942,14 +945,18 @@ namespace ATRACTool_Reloaded
 
 
                                         Generic.ATRACExt = ".at3";
-                                        string outPath = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, Generic.ATRACExt));
+                                        string outPath = Utils.MakeTempUniquePath(
+                                            TempDirectory,
+                                            originPath,
+                                            fs,
+                                            Generic.ATRACExt);
 
                                         if (!RunAtracToolWithValidation(
                                                 Generic.PSP_ATRAC3tool,
                                                 Generic.EncodeParamAT3,
                                                 file,
                                                 outPath,
-                                                fi.Name,
+                                                Path.GetFileName(originPath),
                                                 p,
                                                 cToken))
                                         {
@@ -969,14 +976,18 @@ namespace ATRACTool_Reloaded
 
 
                                         Generic.ATRACExt = ".at3";
-                                        string outPath = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, Generic.ATRACExt));
+                                        string outPath = Utils.MakeTempUniquePath(
+                                            TempDirectory,
+                                            originPath,
+                                            fs,
+                                            Generic.ATRACExt);
 
                                         if (!RunAtracToolWithValidation(
                                                 Generic.PS3_ATRAC3tool,
                                                 Generic.EncodeParamAT3,
                                                 file,
                                                 outPath,
-                                                fi.Name,
+                                                Path.GetFileName(originPath),
                                                 p,
                                                 cToken))
                                         {
@@ -1005,14 +1016,18 @@ namespace ATRACTool_Reloaded
 
 
                                         Generic.ATRACExt = ".at9";
-                                        string outPath = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, Generic.ATRACExt));
+                                        string outPath = Utils.MakeTempUniquePath(
+                                            TempDirectory,
+                                            originPath,
+                                            fs,
+                                            Generic.ATRACExt);
 
                                         if (!RunAtracToolWithValidation(
                                                 Generic.PSV_ATRAC9tool,
                                                 Generic.EncodeParamAT9,
                                                 file,
                                                 outPath,
-                                                fi.Name,
+                                                Path.GetFileName(originPath),
                                                 p,
                                                 cToken))
                                         {
@@ -1032,14 +1047,18 @@ namespace ATRACTool_Reloaded
 
 
                                         Generic.ATRACExt = ".at9";
-                                        string outPath = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, Generic.ATRACExt));
+                                        string outPath = Utils.MakeTempUniquePath(
+                                            TempDirectory,
+                                            originPath,
+                                            fs,
+                                            Generic.ATRACExt);
 
                                         if (!RunAtracToolWithValidation(
                                                 Generic.PS4_ATRAC9tool,
                                                 Generic.EncodeParamAT9,
                                                 file,
                                                 outPath,
-                                                fi.Name,
+                                                Path.GetFileName(originPath),
                                                 p,
                                                 cToken))
                                         {

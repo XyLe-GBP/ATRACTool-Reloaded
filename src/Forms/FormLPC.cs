@@ -4,6 +4,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -904,22 +905,32 @@ namespace ATRACTool_Reloaded
                     break;
 
                 case PlaybackState.Paused:
-                    if (IsPausedMoveTrackbar)
+                    try
                     {
-                        // 一度止めて位置を移動してから再生し直す
-                        output.Stop();
-                        reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
-                        output.Play();
-                        await Task.Run(Playback);
-                        IsPausedMoveTrackbar = false;
-                    }
-                    else
-                    {
-                        output.Play();
-                    }
+                        if (IsPausedMoveTrackbar)
+                        {
+                            // 一度止めて位置を移動してから再生し直す
+                            output.Stop();
+                            reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
+                            output.Play();
+                            await Task.Run(Playback);
+                            IsPausedMoveTrackbar = false;
+                        }
+                        else
+                        {
+                            output.Play();
+                        }
 
-                    button_Play.Text = Localization.PauseCaption;
-                    break;
+                        button_Play.Text = Localization.PauseCaption;
+                        break;
+                    }
+                    catch (NAudio.MmException)
+                    {
+                        output.Stop();
+
+                        button_Play.Text = "MME Detect.\r\nPlay Again";
+                        break;
+                    }
 
                 case PlaybackState.Playing:
                     output.Pause();

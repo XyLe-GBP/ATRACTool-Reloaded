@@ -191,6 +191,12 @@
   <data name="checkBox_at3_looppoint.ToolTip" xml:space="preserve">
     <value>将循环模式设置为ATRAC3。</value>
   </data>
+  <data name="comboBox_at3_encmethod.Location" type="System.Drawing.Point, System.Drawing">
+    <value>571, 24</value>
+  </data>
+  <data name="comboBox_at3_encmethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 23</value>
+  </data>
   <data name="comboBox_at3_encmethod.ToolTip" xml:space="preserve">
     <value>请指定编码的比特率和声道数。
 PSP与PS3的格式存在差异。
