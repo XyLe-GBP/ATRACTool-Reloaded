@@ -119,14 +119,22 @@ int main()
 				if (AppType == "release") {
 					cout << "Type: release" << endl;
 					vector<tstring> tvector;
-					common->CopyDirectory(common->StringToWString(sdrive + sdir + "updater-temp\\release\\res").c_str(), common->StringToWString(AppPath + "\\res").c_str());
-					common->CopyDirectoryFiles(common->StringToWString(sdrive + sdir + "updater-temp\\release").c_str(), common->StringToWString(AppPath + "\\").c_str(), tvector);
+					if (!common->CopyDirectory(common->StringToWString(sdrive + sdir + "updater-temp\\release\\res").c_str(), common->StringToWString(AppPath + "\\res").c_str())
+						|| !common->CopyDirectoryFiles(common->StringToWString(sdrive + sdir + "updater-temp\\release").c_str(), common->StringToWString(AppPath + "\\").c_str(), tvector)) {
+						MessageBox(NULL, TEXT("Failed to copy update files. Security software may be scanning them. Please try again."), TEXT("Error"), MB_ICONWARNING);
+						SAFE_DELETE(common);
+						return -1;
+					}
 				}
 				else if (AppType == "portable") {
 					cout << "Type: portable" << endl;
 					vector<tstring> tvector;
-					common->CopyDirectory(common->StringToWString(sdrive + sdir + "updater-temp\\release-portable\\res").c_str(), common->StringToWString(AppPath + "\\res").c_str());
-					common->CopyDirectoryFiles(common->StringToWString(sdrive + sdir + "updater-temp\\release-portable").c_str(), common->StringToWString(AppPath + "\\").c_str(), tvector);
+					if (!common->CopyDirectory(common->StringToWString(sdrive + sdir + "updater-temp\\release-portable\\res").c_str(), common->StringToWString(AppPath + "\\res").c_str())
+						|| !common->CopyDirectoryFiles(common->StringToWString(sdrive + sdir + "updater-temp\\release-portable").c_str(), common->StringToWString(AppPath + "\\").c_str(), tvector)) {
+						MessageBox(NULL, TEXT("Failed to copy update files. Security software may be scanning them. Please try again."), TEXT("Error"), MB_ICONWARNING);
+						SAFE_DELETE(common);
+						return -1;
+					}
 				}
 				else {
 					cout << "\033[31m" << "ERROR: Unknown type." << "\033[m" << endl;
@@ -135,24 +143,55 @@ int main()
 					return -1;
 				}
 
-				ofstream ofs;
-				string fn = AppPath + "\\updated.dat";
-				ofs.open(fn, ios::out);
-				ofs << "updated." << endl;
-				ofs.close();
-				cout << "Update completed, restart application in 2 seconds..." << endl;
-				Sleep(2000);
-
 				wstring ExectablePath = common->StringToWString(AppPath) + L"\\atractool-reloaded.exe";
 				wstring Current = common->StringToWString(AppPath);
 				TCHAR* TExectablePath = common->ConvertTCHAR(ExectablePath.c_str());
 				TCHAR* TCurrent = common->ConvertTCHAR(Current.c_str());
 
-				ShellExecute(NULL, _T("open"), TExectablePath, NULL, TCurrent, SW_SHOWNORMAL);
+				cout << "Update completed. Waiting for the application file to become available..." << endl;
+
+				bool launched = false;
+				for (int retry = 0; retry < 120; retry++) {
+					if (PathFileExists(TExectablePath)) {
+						HANDLE file = CreateFile(
+							TExectablePath,
+							GENERIC_READ,
+							FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+							NULL,
+							OPEN_EXISTING,
+							FILE_ATTRIBUTE_NORMAL,
+							NULL);
+
+						if (file != INVALID_HANDLE_VALUE) {
+							CloseHandle(file);
+
+							ofstream ofs;
+							string fn = AppPath + "\\updated.dat";
+							ofs.open(fn, ios::out);
+							ofs << "updated." << endl;
+							ofs.close();
+
+							HINSTANCE result = ShellExecute(NULL, _T("open"), TExectablePath, NULL, TCurrent, SW_SHOWNORMAL);
+							if ((INT_PTR)result > 32) {
+								launched = true;
+								break;
+							}
+
+							DeleteFile(common->StringToWString(fn).c_str());
+						}
+					}
+
+					Sleep(1000);
+				}
 
 				SAFE_FREE(TExectablePath);
 				SAFE_FREE(TCurrent);
 				SAFE_DELETE(common);
+
+				if (!launched) {
+					MessageBox(NULL, TEXT("The update was installed, but the application could not be restarted. Security software may still be scanning the executable. Please start ATRACTool manually."), TEXT("Warning"), MB_ICONWARNING);
+					return -1;
+				}
 
 				return 0;
 			}

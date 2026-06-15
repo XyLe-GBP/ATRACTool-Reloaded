@@ -156,7 +156,27 @@ bool Common::CopyDirectoryFiles(tstring folderPath, tstring destfolderPath, vect
 			file_names.push_back(win32fd.cFileName);
 			tstring sp = folderPath + _T("\\") + file_names.back();
 			tstring dp = destfolderPath + file_names.back();
-			CopyFile(sp.c_str(), dp.c_str(), FALSE);
+			bool copied = false;
+			for (int retry = 0; retry < 30; retry++) {
+				if (CopyFile(sp.c_str(), dp.c_str(), FALSE)) {
+					copied = true;
+					break;
+				}
+
+				DWORD error = GetLastError();
+				if (error != ERROR_SHARING_VIOLATION
+					&& error != ERROR_LOCK_VIOLATION
+					&& error != ERROR_ACCESS_DENIED) {
+					break;
+				}
+
+				Sleep(1000);
+			}
+
+			if (!copied) {
+				FindClose(hFind);
+				return false;
+			}
 			printf("copyfile: ");
 			printf(Common::TWStringToString(file_names.back().c_str()).c_str());
 			printf("\n");
