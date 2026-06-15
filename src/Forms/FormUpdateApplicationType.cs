@@ -5,6 +5,7 @@
         public FormUpdateApplicationType()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
         }
 
         private void FormUpdateApplicationType_Load(object sender, EventArgs e)

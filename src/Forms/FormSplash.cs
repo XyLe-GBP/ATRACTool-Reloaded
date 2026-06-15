@@ -9,6 +9,7 @@ namespace ATRACTool_Reloaded
         public FormSplash()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
         }
 
         private void FormSplash_Load(object sender, EventArgs e)

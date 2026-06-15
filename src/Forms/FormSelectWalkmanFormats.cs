@@ -18,6 +18,7 @@ namespace ATRACTool_Reloaded
         public FormSelectWalkmanFormats(bool flag)
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
             FormMain.DebugInfo("[FormSelectWalkmanFormats] Initialized.");
 
             if (flag)

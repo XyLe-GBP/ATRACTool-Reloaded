@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Text;
+using ATRACTool_Reloaded.ModernUI;
 
 namespace ATRACTool_Reloaded.src.Controls
 {
@@ -9,14 +10,9 @@ namespace ATRACTool_Reloaded.src.Controls
     public partial class CustomTrackBar : Control
     {
         private bool isScrolling = false;
+        private bool isHovered = false;
         private DateTime lastScrollTime = DateTime.MinValue;
         private const int scrollInterval = 16;
-
-        private SolidBrush trackBrush = null!;
-        private SolidBrush thumbBrush = null!;
-        private Pen tickPen = null!;
-        private List<Point> tickPositions = null!;
-        private int cachedValue = -1;
 
         private int minimum = 0;
         private int maximum = 100;
@@ -25,10 +21,10 @@ namespace ATRACTool_Reloaded.src.Controls
         private bool showTicks = true;
         private int tickFrequency = 10;
         private int tickSize = 5;
-        private Color tickColor = Color.Black;
-        private Color trackColor = Color.Gray;
-        private Color thumbColor = Color.Red;
-        private Color backgroundColor = Color.White;
+        private Color tickColor = ThemeColors.TextMuted;
+        private Color trackColor = ThemeColors.Border;
+        private Color thumbColor = ThemeColors.Accent;
+        private Color backgroundColor = ThemeColors.Window;
 
         private ToolTip toolTip = new();
         private DateTime lastToolTipUpdate = DateTime.MinValue;
@@ -47,8 +43,6 @@ namespace ATRACTool_Reloaded.src.Controls
                 if (trackColor != value)
                 {
                     trackColor = value;
-                    trackBrush?.Dispose();
-                    trackBrush = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
@@ -65,8 +59,6 @@ namespace ATRACTool_Reloaded.src.Controls
                 if (thumbColor != value)
                 {
                     thumbColor = value;
-                    thumbBrush?.Dispose();
-                    thumbBrush = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
@@ -196,7 +188,6 @@ namespace ATRACTool_Reloaded.src.Controls
                 if (tickFrequency != value)
                 {
                     tickFrequency = value;
-                    //CalculateTickPositions(); // 目盛りの再計算
                     Invalidate();
                 }
             }
@@ -227,8 +218,6 @@ namespace ATRACTool_Reloaded.src.Controls
                 if (tickColor != value)
                 {
                     tickColor = value;
-                    tickPen?.Dispose();
-                    tickPen = null!; // 再生成をトリガー
                     Invalidate();
                 }
             }
@@ -287,9 +276,8 @@ namespace ATRACTool_Reloaded.src.Controls
                         throw new ArgumentOutOfRangeException(nameof(Value), "Value must be between Minimum and Maximum");
                     }
                     this.value = value;
-
-                    // 再描画をトリガー
                     Invalidate();
+                    OnValueChanged(EventArgs.Empty);
                 }
             }
         }
@@ -307,205 +295,193 @@ namespace ATRACTool_Reloaded.src.Controls
 
         public CustomTrackBar()
         {
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
+            SetStyle(
+                ControlStyles.OptimizedDoubleBuffer
+                | ControlStyles.AllPaintingInWmPaint
+                | ControlStyles.UserPaint
+                | ControlStyles.ResizeRedraw
+                | ControlStyles.Selectable,
+                true);
             UpdateStyles();
-            CalculateTickPositions();
+            TabStop = true;
+            Cursor = Cursors.Hand;
         }
-
-        private void InitializeResources()
-        {
-            if (trackBrush == null) trackBrush = new SolidBrush(TrackColor);
-            if (thumbBrush == null) thumbBrush = new SolidBrush(ThumbColor);
-            if (tickPen == null) tickPen = new Pen(TickColor, 1);
-        }
-
-        private void CalculateTickPositions()
-        {
-            if (!ShowTicks) return;
-
-            tickPositions = new List<Point>();
-
-            if (ShowTicks)
-            {
-                for (int i = Minimum; i <= Maximum; i += TickFrequency)
-                {
-                    int position = (int)((float)(i - Minimum) / (Maximum - Minimum) * Width);
-                    tickPositions.Add(new Point(position, Height / 2));
-                }
-            }
-        }
-
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (cachedValue == Value) return;
             if (Common.Generic.IsLPCStreamingReloaded) return;
 
             base.OnPaint(e);
 
             Graphics g = e.Graphics;
-            g.Clear(BackColor);
-            g.Clear(BackgroundColor);
-            InitializeResources();
+            g.Clear(Parent?.BackColor ?? BackgroundColor);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            // トラックの描画
-            //Rectangle trackRect = new Rectangle(0, (Height - 4) / 2, Width, 4);
-            Rectangle trackRect = new Rectangle(0, (Height - TrackThickness) / 2, Width, TrackThickness);
-            g.FillRectangle(trackBrush, trackRect);
+            Rectangle trackRect = GetTrackRectangle();
+            Rectangle thumbRect = GetThumbRectangle();
+            Color baseTrackColor = Enabled ? TrackColor : ThemeColors.Disabled;
+            Color activeColor = Enabled ? ThumbColor : ThemeColors.TextMuted;
 
-            // つまみの位置とサイズを計算
-            int thumbHeight = Math.Min(ThumbHeight, Height); // 最大でコントロールの高さ
-            int thumbWidth = (Height - thumbHeight) / 2;         // 中央に配置
-            int thumbY2 = Shape == ThumbShape.UpArrow || Shape == ThumbShape.DownArrow
-        ? (Height - thumbHeight) / 2 // 矢印の場合も中央揃え
-        : (Height - ThumbHeight) / 2;
-
-            // 目盛りの描画
-            if (ShowTicks && tickPositions != null)
+            using (GraphicsPath trackPath = GetRoundedRectangle(trackRect, Math.Max(1, Math.Min(trackRect.Width, trackRect.Height) / 2)))
+            using (SolidBrush trackBackground = new(baseTrackColor))
             {
-                foreach (var tick in tickPositions)
-                {
-                    g.DrawLine(tickPen, tick.X, trackRect.Bottom + 2, tick.X, trackRect.Bottom + 6);
-                }
+                g.FillPath(trackBackground, trackPath);
             }
 
-            Rectangle thumbRect;
+            Rectangle activeRect = GetActiveTrackRectangle(trackRect, thumbRect);
+            if (activeRect.Width > 0 && activeRect.Height > 0)
+            {
+                using GraphicsPath activePath = GetRoundedRectangle(
+                    activeRect,
+                    Math.Max(1, Math.Min(activeRect.Width, activeRect.Height) / 2));
+                using SolidBrush activeBrush = new(Color.FromArgb(175, activeColor));
+                g.FillPath(activeBrush, activePath);
+            }
+
+            DrawTicks(g, trackRect);
+            DrawThumb(g, thumbRect, activeColor);
+
+            if (Focused && ShowFocusCues)
+            {
+                Rectangle focusRect = ClientRectangle;
+                focusRect.Inflate(-1, -1);
+                using Pen focusPen = new(ThemeColors.Accent) { DashStyle = DashStyle.Dot };
+                g.DrawRectangle(focusPen, focusRect);
+            }
+        }
+
+        protected override void OnParentBackColorChanged(EventArgs e)
+        {
+            base.OnParentBackColorChanged(e);
+            Invalidate();
+        }
+
+        private Rectangle GetTrackRectangle()
+        {
+            int thickness = Math.Max(2, TrackThickness);
+            int margin = Math.Max(ThumbWidth, 8) / 2;
+
+            return Orientation == Orientation.Horizontal
+                ? new Rectangle(margin, (Height - thickness) / 2, Math.Max(1, Width - (margin * 2)), thickness)
+                : new Rectangle((Width - thickness) / 2, margin, thickness, Math.Max(1, Height - (margin * 2)));
+        }
+
+        private Rectangle GetThumbRectangle()
+        {
+            int width = Math.Max(4, Math.Min(ThumbWidth, Width));
+            int height = Math.Max(4, Math.Min(ThumbHeight, Height));
+            float ratio = (float)(Value - Minimum) / (Maximum - Minimum);
 
             if (Orientation == Orientation.Horizontal)
             {
-                int thumbX = (int)((float)(value - minimum) / (maximum - minimum) * (Width - ThumbWidth));
+                int x = (int)Math.Round(ratio * Math.Max(0, Width - width));
+                return new Rectangle(x, (Height - height) / 2, width, height);
+            }
 
-                trackRect = new Rectangle(
-                    0,
-                    (Height - TrackThickness) / 2,
-                    Width,
-                    TrackThickness
-                );
+            int y = (int)Math.Round(ratio * Math.Max(0, Height - height));
+            return new Rectangle((Width - width) / 2, y, width, height);
+        }
 
-                // 横幅と高さを反映したつまみの位置とサイズ
+        private Rectangle GetActiveTrackRectangle(Rectangle trackRect, Rectangle thumbRect)
+        {
+            if (Orientation == Orientation.Horizontal)
+            {
+                int end = Math.Min(trackRect.Right, thumbRect.Left + (thumbRect.Width / 2));
+                return new Rectangle(trackRect.Left, trackRect.Top, Math.Max(1, end - trackRect.Left), trackRect.Height);
+            }
 
-                thumbRect = new Rectangle(
-                    thumbX,
-                    (Height - thumbHeight) / 2,
-                    ThumbWidth,
-                    ThumbHeight
-                );
+            int bottom = Math.Min(trackRect.Bottom, thumbRect.Top + (thumbRect.Height / 2));
+            return new Rectangle(trackRect.Left, trackRect.Top, trackRect.Width, Math.Max(1, bottom - trackRect.Top));
+        }
 
-                // Draw Ticks (目盛りを描画)
-                if (ShowTicks)
+        private void DrawTicks(Graphics graphics, Rectangle trackRect)
+        {
+            if (!ShowTicks || TickPos == TickPosition.None || TickFrequency <= 0)
+            {
+                return;
+            }
+
+            using Pen pen = new(Enabled ? TickColor : ThemeColors.TextMuted, 1F);
+
+            for (int tickValue = Minimum; tickValue <= Maximum; tickValue += TickFrequency)
+            {
+                float ratio = (float)(tickValue - Minimum) / (Maximum - Minimum);
+
+                if (Orientation == Orientation.Horizontal)
                 {
-                    using (Pen tickPen = new(TickColor, 1))
+                    int x = trackRect.Left + (int)Math.Round(ratio * trackRect.Width);
+                    if (TickPos is TickPosition.Above or TickPosition.Both)
                     {
-                        for (int i = minimum; i <= maximum; i += TickFrequency)
-                        {
-                            // 目盛り位置を計算
-                            int x = (int)((float)(i - minimum) / (maximum - minimum) * Width);
-
-                            // 目盛りの描画位置を調整
-                            int adjustedTickY = trackRect.Bottom + 2;
-                            if (Shape == ThumbShape.UpArrow)
-                            {
-                                adjustedTickY = Height - (ThumbHeight / 2) - TickSize - 2;
-                            }
-
-                            // 目盛りを描画
-                            if (TickPos == TickPosition.Below || TickPos == TickPosition.Both)
-                            {
-                                g.DrawLine(tickPen, x, adjustedTickY, x, adjustedTickY + TickSize);
-                            }
-                            if (TickPos == TickPosition.Above || TickPos == TickPosition.Both)
-                            {
-                                g.DrawLine(tickPen, x, trackRect.Top - TickSize - 2, x, trackRect.Top - 2);
-                            }
-                        }
+                        graphics.DrawLine(pen, x, trackRect.Top - 3, x, trackRect.Top - 3 - TickSize);
+                    }
+                    if (TickPos is TickPosition.Below or TickPosition.Both)
+                    {
+                        graphics.DrawLine(pen, x, trackRect.Bottom + 3, x, trackRect.Bottom + 3 + TickSize);
+                    }
+                }
+                else
+                {
+                    int y = trackRect.Top + (int)Math.Round(ratio * trackRect.Height);
+                    if (TickPos is TickPosition.Above or TickPosition.Both)
+                    {
+                        graphics.DrawLine(pen, trackRect.Left - 3, y, trackRect.Left - 3 - TickSize, y);
+                    }
+                    if (TickPos is TickPosition.Below or TickPosition.Both)
+                    {
+                        graphics.DrawLine(pen, trackRect.Right + 3, y, trackRect.Right + 3 + TickSize, y);
                     }
                 }
             }
-            else
+        }
+
+        private void DrawThumb(Graphics graphics, Rectangle thumbRect, Color color)
+        {
+            Color thumbFill = isDragging
+                ? DraggedThumbColor
+                : isHovered || Focused
+                    ? ControlPaint.Dark(color, 0.12F)
+                    : color;
+
+            if (isHovered || isDragging || Focused)
             {
-                trackRect = new Rectangle(
-                    (Width - TrackThickness) / 2,
-                    0,
-                    TrackThickness,
-                    Height
-                );
-
-                // 横幅と高さを反映したつまみの位置とサイズ
-                int thumbY = (int)((float)(value - minimum) / (maximum - minimum) * (Height - ThumbHeight));
-                thumbRect = new Rectangle(
-                    (Width - ThumbWidth) / 2,
-                    thumbY,
-                    ThumbWidth,
-                    ThumbHeight
-                );
-
-                // Draw Ticks (目盛りを描画)
-                if (ShowTicks)
-                {
-                    using Pen tickPen = new(TickColor, 1);
-                    for (int i = minimum; i <= maximum; i += TickFrequency)
-                    {
-                        int y = (int)((float)(i - minimum) / (maximum - minimum) * Height);
-
-                        // 左右に目盛りを描画
-                        if (TickPos == TickPosition.Above || TickPos == TickPosition.Both)
-                        {
-                            g.DrawLine(tickPen, trackRect.Left - TickSize - 2, y, trackRect.Left - 2, y);
-                        }
-
-                        if (TickPos == TickPosition.Below || TickPos == TickPosition.Both)
-                        {
-                            g.DrawLine(tickPen, trackRect.Right + 2, y, trackRect.Right + 2 + TickSize, y);
-                        }
-                    }
-                }
+                Rectangle halo = thumbRect;
+                halo.Inflate(4, 4);
+                using SolidBrush haloBrush = new(Color.FromArgb(45, color));
+                graphics.FillEllipse(haloBrush, halo);
             }
 
-            // Draw Track
-            using (Brush trackBrush = new SolidBrush(TrackColor))
-            {
-                g.FillRectangle(trackBrush, trackRect);
-            }
+            using SolidBrush fill = new(thumbFill);
+            using Pen border = new(ControlPaint.Dark(thumbFill, 0.12F), 1F);
 
-            // Draw Thumb
             switch (Shape)
             {
                 case ThumbShape.Circle:
-                    {
-                        using Brush sb = new SolidBrush(ThumbColor);
-                        g.FillEllipse(sb, thumbRect);
-                        using (Brush thumbBrush = new SolidBrush(isDragging ? DraggedThumbColor : ThumbColor))
-                        {
-                            g.FillRectangle(thumbBrush, thumbRect);
-                        }
-                        break;
-                    }
+                    graphics.FillEllipse(fill, thumbRect);
+                    graphics.DrawEllipse(border, thumbRect);
+                    break;
+
                 case ThumbShape.Rectangle:
-                    {
-                        using Brush sb = new SolidBrush(ThumbColor);
-                        g.FillRectangle(sb, thumbRect);
-                        using (Brush thumbBrush = new SolidBrush(isDragging ? DraggedThumbColor : ThumbColor))
-                        {
-                            g.FillRectangle(thumbBrush, thumbRect);
-                        }
-                        break;
-                    }
+                    graphics.FillRectangle(fill, thumbRect);
+                    graphics.DrawRectangle(border, thumbRect);
+                    break;
+
                 case ThumbShape.RoundedRectangle:
-                    using (GraphicsPath thumbPath = GetRoundedRectangle(thumbRect, Math.Min(ThumbWidth, ThumbHeight) / 3))
+                    using (GraphicsPath thumbPath = GetRoundedRectangle(
+                        thumbRect,
+                        Math.Max(2, Math.Min(thumbRect.Width, thumbRect.Height) / 3)))
                     {
-                        g.FillPath(new SolidBrush(ThumbColor), thumbPath);
-                    }
-                    using (Brush thumbBrush = new SolidBrush(isDragging ? DraggedThumbColor : ThumbColor))
-                    {
-                        g.FillRectangle(thumbBrush, thumbRect);
+                        graphics.FillPath(fill, thumbPath);
+                        graphics.DrawPath(border, thumbPath);
                     }
                     break;
+
                 case ThumbShape.UpArrow:
-                    DrawArrow(g, thumbRect, isDragging ? DraggedThumbColor : ThumbColor, true);
+                    DrawArrow(graphics, thumbRect, thumbFill, true);
                     break;
 
                 case ThumbShape.DownArrow:
-                    DrawArrow(g, thumbRect, isDragging ? DraggedThumbColor : ThumbColor, false);
+                    DrawArrow(graphics, thumbRect, thumbFill, false);
                     break;
             }
         }
@@ -513,10 +489,16 @@ namespace ATRACTool_Reloaded.src.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            //UpdateValueFromMouse(e.Location);
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+
+            Focus();
             isScrolling = true;
             isDragging = true;
-            //Invalidate(); // 再描画
+            UpdateThumbPosition(e.Location);
+            Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -553,10 +535,73 @@ namespace ATRACTool_Reloaded.src.Controls
                     toolTip.Show(str.ToString(), this, e.Location.X, e.Location.Y - 20);
                 }
             }
-            /*if (e.Button == MouseButtons.Left)
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            isHovered = true;
+            Invalidate();
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            isHovered = false;
+            Invalidate();
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+            Invalidate();
+        }
+
+        protected override void OnLostFocus(EventArgs e)
+        {
+            base.OnLostFocus(e);
+            Invalidate();
+        }
+
+        protected override bool IsInputKey(Keys keyData)
+        {
+            return keyData is Keys.Left or Keys.Right or Keys.Up or Keys.Down
+                || base.IsInputKey(keyData);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            int delta = e.KeyCode is Keys.Right or Keys.Up ? 1
+                : e.KeyCode is Keys.Left or Keys.Down ? -1
+                : 0;
+
+            if (delta == 0)
             {
-                UpdateValueFromMouse(e.Location);
-            }*/
+                return;
+            }
+
+            SetValueFromInput(Value + delta);
+            e.Handled = true;
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            SetValueFromInput(Value + Math.Sign(e.Delta));
+        }
+
+        private void SetValueFromInput(int newValue)
+        {
+            int clamped = Math.Max(Minimum, Math.Min(Maximum, newValue));
+            if (clamped == Value)
+            {
+                return;
+            }
+
+            Value = clamped;
+            OnScroll(EventArgs.Empty);
         }
 
         private void UpdateValueFromMouse(Point mouseLocation)
@@ -588,12 +633,9 @@ namespace ATRACTool_Reloaded.src.Controls
 
             if (newValue != Value)
             {
-                int oldThumbX = (int)((float)(Value - Minimum) / (Maximum - Minimum) * (Width - ThumbWidth));
                 Value = newValue;
-                int newThumbX = (int)((float)(Value - Minimum) / (Maximum - Minimum) * (Width - ThumbWidth));
                 OnScrollEvent();
-                // 古い位置と新しい位置のみ再描画
-                Invalidate(new Rectangle(Math.Min(oldThumbX, newThumbX), (Height - ThumbHeight) / 2, ThumbWidth, ThumbHeight));
+                Invalidate();
             }
         }
 
@@ -611,10 +653,17 @@ namespace ATRACTool_Reloaded.src.Controls
         private GraphicsPath GetRoundedRectangle(Rectangle rect, int cornerRadius)
         {
             GraphicsPath path = new();
-            path.AddArc(rect.X, rect.Y, cornerRadius, cornerRadius, 180, 90);
-            path.AddArc(rect.Right - cornerRadius, rect.Y, cornerRadius, cornerRadius, 270, 90);
-            path.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-            path.AddArc(rect.X, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
+            if (rect.Width <= 2 || rect.Height <= 2)
+            {
+                path.AddRectangle(rect);
+                return path;
+            }
+
+            int diameter = Math.Max(2, Math.Min(cornerRadius * 2, Math.Min(rect.Width, rect.Height)));
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
             path.CloseFigure();
             return path;
         }

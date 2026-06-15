@@ -43,6 +43,7 @@ namespace ATRACTool_Reloaded
         public FormWalkmanInformations(InputJob job)
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
             FormMain.DebugInfo("[FormWalkmanInformations] Initialized.");
             _job = job ?? throw new ArgumentNullException(nameof(job));
             _metaBackup = _job.Meta.Clone(); // Clone を用意（後述）

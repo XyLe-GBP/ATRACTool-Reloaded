@@ -5,6 +5,7 @@
         public FormATWSelect()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
         }
 
         private void FormATWSelect_Load(object sender, EventArgs e)

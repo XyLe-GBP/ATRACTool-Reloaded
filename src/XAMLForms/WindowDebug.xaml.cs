@@ -112,7 +112,12 @@ namespace ATRACTool_Reloaded
 
         public void RefleshCurrentInstanceInfo()
         {
-            var snap = FormMain.GetDebugHandleSnapshot();
+            if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            {
+                return;
+            }
+
+            var snap = FormMain.GetDebugHandleSnapshotSafe();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -233,7 +238,7 @@ namespace ATRACTool_Reloaded
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-
+            _timer?.Stop();
         }
 
         private void Window_Closed(object sender, EventArgs e)

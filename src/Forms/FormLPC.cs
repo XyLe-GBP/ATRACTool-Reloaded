@@ -168,6 +168,7 @@ namespace ATRACTool_Reloaded
         public FormLPC(bool IsEnabledBtn)
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
             FormMain.DebugInfo("[FormLPC] Initialized.");
 
             labelTrk = MainDefaultPoint;

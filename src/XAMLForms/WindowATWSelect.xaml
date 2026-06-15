@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
-        Title="Specify the destination format" Height="100" Width="420" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="Specify the destination format" Height="126" Width="440" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False"
+        Background="#FFF6F7F9">
+    <Window.Resources>
+        <ResourceDictionary Source="ModernStyles.xaml"/>
+    </Window.Resources>
     <Grid>
         <Label x:Name="label_Format" Content="Format:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.116,-3.37" Width="75"/>
         <ComboBox x:Name="combobox_Format" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="300">

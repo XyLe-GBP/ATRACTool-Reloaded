@@ -9,6 +9,7 @@ namespace ATRACTool_Reloaded
         public FormAbout()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
         }
 
         private void FormAbout_Load(object sender, EventArgs e)

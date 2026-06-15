@@ -7,6 +7,7 @@ namespace ATRACTool_Reloaded
         public FormAtWSelectTarget()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
         }
 
         private void FormAtWSelectTarget_Load(object sender, EventArgs e)

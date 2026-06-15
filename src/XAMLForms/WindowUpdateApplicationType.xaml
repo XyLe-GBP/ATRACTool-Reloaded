@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
-        Title="Select Application Type" Height="110" Width="520" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="Select Application Type" Height="136" Width="540" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False"
+        Background="#FFF6F7F9">
+    <Window.Resources>
+        <ResourceDictionary Source="ModernStyles.xaml"/>
+    </Window.Resources>
     <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60*"/>

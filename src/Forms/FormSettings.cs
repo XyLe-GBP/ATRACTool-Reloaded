@@ -82,6 +82,7 @@ namespace ATRACTool_Reloaded
         public FormSettings(bool LPCEnable)
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
 
             FormMain.DebugInfo("[FormSettings] Initialized.");
             if (LPCEnable)

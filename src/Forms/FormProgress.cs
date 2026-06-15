@@ -47,6 +47,7 @@ namespace ATRACTool_Reloaded
         public FormProgress()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
 
             FormMain.DebugInfo("[FormProgress] Initialized.");
         }

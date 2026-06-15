@@ -23,6 +23,7 @@ namespace ATRACTool_Reloaded
         public FormPreferencesSettings()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
 
             FormMain.DebugInfo("[FormPreferencesSettings] Initialized.");
         }

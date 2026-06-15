@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
-        Title="Specify output method for WAVE files" Height="120" Width="650" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="Specify output method for WAVE files" Height="146" Width="670" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False"
+        Background="#FFF6F7F9">
+    <Window.Resources>
+        <ResourceDictionary Source="ModernStyles.xaml"/>
+    </Window.Resources>
     <Grid Loaded="Grid_Loaded">
         <Label x:Name="label_Output" Content="Output method:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="110"/>
         <ComboBox x:Name="combobox_Method" HorizontalAlignment="Left" Margin="125,12,0,0" VerticalAlignment="Top" Width="480" SelectionChanged="Combobox_Method_SelectionChanged"/>

@@ -15,9 +15,7 @@
         {
             if (disposing && (components != null))
             {
-                trackBrush?.Dispose();
-                thumbBrush?.Dispose();
-                tickPen?.Dispose();
+                toolTip.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);

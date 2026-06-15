@@ -39,6 +39,7 @@ namespace ATRACTool_Reloaded
         public FormSetWalkmanInformations()
         {
             InitializeComponent();
+            ModernUI.ModernTheme.Apply(this);
 
             FormMain.DebugInfo("[FormSetWalkmanInformations] Initialized.");
         }
