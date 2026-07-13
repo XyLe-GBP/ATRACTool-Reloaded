@@ -536,6 +536,18 @@ ASIO: 再生には専用ドライバーと互換性のあるDACが必要です�
 レガシーモードを有効にすると、古い処理方法を使用し、またループポイントクリエーターを独立して動作させますが
 バグが多く非推奨のため、通常はレガシーモードを有効にする必要はありません。</value>
   </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>システム設定に従う</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>詳細設定</value>
   </data>

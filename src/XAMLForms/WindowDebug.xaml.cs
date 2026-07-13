@@ -25,13 +25,20 @@ namespace ATRACTool_Reloaded
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
         const int GWL_STYLE = -16;
         const int WS_SYSMENU = 0x80000;
+        private const uint SWP_NOSIZE = 0x0001;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint SWP_NOACTIVATE = 0x0010;
 
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
             IntPtr handle = new WindowInteropHelper(this).Handle;
+            _windowHandle = handle;
             int style = GetWindowLong(handle, GWL_STYLE);
             style = style & (~WS_SYSMENU);
             SetWindowLong(handle, GWL_STYLE, style);
@@ -44,6 +51,7 @@ namespace ATRACTool_Reloaded
         const int SC_CLOSE = 0xF060;
 
         private const int MaxLogLines = 2000;
+        public static bool DebugFunctionsEnabled { get; private set; } = true;
 
         private static WindowDebug _WindowDebugInstance = null!;
         public static WindowDebug WindowDebugInstance
@@ -71,6 +79,39 @@ namespace ATRACTool_Reloaded
             _timer.Tick += (_, __) => RefleshCurrentInstanceInfo();
         }
 
+        private IntPtr _lastMainHandle;
+        private IntPtr _windowHandle;
+
+        public bool PlaceBehindMain(IntPtr mainHandle)
+        {
+            _lastMainHandle = mainHandle;
+
+            IntPtr debugHandle = _windowHandle;
+            if (debugHandle == IntPtr.Zero && Dispatcher.CheckAccess())
+            {
+                debugHandle = new WindowInteropHelper(this).Handle;
+                _windowHandle = debugHandle;
+            }
+
+            if (debugHandle == IntPtr.Zero)
+            {
+                if (!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
+                {
+                    Dispatcher.BeginInvoke(new Action(() => PlaceBehindMain(mainHandle)));
+                }
+
+                return false;
+            }
+
+            if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            {
+                return false;
+            }
+
+            IntPtr insertAfter = mainHandle != IntPtr.Zero ? mainHandle : new IntPtr(1);
+            return SetWindowPos(debugHandle, insertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
@@ -87,8 +128,20 @@ namespace ATRACTool_Reloaded
             }
 
             RefleshCurrentInstanceInfo();
+            if (_lastMainHandle != IntPtr.Zero)
+            {
+                PlaceBehindMain(_lastMainHandle);
+            }
 
             _timer?.Start();
+        }
+
+        private void CheckBox_DebugFunc_Changed(object sender, RoutedEventArgs e)
+        {
+            DebugFunctionsEnabled = checkBox_DebugFunc.IsChecked == true;
+            FormMain.DebugInfo(DebugFunctionsEnabled
+                ? "[WindowDebug] Debug functions enabled."
+                : "[WindowDebug] Debug functions disabled.");
         }
 
         /*public void RefleshCurrentInstanceInfo()

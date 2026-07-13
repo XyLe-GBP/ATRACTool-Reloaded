@@ -1843,4 +1843,16 @@ However, it is buggy and deprecated, so there is usually no need to enable Legac
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>Follow system theme</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>Dark</value>
+  </data>
 </root>

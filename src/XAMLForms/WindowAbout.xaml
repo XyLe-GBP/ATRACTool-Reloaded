@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
         Title="WindowAbout" Height="650" Width="650" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
-        Background="#FFF6F7F9">
+        Background="{DynamicResource WindowBrush}">
     <Window.Resources>
         <ResourceDictionary Source="ModernStyles.xaml"/>
     </Window.Resources>

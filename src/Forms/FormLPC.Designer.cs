@@ -70,35 +70,57 @@
             // 
             // button_Play
             // 
+            button_Play.BackColor = Color.White;
+            button_Play.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Play.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Play.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Play, "button_Play");
+            button_Play.ForeColor = Color.FromArgb(31, 35, 40);
             button_Play.Name = "button_Play";
-            button_Play.UseVisualStyleBackColor = true;
+            button_Play.UseVisualStyleBackColor = false;
             button_Play.Click += Button_Play_Click;
             // 
             // button_Stop
             // 
+            button_Stop.BackColor = Color.White;
+            button_Stop.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Stop.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Stop.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Stop, "button_Stop");
+            button_Stop.ForeColor = Color.FromArgb(31, 35, 40);
             button_Stop.Name = "button_Stop";
-            button_Stop.UseVisualStyleBackColor = true;
+            button_Stop.UseVisualStyleBackColor = false;
             button_Stop.Click += Button_Stop_Click;
             // 
             // button_OK
             // 
+            button_OK.BackColor = Color.White;
+            button_OK.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_OK.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_OK.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_OK, "button_OK");
+            button_OK.ForeColor = Color.FromArgb(31, 35, 40);
             button_OK.Name = "button_OK";
-            button_OK.UseVisualStyleBackColor = true;
+            button_OK.UseVisualStyleBackColor = false;
             button_OK.Click += Button_OK_Click;
             // 
             // button_Cancel
             // 
+            button_Cancel.BackColor = Color.White;
+            button_Cancel.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Cancel.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Cancel.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Cancel, "button_Cancel");
+            button_Cancel.ForeColor = Color.FromArgb(31, 35, 40);
             button_Cancel.Name = "button_Cancel";
-            button_Cancel.UseVisualStyleBackColor = true;
+            button_Cancel.UseVisualStyleBackColor = false;
             button_Cancel.Click += Button_Cancel_Click;
             // 
             // label_Samples
             // 
             resources.ApplyResources(label_Samples, "label_Samples");
+            label_Samples.BackColor = Color.FromArgb(246, 247, 249);
+            label_Samples.ForeColor = Color.FromArgb(31, 35, 40);
             label_Samples.Name = "label_Samples";
             // 
             // timer_Reload
@@ -108,100 +130,149 @@
             // label_Length
             // 
             resources.ApplyResources(label_Length, "label_Length");
+            label_Length.BackColor = Color.FromArgb(246, 247, 249);
+            label_Length.ForeColor = Color.FromArgb(31, 35, 40);
             label_Length.Name = "label_Length";
             // 
             // label_LoopStartSamples
             // 
             resources.ApplyResources(label_LoopStartSamples, "label_LoopStartSamples");
+            label_LoopStartSamples.BackColor = Color.FromArgb(246, 247, 249);
+            label_LoopStartSamples.ForeColor = Color.FromArgb(31, 35, 40);
             label_LoopStartSamples.Name = "label_LoopStartSamples";
             // 
             // label_LoopEndSamples
             // 
             resources.ApplyResources(label_LoopEndSamples, "label_LoopEndSamples");
+            label_LoopEndSamples.BackColor = Color.FromArgb(246, 247, 249);
+            label_LoopEndSamples.ForeColor = Color.FromArgb(31, 35, 40);
             label_LoopEndSamples.Name = "label_LoopEndSamples";
             // 
             // button_SetStart
             // 
+            button_SetStart.BackColor = Color.White;
             resources.ApplyResources(button_SetStart, "button_SetStart");
+            button_SetStart.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_SetStart.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_SetStart.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_SetStart.ForeColor = Color.FromArgb(31, 35, 40);
             button_SetStart.Name = "button_SetStart";
-            button_SetStart.UseVisualStyleBackColor = true;
+            button_SetStart.UseVisualStyleBackColor = false;
             button_SetStart.Click += Button_SetStart_Click;
             // 
             // button_SetEnd
             // 
+            button_SetEnd.BackColor = Color.White;
             resources.ApplyResources(button_SetEnd, "button_SetEnd");
+            button_SetEnd.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_SetEnd.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_SetEnd.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_SetEnd.ForeColor = Color.FromArgb(31, 35, 40);
             button_SetEnd.Name = "button_SetEnd";
-            button_SetEnd.UseVisualStyleBackColor = true;
+            button_SetEnd.UseVisualStyleBackColor = false;
             button_SetEnd.Click += Button_SetEnd_Click;
             // 
             // numericUpDown_LoopStart
             // 
+            numericUpDown_LoopStart.BackColor = Color.White;
             resources.ApplyResources(numericUpDown_LoopStart, "numericUpDown_LoopStart");
+            numericUpDown_LoopStart.ForeColor = Color.FromArgb(31, 35, 40);
             numericUpDown_LoopStart.Name = "numericUpDown_LoopStart";
             numericUpDown_LoopStart.ValueChanged += NumericUpDown_LoopStart_ValueChanged;
             // 
             // numericUpDown_LoopEnd
             // 
+            numericUpDown_LoopEnd.BackColor = Color.White;
             resources.ApplyResources(numericUpDown_LoopEnd, "numericUpDown_LoopEnd");
+            numericUpDown_LoopEnd.ForeColor = Color.FromArgb(31, 35, 40);
             numericUpDown_LoopEnd.Name = "numericUpDown_LoopEnd";
             numericUpDown_LoopEnd.ValueChanged += NumericUpDown_LoopEnd_ValueChanged;
             // 
             // checkBox_LoopEnable
             // 
             resources.ApplyResources(checkBox_LoopEnable, "checkBox_LoopEnable");
+            checkBox_LoopEnable.BackColor = Color.FromArgb(246, 247, 249);
+            checkBox_LoopEnable.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            checkBox_LoopEnable.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 120, 212);
+            checkBox_LoopEnable.ForeColor = Color.FromArgb(31, 35, 40);
             checkBox_LoopEnable.Name = "checkBox_LoopEnable";
-            checkBox_LoopEnable.UseVisualStyleBackColor = true;
+            checkBox_LoopEnable.UseVisualStyleBackColor = false;
             checkBox_LoopEnable.CheckedChanged += CheckBox_LoopEnable_CheckedChanged;
             // 
             // radioButton_at3
             // 
             resources.ApplyResources(radioButton_at3, "radioButton_at3");
+            radioButton_at3.BackColor = Color.FromArgb(246, 247, 249);
             radioButton_at3.Checked = true;
+            radioButton_at3.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            radioButton_at3.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 120, 212);
+            radioButton_at3.ForeColor = Color.FromArgb(31, 35, 40);
             radioButton_at3.Name = "radioButton_at3";
             radioButton_at3.TabStop = true;
-            radioButton_at3.UseVisualStyleBackColor = true;
+            radioButton_at3.UseVisualStyleBackColor = false;
             radioButton_at3.CheckedChanged += RadioButton_at3_CheckedChanged;
             // 
             // radioButton_at9
             // 
             resources.ApplyResources(radioButton_at9, "radioButton_at9");
+            radioButton_at9.BackColor = Color.FromArgb(246, 247, 249);
+            radioButton_at9.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            radioButton_at9.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 120, 212);
+            radioButton_at9.ForeColor = Color.FromArgb(31, 35, 40);
             radioButton_at9.Name = "radioButton_at9";
             radioButton_at9.TabStop = true;
-            radioButton_at9.UseVisualStyleBackColor = true;
+            radioButton_at9.UseVisualStyleBackColor = false;
             radioButton_at9.CheckedChanged += RadioButton_at9_CheckedChanged;
             // 
             // label_File
             // 
             label_File.AutoEllipsis = true;
+            label_File.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_File, "label_File");
+            label_File.ForeColor = Color.FromArgb(31, 35, 40);
             label_File.Name = "label_File";
             // 
             // button_Prev
             // 
+            button_Prev.BackColor = Color.White;
+            button_Prev.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Prev.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Prev.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Prev, "button_Prev");
+            button_Prev.ForeColor = Color.FromArgb(31, 35, 40);
             button_Prev.Name = "button_Prev";
-            button_Prev.UseVisualStyleBackColor = true;
+            button_Prev.UseVisualStyleBackColor = false;
             button_Prev.Click += Button_Prev_Click;
             // 
             // button_Next
             // 
+            button_Next.BackColor = Color.White;
+            button_Next.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Next.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Next.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Next, "button_Next");
+            button_Next.ForeColor = Color.FromArgb(31, 35, 40);
             button_Next.Name = "button_Next";
-            button_Next.UseVisualStyleBackColor = true;
+            button_Next.UseVisualStyleBackColor = false;
             button_Next.Click += Button_Next_Click;
             // 
             // label_Psamples
             // 
+            label_Psamples.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_Psamples, "label_Psamples");
+            label_Psamples.ForeColor = Color.FromArgb(31, 35, 40);
             label_Psamples.Name = "label_Psamples";
             // 
             // label_Plength
             // 
+            label_Plength.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_Plength, "label_Plength");
+            label_Plength.ForeColor = Color.FromArgb(31, 35, 40);
             label_Plength.Name = "label_Plength";
             // 
             // volumeSlider1
             // 
+            volumeSlider1.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(volumeSlider1, "volumeSlider1");
             volumeSlider1.Name = "volumeSlider1";
             volumeSlider1.VolumeChanged += VolumeSlider1_VolumeChanged;
@@ -209,40 +280,58 @@
             // label_Volume
             // 
             resources.ApplyResources(label_Volume, "label_Volume");
+            label_Volume.BackColor = Color.FromArgb(246, 247, 249);
+            label_Volume.ForeColor = Color.FromArgb(31, 35, 40);
             label_Volume.Name = "label_Volume";
             // 
             // button_LS_Current
             // 
+            button_LS_Current.BackColor = Color.White;
             resources.ApplyResources(button_LS_Current, "button_LS_Current");
+            button_LS_Current.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_LS_Current.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_LS_Current.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_LS_Current.ForeColor = Color.FromArgb(31, 35, 40);
             button_LS_Current.Name = "button_LS_Current";
-            button_LS_Current.UseVisualStyleBackColor = true;
+            button_LS_Current.UseVisualStyleBackColor = false;
             button_LS_Current.Click += Button_LS_Current_Click;
             // 
             // button_LE_Current
             // 
+            button_LE_Current.BackColor = Color.White;
             resources.ApplyResources(button_LE_Current, "button_LE_Current");
+            button_LE_Current.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_LE_Current.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_LE_Current.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_LE_Current.ForeColor = Color.FromArgb(31, 35, 40);
             button_LE_Current.Name = "button_LE_Current";
-            button_LE_Current.UseVisualStyleBackColor = true;
+            button_LE_Current.UseVisualStyleBackColor = false;
             button_LE_Current.Click += Button_LE_Current_Click;
             // 
             // label_start
             // 
+            label_start.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_start, "label_start");
+            label_start.ForeColor = Color.FromArgb(31, 35, 40);
             label_start.Name = "label_start";
             // 
             // label_trk
             // 
-            label_trk.BackColor = Color.Transparent;
+            label_trk.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_trk, "label_trk");
+            label_trk.ForeColor = Color.FromArgb(31, 35, 40);
             label_trk.Name = "label_trk";
             // 
             // label_end
             // 
+            label_end.BackColor = Color.FromArgb(246, 247, 249);
             resources.ApplyResources(label_end, "label_end");
+            label_end.ForeColor = Color.FromArgb(31, 35, 40);
             label_end.Name = "label_end";
             // 
             // panSlider1
             // 
+            panSlider1.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(panSlider1, "panSlider1");
             panSlider1.Name = "panSlider1";
             panSlider1.Pan = 0F;
@@ -251,6 +340,8 @@
             // label_Pan
             // 
             resources.ApplyResources(label_Pan, "label_Pan");
+            label_Pan.BackColor = Color.FromArgb(246, 247, 249);
+            label_Pan.ForeColor = Color.FromArgb(31, 35, 40);
             label_Pan.Name = "label_Pan";
             // 
             // customTrackBar_End
@@ -258,10 +349,14 @@
             customTrackBar_End.BackgroundColor = SystemColors.Control;
             customTrackBar_End.DraggedThumbColor = Color.DarkRed;
             resources.ApplyResources(customTrackBar_End, "customTrackBar_End");
+            customTrackBar_End.ForeColor = Color.FromArgb(31, 35, 40);
             customTrackBar_End.Maximum = 100;
             customTrackBar_End.Minimum = 0;
             customTrackBar_End.Name = "customTrackBar_End";
             customTrackBar_End.Orientation = Orientation.Horizontal;
+            customTrackBar_End.OverlayText = "";
+            customTrackBar_End.OverlayTextSize = new Size(0, 0);
+            customTrackBar_End.OverlayTextTop = 0;
             customTrackBar_End.Shape = src.Controls.CustomTrackBar.ThumbShape.DownArrow;
             customTrackBar_End.ShowLPCSamples = true;
             customTrackBar_End.ShowTicks = true;
@@ -282,11 +377,15 @@
             // 
             customTrackBar_Trk.BackgroundColor = SystemColors.Control;
             customTrackBar_Trk.DraggedThumbColor = Color.DarkBlue;
+            customTrackBar_Trk.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(customTrackBar_Trk, "customTrackBar_Trk");
             customTrackBar_Trk.Maximum = 100;
             customTrackBar_Trk.Minimum = 0;
             customTrackBar_Trk.Name = "customTrackBar_Trk";
             customTrackBar_Trk.Orientation = Orientation.Horizontal;
+            customTrackBar_Trk.OverlayText = "";
+            customTrackBar_Trk.OverlayTextSize = new Size(0, 0);
+            customTrackBar_Trk.OverlayTextTop = 0;
             customTrackBar_Trk.Shape = src.Controls.CustomTrackBar.ThumbShape.Rectangle;
             customTrackBar_Trk.ShowLPCSamples = true;
             customTrackBar_Trk.ShowTicks = true;
@@ -308,10 +407,14 @@
             customTrackBar_Start.BackgroundColor = SystemColors.Control;
             customTrackBar_Start.DraggedThumbColor = Color.DarkGreen;
             resources.ApplyResources(customTrackBar_Start, "customTrackBar_Start");
+            customTrackBar_Start.ForeColor = Color.FromArgb(31, 35, 40);
             customTrackBar_Start.Maximum = 100;
             customTrackBar_Start.Minimum = 0;
             customTrackBar_Start.Name = "customTrackBar_Start";
             customTrackBar_Start.Orientation = Orientation.Horizontal;
+            customTrackBar_Start.OverlayText = "";
+            customTrackBar_Start.OverlayTextSize = new Size(0, 0);
+            customTrackBar_Start.OverlayTextTop = 0;
             customTrackBar_Start.Shape = src.Controls.CustomTrackBar.ThumbShape.UpArrow;
             customTrackBar_Start.ShowLPCSamples = true;
             customTrackBar_Start.ShowTicks = true;
@@ -331,6 +434,8 @@
             // label_previewwarn
             // 
             resources.ApplyResources(label_previewwarn, "label_previewwarn");
+            label_previewwarn.BackColor = Color.FromArgb(246, 247, 249);
+            label_previewwarn.ForeColor = Color.FromArgb(31, 35, 40);
             label_previewwarn.Name = "label_previewwarn";
             // 
             // FormLPC
@@ -373,6 +478,8 @@
             Controls.Add(button_OK);
             Controls.Add(button_Stop);
             Controls.Add(button_Play);
+            DoubleBuffered = true;
+            ForeColor = Color.FromArgb(31, 35, 40);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormLPC";
             FormClosed += FormLPC_FormClosed;

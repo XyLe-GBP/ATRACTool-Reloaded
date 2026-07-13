@@ -117,9 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button_Play.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button_Play.Location" type="System.Drawing.Point, System.Drawing">
-    <value>244, 200</value>
+    <value>244, 218</value>
   </data>
   <data name="button_Play.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 43</value>
@@ -143,8 +147,11 @@
   <data name="&gt;&gt;button_Play.ZOrder" xml:space="preserve">
     <value>32</value>
   </data>
+  <data name="button_Stop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="button_Stop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>444, 200</value>
+    <value>444, 218</value>
   </data>
   <data name="button_Stop.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 43</value>
@@ -167,8 +174,11 @@
   <data name="&gt;&gt;button_Stop.ZOrder" xml:space="preserve">
     <value>31</value>
   </data>
+  <data name="button_OK.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>716, 366</value>
+    <value>716, 384</value>
   </data>
   <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -191,8 +201,11 @@
   <data name="&gt;&gt;button_OK.ZOrder" xml:space="preserve">
     <value>30</value>
   </data>
+  <data name="button_Cancel.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 366</value>
+    <value>797, 384</value>
   </data>
   <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -219,7 +232,7 @@
     <value>True</value>
   </data>
   <data name="label_Samples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 247</value>
+    <value>12, 264</value>
   </data>
   <data name="label_Samples.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 15</value>
@@ -249,7 +262,7 @@
     <value>True</value>
   </data>
   <data name="label_Length.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 296</value>
+    <value>12, 313</value>
   </data>
   <data name="label_Length.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 15</value>
@@ -276,7 +289,7 @@
     <value>True</value>
   </data>
   <data name="label_LoopStartSamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 343</value>
+    <value>12, 360</value>
   </data>
   <data name="label_LoopStartSamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 15</value>
@@ -303,7 +316,7 @@
     <value>True</value>
   </data>
   <data name="label_LoopEndSamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 360</value>
+    <value>12, 377</value>
   </data>
   <data name="label_LoopEndSamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 15</value>
@@ -328,6 +341,9 @@
   </data>
   <data name="button_SetStart.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
+  </data>
+  <data name="button_SetStart.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="button_SetStart.Location" type="System.Drawing.Point, System.Drawing">
     <value>244, 267</value>
@@ -355,6 +371,9 @@
   </data>
   <data name="button_SetEnd.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
+  </data>
+  <data name="button_SetEnd.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="button_SetEnd.Location" type="System.Drawing.Point, System.Drawing">
     <value>444, 267</value>
@@ -431,11 +450,14 @@
   <data name="checkBox_LoopEnable.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="checkBox_LoopEnable.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="checkBox_LoopEnable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 331</value>
+    <value>679, 349</value>
   </data>
   <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 19</value>
+    <value>88, 19</value>
   </data>
   <data name="checkBox_LoopEnable.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -458,11 +480,14 @@
   <data name="radioButton_at3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioButton_at3.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButton_at3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 263</value>
+    <value>797, 281</value>
   </data>
   <data name="radioButton_at3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 19</value>
+    <value>74, 19</value>
   </data>
   <data name="radioButton_at3.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -485,11 +510,14 @@
   <data name="radioButton_at9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="radioButton_at9.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButton_at9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 287</value>
+    <value>797, 305</value>
   </data>
   <data name="radioButton_at9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 19</value>
+    <value>66, 19</value>
   </data>
   <data name="radioButton_at9.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -536,8 +564,11 @@
   <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
+  <data name="button_Prev.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="button_Prev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 201</value>
+    <value>12, 218</value>
   </data>
   <data name="button_Prev.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 43</value>
@@ -560,8 +591,11 @@
   <data name="&gt;&gt;button_Prev.ZOrder" xml:space="preserve">
     <value>18</value>
   </data>
+  <data name="button_Next.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="button_Next.Location" type="System.Drawing.Point, System.Drawing">
-    <value>677, 200</value>
+    <value>677, 218</value>
   </data>
   <data name="button_Next.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 43</value>
@@ -587,12 +621,11 @@
   <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 14.25pt, style=Bold</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_Psamples.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label_Psamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 263</value>
+    <value>15, 280</value>
   </data>
   <data name="label_Psamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 33</value>
@@ -622,7 +655,7 @@
     <value>Yu Gothic UI Semibold, 14.25pt, style=Bold</value>
   </data>
   <data name="label_Plength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 311</value>
+    <value>15, 328</value>
   </data>
   <data name="label_Plength.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 30</value>
@@ -649,7 +682,7 @@
     <value>15</value>
   </data>
   <data name="volumeSlider1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 264</value>
+    <value>679, 282</value>
   </data>
   <data name="volumeSlider1.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 19</value>
@@ -673,7 +706,7 @@
     <value>True</value>
   </data>
   <data name="label_Volume.Location" type="System.Drawing.Point, System.Drawing">
-    <value>677, 247</value>
+    <value>677, 265</value>
   </data>
   <data name="label_Volume.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 15</value>
@@ -698,6 +731,9 @@
   </data>
   <data name="button_LS_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
+  </data>
+  <data name="button_LS_Current.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="button_LS_Current.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 6.75pt</value>
@@ -728,6 +764,9 @@
   </data>
   <data name="button_LE_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
+  </data>
+  <data name="button_LE_Current.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="button_LE_Current.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 6.75pt</value>
@@ -769,7 +808,7 @@
     <value>NoControl</value>
   </data>
   <data name="label_start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-10, 162</value>
+    <value>-10, 180</value>
   </data>
   <data name="label_start.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 15</value>
@@ -802,7 +841,7 @@
     <value>NoControl</value>
   </data>
   <data name="label_trk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-10, 88</value>
+    <value>-10, 106</value>
   </data>
   <data name="label_trk.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 30</value>
@@ -838,7 +877,7 @@
     <value>NoControl</value>
   </data>
   <data name="label_end.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-9, 32</value>
+    <value>-9, 34</value>
   </data>
   <data name="label_end.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 15</value>
@@ -865,7 +904,7 @@
     <value>0</value>
   </data>
   <data name="panSlider1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 306</value>
+    <value>679, 324</value>
   </data>
   <data name="panSlider1.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 19</value>
@@ -889,7 +928,7 @@
     <value>True</value>
   </data>
   <data name="label_Pan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 289</value>
+    <value>679, 307</value>
   </data>
   <data name="label_Pan.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 15</value>
@@ -916,7 +955,7 @@
     <value>False</value>
   </data>
   <data name="customTrackBar_End.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 43</value>
+    <value>12, 61</value>
   </data>
   <data name="customTrackBar_End.Size" type="System.Drawing.Size, System.Drawing">
     <value>860, 34</value>
@@ -940,7 +979,7 @@
     <value>7</value>
   </data>
   <data name="customTrackBar_Trk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 72</value>
+    <value>12, 90</value>
   </data>
   <data name="customTrackBar_Trk.Size" type="System.Drawing.Size, System.Drawing">
     <value>860, 63</value>
@@ -967,7 +1006,7 @@
     <value>False</value>
   </data>
   <data name="customTrackBar_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 135</value>
+    <value>12, 153</value>
   </data>
   <data name="customTrackBar_Start.Size" type="System.Drawing.Size, System.Drawing">
     <value>860, 25</value>
@@ -997,7 +1036,7 @@
     <value>Yu Gothic UI, 8.25pt</value>
   </data>
   <data name="label_previewwarn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 179</value>
+    <value>12, 375</value>
   </data>
   <data name="label_previewwarn.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -1027,7 +1066,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>884, 401</value>
+    <value>884, 419</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

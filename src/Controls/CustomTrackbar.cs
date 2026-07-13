@@ -25,6 +25,10 @@ namespace ATRACTool_Reloaded.src.Controls
         private Color trackColor = ThemeColors.Border;
         private Color thumbColor = ThemeColors.Accent;
         private Color backgroundColor = ThemeColors.Window;
+        private string overlayText = string.Empty;
+        private int overlayTextTop = 0;
+        private Size overlayTextSize = Size.Empty;
+        private Font? overlayTextFont;
 
         private ToolTip toolTip = new();
         private DateTime lastToolTipUpdate = DateTime.MinValue;
@@ -147,6 +151,66 @@ namespace ATRACTool_Reloaded.src.Controls
         [Category("Appearance")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public TickPosition TickPos { get; set; } = TickPosition.Below;
+
+        [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public string OverlayText
+        {
+            get => overlayText;
+            set
+            {
+                if (overlayText != value)
+                {
+                    overlayText = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int OverlayTextTop
+        {
+            get => overlayTextTop;
+            set
+            {
+                if (overlayTextTop != value)
+                {
+                    overlayTextTop = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public Size OverlayTextSize
+        {
+            get => overlayTextSize;
+            set
+            {
+                if (overlayTextSize != value)
+                {
+                    overlayTextSize = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Font OverlayTextFont
+        {
+            get => overlayTextFont ?? Font;
+            set
+            {
+                if (overlayTextFont != value)
+                {
+                    overlayTextFont = value;
+                    Invalidate();
+                }
+            }
+        }
 
         [Category("Appearance")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -339,8 +403,9 @@ namespace ATRACTool_Reloaded.src.Controls
                 g.FillPath(activeBrush, activePath);
             }
 
-            DrawTicks(g, trackRect);
+            DrawTicks(g, trackRect, baseTrackColor, activeColor);
             DrawThumb(g, thumbRect, activeColor);
+            DrawOverlayText(g);
 
             if (Focused && ShowFocusCues)
             {
@@ -349,6 +414,31 @@ namespace ATRACTool_Reloaded.src.Controls
                 using Pen focusPen = new(ThemeColors.Accent) { DashStyle = DashStyle.Dot };
                 g.DrawRectangle(focusPen, focusRect);
             }
+        }
+
+        private void DrawOverlayText(Graphics graphics)
+        {
+            if (string.IsNullOrEmpty(OverlayText))
+            {
+                return;
+            }
+
+            int range = Math.Max(1, Maximum - Minimum);
+            float ratio = (float)(Value - Minimum) / range;
+            Size textSize = OverlayTextSize.IsEmpty
+                ? TextRenderer.MeasureText(OverlayText, OverlayTextFont)
+                : OverlayTextSize;
+            int x = (int)Math.Round(ratio * Width) - (textSize.Width / 2);
+            x = Math.Clamp(x, 0, Math.Max(0, Width - textSize.Width));
+
+            Rectangle textBounds = new(x, OverlayTextTop, textSize.Width, textSize.Height);
+            TextRenderer.DrawText(
+                graphics,
+                OverlayText,
+                OverlayTextFont,
+                textBounds,
+                ModernTheme.IsDarkMode ? ControlPaint.Dark(ThemeColors.TextMuted, 0.35F) : ThemeColors.Text,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPrefix);
         }
 
         protected override void OnParentBackColorChanged(EventArgs e)
@@ -395,18 +485,25 @@ namespace ATRACTool_Reloaded.src.Controls
             return new Rectangle(trackRect.Left, trackRect.Top, trackRect.Width, Math.Max(1, bottom - trackRect.Top));
         }
 
-        private void DrawTicks(Graphics graphics, Rectangle trackRect)
+        private void DrawTicks(Graphics graphics, Rectangle trackRect, Color baseTrackColor, Color activeTrackColor)
         {
             if (!ShowTicks || TickPos == TickPosition.None || TickFrequency <= 0)
             {
                 return;
             }
 
-            using Pen pen = new(Enabled ? TickColor : ThemeColors.TextMuted, 1F);
+            Color disabledTickColor = ModernTheme.IsDarkMode
+                ? ControlPaint.Dark(ThemeColors.DisabledText, 0.2F)
+                : ControlPaint.Dark(ThemeColors.TextMuted, 0.2F);
 
             for (int tickValue = Minimum; tickValue <= Maximum; tickValue += TickFrequency)
             {
                 float ratio = (float)(tickValue - Minimum) / (Maximum - Minimum);
+                bool isActiveTick = tickValue <= Value;
+                Color tickPenColor = Enabled
+                    ? isActiveTick ? Color.FromArgb(175, activeTrackColor) : baseTrackColor
+                    : disabledTickColor;
+                using Pen pen = new(tickPenColor, 1F);
 
                 if (Orientation == Orientation.Horizontal)
                 {

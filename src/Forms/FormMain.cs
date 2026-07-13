@@ -137,12 +137,7 @@ namespace ATRACTool_Reloaded
                     Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_tempAudio");
                 }
 
-                if (!File.Exists(Common.xmlpath))
-                {
-                    Common.Utils.InitConfig();
-                }
-
-                Common.Config.Load(Common.xmlpath);
+                Common.Utils.LoadOrCreateConfig();
 
                 if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
                 {

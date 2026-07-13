@@ -158,7 +158,7 @@
     <value>Yu Gothic UI, 20.25pt, style=Bold</value>
   </data>
   <data name="label_NotReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>885, 375</value>
+    <value>885, 393</value>
   </data>
   <data name="label_NotReaded.Text" xml:space="preserve">
     <value>ここにファイルをドラッグアンドドロップするか

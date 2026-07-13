@@ -44,6 +44,10 @@
             textBox_suffix = new TextBox();
             tabControl1 = new TabControl();
             tabPageGeneral = new TabPage();
+            groupBox_Theme = new GroupBox();
+            checkBox_FollowSystemTheme = new CheckBox();
+            radioButton_ThemeLight = new RadioButton();
+            radioButton_ThemeDark = new RadioButton();
             checkBox_ATRACEncodeSource = new CheckBox();
             checkBox_Hidesplash = new CheckBox();
             checkBox_DisablePreviewWarning = new CheckBox();
@@ -87,6 +91,7 @@
             groupBox_IO_Behavior.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPageGeneral.SuspendLayout();
+            groupBox_Theme.SuspendLayout();
             tabPageIO.SuspendLayout();
             tabPageLPC.SuspendLayout();
             tabPageAdvanced.SuspendLayout();
@@ -190,6 +195,7 @@
             // 
             // tabPageGeneral
             // 
+            tabPageGeneral.Controls.Add(groupBox_Theme);
             tabPageGeneral.Controls.Add(checkBox_ATRACEncodeSource);
             tabPageGeneral.Controls.Add(checkBox_Hidesplash);
             tabPageGeneral.Controls.Add(checkBox_DisablePreviewWarning);
@@ -200,6 +206,51 @@
             resources.ApplyResources(tabPageGeneral, "tabPageGeneral");
             tabPageGeneral.Name = "tabPageGeneral";
             tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_Theme
+            // 
+            groupBox_Theme.Controls.Add(checkBox_FollowSystemTheme);
+            groupBox_Theme.Controls.Add(radioButton_ThemeLight);
+            groupBox_Theme.Controls.Add(radioButton_ThemeDark);
+            groupBox_Theme.Location = new System.Drawing.Point(360, 6);
+            groupBox_Theme.Name = "groupBox_Theme";
+            groupBox_Theme.Size = new System.Drawing.Size(258, 86);
+            groupBox_Theme.TabIndex = 11;
+            groupBox_Theme.TabStop = false;
+            groupBox_Theme.Text = resources.GetString("groupBox_Theme.Text");
+            // 
+            // checkBox_FollowSystemTheme
+            // 
+            checkBox_FollowSystemTheme.AutoSize = true;
+            checkBox_FollowSystemTheme.Location = new System.Drawing.Point(12, 22);
+            checkBox_FollowSystemTheme.Name = "checkBox_FollowSystemTheme";
+            checkBox_FollowSystemTheme.Size = new System.Drawing.Size(138, 19);
+            checkBox_FollowSystemTheme.TabIndex = 0;
+            checkBox_FollowSystemTheme.Text = resources.GetString("checkBox_FollowSystemTheme.Text");
+            checkBox_FollowSystemTheme.UseVisualStyleBackColor = true;
+            checkBox_FollowSystemTheme.CheckedChanged += CheckBox_FollowSystemTheme_CheckedChanged;
+            // 
+            // radioButton_ThemeLight
+            // 
+            radioButton_ThemeLight.AutoSize = true;
+            radioButton_ThemeLight.Checked = true;
+            radioButton_ThemeLight.Location = new System.Drawing.Point(24, 52);
+            radioButton_ThemeLight.Name = "radioButton_ThemeLight";
+            radioButton_ThemeLight.Size = new System.Drawing.Size(52, 19);
+            radioButton_ThemeLight.TabIndex = 1;
+            radioButton_ThemeLight.TabStop = true;
+            radioButton_ThemeLight.Text = resources.GetString("radioButton_ThemeLight.Text");
+            radioButton_ThemeLight.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_ThemeDark
+            // 
+            radioButton_ThemeDark.AutoSize = true;
+            radioButton_ThemeDark.Location = new System.Drawing.Point(100, 52);
+            radioButton_ThemeDark.Name = "radioButton_ThemeDark";
+            radioButton_ThemeDark.Size = new System.Drawing.Size(49, 19);
+            radioButton_ThemeDark.TabIndex = 2;
+            radioButton_ThemeDark.Text = resources.GetString("radioButton_ThemeDark.Text");
+            radioButton_ThemeDark.UseVisualStyleBackColor = true;
             // 
             // checkBox_ATRACEncodeSource
             // 
@@ -544,6 +595,8 @@
             groupBox_IO_Behavior.ResumeLayout(false);
             groupBox_IO_Behavior.PerformLayout();
             tabControl1.ResumeLayout(false);
+            groupBox_Theme.ResumeLayout(false);
+            groupBox_Theme.PerformLayout();
             tabPageGeneral.ResumeLayout(false);
             tabPageGeneral.PerformLayout();
             tabPageIO.ResumeLayout(false);
@@ -571,6 +624,10 @@
         private TextBox textBox_suffix;
         private TabControl tabControl1;
         private TabPage tabPageGeneral;
+        private GroupBox groupBox_Theme;
+        private CheckBox checkBox_FollowSystemTheme;
+        private RadioButton radioButton_ThemeLight;
+        private RadioButton radioButton_ThemeDark;
         private TabPage tabPageIO;
         private CheckBox checkBox_ShowFolder;
         private CheckBox checkBox_Checkupdate;

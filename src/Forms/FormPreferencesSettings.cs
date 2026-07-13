@@ -100,6 +100,7 @@ namespace ATRACTool_Reloaded
                 // WAV 強制変換 / ATRAC エンコードソース
                 checkBox_ForceConvertWaveOnly.Checked = Utils.GetBool("ForceConvertWaveOnly", false);
                 checkBox_ATRACEncodeSource.Checked = Utils.GetBool("ATRACEncodeSource", false);
+                LoadThemeSettings();
 
                 // 保存先（通常 / 指定フォルダ）
                 bool saveIsManual = Utils.GetBool("Save_IsManual", false);
@@ -293,6 +294,29 @@ namespace ATRACTool_Reloaded
                 Generic.IsConfigError = true;
                 Close();
             }
+        }
+
+        private void LoadThemeSettings()
+        {
+            bool followSystem = Utils.GetBool("Theme_FollowSystem", false);
+            string themeMode = Utils.GetString("Theme_Mode", nameof(ModernUI.ModernTheme.AppThemeMode.Light));
+
+            checkBox_FollowSystemTheme.Checked = followSystem;
+            radioButton_ThemeDark.Checked = string.Equals(themeMode, nameof(ModernUI.ModernTheme.AppThemeMode.Dark), StringComparison.OrdinalIgnoreCase);
+            radioButton_ThemeLight.Checked = !radioButton_ThemeDark.Checked;
+            UpdateThemeOptionState();
+        }
+
+        private void UpdateThemeOptionState()
+        {
+            bool useManualTheme = !checkBox_FollowSystemTheme.Checked;
+            radioButton_ThemeLight.Enabled = useManualTheme;
+            radioButton_ThemeDark.Enabled = useManualTheme;
+        }
+
+        private void CheckBox_FollowSystemTheme_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateThemeOptionState();
         }
 
         private void RadioButton_nml_CheckedChanged(object sender, EventArgs e)
@@ -497,6 +521,11 @@ namespace ATRACTool_Reloaded
                 Config.Entry["ATRACEncodeSource"].Value = "true";
             }
 
+            Config.Entry["Theme_FollowSystem"].Value = checkBox_FollowSystemTheme.Checked ? "true" : "false";
+            Config.Entry["Theme_Mode"].Value = radioButton_ThemeDark.Checked
+                ? nameof(ModernUI.ModernTheme.AppThemeMode.Dark)
+                : nameof(ModernUI.ModernTheme.AppThemeMode.Light);
+
             if (radioButton_nml.Checked != true)
             {
                 Config.Entry["Save_IsManual"].Value = "true";
@@ -606,6 +635,7 @@ namespace ATRACTool_Reloaded
             Config.Entry["PlaybackThreadCount"].Value = comboBox_PlaybackThreadCounts.SelectedIndex.ToString();
 
             Config.Save(xmlpath);
+            ModernUI.ModernTheme.RefreshOpenWindows();
 
             if (checkBox_Splashimg.Checked == true && !string.IsNullOrEmpty(textBox_Splashimg.Text) && oldsplashimgpath != textBox_Splashimg.Text)
             {

@@ -32,8 +32,11 @@ namespace ATRACTool_Reloaded
         uint btnpos;
         TimeSpan time;
         bool mouseDown = false, stopflag = false, IsPausedMoveTrackbar, SmoothSamples = false, IsPlaybackATRAC = false, IsEncodeSourceATRAC = false, IsMultiChannel = false, IsWASAPI = false, IsWASAPIex = false, IsASIO = false, UseParallel = false;
+        private volatile bool _isClosing;
         float ScaleWidthTrk = 0f, ScaleWidthStart = 0f, ScaleWidthEnd = 0f;
         Point MainDefaultPoint = new(15, 88), StartDefaultPoint = new(15, 160), EndDefaultPoint = new(15, 32);
+        private const int TrackOverlayTextTopOffset = 17;
+        private const int EndLabelFileGap = 2;
 
         Point labelTrk, labelStart, labelEnd;
 
@@ -201,8 +204,10 @@ namespace ATRACTool_Reloaded
             customTrackBar_Trk.MouseDown += CustomTrackBar_Trk_MouseDown;
             customTrackBar_Trk.MouseUp += CustomTrackBar_Trk_MouseUp;
             label_trk.Text = "0";
-            label_start.Text = "0";
-            label_end.Text = "0";
+            ConfigureTrackValueLabel();
+            ConfigureLoopPointValueLabels();
+            label_start.Text = BuildPositionText(0);
+            label_end.Text = BuildPositionText(0);
             label_Samples.Text = Localization.SampleCaption + ":";
             label_Psamples.Text = "0";
             label_Length.Text = Localization.LengthCaption + ":";
@@ -213,14 +218,125 @@ namespace ATRACTool_Reloaded
             timer_Reload.Interval = 1;
         }
 
+        public string ExecuteDebugFunction(string functionName)
+        {
+            if (!FormMain.AreDebugFunctionsEnabled)
+            {
+                return "Debug functions are disabled.";
+            }
+
+            string normalized = (functionName ?? "status").Trim().ToLowerInvariant();
+            return normalized switch
+            {
+                "" or "status" => BuildDebugStatus(),
+                "stop-playback" => ExecuteDebugStopPlayback(),
+                _ => $"Unknown FormLPC debug function: {functionName}"
+            };
+        }
+
+        private string BuildDebugStatus()
+        {
+            string playbackState = IsWASAPI || IsWASAPIex
+                ? wasapiOut?.PlaybackState.ToString() ?? "null"
+                : IsASIO
+                    ? asioOut?.PlaybackState.ToString() ?? "null"
+                    : wo?.PlaybackState.ToString() ?? "null";
+
+            return $"FormLPC: closing={_isClosing}, timer={timer_Reload.Enabled}, reader={(reader is null ? "null" : "ready")}, playback={playbackState}, loop={checkBox_LoopEnable.Checked}, sample={Sample}";
+        }
+
+        private string ExecuteDebugStopPlayback()
+        {
+            StopPlaybackLoop();
+            try
+            {
+                if (IsWASAPI || IsWASAPIex)
+                {
+                    wasapiOut?.Stop();
+                }
+                else if (IsASIO)
+                {
+                    asioOut?.Stop();
+                }
+                else
+                {
+                    wo?.Stop();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+
+            return "FormLPC playback stopped.";
+        }
+
+        private void ConfigureTrackValueLabel()
+        {
+            labelTrk = new Point(
+                label_trk.Left - customTrackBar_Trk.Left,
+                label_trk.Top - customTrackBar_Trk.Top);
+            MainDefaultPoint = labelTrk;
+            label_trk.Visible = false;
+            int overlayTop = Math.Max(0, labelTrk.Y - TrackOverlayTextTopOffset);
+            customTrackBar_Trk.OverlayTextTop = overlayTop;
+            customTrackBar_Trk.OverlayTextSize = new Size(
+                label_trk.Width,
+                Math.Max(label_trk.Height, customTrackBar_Trk.Height - overlayTop));
+            customTrackBar_Trk.OverlayTextFont = label_trk.Font;
+            customTrackBar_Trk.OverlayText = BuildPositionText(customTrackBar_Trk.Value);
+        }
+
+        private void ConfigureLoopPointValueLabels()
+        {
+            int labelEndBottom = label_end.Bottom;
+            int labelHeight = Math.Max(label_start.Height, label_end.Height) * 2 + 4;
+            label_start.Height = labelHeight;
+            label_end.Height = labelHeight;
+            label_end.Top = Math.Max(label_File.Bottom + EndLabelFileGap, labelEndBottom - label_end.Height);
+            StartDefaultPoint = new Point(StartDefaultPoint.X, label_start.Top);
+            EndDefaultPoint = new Point(EndDefaultPoint.X, label_end.Top);
+            labelStart = StartDefaultPoint;
+            labelEnd = EndDefaultPoint;
+            label_start.TextAlign = ContentAlignment.MiddleCenter;
+            label_end.TextAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private void UpdateLoopPointValueLabels()
+        {
+            SetTrackbarStart();
+            SetTrackbarEnd();
+            label_start.Text = BuildPositionText(customTrackBar_Start.Value);
+            label_end.Text = BuildPositionText(customTrackBar_End.Value);
+        }
+
+        private string BuildPositionText(int milliseconds)
+        {
+            return $"{milliseconds}{Environment.NewLine}{MillisecondsToSamples(milliseconds)}";
+        }
+
+        private long MillisecondsToSamples(int milliseconds)
+        {
+            if (smplrate <= 0)
+            {
+                return 0;
+            }
+
+            long samples = milliseconds * (long)smplrate / 1000L;
+            return totalsamples > 0
+                ? Math.Clamp(samples, 0L, totalsamples)
+                : Math.Max(0L, samples);
+        }
+
         private void CustomTrackBar_End_Scroll(object? sender, EventArgs e)
         {
             numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
+            UpdateLoopPointValueLabels();
         }
 
         private void CustomTrackBar_Start_Scroll(object? sender, EventArgs e)
         {
             numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
+            UpdateLoopPointValueLabels();
         }
 
         private void CustomTrackBar_Trk_Scroll(object? sender, EventArgs e)
@@ -354,6 +470,11 @@ namespace ATRACTool_Reloaded
             UseThreads = Utils.GetInt("PlaybackThreadCount", 4);
 
             Generic.IsLPCStreamingReloaded = true;
+            if (ShouldDisableLoopEnableForAtracEncodeSourceOnly())
+            {
+                checkBox_LoopEnable.Enabled = false;
+            }
+
             if (IsPlaybackATRAC && Generic.IsATRAC) // ATRAC再生機能有効
             {
                 checkBox_LoopEnable.Enabled = false;
@@ -540,6 +661,7 @@ namespace ATRACTool_Reloaded
             wo.Volume = volumeSlider1.Volume;
 
             label_trk.Text = "";
+            customTrackBar_Trk.OverlayText = string.Empty;
             label_start.Text = "";
             label_end.Text = "";
 
@@ -623,9 +745,15 @@ namespace ATRACTool_Reloaded
             SLTAlive = false;
 
             // 進行状況更新用タイマーも止めておく
-            if (timer_Reload.Enabled)
+            try
             {
-                timer_Reload.Stop();
+                if (timer_Reload.Enabled)
+                {
+                    timer_Reload.Stop();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
             }
         }
 
@@ -992,6 +1120,11 @@ namespace ATRACTool_Reloaded
         /// </summary>
         private void HandleTimerReloadForOutput(IWavePlayer output)
         {
+            if (_isClosing || reader is null || output is null)
+            {
+                return;
+            }
+
             // 再生が最後まで到達したら停止処理
             if (reader.CurrentTime == reader.TotalTime)
             {
@@ -1024,42 +1157,53 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void Timer_Reload_Tick(object sender, EventArgs e)
+        private void Timer_Reload_Tick(object? sender, EventArgs e)
         {
-            if (!mouseDown) customTrackBar_Trk.Value = (int)reader.CurrentTime.TotalMilliseconds;
-            if (checkBox_LoopEnable.Checked == true && reader.CurrentTime >= TimeSpan.FromMilliseconds(customTrackBar_End.Value))
+            if (_isClosing || reader is null || IsDisposed || Disposing)
             {
-                reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Start.Value);
-                Sample = reader.Position / reader.BlockAlign;
+                StopPlaybackLoop();
+                return;
             }
 
-            // 出力デバイスごとの処理は共通ヘルパーに集約
-            if (IsWASAPI || IsWASAPIex)
+            try
             {
-                HandleTimerReloadForOutput(wasapiOut);
+                if (!mouseDown) customTrackBar_Trk.Value = (int)reader.CurrentTime.TotalMilliseconds;
+                if (checkBox_LoopEnable.Checked == true && reader.CurrentTime >= TimeSpan.FromMilliseconds(customTrackBar_End.Value))
+                {
+                    reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Start.Value);
+                    Sample = reader.Position / reader.BlockAlign;
+                }
+
+                // 出力デバイスごとの処理は共通ヘルパーに集約
+                if (IsWASAPI || IsWASAPIex)
+                {
+                    HandleTimerReloadForOutput(wasapiOut);
+                }
+                else if (IsASIO)
+                {
+                    HandleTimerReloadForOutput(asioOut);
+                }
+                else
+                {
+                    HandleTimerReloadForOutput(wo);
+                }
+
+                SetTrackbarTrack();
+                UpdateLoopPointValueLabels();
+                StringBuilder str = new(Sample.ToString());
+
+                label_trk.Text = BuildPositionText(customTrackBar_Trk.Value);
+                customTrackBar_Trk.OverlayText = label_trk.Text;
+                label_Length.Text = Localization.LengthCaption + ":";
+                label_Plength.Text = time.ToString(@"hh\:mm\:ss");
+
+                label_Samples.Text = Localization.SampleCaption + ":";
+                label_Psamples.Text = str.ToString();
             }
-            else if (IsASIO)
+            catch (ObjectDisposedException)
             {
-                HandleTimerReloadForOutput(asioOut);
+                StopPlaybackLoop();
             }
-            else
-            {
-                HandleTimerReloadForOutput(wo);
-            }
-
-            SetTrackbarTrack();
-            SetTrackbarStart();
-            SetTrackbarEnd();
-            StringBuilder str = new(Sample.ToString());
-
-            label_trk.Text = customTrackBar_Trk.Value.ToString();
-            label_start.Text = customTrackBar_Start.Value.ToString();
-            label_end.Text = customTrackBar_End.Value.ToString();
-            label_Length.Text = Localization.LengthCaption + ":";
-            label_Plength.Text = time.ToString(@"hh\:mm\:ss");
-
-            label_Samples.Text = Localization.SampleCaption + ":";
-            label_Psamples.Text = str.ToString();
         }
 
         private void Playback()
@@ -1088,6 +1232,11 @@ namespace ATRACTool_Reloaded
             {
                 while (SLTAlive)
                 {
+                    if (_isClosing || reader is null)
+                    {
+                        break;
+                    }
+
                     // 再生が止まっていたら監視スレッドも終了
                     PlaybackState state;
 
@@ -1109,6 +1258,11 @@ namespace ATRACTool_Reloaded
                         break;
                     }
 
+                    if (_isClosing || reader is null)
+                    {
+                        break;
+                    }
+
                     // 再生位置・サンプル数を更新
                     position = (int)(reader.Position / (long)reader.WaveFormat.AverageBytesPerSecond);
                     time = new TimeSpan(0, 0, position);
@@ -1126,6 +1280,13 @@ namespace ATRACTool_Reloaded
             {
                 // 必要ならここでログ出力など
             }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            _isClosing = true;
+            StopPlaybackLoop();
+            base.OnFormClosing(e);
         }
 
         private void FormLPC_Paint(object sender, PaintEventArgs e)
@@ -1190,42 +1351,66 @@ namespace ATRACTool_Reloaded
 
         private void FormLPC_FormClosed(object sender, FormClosedEventArgs e)
         {
-            SLTAlive = false;
+            _isClosing = true;
+            StopPlaybackLoop();
 
-            if (timer_Reload.Enabled)
-                timer_Reload.Enabled = false;
+            try
+            {
+                timer_Reload.Tick -= Timer_Reload_Tick;
+            }
+            catch (ObjectDisposedException)
+            {
+            }
 
             // 読み取り位置を先頭に戻しておく
-            if (reader is not null)
+            try
             {
-                reader.Position = 0;
+                if (reader is not null)
+                {
+                    reader.Position = 0;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
             }
 
             if (wi is not null)
             {
-                wi.StopRecording();
-                wi.Dispose();
+                try { wi.StopRecording(); } catch (ObjectDisposedException) { }
+                try { wi.Dispose(); } catch (ObjectDisposedException) { }
             }
 
             if (wo is not null)
             {
-                if (wo.PlaybackState != PlaybackState.Stopped)
-                    wo.Stop();
-                wo.Dispose();
+                try
+                {
+                    if (wo.PlaybackState != PlaybackState.Stopped)
+                        wo.Stop();
+                }
+                catch (ObjectDisposedException) { }
+                try { wo.Dispose(); } catch (ObjectDisposedException) { }
             }
 
             if (wasapiOut is not null)
             {
-                if (wasapiOut.PlaybackState != PlaybackState.Stopped)
-                    wasapiOut.Stop();
-                wasapiOut.Dispose();
+                try
+                {
+                    if (wasapiOut.PlaybackState != PlaybackState.Stopped)
+                        wasapiOut.Stop();
+                }
+                catch (ObjectDisposedException) { }
+                try { wasapiOut.Dispose(); } catch (ObjectDisposedException) { }
             }
 
             if (asioOut is not null)
             {
-                if (asioOut.PlaybackState != PlaybackState.Stopped)
-                    asioOut.Stop();
-                asioOut.Dispose();
+                try
+                {
+                    if (asioOut.PlaybackState != PlaybackState.Stopped)
+                        asioOut.Stop();
+                }
+                catch (ObjectDisposedException) { }
+                try { asioOut.Dispose(); } catch (ObjectDisposedException) { }
             }
 
             // マルチチャンネル時に保持している追加の IDisposable を解放
@@ -1233,20 +1418,20 @@ namespace ATRACTool_Reloaded
             {
                 foreach (var d in _disposables)
                 {
-                    d?.Dispose();
+                    try { d?.Dispose(); } catch (ObjectDisposedException) { }
                 }
                 _disposables.Clear();
             }
 
             // WASAPI のデバイスも解放
-            mmDevice?.Dispose();
+            try { mmDevice?.Dispose(); } catch (ObjectDisposedException) { }
             mmDevice = null;
 
             // WaveFileReader を確実に解放
             if (reader is not null)
             {
-                reader.Close();
-                reader.Dispose();
+                try { reader.Close(); } catch (ObjectDisposedException) { }
+                try { reader.Dispose(); } catch (ObjectDisposedException) { }
                 reader = null!;
             }
 
@@ -1678,7 +1863,15 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
-                    if (!Generic.lpcreatev2 && Generic.lpcreate != false)
+                    if (ShouldDisableLoopEnableForAtracEncodeSourceOnly())
+                    {
+                        checkBox_LoopEnable.Checked = false;
+                        checkBox_LoopEnable.Enabled = false;
+                        DisableLoopUiControls();
+                        return;
+                    }
+
+                    if (ShouldShowLpCreateAlreadyEnabledWarning())
                     {
                         MessageBox.Show(this,
                             Localization.LPCreateAlreadyEnableWarning,
@@ -1687,6 +1880,11 @@ namespace ATRACTool_Reloaded
                             MessageBoxIcon.Warning);
                         ResetLoopEnable();
                         return;
+                    }
+
+                    if (ShouldLockLoopEnableForAtracPreview())
+                    {
+                        checkBox_LoopEnable.Enabled = false;
                     }
 
                     // --- Main 側のループ UI を有効化 ---
@@ -1783,7 +1981,15 @@ namespace ATRACTool_Reloaded
             {
                 if (checkBox_LoopEnable.Checked) // 有効化
                 {
-                    if (!Generic.lpcreatev2 && Generic.lpcreate != false)
+                    if (ShouldDisableLoopEnableForAtracEncodeSourceOnly())
+                    {
+                        checkBox_LoopEnable.Checked = false;
+                        checkBox_LoopEnable.Enabled = false;
+                        DisableLoopUiControls();
+                        return;
+                    }
+
+                    if (ShouldShowLpCreateAlreadyEnabledWarning())
                     {
                         MessageBox.Show(this,
                             Localization.LPCreateAlreadyEnableWarning,
@@ -1792,6 +1998,11 @@ namespace ATRACTool_Reloaded
                             MessageBoxIcon.Warning);
                         ResetLoopEnable();
                         return;
+                    }
+
+                    if (ShouldLockLoopEnableForAtracPreview())
+                    {
+                        checkBox_LoopEnable.Enabled = false;
                     }
 
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
@@ -1944,6 +2155,34 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        private bool ShouldShowLpCreateAlreadyEnabledWarning()
+        {
+            return !Generic.lpcreatev2 &&
+                Generic.lpcreate &&
+                !ShouldIgnoreLpCreateWarningForAtracPreview();
+        }
+
+        private bool ShouldIgnoreLpCreateWarningForAtracPreview()
+        {
+            return ShouldLockLoopEnableForAtracPreview();
+        }
+
+        private bool ShouldLockLoopEnableForAtracPreview()
+        {
+            return Generic.IsATRAC &&
+                IsEncodeSourceATRAC &&
+                IsPlaybackATRAC &&
+                Generic.lpcreate;
+        }
+
+        private bool ShouldDisableLoopEnableForAtracEncodeSourceOnly()
+        {
+            return Generic.IsATRAC &&
+                IsEncodeSourceATRAC &&
+                !IsPlaybackATRAC &&
+                Generic.lpcreate;
+        }
+
         private void Button_OK_Click(object sender, EventArgs e)
         {
             if (checkBox_LoopEnable.Checked == true)
@@ -2035,11 +2274,13 @@ namespace ATRACTool_Reloaded
         private void NumericUpDown_LoopStart_ValueChanged(object sender, EventArgs e)
         {
             customTrackBar_Start.Value = (int)numericUpDown_LoopStart.Value;
+            UpdateLoopPointValueLabels();
         }
 
         private void NumericUpDown_LoopEnd_ValueChanged(object sender, EventArgs e)
         {
             customTrackBar_End.Value = (int)numericUpDown_LoopEnd.Value;
+            UpdateLoopPointValueLabels();
         }
 
         private static bool CheckLoopSoundEnabled(bool IsAT9)
@@ -2185,22 +2426,7 @@ namespace ATRACTool_Reloaded
 
         private void SetTrackbarTrack()
         {
-            if (customTrackBar_Trk.Value < customTrackBar_Trk.Maximum / 2)
-            {
-                label_trk.Location = new Point(labelTrk.X + (int)((customTrackBar_Trk.Value - customTrackBar_Trk.Minimum) * ScaleWidthTrk) - customTrackBar_Trk.Location.X - labelTrk.X + 9, labelTrk.Y);
-            }
-            else if (customTrackBar_Trk.Value > customTrackBar_Trk.Maximum / 2)
-            {
-                label_trk.Location = new Point(labelTrk.X + (int)((customTrackBar_Trk.Value - customTrackBar_Trk.Minimum) * ScaleWidthTrk) - customTrackBar_Trk.Location.X - labelTrk.X - 9, labelTrk.Y);
-            }
-            else if (customTrackBar_Trk.Value == customTrackBar_Trk.Maximum / 2)
-            {
-                label_trk.Location = new Point(labelTrk.X + (int)((customTrackBar_Trk.Value - customTrackBar_Trk.Minimum) * ScaleWidthTrk) - customTrackBar_Trk.Location.X - labelTrk.X, labelTrk.Y);
-            }
-            else
-            {
-                label_trk.Location = new Point(labelTrk.X + (int)((customTrackBar_Trk.Value - customTrackBar_Trk.Minimum) * ScaleWidthTrk) - customTrackBar_Trk.Location.X - labelTrk.X, labelTrk.Y);
-            }
+            customTrackBar_Trk.Invalidate();
         }
 
         private void SetTrackbarStart()

@@ -41,6 +41,7 @@ namespace ATRACTool_Reloaded
 
         public WindowAbout()
         {
+            ModernUI.ModernWpfTheme.Apply();
             InitializeComponent();
         }
 

@@ -52,6 +52,37 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo("[FormProgress] Initialized.");
         }
 
+        public string ExecuteDebugFunction(string functionName)
+        {
+            if (!FormMain.AreDebugFunctionsEnabled)
+            {
+                return "Debug functions are disabled.";
+            }
+
+            string normalized = (functionName ?? "status").Trim().ToLowerInvariant();
+            return normalized switch
+            {
+                "" or "status" => $"FormProgress: process={Generic.ProcessFlag}, result={Generic.Result}, progress={progressBar_MainProgress.Value}/{progressBar_MainProgress.Maximum}, timer={timer_interval.Enabled}",
+                "cancel" => ExecuteDebugCancel(),
+                _ => $"Unknown FormProgress debug function: {functionName}"
+            };
+        }
+
+        private static string ExecuteDebugCancel()
+        {
+            if (Generic.cts is null)
+            {
+                return "No cancellation token source is available.";
+            }
+
+            if (!Generic.cts.IsCancellationRequested)
+            {
+                Generic.cts.Cancel();
+            }
+
+            return "FormProgress cancellation requested.";
+        }
+
         private void FormProgress_Load(object sender, EventArgs e)
         {
             _formProgressInstance = this;

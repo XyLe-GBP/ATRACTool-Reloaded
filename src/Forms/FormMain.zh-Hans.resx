@@ -221,13 +221,13 @@
     <value>音频转换器 (&amp;C)</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>175, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
     <value>音频转WAVE格式...</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>175, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
     <value>WAVE转音频...</value>

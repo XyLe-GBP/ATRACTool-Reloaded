@@ -456,6 +456,18 @@ ASIO：需专用驱动程序及兼容DAC设备支持播放。
 启用传统模式将采用旧版处理方法，并允许循环点创建器独立运行。
 但该模式存在缺陷且已被弃用，因此通常无需启用传统模式。</value>
   </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>跟随系统设置</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>深色</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>偏好设置</value>
   </data>

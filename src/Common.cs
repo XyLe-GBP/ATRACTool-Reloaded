@@ -1879,6 +1879,78 @@ namespace ATRACTool_Reloaded
             }
 
             /// <summary>
+            /// 設定ファイルを読み込む。存在しない場合や読み込み不能な場合は初期設定を作成する。
+            /// </summary>
+            /// <returns>設定ファイルを初期化した場合は true。</returns>
+            public static bool LoadOrCreateConfig()
+            {
+                if (!File.Exists(xmlpath))
+                {
+                    Config.Reset();
+                    InitConfig();
+                    return true;
+                }
+
+                try
+                {
+                    Config.Load(xmlpath);
+                    InitConfig();
+                    return false;
+                }
+                catch (Exception ex) when (ex is InvalidOperationException
+                    or XmlException
+                    or IOException
+                    or UnauthorizedAccessException
+                    or NotSupportedException
+                    or NullReferenceException
+                    or ArgumentException)
+                {
+                    BackupInvalidConfig(ex);
+                    Config.Reset();
+                    InitConfig();
+                    return true;
+                }
+            }
+
+            private static void BackupInvalidConfig(Exception ex)
+            {
+                string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                string backupPath = $"{xmlpath}.invalid-{timestamp}";
+
+                try
+                {
+                    if (File.Exists(xmlpath))
+                    {
+                        File.Move(xmlpath, backupPath, true);
+                    }
+                }
+                catch (Exception moveEx)
+                {
+                    GenerateLog(
+                        $"ConfigRecovery_{timestamp}.log",
+                        $"Failed to move invalid config.\nSource: {xmlpath}\nBackup: {backupPath}\nLoad error: {ex}\nMove error: {moveEx}");
+
+                    try
+                    {
+                        if (File.Exists(xmlpath))
+                        {
+                            File.Delete(xmlpath);
+                        }
+                    }
+                    catch (Exception deleteEx)
+                    {
+                        GenerateLog(
+                            $"ConfigRecovery_{timestamp}.log",
+                            $"Failed to delete invalid config.\nSource: {xmlpath}\nDelete error: {deleteEx}");
+                    }
+                }
+
+                GenerateLog(
+                    $"ConfigRecovery_{timestamp}.log",
+                    $"Invalid config was reset.\nSource: {xmlpath}\nBackup: {backupPath}\nLoad error: {ex}");
+            }
+
+            /// <summary>
             /// 設定ファイルに全てを書き出す
             /// </summary>
             public static void InitConfig()
@@ -2182,6 +2254,14 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["SplashImage_Path"].Value == null) // スプラッシュスクリーン画像パス (string)
                 {
                     Config.Entry["SplashImage_Path"].Value = "";
+                }
+                if (Config.Entry["Theme_FollowSystem"].Value == null) // UIテーマをシステム設定に従う (bool)
+                {
+                    Config.Entry["Theme_FollowSystem"].Value = "false";
+                }
+                if (Config.Entry["Theme_Mode"].Value == null) // UIテーマ (string)
+                {
+                    Config.Entry["Theme_Mode"].Value = "Light";
                 }
 
                 // IO 項目
@@ -2983,6 +3063,10 @@ namespace ATRACTool_Reloaded
             /// ルートエントリ
             /// </summary>
             public static ConfigEntry Entry = new() { Key = "ConfigRoot" };
+            public static void Reset()
+            {
+                Entry = new ConfigEntry() { Key = "ConfigRoot" };
+            }
             public static void Load(string filename)
             {
                 if (!File.Exists(filename))

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
         Title="Specify output method for WAVE files" Height="146" Width="670" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False"
-        Background="#FFF6F7F9">
+        Background="{DynamicResource WindowBrush}">
     <Window.Resources>
         <ResourceDictionary Source="ModernStyles.xaml"/>
     </Window.Resources>
