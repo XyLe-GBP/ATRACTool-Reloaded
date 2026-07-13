@@ -7,15 +7,20 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.38.2620.6141</AssemblyVersion>
-    <FileVersion>1.38.2620.6141</FileVersion>
+    <AssemblyVersion>1.40.2620.713</AssemblyVersion>
+    <FileVersion>1.40.2620.713</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
-    <Copyright>Copyright © 2025 - XyLe. All Rights Reserved.</Copyright>
+    <Copyright>Copyright © 2026 - XyLe. All Rights Reserved.</Copyright>
     <PackageTags>ATRAC, ATRAC3, ATRAC9, walkman, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
     <UseWPF>True</UseWPF>
+    <CodeSignToolPath Condition="'$(CodeSignToolPath)' == ''">signtool.exe</CodeSignToolPath>
+    <CodeSignTimestampUrl Condition="'$(CodeSignTimestampUrl)' == ''">http://timestamp.digicert.com</CodeSignTimestampUrl>
+    <CodeSignDescription Condition="'$(CodeSignDescription)' == ''">ATRACTool Reloaded</CodeSignDescription>
+    <CodeSignDescriptionUrl Condition="'$(CodeSignDescriptionUrl)' == ''">https://github.com/XyLe-GBP/ATRACTool-Reloaded</CodeSignDescriptionUrl>
+    <CodeSignCertificatePasswordArgument Condition="'$(CodeSignCertificatePassword)' != ''">/p "$(CodeSignCertificatePassword)"</CodeSignCertificatePasswordArgument>
   </PropertyGroup>
 
   <ItemGroup>
@@ -90,5 +95,25 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="SignPublishedExecutablesFromStore" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release' and '$(CodeSignCertificateThumbprint)' != '' and '$(CodeSignCertificateFile)' == ''">
+    <ItemGroup>
+      <PublishedExecutableToSign Include="$(PublishDir)ATRACTool-Reloaded.exe" Condition="Exists('$(PublishDir)ATRACTool-Reloaded.exe')" />
+      <PublishedExecutableToSign Include="$(PublishDir)res\updater.exe" Condition="Exists('$(PublishDir)res\updater.exe')" />
+    </ItemGroup>
+    <Message Importance="High" Text="Signing published executable: %(PublishedExecutableToSign.Identity)" Condition="'@(PublishedExecutableToSign)' != ''" />
+    <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; sign /sha1 &quot;$(CodeSignCertificateThumbprint)&quot; /fd SHA256 /tr &quot;$(CodeSignTimestampUrl)&quot; /td SHA256 /d &quot;$(CodeSignDescription)&quot; /du &quot;$(CodeSignDescriptionUrl)&quot; &quot;%(PublishedExecutableToSign.Identity)&quot;" />
+    <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; verify /pa /tw &quot;%(PublishedExecutableToSign.Identity)&quot;" />
+  </Target>
+
+  <Target Name="SignPublishedExecutablesFromPfx" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release' and '$(CodeSignCertificateFile)' != ''">
+    <ItemGroup>
+      <PublishedExecutableToSign Include="$(PublishDir)ATRACTool-Reloaded.exe" Condition="Exists('$(PublishDir)ATRACTool-Reloaded.exe')" />
+      <PublishedExecutableToSign Include="$(PublishDir)res\updater.exe" Condition="Exists('$(PublishDir)res\updater.exe')" />
+    </ItemGroup>
+    <Message Importance="High" Text="Signing published executable: %(PublishedExecutableToSign.Identity)" Condition="'@(PublishedExecutableToSign)' != ''" />
+    <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; sign /f &quot;$(CodeSignCertificateFile)&quot; $(CodeSignCertificatePasswordArgument) /fd SHA256 /tr &quot;$(CodeSignTimestampUrl)&quot; /td SHA256 /d &quot;$(CodeSignDescription)&quot; /du &quot;$(CodeSignDescriptionUrl)&quot; &quot;%(PublishedExecutableToSign.Identity)&quot;" />
+    <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; verify /pa /tw &quot;%(PublishedExecutableToSign.Identity)&quot;" />
+  </Target>
 
 </Project>
