@@ -69,7 +69,15 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros">
+    <CodeSignToolPath Condition="'$(CodeSignToolPath)'==''">signtool.exe</CodeSignToolPath>
+    <CodeSignTimestampUrl Condition="'$(CodeSignTimestampUrl)'==''">http://timestamp.digicert.com</CodeSignTimestampUrl>
+    <CodeSignDescription Condition="'$(CodeSignDescription)'==''">ATRACTool Reloaded Application Updater</CodeSignDescription>
+    <CodeSignDescriptionUrl Condition="'$(CodeSignDescriptionUrl)'==''">https://github.com/XyLe-GBP/ATRACTool-Reloaded</CodeSignDescriptionUrl>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CodeSignCertificatePasswordArgument Condition="'$(CodeSignCertificatePassword)'!=''">/p &quot;$(CodeSignCertificatePassword)&quot;</CodeSignCertificatePasswordArgument>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
@@ -161,6 +169,19 @@
     <Image Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="SignApplicationUpdaterFromStore" AfterTargets="Link" Condition="'$(Configuration)'=='Release' and '$(CodeSignCertificateThumbprint)'!='' and '$(CodeSignCertificateFile)'==''">
+    <Message Importance="High" Text="Signing $(TargetPath) with certificate thumbprint $(CodeSignCertificateThumbprint)." />
+    <Exec Command="&quot;$(CodeSignToolPath)&quot; sign /sha1 &quot;$(CodeSignCertificateThumbprint)&quot; /fd SHA256 /tr &quot;$(CodeSignTimestampUrl)&quot; /td SHA256 /d &quot;$(CodeSignDescription)&quot; /du &quot;$(CodeSignDescriptionUrl)&quot; &quot;$(TargetPath)&quot;" />
+    <Exec Command="&quot;$(CodeSignToolPath)&quot; verify /pa /tw &quot;$(TargetPath)&quot;" />
+  </Target>
+  <Target Name="SignApplicationUpdaterFromPfx" AfterTargets="Link" Condition="'$(Configuration)'=='Release' and '$(CodeSignCertificateFile)'!=''">
+    <Message Importance="High" Text="Signing $(TargetPath) with certificate file $(CodeSignCertificateFile)." />
+    <Exec Command="&quot;$(CodeSignToolPath)&quot; sign /f &quot;$(CodeSignCertificateFile)&quot; $(CodeSignCertificatePasswordArgument) /fd SHA256 /tr &quot;$(CodeSignTimestampUrl)&quot; /td SHA256 /d &quot;$(CodeSignDescription)&quot; /du &quot;$(CodeSignDescriptionUrl)&quot; &quot;$(TargetPath)&quot;" />
+    <Exec Command="&quot;$(CodeSignToolPath)&quot; verify /pa /tw &quot;$(TargetPath)&quot;" />
+  </Target>
+  <Target Name="ReportUnsignedApplicationUpdater" AfterTargets="Link" Condition="'$(Configuration)'=='Release' and '$(CodeSignCertificateThumbprint)'=='' and '$(CodeSignCertificateFile)'==''">
+    <Message Importance="High" Text="ApplicationUpdater was built unsigned. Set CodeSignCertificateThumbprint or CodeSignCertificateFile to Authenticode-sign updater.exe." />
+  </Target>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

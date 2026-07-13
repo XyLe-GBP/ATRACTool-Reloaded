@@ -1,11 +1,11 @@
-ï»¿// ApplicationUpdater.cpp : ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ 'main' é–¢æ•°ãŒå«ã¾ã‚Œã¦ã„ã¾ã™ã€‚ãƒ—ãƒ­ã‚°ãƒ©ãƒ å®Ÿè¡Œã®é–‹å§‹ã¨çµ‚äº†ãŒãã“ã§è¡Œã‚ã‚Œã¾ã™ã€‚
+// ApplicationUpdater.cpp : ‚±‚Ìƒtƒ@ƒCƒ‹‚É‚Í 'main' ŠÖ”‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·BƒvƒƒOƒ‰ƒ€Às‚ÌŠJn‚ÆI—¹‚ª‚»‚±‚Ås‚í‚ê‚Ü‚·B
 //
 
 #include "Common.h"
 
 int main()
 {
-	cout << "Updater - Application Update Utility v1.3" << endl;
+	cout << "Updater - Application Update Utility v1.3.0" << endl;
 	cout << "Copyright (C) 2023 XyLe. All Rights Reserved.\n" << endl;
 
 	cout << "Initializing...\n" << endl;
@@ -58,6 +58,38 @@ int main()
 			cout << "Get update source: '" + AppPath + "' OK" << endl;
 			cout << "Get update type: '" + AppType + "' OK" << endl;
 			DeleteFile(common->StringToWString(sdrive + sdir + "updater.dat").c_str());
+
+			string configPath = AppPath + "\\app.config";
+			string configBackupPath = sdrive + sdir + "app.config.update-backup";
+			bool hasConfigBackup = false;
+			if (PathFileExists(common->StringToWString(configPath).c_str())) {
+				DeleteFile(common->StringToWString(configBackupPath).c_str());
+
+				for (int retry = 0; retry < 30; retry++) {
+					if (CopyFile(common->StringToWString(configPath).c_str(), common->StringToWString(configBackupPath).c_str(), FALSE)) {
+						hasConfigBackup = true;
+						break;
+					}
+
+					DWORD error = GetLastError();
+					if (error != ERROR_SHARING_VIOLATION
+						&& error != ERROR_LOCK_VIOLATION
+						&& error != ERROR_ACCESS_DENIED) {
+						break;
+					}
+
+					Sleep(1000);
+				}
+
+				if (!hasConfigBackup) {
+					MessageBox(NULL, TEXT("Failed to back up the configuration file. The update was canceled to preserve your settings."), TEXT("Error"), MB_ICONWARNING);
+					SAFE_DELETE(common);
+					return -1;
+				}
+
+				cout << "Configuration backup created: '" + configBackupPath + "'" << endl;
+			}
+
 			cout << "--------------------------------------" << endl;
 			cout << "Initialization is completed.\n" << endl;
 			Sleep(1000);
@@ -105,7 +137,6 @@ int main()
 					CoUninitialize();
 					SAFE_FREE(SourcePath);
 					SAFE_FREE(ExtPath);
-					SAFE_DELETE(common);
 				}
 				else {
 					cout << "\033[31m" << "ERROR: '" + sdrive + sdir + "atractool-rel.zip' to '" + sdrive + sdir + "updater-temp' extract failed." << "\033[m" << endl;
@@ -141,6 +172,33 @@ int main()
 					MessageBox(NULL, TEXT("unknown release type."), TEXT("Error"), MB_ICONWARNING);
 					SAFE_DELETE(common);
 					return -1;
+				}
+
+				if (hasConfigBackup) {
+					bool restoredConfig = false;
+					for (int retry = 0; retry < 30; retry++) {
+						if (CopyFile(common->StringToWString(configBackupPath).c_str(), common->StringToWString(configPath).c_str(), FALSE)) {
+							restoredConfig = true;
+							break;
+						}
+
+						DWORD error = GetLastError();
+						if (error != ERROR_SHARING_VIOLATION
+							&& error != ERROR_LOCK_VIOLATION
+							&& error != ERROR_ACCESS_DENIED) {
+							break;
+						}
+
+						Sleep(1000);
+					}
+
+					if (!restoredConfig) {
+						MessageBox(NULL, TEXT("The update was installed, but the configuration file could not be restored. Please restore app.config from app.config.update-backup manually."), TEXT("Warning"), MB_ICONWARNING);
+					}
+					else {
+						DeleteFile(common->StringToWString(configBackupPath).c_str());
+						cout << "Configuration restored: '" + configPath + "'" << endl;
+					}
 				}
 
 				wstring ExectablePath = common->StringToWString(AppPath) + L"\\atractool-reloaded.exe";
@@ -217,13 +275,13 @@ int main()
 	}
 }
 
-// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®å®Ÿè¡Œ: Ctrl + F5 ã¾ãŸã¯ [ãƒ‡ãƒãƒƒã‚°] > [ãƒ‡ãƒãƒƒã‚°ãªã—ã§é–‹å§‹] ãƒ¡ãƒ‹ãƒ¥ãƒ¼
-// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒ‡ãƒãƒƒã‚°: F5 ã¾ãŸã¯ [ãƒ‡ãƒãƒƒã‚°] > [ãƒ‡ãƒãƒƒã‚°ã®é–‹å§‹] ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+// ƒvƒƒOƒ‰ƒ€‚ÌÀs: Ctrl + F5 ‚Ü‚½‚Í [ƒfƒoƒbƒO] > [ƒfƒoƒbƒO‚È‚µ‚ÅŠJn] ƒƒjƒ…[
+// ƒvƒƒOƒ‰ƒ€‚ÌƒfƒoƒbƒO: F5 ‚Ü‚½‚Í [ƒfƒoƒbƒO] > [ƒfƒoƒbƒO‚ÌŠJn] ƒƒjƒ…[
 
-// ä½œæ¥­ã‚’é–‹å§‹ã™ã‚‹ãŸã‚ã®ãƒ’ãƒ³ãƒˆ: 
-//    1. ã‚½ãƒªãƒ¥ãƒ¼ã‚·ãƒ§ãƒ³ ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ãƒ¼ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½¿ç”¨ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿½åŠ /ç®¡ç†ã—ã¾ã™ 
-//   2. ãƒãƒ¼ãƒ  ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ãƒ¼ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½¿ç”¨ã—ã¦ã‚½ãƒ¼ã‚¹ç®¡ç†ã«æ¥ç¶šã—ã¾ã™
-//   3. å‡ºåŠ›ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½¿ç”¨ã—ã¦ã€ãƒ“ãƒ«ãƒ‰å‡ºåŠ›ã¨ãã®ä»–ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ã¾ã™
-//   4. ã‚¨ãƒ©ãƒ¼ä¸€è¦§ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½¿ç”¨ã—ã¦ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã—ã¾ã™
-//   5. [ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ] > [æ–°ã—ã„é …ç›®ã®è¿½åŠ ] ã¨ç§»å‹•ã—ã¦æ–°ã—ã„ã‚³ãƒ¼ãƒ‰ ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ã‹ã€[ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ] > [æ—¢å­˜ã®é …ç›®ã®è¿½åŠ ] ã¨ç§»å‹•ã—ã¦æ—¢å­˜ã®ã‚³ãƒ¼ãƒ‰ ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã«è¿½åŠ ã—ã¾ã™
-//   6. å¾Œã»ã©ã“ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’å†ã³é–‹ãå ´åˆã€[ãƒ•ã‚¡ã‚¤ãƒ«] > [é–‹ã] > [ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ] ã¨ç§»å‹•ã—ã¦ .sln ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é¸æŠã—ã¾ã™
+// ì‹Æ‚ğŠJn‚·‚é‚½‚ß‚Ìƒqƒ“ƒg: 
+//    1. ƒ\ƒŠƒ…[ƒVƒ‡ƒ“ ƒGƒNƒXƒvƒ[ƒ‰[ ƒEƒBƒ“ƒhƒE‚ğg—p‚µ‚Äƒtƒ@ƒCƒ‹‚ğ’Ç‰Á/ŠÇ—‚µ‚Ü‚· 
+//   2. ƒ`[ƒ€ ƒGƒNƒXƒvƒ[ƒ‰[ ƒEƒBƒ“ƒhƒE‚ğg—p‚µ‚Äƒ\[ƒXŠÇ—‚ÉÚ‘±‚µ‚Ü‚·
+//   3. o—ÍƒEƒBƒ“ƒhƒE‚ğg—p‚µ‚ÄAƒrƒ‹ƒho—Í‚Æ‚»‚Ì‘¼‚ÌƒƒbƒZ[ƒW‚ğ•\¦‚µ‚Ü‚·
+//   4. ƒGƒ‰[ˆê——ƒEƒBƒ“ƒhƒE‚ğg—p‚µ‚ÄƒGƒ‰[‚ğ•\¦‚µ‚Ü‚·
+//   5. [ƒvƒƒWƒFƒNƒg] > [V‚µ‚¢€–Ú‚Ì’Ç‰Á] ‚ÆˆÚ“®‚µ‚ÄV‚µ‚¢ƒR[ƒh ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚©A[ƒvƒƒWƒFƒNƒg] > [Šù‘¶‚Ì€–Ú‚Ì’Ç‰Á] ‚ÆˆÚ“®‚µ‚ÄŠù‘¶‚ÌƒR[ƒh ƒtƒ@ƒCƒ‹‚ğƒvƒƒWƒFƒNƒg‚É’Ç‰Á‚µ‚Ü‚·
+//   6. Œã‚Ù‚Ç‚±‚ÌƒvƒƒWƒFƒNƒg‚ğÄ‚ÑŠJ‚­ê‡A[ƒtƒ@ƒCƒ‹] > [ŠJ‚­] > [ƒvƒƒWƒFƒNƒg] ‚ÆˆÚ“®‚µ‚Ä .sln ƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ü‚·
