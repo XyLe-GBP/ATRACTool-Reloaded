@@ -3,9 +3,9 @@
 ![Downloads](https://img.shields.io/github/downloads/XyLe-GBP/ATRACTool-Reloaded/total.svg)
 [![GitHub (pre-)release](https://img.shields.io/github/release/XyLe-GBP/ATRACTool-Reloaded/all.svg)](https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases)
 
-Utility tool to convert Sony's ATRAC3/ATRAC3plus/ATRAC9(.AT3/.AT9) to any supported format sound.  
+This is a utility tool for converting Sony's ATRAC3, ATRAC3plus, and ATRAC9 (.AT3/.AT9) formats, as well as NUSound (NUB2 and NUS3BANK, which include .AT3, .AT9, and .VAG), to any compatible audio format.  
 
-Or convert any supported sound to Sony's ATRAC3/ATRAC3plus/ATRAC9 or Walkman format.  
+Alternatively, you can convert audio files with any supported file extension to Sony's ATRAC3, ATRAC3plus, or ATRAC9 formats; convert them to NUSound (NUB2 or NUS3BANK format), which includes ATRAC3, ATRAC3plus, and ATRAC9; or convert them to Walkman format.  
 
 **This application is a GUI application created with the aim of making the command line tools at3tool.exe and at9tool.exe intuitive to operate.**  
 
@@ -16,14 +16,16 @@ This application has been published and can be run without installing the .NET r
 
 ※If for some reason you want to use the portable version, you will need to install the runtime.
 
+version 1.38 or later  
+[.NET Desktop Runtime 10](https://dotnet.microsoft.com/download/dotnet/10.0)  
 version 1.35 or later  
-[.NET Desktop Runtime 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)  
+[.NET Desktop Runtime 9](https://dotnet.microsoft.com/download/dotnet/9.0)  
 version 1.30 or later  
-[.NET Desktop Runtime 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)  
+[.NET Desktop Runtime 8](https://dotnet.microsoft.com/download/dotnet/8.0)  
 version 1.28 or later  
-[.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)  
+[.NET Desktop Runtime 7](https://dotnet.microsoft.com/download/dotnet/7.0)  
 version 1.27 or earlier  
-[.NET Desktop Runtime 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)  
+[.NET Desktop Runtime 6](https://dotnet.microsoft.com/download/dotnet/6.0)  
 
 **The SCEI ATRAC3plus Codec TOOL (at3tool.exe) uses <code>MSVCR80.DLL</code>.**  
 
@@ -47,6 +49,7 @@ ATRAC3 and ATRAC3plus are mainly used for PSP and PS3.
 while ATRAC9 is used for PSVita and PS4.  
 
 **Supported file extensions:**
+
 - .m4a (AAC, Apple Lossless)
 - .aac
 - .aiff
@@ -59,8 +62,11 @@ while ATRAC9 is used for PSVita and PS4.
 - .wav (PCM)
 - .at3 (ATRAC3, ATRAC3+)
 - .at9 (ATRAC9)
+- .nub2 (ATRAC3, ATRAC3+, VAG) (VAG format is decode only)
+- .nus3bank (ATRAC3, ATRAC3+, ATRAC9)
 
 **For Walkman:**
+
 - .oma (ATRAC3, ATRAC3+, ATRAC Advanced Lossless)
 - .omg (ATRAC3, ATRAC3+)
 - .kdr
@@ -86,6 +92,12 @@ You can easily configure loop point information on the application's GUI.
 Additionally, more advanced settings are possible via the configuration window. (For experienced users)  
 When configuring via the configuration window, you must adhere to the specification methods for at3tool.exe and at9tool.exe.  
 If not adhered to, the application will return an error.
+
+**Important Notes Regarding NUSound (NUB2 and NUS3BANK Formats)**
+
+Some titles developed by Namco may use nub2 or nus3bank files that contain ATRAC.  
+While this application can replace the audio in these games as well, we cannot guarantee that it will work with all game titles.  
+Please be aware of this.  
 
 **About Walkman Features**
 
@@ -113,6 +125,14 @@ This application does not support x86 (32 bit).
 
 Please report bugs, feature requests, or other inquiries via issues in this repository, direct messages on X, or the contact form on our website.  
 (For quick responses, we recommend X.)
+
+**Donate**
+
+If you enjoy this app, your donation would be a great encouragement to us and help motivate us to continue developing it.  
+We look forward to receiving your donations.  
+(Donations are voluntary and not required.)  
+You can make a donation via the link below.  
+ [Donate](https://secure.xyle-official.com/payment/donate/)
 
 ## License
 
