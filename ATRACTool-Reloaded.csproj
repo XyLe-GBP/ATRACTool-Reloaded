@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.40.2620.713</AssemblyVersion>
-    <FileVersion>1.40.2620.713</FileVersion>
+    <AssemblyVersion>1.50.2620.811</AssemblyVersion>
+    <FileVersion>1.50.2620.811</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <None Remove="Properties\IMG_1540.JPG" />
-    <None Remove="Properties\SIEv2.png" />
+    <None Remove="Properties\SIE_White.png" />
     <None Remove="src\Forms\ATRACTool.ico" />
     <None Remove="src\Forms\IMG_1540.JPG" />
   </ItemGroup>
@@ -52,7 +52,13 @@
     <Resource Include="Properties\IMG_1540.JPG">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Properties\SIEv2.png">
+    <Resource Include="Properties\SIE.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Properties\SIE_Default.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Properties\SIE_White.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
