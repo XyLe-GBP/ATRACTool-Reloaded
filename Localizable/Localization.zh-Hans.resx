@@ -172,10 +172,8 @@
     <value>自定义启动画面将在应用程序重启后生效。</value>
   </data>
   <data name="CustomSplashSizeErrorCaption" xml:space="preserve">
-    <value>图像文件的分辨率不正确。
-纵向：800 或 400像素
-横向：480 或 240像素
-不符合上述要求的文件无法设置。</value>
+    <value>无法将所选文件作为图像加载。
+请指定 JPG、PNG 或 BMP 文件。</value>
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>ATRAC解码失败。</value>
@@ -473,5 +471,15 @@
 是：无标签继续
 否：中止转换
 取消：返回编辑界面</value>
+  </data>
+  <data name="NotNUSoundDecodeTarget" xml:space="preserve">
+    <value>此 NUS3BANK/NUB2 文件不包含可解码的 RIFF/WAVE PCM、ATRAC3、ATRAC9 或 IVAG 子文件：</value>
+  </data>
+  <data name="DecodedIVAGLargeSize" xml:space="preserve">
+    <value>解码后的 IVAG WAV 数据过大。</value>
+  </data>
+  <data name="DebugModeEnableConfirm" xml:space="preserve">
+    <value>要启用调试模式，需要重新启动应用程序。
+要重新启动吗？</value>
   </data>
 </root>

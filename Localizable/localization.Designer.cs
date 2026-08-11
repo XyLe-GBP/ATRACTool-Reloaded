@@ -246,14 +246,22 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
-        ///   Image size is incorrect.
-        ///Width: 800 or 400px
-        ///Height: 480 or 240px
-        ///Only files that meet the above criteria can be specified. に類似しているローカライズされた文字列を検索します。
+        ///   The selected file could not be loaded as an image.
+        ///Please specify a JPG, PNG, or BMP file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CustomSplashSizeErrorCaption {
             get {
                 return ResourceManager.GetString("CustomSplashSizeErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   To enable debug mode, you must restart the application.
+        ///Do you want to restart? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DebugModeEnableConfirm {
+            get {
+                return ResourceManager.GetString("DebugModeEnableConfirm", resourceCulture);
             }
         }
         
@@ -275,6 +283,15 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string DebugModeUpdateConfirmCaption {
             get {
                 return ResourceManager.GetString("DebugModeUpdateConfirmCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Decoded IVAG WAV data is too large. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DecodedIVAGLargeSize {
+            get {
+                return ResourceManager.GetString("DecodedIVAGLargeSize", resourceCulture);
             }
         }
         
@@ -687,6 +704,15 @@ namespace ATRACTool_Reloaded.Localizable {
         public static string NotFoundIOStringCaption {
             get {
                 return ResourceManager.GetString("NotFoundIOStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This NUS3BANK/NUB2 does not contain decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotNUSoundDecodeTarget {
+            get {
+                return ResourceManager.GetString("NotNUSoundDecodeTarget", resourceCulture);
             }
         }
         

@@ -172,10 +172,8 @@ The normal method of saving is used.</value>
     <value>Unique splash screen images are reflected when the application is restarted.</value>
   </data>
   <data name="CustomSplashSizeErrorCaption" xml:space="preserve">
-    <value>Image size is incorrect.
-Width: 800 or 400px
-Height: 480 or 240px
-Only files that meet the above criteria can be specified.</value>
+    <value>The selected file could not be loaded as an image.
+Please specify a JPG, PNG, or BMP file.</value>
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>Failed to decode the ATRAC file.</value>
@@ -467,5 +465,15 @@ Would you like to run the update process?
 Yes: Continue without tags
 No: Stop conversion
 Cancel: Return to edit screen</value>
+  </data>
+  <data name="NotNUSoundDecodeTarget" xml:space="preserve">
+    <value>This NUS3BANK/NUB2 does not contain decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles:</value>
+  </data>
+  <data name="DecodedIVAGLargeSize" xml:space="preserve">
+    <value>Decoded IVAG WAV data is too large.</value>
+  </data>
+  <data name="DebugModeEnableConfirm" xml:space="preserve">
+    <value>To enable debug mode, you must restart the application.
+Do you want to restart?</value>
   </data>
 </root>

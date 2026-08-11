@@ -172,10 +172,8 @@
     <value>独自のスプラッシュスクリーン画像はアプリケーションを再起動すると反映されます。</value>
   </data>
   <data name="CustomSplashSizeErrorCaption" xml:space="preserve">
-    <value>画像ファイルの解像度が不正です。
-縦：800 または 400px
-横：480 または 240px
-上記の要件を満たしたファイル以外は設定できません。</value>
+    <value>選択したファイルを画像として読み込めませんでした。
+JPG、PNG、BMP のいずれかのファイルを指定してください。</value>
   </data>
   <data name="DecodeErrorCaption" xml:space="preserve">
     <value>ATRACのデコードに失敗しました。</value>
@@ -473,5 +471,15 @@ GitHubリポジトリのページを開きますか？</value>
 はい：タグ無しで続行
 いいえ：変換を中止
 キャンセル：編集画面に戻る</value>
+  </data>
+  <data name="NotNUSoundDecodeTarget" xml:space="preserve">
+    <value>このNUS3BANK/NUB2には、デコード可能なRIFF/WAVE PCM、ATRAC3、ATRAC9、またはIVAGサブファイルは含まれていません：</value>
+  </data>
+  <data name="DecodedIVAGLargeSize" xml:space="preserve">
+    <value>デコードされたIVAG WAVデータのサイズが大きすぎます。</value>
+  </data>
+  <data name="DebugModeEnableConfirm" xml:space="preserve">
+    <value>デバッグモードを有効にするには、アプリケーションを再起動する必要があります。
+再起動しますか？</value>
   </data>
 </root>
