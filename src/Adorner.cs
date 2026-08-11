@@ -13,9 +13,9 @@ namespace ATRACTool_Reloaded
 {
     public class StrokeAdorner : Adorner
     {
-        private TextBlock _textBlock;
+        private readonly TextBlock _textBlock;
 
-        private Brush _stroke;
+        private Brush _stroke = Brushes.Transparent;
         private ushort _strokeThickness;
 
         public Brush Stroke
@@ -50,9 +50,13 @@ namespace ATRACTool_Reloaded
 
         public StrokeAdorner(UIElement adornedElement) : base(adornedElement)
         {
-            _textBlock = adornedElement as TextBlock;
-            EnsureTextBlock();
-            foreach (var property in TypeDescriptor.GetProperties(_textBlock!).OfType<PropertyDescriptor>())
+            if (adornedElement is not TextBlock textBlock)
+            {
+                throw new InvalidOperationException("This adorner works on TextBlocks only");
+            }
+
+            _textBlock = textBlock;
+            foreach (var property in TypeDescriptor.GetProperties(_textBlock).OfType<PropertyDescriptor>())
             {
                 var dp = DependencyPropertyDescriptor.FromProperty(property);
                 if (dp == null) continue;
@@ -65,7 +69,6 @@ namespace ATRACTool_Reloaded
 
         private void EnsureTextBlock()
         {
-            if (_textBlock == null) throw new Exception("This adorner works on TextBlocks only");
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -116,19 +119,24 @@ namespace ATRACTool_Reloaded
             this.LayoutUpdated += StrokeTextBlock_LayoutUpdated;
         }
 
-        private void StrokeTextBlock_LayoutUpdated(object sender, EventArgs e)
+        private void StrokeTextBlock_LayoutUpdated(object? sender, EventArgs e)
         {
             if (_adorned) return;
-            _adorned = true;
             var adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            if (adornerLayer is null)
+            {
+                return;
+            }
+
             adornerLayer.Add(_adorner);
+            _adorned = true;
             this.LayoutUpdated -= StrokeTextBlock_LayoutUpdated;
         }
 
         private static void StrokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var stb = (StrokeTextBlock)d;
-            stb._adorner.Stroke = e.NewValue as Brush;
+            stb._adorner.Stroke = e.NewValue as Brush ?? Brushes.Transparent;
         }
 
         private static void StrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -216,7 +224,7 @@ namespace ATRACTool_Reloaded
 
         private static void StrokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var stroke = e.NewValue as Brush;
+            var stroke = e.NewValue as Brush ?? Brushes.Transparent;
             EnsureAdorner(d, a => a.Stroke = stroke);
         }
 
@@ -228,7 +236,7 @@ namespace ATRACTool_Reloaded
             f = new EventHandler((o, e) =>
             {
                 var adornerLayer = AdornerLayer.GetAdornerLayer(tb);
-                if (adornerLayer == null) throw new Exception("AdornerLayer should not be empty");
+                if (adornerLayer == null) return;
                 var adorners = adornerLayer.GetAdorners(tb);
                 var adorner = adorners == null ? null : adorners.OfType<StrokeAdorner>().FirstOrDefault();
                 if (adorner == null)

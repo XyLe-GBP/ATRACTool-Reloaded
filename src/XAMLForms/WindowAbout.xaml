@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATRACTool_Reloaded"
         mc:Ignorable="d"
-        Title="WindowAbout" Height="650" Width="650" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
+        Title="About" Height="650" Width="650" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
         Background="{DynamicResource WindowBrush}">
     <Window.Resources>
         <ResourceDictionary Source="ModernStyles.xaml"/>
     </Window.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Properties/SIEv2.png" Opacity="0.15" Stretch="UniformToFill" />
+            <ImageBrush ImageSource="/Properties/SIE_White.png" Opacity="0.15" Stretch="UniformToFill" />
         </Grid.Background>
         <Image x:Name="Image_GitHub" HorizontalAlignment="Left" Height="200" Margin="28,270,0,0" VerticalAlignment="Top" Width="200" Source="/Properties/IMG_1540.JPG" RenderTransformOrigin="0,0">
             <Image.Clip>

@@ -48,7 +48,7 @@ namespace ATRACTool_Reloaded.ModernUI
         {
             get
             {
-                return Common.Utils.GetBool("Theme_FollowSystem", false);
+                return Common.Utils.GetBool("Theme_FollowSystem", true);
             }
         }
 
@@ -1103,7 +1103,7 @@ namespace ATRACTool_Reloaded.ModernUI
 
             private bool TryEraseBackground(IntPtr hdc)
             {
-                if (!IsDarkMode || tabControl == null || tabControl.IsDisposed || !tabControl.IsHandleCreated)
+                if (!IsDarkMode || hdc == IntPtr.Zero || tabControl == null || tabControl.IsDisposed || !tabControl.IsHandleCreated)
                 {
                     return false;
                 }
@@ -1154,14 +1154,6 @@ namespace ATRACTool_Reloaded.ModernUI
                 if (border.Width > 0 && border.Height > 0)
                 {
                     graphics.DrawRectangle(borderPen, border);
-                }
-            }
-
-            private static void FillIfVisible(Graphics graphics, Brush brush, Rectangle rectangle)
-            {
-                if (rectangle.Width > 0 && rectangle.Height > 0)
-                {
-                    graphics.FillRectangle(brush, rectangle);
                 }
             }
         }

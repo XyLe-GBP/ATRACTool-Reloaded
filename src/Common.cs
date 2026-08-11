@@ -173,6 +173,14 @@ namespace ATRACTool_Reloaded
             public WalkmanMeta Meta { get; } = new WalkmanMeta();
         }
 
+        public sealed class Nus3BankEncodeStreamSetting
+        {
+            public int SourceIndex { get; set; }
+            public string StreamName { get; set; } = "";
+            public int? LoopStart { get; set; }
+            public int? LoopEnd { get; set; }
+        }
+
         public class Generic
         {
             /// <summary>
@@ -188,6 +196,7 @@ namespace ATRACTool_Reloaded
                 if (openPaths.Length != originPaths.Length)
                     throw new InvalidOperationException($"Open/Origin length mismatch: {openPaths.Length} vs {originPaths.Length}");
 
+                FormMain.DebugInfo($"[InputJobs] Build requested. open={openPaths.Length}, origin={originPaths.Length}, root={LoadFolderRootPath ?? "(none)"}");
                 InputJobs.Clear();
 
                 for (int i = 0; i < openPaths.Length; i++)
@@ -207,6 +216,8 @@ namespace ATRACTool_Reloaded
 
                     InputJobs.Add(job);
                 }
+
+                FormMain.DebugInfo($"[InputJobs] Build completed. jobs={InputJobs.Count}");
             }
 
             /// <summary>
@@ -216,6 +227,7 @@ namespace ATRACTool_Reloaded
             {
                 OpenFilePaths = InputJobs.Select(j => j.WorkPath).ToArray();
                 OriginOpenFilePaths = InputJobs.Select(j => j.OriginPath).ToArray();
+                FormMain.DebugInfo($"[InputJobs] Synced paths from jobs. jobs={InputJobs.Count}");
             }
 
             /// <summary>
@@ -231,6 +243,8 @@ namespace ATRACTool_Reloaded
                 {
                     InputJobs[i].WorkPath = OpenFilePaths[i];
                 }
+
+                FormMain.DebugInfo($"[InputJobs] Synced work paths from OpenFilePaths. jobs={InputJobs.Count}");
             }
 
             public static CancellationTokenSource cts = null!;
@@ -260,7 +274,17 @@ namespace ATRACTool_Reloaded
             /// <summary>
             /// Progressフォームの動作を判定するための変数
             /// </summary>
-            public static ProcessType ProcessFlag;
+            private static ProcessType _processFlag = ProcessType.None;
+            public static ProcessType ProcessFlag
+            {
+                get => _processFlag;
+                set
+                {
+                    if (_processFlag == value) return;
+                    FormMain.DebugInfo($"[Process] {_processFlag} -> {value}");
+                    _processFlag = value;
+                }
+            }
             //public static sbyte ProcessFlag = -1;
             public static int ProgressMax = 0;
             
@@ -296,6 +320,15 @@ namespace ATRACTool_Reloaded
             public static sbyte TaskFlag = 0;
             public static bool IsWave = false;
             public static bool IsATRAC = false;
+            public static bool IsNus3Bank = false;
+            public static bool IsPlaybackNus3Bank = false;
+            public static bool Nus3BankDecodeToFolder = false;
+            public static bool Nus3BankEncodeOutput = false;
+            public static sbyte Nus3BankEncodeCodecFlag = 1;
+            public static List<Nus3BankEncodeStreamSetting> Nus3BankEncodeStreamSettings { get; set; } = [];
+            public static List<string> Nus3BankPlaybackTempPaths { get; set; } = [];
+            public static string[] Nus3BankPlaybackOriginPaths = null!;
+            public static int Nus3BankOutputCount = 0;
             public static bool IsWalkman = false;
             public static bool IsATRACLooped = false;
             public static bool LoopNG = false;
@@ -410,28 +443,34 @@ namespace ATRACTool_Reloaded
             {
                 try
                 {
+                    FormMain.DebugInfo($"[URI] Opening: {URI}");
                     Process.Start(URI);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    FormMain.DebugWarn($"[URI] Default open failed. uri={URI}, error={ex.Message}");
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
                         //Windowsのとき  
                         URI = URI.Replace("&", "^&");
+                        FormMain.DebugInfo($"[URI] Opening via cmd fallback: {URI}");
                         Process.Start(new ProcessStartInfo("cmd", $"/c start {URI}") { CreateNoWindow = true });
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
                         //Linuxのとき  
+                        FormMain.DebugInfo($"[URI] Opening via xdg-open: {URI}");
                         Process.Start("xdg-open", URI);
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
                         //Macのとき  
+                        FormMain.DebugInfo($"[URI] Opening via open: {URI}");
                         Process.Start("open", URI);
                     }
                     else
                     {
+                        FormMain.DebugError($"[URI] No supported opener. uri={URI}");
                         throw;
                     }
                 }
@@ -514,8 +553,18 @@ namespace ATRACTool_Reloaded
             /// <param name="targetDirectoryPath">削除するディレクトリのパス</param>
             public static void DeleteDirectory(string targetDirectoryPath)
             {
-                if (string.IsNullOrWhiteSpace(targetDirectoryPath)) return;
-                if (!Directory.Exists(targetDirectoryPath)) return;
+                if (string.IsNullOrWhiteSpace(targetDirectoryPath))
+                {
+                    FormMain.DebugWarn("[File] DeleteDirectory skipped: empty path.");
+                    return;
+                }
+                if (!Directory.Exists(targetDirectoryPath))
+                {
+                    FormMain.DebugWarn($"[File] DeleteDirectory skipped: not found. path={targetDirectoryPath}");
+                    return;
+                }
+
+                FormMain.DebugInfo($"[File] DeleteDirectory started. path={targetDirectoryPath}");
 
                 // 再試行回数と間隔（現実的に効く設定）
                 const int maxRetry = 20;
@@ -550,6 +599,7 @@ namespace ATRACTool_Reloaded
 
                         // ディレクトリを消す（再帰）
                         Directory.Delete(targetDirectoryPath, recursive: true);
+                        FormMain.DebugInfo($"[File] DeleteDirectory completed. path={targetDirectoryPath}");
                         return; // 成功
                     }
                     catch (IOException)
@@ -564,12 +614,19 @@ namespace ATRACTool_Reloaded
 
                 // ここまで来たら、かなり頑固に掴まれている。
                 // 例外にして呼び出し側で MessageBox などに出した方が原因究明が早いです。
+                FormMain.DebugError($"[File] DeleteDirectory failed after retries. path={targetDirectoryPath}");
                 throw new IOException($"Failed to delete directory after retries: {targetDirectoryPath}");
             }
 
             public static void TryDeleteDirectoryContents(string dir)
             {
-                if (!Directory.Exists(dir)) return;
+                if (!Directory.Exists(dir))
+                {
+                    FormMain.DebugWarn($"[File] TryDeleteDirectoryContents skipped: not found. path={dir}");
+                    return;
+                }
+
+                FormMain.DebugInfo($"[File] TryDeleteDirectoryContents started. path={dir}");
 
                 // ファイルを消せるだけ消す（ロックは無視）
                 foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
@@ -582,10 +639,12 @@ namespace ATRACTool_Reloaded
                     catch (IOException)
                     {
                         // 他プロセスが掴んでいる → 残す
+                        FormMain.DebugWarn($"[File] Delete skipped: locked. path={file}");
                     }
                     catch (UnauthorizedAccessException)
                     {
                         // 権限/ロック → 残す
+                        FormMain.DebugWarn($"[File] Delete skipped: unauthorized. path={file}");
                     }
                 }
 
@@ -596,6 +655,8 @@ namespace ATRACTool_Reloaded
                 {
                     try { Directory.Delete(d, recursive: false); } catch { /* 残す */ }
                 }
+
+                FormMain.DebugInfo($"[File] TryDeleteDirectoryContents completed. path={dir}");
             }
 
             /// <summary>
@@ -606,16 +667,90 @@ namespace ATRACTool_Reloaded
             {
                 if (!Directory.Exists(targetDirectoryPath))
                 {
+                    FormMain.DebugWarn($"[File] DeleteDirectoryFiles skipped: not found. path={targetDirectoryPath}");
                     return;
                 }
 
-                DirectoryInfo di = new(targetDirectoryPath);
-                FileInfo[] fi = di.GetFiles();
-                foreach (var file in fi)
+                try
                 {
-                    file.Delete();
+                    FormMain.DebugInfo($"[File] DeleteDirectoryFiles started. path={targetDirectoryPath}");
+                    DirectoryInfo di = new(targetDirectoryPath);
+                    FileInfo[] fi = di.GetFiles();
+                    foreach (var file in fi)
+                    {
+                        TryDeleteFileWithRetry(file.FullName);
+                    }
+                    FormMain.DebugInfo($"[File] DeleteDirectoryFiles completed. path={targetDirectoryPath}, files={fi.Length}");
+                }
+                catch (IOException ioe)
+                {
+                    FormMain.DebugError($"IOException: {targetDirectoryPath}\n{ioe}");
+                }
+                catch (UnauthorizedAccessException uae)
+                {
+                    FormMain.DebugError($"UnauthorizedAccessException: {targetDirectoryPath}\n{uae}");
                 }
                 return;
+            }
+
+            private static void TryDeleteFileWithRetry(string filePath)
+            {
+                const int maxRetry = 20;
+                const int delayMs = 50;
+
+                for (int attempt = 1; attempt <= maxRetry; attempt++)
+                {
+                    try
+                    {
+                        if (!File.Exists(filePath))
+                        {
+                            return;
+                        }
+
+                        File.SetAttributes(filePath, FileAttributes.Normal);
+                        File.Delete(filePath);
+                        return;
+                    }
+                    catch (IOException ioe)
+                    {
+                        if (attempt == maxRetry)
+                        {
+                            FormMain.DebugError($"IOException: {filePath}\n{ioe}");
+                            return;
+                        }
+
+                        Thread.Sleep(delayMs);
+                    }
+                    catch (UnauthorizedAccessException uae)
+                    {
+                        if (attempt == maxRetry)
+                        {
+                            FormMain.DebugError($"UnauthorizedAccessException: {filePath}\n{uae}");
+                            return;
+                        }
+
+                        Thread.Sleep(delayMs);
+                    }
+                }
+            }
+
+            private static void TryDeleteDirectoryWhenEmpty(string directoryPath)
+            {
+                try
+                {
+                    if (Directory.Exists(directoryPath))
+                    {
+                        Directory.Delete(directoryPath, recursive: false);
+                    }
+                }
+                catch (IOException ioe)
+                {
+                    FormMain.DebugError($"IOException: {directoryPath}\n{ioe}");
+                }
+                catch (UnauthorizedAccessException uae)
+                {
+                    FormMain.DebugError($"UnauthorizedAccessException: {directoryPath}\n{uae}");
+                }
             }
 
             /// <summary>
@@ -683,11 +818,13 @@ namespace ATRACTool_Reloaded
             {
                 if (Flag != false)
                 {
+                    FormMain.DebugInfo($"[Shell] ShowFolder requested. path={Fullpath}");
                     Process.Start("EXPLORER.EXE", @"/select,""" + Fullpath + @"""");
                     return;
                 }
                 else
                 {
+                    FormMain.DebugWarn($"[Shell] ShowFolder skipped by setting. path={Fullpath}");
                     return;
                 }
             }
@@ -715,31 +852,29 @@ namespace ATRACTool_Reloaded
             /// <param name="flag">Generic.IsATW</param>
             public static void ATWCheck(bool flag, bool IsCancelled = false)
             {
+                string tempAudioPath = Directory.GetCurrentDirectory() + @"\_tempAudio";
+                string tempPath = Directory.GetCurrentDirectory() + @"\_temp";
                 switch (flag)
                 {
                     case true:
                         {
                             if (IsCancelled)
                             {
-                                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
-                                {
-                                    Directory.Delete(Directory.GetCurrentDirectory() + @"\_tempAudio");
-                                }
-                                Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+                                Utils.TryDeleteDirectoryContents(tempAudioPath);
+                                Utils.TryDeleteDirectoryWhenEmpty(tempAudioPath);
+                                Utils.TryDeleteDirectoryContents(tempPath);
                             }
                             else
                             {
-                                foreach (var file in Generic.OpenFilePaths)
+                                if (Generic.OpenFilePaths is not null)
                                 {
-                                    if (File.Exists(file))
+                                    foreach (var file in Generic.OpenFilePaths)
                                     {
-                                        File.Delete(file);
+                                        Utils.TryDeleteFileWithRetry(file);
                                     }
                                 }
-                                if (Directory.Exists(Directory.GetCurrentDirectory() + @"\_tempAudio"))
-                                {
-                                    Directory.Delete(Directory.GetCurrentDirectory() + @"\_tempAudio");
-                                }
+                                Utils.TryDeleteDirectoryContents(tempAudioPath);
+                                Utils.TryDeleteDirectoryWhenEmpty(tempAudioPath);
                             }
                             break;
                         }
@@ -944,6 +1079,7 @@ namespace ATRACTool_Reloaded
 
             public static void CreateExceptionLog(Exception ex, bool FolderOpen, IWin32Window? owner = null)
             {
+                FormMain.DebugError($"[Exception] {ex.GetType().Name}: {ex.Message}");
                 string logname = @"Exception_" + Utils.SFDRandomNumber() + @".log";
                 GenerateLog(logname, Utils.SFDRandomNumber() + @": " + ex.Message + "\n\nSource:\n" + ex.Source + "\n\nStack trace:\n" + ex.StackTrace + "\n\nEOF.\n");
                 MessageBox.Show(owner, "An unexpected error has occurred.\nThe log file was output to the same location as the application directory.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -960,6 +1096,7 @@ namespace ATRACTool_Reloaded
                 {
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Logs\");
                 }
+                FormMain.DebugInfo($"[LogFile] Writing log. file={Logfilename}");
                 using var stream = new StreamWriter(Directory.GetCurrentDirectory() + @"\Logs\" + Logfilename, true, Encoding.UTF8) { AutoFlush = true };
                 stream.WriteLine(Logs);
                 stream.Close();
@@ -1886,15 +2023,24 @@ namespace ATRACTool_Reloaded
             {
                 if (!File.Exists(xmlpath))
                 {
+                    FormMain.DebugWarn($"[Config] Config file not found. Creating default config. path={xmlpath}");
                     Config.Reset();
                     InitConfig();
+                    FormMain.DebugInfo($"[Config] Default config created. path={xmlpath}");
                     return true;
                 }
 
                 try
                 {
+                    FormMain.DebugInfo($"[Config] Loading config. path={xmlpath}");
                     Config.Load(xmlpath);
                     InitConfig();
+                    if (!ValidateConfigValues(out string validationError))
+                    {
+                        throw new FormatException(validationError);
+                    }
+
+                    FormMain.DebugInfo($"[Config] Config loaded and validated. path={xmlpath}");
                     return false;
                 }
                 catch (Exception ex) when (ex is InvalidOperationException
@@ -1902,14 +2048,162 @@ namespace ATRACTool_Reloaded
                     or IOException
                     or UnauthorizedAccessException
                     or NotSupportedException
+                    or FormatException
                     or NullReferenceException
                     or ArgumentException)
                 {
+                    FormMain.DebugError($"[Config] Config load failed. Resetting to default. path={xmlpath}, error={ex.Message}");
                     BackupInvalidConfig(ex);
                     Config.Reset();
                     InitConfig();
+                    FormMain.DebugInfo($"[Config] Default config recreated after failure. path={xmlpath}");
                     return true;
                 }
+            }
+
+            private static bool ValidateConfigValues(out string error)
+            {
+                error = string.Empty;
+
+                string[] boolKeys =
+                [
+                    "ATRAC3_LoopSound",
+                    "ATRAC3_LoopPoint",
+                    "ATRAC3_LoopTime",
+                    "ATRAC9_LoopSound",
+                    "ATRAC9_LoopPoint",
+                    "ATRAC9_LoopTime",
+                    "ATRAC9_LoopList",
+                    "ATRAC9_Advanced",
+                    "ATRAC9_EncodeType",
+                    "ATRAC9_AdvancedBand",
+                    "ATRAC9_DualEncode",
+                    "ATRAC9_SuperFrameEncode",
+                    "ATRAC9_WideBand",
+                    "ATRAC9_BandExtension",
+                    "ATRAC9_LFE_SuperLowCut",
+                    "LPC_Create",
+                    "Walkman_EveryFmt",
+                    "Walkman_Unattended",
+                    "Walkman_FixSongInformation",
+                    "Check_Update",
+                    "HideSplash",
+                    "DisablePreviewWarning",
+                    "ATRACEncodeSource",
+                    "SplashImage",
+                    "WindowDebug_BackgroundImage",
+                    "Theme_FollowSystem",
+                    "Save_IsManual",
+                    "Save_IsSubfolder",
+                    "Save_NestFolderSource",
+                    "Save_DeleteHzSuffix",
+                    "ShowFolder",
+                    "LPCMultipleStreamAlwaysWASAPIorASIO",
+                    "SmoothSamples",
+                    "PlaybackATRAC",
+                    "FasterATRAC",
+                    "FixedConvert",
+                    "ForceConvertWaveOnly",
+                    "UseParallelMethod",
+                    "Oldmode",
+                    "Debugmode"
+                ];
+
+                string[] requiredIntKeys =
+                [
+                    "ATRAC3_Console",
+                    "ATRAC9_Console",
+                    "ATRAC3_Bitrate",
+                    "ATRAC9_Bitrate",
+                    "ATRAC9_Sampling",
+                    "ATRAC9_SamplingValue",
+                    "Walkman_EveryFmt_OutputFmt",
+                    "Walkman_EveryFmt_DecodeFmt",
+                    "Walkman_LyricsMode",
+                    "Walkman_LinerNotesMode",
+                    "Walkman_JacketMode",
+                    "ToolStrip"
+                ];
+
+                string[] optionalIntKeys =
+                [
+                    "ATRAC9_EncodeTypeIndex",
+                    "ATRAC9_NbandsIndex",
+                    "ATRAC9_IsbandIndex",
+                    "ConvertType"
+                ];
+
+                string[] requiredUIntKeys =
+                [
+                    "LPCPlaybackMethod",
+                    "LPCMultipleStreamPlaybackMethod",
+                    "DirectSoundBuffers",
+                    "DirectSoundBuffersValue",
+                    "DirectSoundLatency",
+                    "DirectSoundLatencyValue",
+                    "WASAPILatencyShared",
+                    "WASAPILatencySharedValue",
+                    "WASAPILatencyExclusived",
+                    "WASAPILatencyExclusivedValue",
+                    "PlaybackThreadCount"
+                ];
+
+                string[] optionalDateKeys =
+                [
+                    "Walkman_Release",
+                    "Walkman_Import"
+                ];
+
+                foreach (string key in boolKeys)
+                {
+                    if (!bool.TryParse(Config.Entry[key].Value, out _))
+                    {
+                        error = $"Invalid boolean config value: {key}";
+                        return false;
+                    }
+                }
+
+                foreach (string key in requiredIntKeys)
+                {
+                    if (!int.TryParse(Config.Entry[key].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
+                    {
+                        error = $"Invalid integer config value: {key}";
+                        return false;
+                    }
+                }
+
+                foreach (string key in optionalIntKeys)
+                {
+                    string value = Config.Entry[key].Value;
+                    if (!string.IsNullOrWhiteSpace(value)
+                        && !int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
+                    {
+                        error = $"Invalid optional integer config value: {key}";
+                        return false;
+                    }
+                }
+
+                foreach (string key in requiredUIntKeys)
+                {
+                    if (!uint.TryParse(Config.Entry[key].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
+                    {
+                        error = $"Invalid unsigned integer config value: {key}";
+                        return false;
+                    }
+                }
+
+                foreach (string key in optionalDateKeys)
+                {
+                    string value = Config.Entry[key].Value;
+                    if (!string.IsNullOrWhiteSpace(value)
+                        && !DateTime.TryParse(value, CultureInfo.CurrentCulture, DateTimeStyles.None, out _))
+                    {
+                        error = $"Invalid date config value: {key}";
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             private static void BackupInvalidConfig(Exception ex)
@@ -1922,10 +2216,12 @@ namespace ATRACTool_Reloaded
                     if (File.Exists(xmlpath))
                     {
                         File.Move(xmlpath, backupPath, true);
+                        FormMain.DebugWarn($"[Config] Invalid config moved to backup. backup={backupPath}");
                     }
                 }
                 catch (Exception moveEx)
                 {
+                    FormMain.DebugError($"[Config] Failed to move invalid config. backup={backupPath}, error={moveEx.Message}");
                     GenerateLog(
                         $"ConfigRecovery_{timestamp}.log",
                         $"Failed to move invalid config.\nSource: {xmlpath}\nBackup: {backupPath}\nLoad error: {ex}\nMove error: {moveEx}");
@@ -1935,10 +2231,12 @@ namespace ATRACTool_Reloaded
                         if (File.Exists(xmlpath))
                         {
                             File.Delete(xmlpath);
+                            FormMain.DebugWarn($"[Config] Invalid config deleted after backup move failure. path={xmlpath}");
                         }
                     }
                     catch (Exception deleteEx)
                     {
+                        FormMain.DebugError($"[Config] Failed to delete invalid config. path={xmlpath}, error={deleteEx.Message}");
                         GenerateLog(
                             $"ConfigRecovery_{timestamp}.log",
                             $"Failed to delete invalid config.\nSource: {xmlpath}\nDelete error: {deleteEx}");
@@ -1955,6 +2253,7 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static void InitConfig()
             {
+                FormMain.DebugInfo("[Config] Applying default values for missing settings.");
                 if (Config.Entry["ATRAC3_Console"].Value == null) // ATRAC3 コンソール (int)
                 {
                     Config.Entry["ATRAC3_Console"].Value = "0";
@@ -2255,9 +2554,17 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["SplashImage_Path"].Value = "";
                 }
+                if (Config.Entry["WindowDebug_BackgroundImage"].Value == null) // WindowDebug 背景画像 (bool)
+                {
+                    Config.Entry["WindowDebug_BackgroundImage"].Value = "false";
+                }
+                if (Config.Entry["WindowDebug_BackgroundImage_Path"].Value == null) // WindowDebug 背景画像パス (string)
+                {
+                    Config.Entry["WindowDebug_BackgroundImage_Path"].Value = "";
+                }
                 if (Config.Entry["Theme_FollowSystem"].Value == null) // UIテーマをシステム設定に従う (bool)
                 {
-                    Config.Entry["Theme_FollowSystem"].Value = "false";
+                    Config.Entry["Theme_FollowSystem"].Value = "true";
                 }
                 if (Config.Entry["Theme_Mode"].Value == null) // UIテーマ (string)
                 {
@@ -2318,6 +2625,10 @@ namespace ATRACTool_Reloaded
                 if (Config.Entry["PlaybackATRAC"].Value == null) // ATRAC読み込み時の再生インターフェースの有効 (bool)
                 {
                     Config.Entry["PlaybackATRAC"].Value = "true";
+                }
+                if (Config.Entry["PlaybackNus3Bank"].Value == null) // NUS3BANK読み込み時の再生インターフェースの有効 (bool)
+                {
+                    Config.Entry["PlaybackNus3Bank"].Value = "true";
                 }
 
                 // Advanced 項目
@@ -2395,6 +2706,7 @@ namespace ATRACTool_Reloaded
                 }
 
                 Config.Save(xmlpath);
+                FormMain.DebugInfo("[Config] Default value application completed.");
             }
 
             /// <summary>
@@ -2666,11 +2978,13 @@ namespace ATRACTool_Reloaded
 
                     using var f = TagLib.File.Create(path);
                     var t = f.Tag;
+                    var performers = t.Performers ?? Array.Empty<string>();
+                    var genres = t.Genres ?? Array.Empty<string>();
 
                     tags.Title = string.IsNullOrWhiteSpace(t.Title) ? null : t.Title;
-                    tags.Artist = (t.Performers?.Length ?? 0) > 0 ? t.Performers[0] : null;
+                    tags.Artist = performers.Length > 0 ? performers[0] : null;
                     tags.Album = string.IsNullOrWhiteSpace(t.Album) ? null : t.Album;
-                    tags.Genre = (t.Genres?.Length ?? 0) > 0 ? t.Genres[0] : null;
+                    tags.Genre = genres.Length > 0 ? genres[0] : null;
 
                     if (t.Track > 0) tags.TrackNumber = t.Track.ToString();
                     if (t.TrackCount > 0) tags.TotalTracks = t.TrackCount.ToString();
@@ -2694,11 +3008,13 @@ namespace ATRACTool_Reloaded
                 try
                 {
                     using var tfile = TagLib.File.Create(job.OriginPath);
+                    var performers = tfile.Tag.Performers ?? Array.Empty<string>();
+                    var genres = tfile.Tag.Genres ?? Array.Empty<string>();
 
                     job.Meta.Title = tfile.Tag.Title ?? "";
-                    job.Meta.Artist = (tfile.Tag.Performers?.Length > 0) ? tfile.Tag.Performers[0] : "";
+                    job.Meta.Artist = performers.Length > 0 ? performers[0] : "";
                     job.Meta.Album = tfile.Tag.Album ?? "";
-                    job.Meta.Genre = (tfile.Tag.Genres?.Length > 0) ? tfile.Tag.Genres[0] : "";
+                    job.Meta.Genre = genres.Length > 0 ? genres[0] : "";
                     job.Meta.TrackNumber = (tfile.Tag.Track != 0) ? tfile.Tag.Track.ToString() : "";
                     job.Meta.ReleaseYear = (tfile.Tag.Year != 0) ? tfile.Tag.Year.ToString() : "";
 
@@ -2854,25 +3170,35 @@ namespace ATRACTool_Reloaded
             public static string? TryExtractEmbeddedJacketToTemp(string originPath, string tempDir, int index = 0)
             {
                 if (string.IsNullOrWhiteSpace(originPath) || !System.IO.File.Exists(originPath))
+                {
+                    FormMain.DebugWarn($"[WalkmanJacket] Extraction skipped: source not found. path={originPath}");
                     return null;
+                }
 
                 Directory.CreateDirectory(tempDir);
 
                 try
                 {
+                    FormMain.DebugInfo($"[WalkmanJacket] Extraction started. source={originPath}");
                     // ★ 明示的に TagLib.File
                     using var tf = TagLib.File.Create(originPath);
 
                     var pics = tf.Tag.Pictures;
                     if (pics == null || pics.Length == 0)
+                    {
+                        FormMain.DebugInfo($"[WalkmanJacket] No embedded jacket. source={originPath}");
                         return null;
+                    }
 
                     var pic =
                         pics.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover)
                         ?? pics[0];
 
                     if (pic?.Data == null || pic.Data.Count == 0)
+                    {
+                        FormMain.DebugWarn($"[WalkmanJacket] Embedded jacket has no data. source={originPath}");
                         return null;
+                    }
 
                     string ext = MimeToExtension(pic.MimeType);
                     if (string.IsNullOrEmpty(ext))
@@ -2896,13 +3222,16 @@ namespace ATRACTool_Reloaded
                     {
                         // 最適化前を削除（残す必要なし）
                         try { System.IO.File.Delete(outPath); } catch { /* 無視 */ }
+                        FormMain.DebugInfo($"[WalkmanJacket] Extraction completed. output={normalized}");
                         return normalized;
                     }
 
+                    FormMain.DebugInfo($"[WalkmanJacket] Extraction completed. output={outPath}");
                     return outPath;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    FormMain.DebugWarn($"[WalkmanJacket] Extraction failed. source={originPath}, error={ex.Message}");
                     return null;
                 }
             }
@@ -2980,16 +3309,30 @@ namespace ATRACTool_Reloaded
                     }
 
                     // JPG（品質 90）
-                    var enc = ImageCodecInfo.GetImageEncoders().First(e => e.MimeType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase));
-                    var ep = new EncoderParameters(1);
+                    var enc = ImageCodecInfo.GetImageEncoders().FirstOrDefault(e => e.MimeType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) == true);
+                    if (enc is null)
+                    {
+                        FormMain.DebugWarn("[WalkmanJacket] JPEG encoder not found.");
+                        return null;
+                    }
+
+                    using var ep = new EncoderParameters(1);
                     ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
 
                     bmp.Save(outPath, enc, ep);
 
-                    return System.IO.File.Exists(outPath) ? outPath : null;
+                    if (!System.IO.File.Exists(outPath))
+                    {
+                        FormMain.DebugWarn($"[WalkmanJacket] Normalized file was not created. output={outPath}");
+                        return null;
+                    }
+
+                    FormMain.DebugInfo($"[WalkmanJacket] Normalized jacket. source={srcPath}, output={outPath}, size={nw}x{nh}");
+                    return outPath;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    FormMain.DebugWarn($"[WalkmanJacket] Normalize failed. source={srcPath}, error={ex.Message}");
                     return null;
                 }
             }
@@ -3042,18 +3385,27 @@ namespace ATRACTool_Reloaded
 
             public static Stream GetWebStream(HttpClient httpClient, Uri uri)
             {
-                return httpClient.GetStreamAsync(uri).Result;
+                FormMain.DebugInfo($"[Network] Get stream started. uri={uri}");
+                Stream stream = httpClient.GetStreamAsync(uri).Result;
+                FormMain.DebugInfo($"[Network] Get stream completed. uri={uri}");
+                return stream;
             }
 
             public static async Task<Stream> GetWebStreamAsync(HttpClient httpClient, Uri uri)
             {
-                return await httpClient.GetStreamAsync(uri);
+                FormMain.DebugInfo($"[Network] Get stream started. uri={uri}");
+                Stream stream = await httpClient.GetStreamAsync(uri);
+                FormMain.DebugInfo($"[Network] Get stream completed. uri={uri}");
+                return stream;
             }
 
             public static async Task<Image> GetWebImageAsync(HttpClient httpClient, Uri uri)
             {
+                FormMain.DebugInfo($"[Network] Get image started. uri={uri}");
                 using Stream stream = await GetWebStreamAsync(httpClient, uri);
-                return Image.FromStream(stream);
+                Image image = Image.FromStream(stream);
+                FormMain.DebugInfo($"[Network] Get image completed. uri={uri}");
+                return image;
             }
         }
 
@@ -3066,21 +3418,29 @@ namespace ATRACTool_Reloaded
             public static void Reset()
             {
                 Entry = new ConfigEntry() { Key = "ConfigRoot" };
+                FormMain.DebugInfo("[Config] Config entry reset.");
             }
             public static void Load(string filename)
             {
                 if (!File.Exists(filename))
+                {
+                    FormMain.DebugWarn($"[Config] Load skipped: not found. path={filename}");
                     return;
+                }
+                FormMain.DebugInfo($"[Config] Load started. path={filename}");
                 var xmlSerializer = new XmlSerializer(typeof(ConfigEntry));
                 using var streamReader = new StreamReader(filename, Encoding.UTF8);
                 using var xmlReader = XmlReader.Create(streamReader, new XmlReaderSettings() { CheckCharacters = false });
                 Entry = (ConfigEntry)xmlSerializer.Deserialize(xmlReader)!; // （3）
+                FormMain.DebugInfo($"[Config] Load completed. path={filename}");
             }
             public static void Save(string filename)
             {
+                FormMain.DebugInfo($"[Config] Save started. path={filename}");
                 var serializer = new XmlSerializer(typeof(ConfigEntry));
                 using var streamWriter = new StreamWriter(filename, false, Encoding.UTF8);
                 serializer.Serialize(streamWriter, Entry);
+                FormMain.DebugInfo($"[Config] Save completed. path={filename}");
             }
         }
 

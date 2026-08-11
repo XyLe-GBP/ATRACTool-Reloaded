@@ -43,6 +43,7 @@ namespace ATRACTool_Reloaded
         {
             ModernUI.ModernWpfTheme.Apply();
             InitializeComponent();
+            FormMain.DebugInfo("[WindowAbout] Initialized.");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -52,22 +53,44 @@ namespace ATRACTool_Reloaded
 
             if (NetworkInterface.GetIsNetworkAvailable())
             {
+                FormMain.DebugInfo("[WindowAbout] Network available. Loading GitHub image.");
                 BitmapImage img = new(new Uri("https://avatars.githubusercontent.com/u/59692068?v=4", UriKind.RelativeOrAbsolute));
                 Image_GitHub.Source = img;
+            }
+            else
+            {
+                FormMain.DebugWarn("[WindowAbout] Network unavailable. GitHub image skipped.");
             }
         }
 
         private static void OpenUrl(string uri)
         {
-            if (uri == null) return;
+            if (uri == null)
+            {
+                FormMain.DebugWarn("[WindowAbout] OpenUrl skipped: null uri.");
+                return;
+            }
 
             Uri uricheck = new(uri);
-            if (uricheck.Scheme != Uri.UriSchemeHttp && uricheck.Scheme != Uri.UriSchemeHttps) return;
-
-            Process.Start(new ProcessStartInfo(uri)
+            if (uricheck.Scheme != Uri.UriSchemeHttp && uricheck.Scheme != Uri.UriSchemeHttps)
             {
-                UseShellExecute = true
-            });
+                FormMain.DebugWarn($"[WindowAbout] OpenUrl skipped: unsupported scheme. uri={uri}");
+                return;
+            }
+
+            FormMain.DebugInfo($"[WindowAbout] Opening URL. uri={uri}");
+            try
+            {
+                Process.Start(new ProcessStartInfo(uri)
+                {
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[WindowAbout] OpenUrl failed. uri={uri}, error={ex}");
+                throw;
+            }
         }
 
         private void HL_GitHub_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

@@ -40,6 +40,7 @@ namespace ATRACTool_Reloaded
         {
             ModernUI.ModernWpfTheme.Apply();
             InitializeComponent();
+            FormMain.DebugInfo("[WindowATWSelectTarget] Initialized.");
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -60,6 +61,7 @@ namespace ATRACTool_Reloaded
             combobox_Method.Items.Add(Localizable.XAMLWindowLocalization.Target32kHzCaption);
             combobox_Method.Items.Add(Localizable.XAMLWindowLocalization.Target44kHzCaption);
             combobox_Method.Items.Add(Localizable.XAMLWindowLocalization.Target48kHzCaption);
+            FormMain.DebugInfo("[WindowATWSelectTarget] Loaded.");
         }
 
         private void Combobox_Method_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -75,16 +77,19 @@ namespace ATRACTool_Reloaded
                 6 => Constants.WTAType.Hz48000,
                 _ => Constants.WTAType.Hz44100,
             };
+            FormMain.DebugInfo($"[WindowATWSelectTarget] Method selected. WTAmethod={Generic.WTAmethod}");
         }
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
+            FormMain.DebugInfo($"[WindowATWSelectTarget] OK. WTAmethod={Generic.WTAmethod}");
             DialogResult = true;
             Close();
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
+            FormMain.DebugWarn("[WindowATWSelectTarget] Cancelled.");
             DialogResult = false;
             Close();
         }

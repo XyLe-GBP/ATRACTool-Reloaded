@@ -1,14 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static ATRACTool_Reloaded.FormMain;
 using Brushes = System.Windows.Media.Brushes;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace ATRACTool_Reloaded
 {
@@ -51,6 +55,21 @@ namespace ATRACTool_Reloaded
         const int SC_CLOSE = 0xF060;
 
         private const int MaxLogLines = 2000;
+        private const double BackgroundOpacity = 0.5;
+        private static readonly Uri DefaultBackgroundImageUri = new("pack://application:,,,/Properties/SIE_Default.png", UriKind.Absolute);
+
+        private enum DebugLogFilter
+        {
+            Info = 0,
+            Warn = 1,
+            Error = 2,
+            All = 3
+        }
+
+        private readonly List<FormMain.DebugLogEntry> _logEntries = [];
+        private DebugLogFilter _currentFilter = DebugLogFilter.All;
+        private bool _loadingOptions;
+
         public static bool DebugFunctionsEnabled { get; private set; } = true;
 
         private static WindowDebug _WindowDebugInstance = null!;
@@ -128,6 +147,7 @@ namespace ATRACTool_Reloaded
             }
 
             RefleshCurrentInstanceInfo();
+            LoadDebugOptions();
             if (_lastMainHandle != IntPtr.Zero)
             {
                 PlaceBehindMain(_lastMainHandle);
@@ -142,6 +162,25 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo(DebugFunctionsEnabled
                 ? "[WindowDebug] Debug functions enabled."
                 : "[WindowDebug] Debug functions disabled.");
+        }
+
+        private void ComboBox_LogFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (richText_Message == null)
+            {
+                return;
+            }
+
+            _currentFilter = comboBox_LogFilter.SelectedIndex switch
+            {
+                0 => DebugLogFilter.Info,
+                1 => DebugLogFilter.Warn,
+                2 => DebugLogFilter.Error,
+                _ => DebugLogFilter.All
+            };
+
+            RebuildLogDocument();
+            FormMain.DebugInfo($"[WindowDebug] Log filter changed. filter={_currentFilter}");
         }
 
         /*public void RefleshCurrentInstanceInfo()
@@ -223,7 +262,67 @@ namespace ATRACTool_Reloaded
 
         public void AppendLog(FormMain.DebugLogEntry entry)
         {
-            // RichTextBox の Document を使う
+            _logEntries.Add(entry);
+
+            bool removedVisibleEntry = false;
+            while (_logEntries.Count > MaxLogLines)
+            {
+                FormMain.DebugLogEntry oldEntry = _logEntries[0];
+                _logEntries.RemoveAt(0);
+                removedVisibleEntry |= MatchesFilter(oldEntry);
+            }
+
+            if (removedVisibleEntry)
+            {
+                RebuildLogDocument();
+                return;
+            }
+
+            if (!MatchesFilter(entry))
+            {
+                return;
+            }
+
+            AppendLogBlock(entry, scrollToEnd: true);
+        }
+
+        private bool MatchesFilter(FormMain.DebugLogEntry entry)
+        {
+            return _currentFilter switch
+            {
+                DebugLogFilter.Info => entry.Level == FormMain.DebugLogLevel.Info,
+                DebugLogFilter.Warn => entry.Level == FormMain.DebugLogLevel.Warn,
+                DebugLogFilter.Error => entry.Level == FormMain.DebugLogLevel.Error,
+                _ => true
+            };
+        }
+
+        private void RebuildLogDocument()
+        {
+            var doc = richText_Message.Document ??= new FlowDocument();
+            while (doc.Blocks.FirstBlock is Block firstBlock)
+            {
+                if (firstBlock is Paragraph paragraph)
+                {
+                    paragraph.Inlines.Clear();
+                }
+
+                doc.Blocks.Remove(firstBlock);
+            }
+
+            foreach (FormMain.DebugLogEntry entry in _logEntries)
+            {
+                if (MatchesFilter(entry))
+                {
+                    AppendLogBlock(entry, scrollToEnd: false);
+                }
+            }
+
+            richText_Message.ScrollToEnd();
+        }
+
+        private void AppendLogBlock(FormMain.DebugLogEntry entry, bool scrollToEnd)
+        {
             var doc = richText_Message.Document ??= new FlowDocument();
 
             // 1行=1 Paragraph にする（行ごとの色分けが容易）
@@ -262,10 +361,199 @@ namespace ATRACTool_Reloaded
             // 行数制限（増えすぎ防止）
             while (doc.Blocks.Count > MaxLogLines)
             {
-                doc.Blocks.Remove(doc.Blocks.FirstBlock);
+                Block? firstBlock = doc.Blocks.FirstBlock;
+                if (firstBlock is null)
+                    break;
+
+                if (firstBlock is Paragraph paragraph)
+                    paragraph.Inlines.Clear();
+
+                doc.Blocks.Remove(firstBlock);
             }
 
-            richText_Message.ScrollToEnd();
+            if (scrollToEnd)
+            {
+                richText_Message.ScrollToEnd();
+            }
+        }
+
+        private void LoadDebugOptions()
+        {
+            _loadingOptions = true;
+            try
+            {
+                checkBox_BackgroundImage.IsChecked = Common.Utils.GetBool("WindowDebug_BackgroundImage", false);
+                textBox_BackgroundImage.Text = Common.Utils.GetString("WindowDebug_BackgroundImage_Path", string.Empty);
+                UpdateBackgroundOptionControls();
+                ApplyBackgroundImage();
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[WindowDebug] Failed to load debug options. error={ex.Message}");
+                ApplyDefaultBackgroundImage();
+            }
+            finally
+            {
+                _loadingOptions = false;
+            }
+        }
+
+        private void CheckBox_BackgroundImage_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_loadingOptions)
+            {
+                UpdateBackgroundOptionControls();
+                return;
+            }
+
+            if (checkBox_BackgroundImage.IsChecked == true && string.IsNullOrWhiteSpace(textBox_BackgroundImage.Text))
+            {
+                if (!TrySelectBackgroundImage())
+                {
+                    _loadingOptions = true;
+                    checkBox_BackgroundImage.IsChecked = false;
+                    _loadingOptions = false;
+                }
+            }
+
+            UpdateBackgroundOptionControls();
+            SaveBackgroundImageSettings();
+            ApplyBackgroundImage();
+        }
+
+        private void Button_BackgroundBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            if (!TrySelectBackgroundImage())
+            {
+                return;
+            }
+
+            _loadingOptions = true;
+            checkBox_BackgroundImage.IsChecked = true;
+            _loadingOptions = false;
+
+            UpdateBackgroundOptionControls();
+            SaveBackgroundImageSettings();
+            ApplyBackgroundImage();
+        }
+
+        private void Button_BackgroundClear_Click(object sender, RoutedEventArgs e)
+        {
+            textBox_BackgroundImage.Clear();
+            _loadingOptions = true;
+            checkBox_BackgroundImage.IsChecked = false;
+            _loadingOptions = false;
+
+            UpdateBackgroundOptionControls();
+            SaveBackgroundImageSettings();
+            ApplyBackgroundImage();
+            FormMain.DebugInfo("[WindowDebug] Custom background image cleared.");
+        }
+
+        private bool TrySelectBackgroundImage()
+        {
+            OpenFileDialog dialog = new()
+            {
+                Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff|All Files|*.*",
+                Title = "Select background image"
+            };
+
+            if (!string.IsNullOrWhiteSpace(textBox_BackgroundImage.Text))
+            {
+                string currentPath = textBox_BackgroundImage.Text;
+                string? currentDirectory = Path.GetDirectoryName(currentPath);
+                if (!string.IsNullOrWhiteSpace(currentDirectory) && Directory.Exists(currentDirectory))
+                {
+                    dialog.InitialDirectory = currentDirectory;
+                }
+            }
+
+            bool? result = dialog.ShowDialog(this);
+            if (result != true)
+            {
+                return false;
+            }
+
+            textBox_BackgroundImage.Text = dialog.FileName;
+            FormMain.DebugInfo($"[WindowDebug] Custom background image selected. path={dialog.FileName}");
+            return true;
+        }
+
+        private void UpdateBackgroundOptionControls()
+        {
+            bool enabled = checkBox_BackgroundImage.IsChecked == true;
+            textBox_BackgroundImage.IsEnabled = enabled;
+            button_BackgroundBrowse.IsEnabled = enabled;
+            button_BackgroundClear.IsEnabled = enabled && !string.IsNullOrWhiteSpace(textBox_BackgroundImage.Text);
+        }
+
+        private void SaveBackgroundImageSettings()
+        {
+            try
+            {
+                bool enabled = checkBox_BackgroundImage.IsChecked == true;
+                Common.Config.Entry["WindowDebug_BackgroundImage"].Value = enabled.ToString().ToLowerInvariant();
+                Common.Config.Entry["WindowDebug_BackgroundImage_Path"].Value = textBox_BackgroundImage.Text.Trim();
+                Common.Config.Save(Common.xmlpath);
+                FormMain.DebugInfo($"[WindowDebug] Background image settings saved. enabled={enabled}");
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[WindowDebug] Failed to save background image settings. error={ex.Message}");
+            }
+        }
+
+        private void ApplyBackgroundImage()
+        {
+            bool enabled = checkBox_BackgroundImage.IsChecked == true;
+            string imagePath = textBox_BackgroundImage.Text.Trim();
+            if (!enabled)
+            {
+                ApplyDefaultBackgroundImage();
+                return;
+            }
+
+            if (!File.Exists(imagePath))
+            {
+                FormMain.DebugWarn($"[WindowDebug] Custom background image not found. path={imagePath}");
+                ApplyDefaultBackgroundImage();
+                return;
+            }
+
+            try
+            {
+                tabControl_Root.Background = new ImageBrush(LoadBitmapImage(imagePath))
+                {
+                    Opacity = BackgroundOpacity,
+                    Stretch = Stretch.UniformToFill
+                };
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[WindowDebug] Failed to apply custom background image. path={imagePath}, error={ex.Message}");
+                ApplyDefaultBackgroundImage();
+            }
+        }
+
+        private void ApplyDefaultBackgroundImage()
+        {
+            tabControl_Root.Background = new ImageBrush(new BitmapImage(DefaultBackgroundImageUri))
+            {
+                Opacity = BackgroundOpacity,
+                Stretch = Stretch.UniformToFill
+            };
+        }
+
+        private static BitmapImage LoadBitmapImage(string path)
+        {
+            using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+            BitmapImage bitmap = new();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
+            return bitmap;
         }
 
         private void Timer_Elapsed(object? sender, ElapsedEventArgs e)

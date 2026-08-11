@@ -1,5 +1,7 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -38,19 +40,27 @@ namespace ATRACTool_Reloaded
         const int VK_F4 = 0x73;
         const int WM_SYSCOMMAND = 0x0112;
         const int SC_CLOSE = 0xF060;
+        private const double DesignedSplashWidth = 800d;
+        private const double DesignedSplashHeight = 400d;
+        private const double MaxScreenCoverage = 0.9d;
 
         public WindowSplash()
         {
             InitializeComponent();
+            FormMain.DebugInfo("[WindowSplash] Initialized.");
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
+            FormMain.DebugInfo("[WindowSplash] Load started.");
             HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             source.AddHook(new HwndSourceHook(WndProc));
 
+            FileVersionInfo ver = FileVersionInfo.GetVersionInfo(System.Windows.Forms.Application.ExecutablePath);
+            TextBlock_Version.Text = "Version " + (ver.FileVersion ?? "0.0.0.0");
+
             Config.Load(Common.xmlpath);
-            Screen screen = null!;
+            Screen? screen = null;
             
             try
             {
@@ -67,54 +77,65 @@ namespace ATRACTool_Reloaded
                 {
                     case true:
                         {
-                            Bitmap bimg = new(Properties.Resources.Splash);
-                            Bitmap cimg = new(Utils.GetString("SplashImage_Path"));
-                            using Graphics g = Graphics.FromImage(cimg);
-                            g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
-                            Width = cimg.Width;
-                            Height = cimg.Height;
-                            Left = (screen.Bounds.Width - Width) / 2;
-                            Top = (screen.Bounds.Height - Height) / 2;
-
-                            image.Source = BIMG.ToBitmapImage(cimg);
+                            string splashImagePath = Utils.GetString("SplashImage_Path");
+                            FormMain.DebugInfo($"[WindowSplash] Loading custom splash image. path={splashImagePath}");
+                            using Bitmap cimg = new(splashImagePath);
+                            ApplySplashImage(cimg, screen, "custom");
                             break;
                         }
                     case false:
                         {
-                            ProgressBar_log.Margin = new Thickness(0, 455 - 80, 0, 0);
-                            TextBlock_Log.Margin = new Thickness(0, 451 - 80, 0, 0);
+                            FormMain.DebugInfo("[WindowSplash] Loading default splash image.");
 
-                            Bitmap bimg = new(Properties.Resources.Splash);
-                            Bitmap cimg = new(Properties.Resources.Splash_SIE_Default);
-                            using Graphics g = Graphics.FromImage(cimg);
-                            g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
-                            Width = cimg.Width;
-                            Height = cimg.Height;
-                            Left = (screen.Bounds.Width - Width) / 2;
-                            Top = (screen.Bounds.Height - Height) / 2;
+                            using Bitmap cimg = new(Properties.Resources.SIE_White);
+                            ApplySplashImage(cimg, screen, "default");
 
-                            image.Source = BIMG.ToBitmapImage(cimg);
                             break;
                         }
                 }
             }
             catch (Exception ex)
             {
-                ProgressBar_log.Margin = new Thickness(0, 455 - 80, 0, 0);
-                TextBlock_Log.Margin = new Thickness(0, 451 - 80, 0, 0);
+                FormMain.DebugWarn($"[WindowSplash] Splash load failed. Falling back to default. error={ex.Message}");
 
                 Generic.GlobalException = ex;
-                Bitmap bimg = new(Properties.Resources.Splash);
-                Bitmap cimg = new(Properties.Resources.Splash_SIE_Default);
-                using Graphics g = Graphics.FromImage(cimg);
-                g.DrawImage(bimg, 0, 0, cimg.Width, cimg.Height);
-                Width = cimg.Width;
-                Height = cimg.Height;
-                Left = (screen.Bounds.Width - Width) / 2;
-                Top = (screen.Bounds.Height - Height) / 2;
-
-                image.Source = BIMG.ToBitmapImage(cimg);
+                using Bitmap cimg = new(Properties.Resources.SIE_White);
+                ApplySplashImage(cimg, screen ?? Screen.PrimaryScreen, "default-fallback");
             }
+            FormMain.DebugInfo("[WindowSplash] Load completed.");
+        }
+
+        private void ApplySplashImage(Bitmap bitmap, Screen? screen, string source)
+        {
+            SetSplashWindowBounds(screen);
+            image.Source = BIMG.ToBitmapImage(bitmap);
+            FormMain.DebugInfo($"[WindowSplash] Splash image applied. source={source}, imageSize={bitmap.Width}x{bitmap.Height}, windowSize={Width:0}x{Height:0}");
+        }
+
+        private void SetSplashWindowBounds(Screen? screen)
+        {
+            double scale = 1d;
+
+            if (screen is not null)
+            {
+                Rectangle area = screen.WorkingArea;
+                scale = Math.Min(1d, Math.Min(area.Width * MaxScreenCoverage / DesignedSplashWidth, area.Height * MaxScreenCoverage / DesignedSplashHeight));
+                if (double.IsNaN(scale) || double.IsInfinity(scale) || scale <= 0d)
+                {
+                    scale = 1d;
+                }
+
+                Width = Math.Max(1d, DesignedSplashWidth * scale);
+                Height = Math.Max(1d, DesignedSplashHeight * scale);
+                Left = area.Left + (area.Width - Width) / 2d;
+                Top = area.Top + (area.Height - Height) / 2d;
+                return;
+            }
+
+            Width = DesignedSplashWidth;
+            Height = DesignedSplashHeight;
+            Left = 0d;
+            Top = 0d;
         }
 
         public string ProgressMsg

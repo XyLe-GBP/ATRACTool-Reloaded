@@ -39,6 +39,7 @@ namespace ATRACTool_Reloaded
         {
             ModernUI.ModernWpfTheme.Apply();
             InitializeComponent();
+            FormMain.DebugInfo("[WindowATWSelect] Initialized.");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -49,6 +50,7 @@ namespace ATRACTool_Reloaded
             Title = Localizable.XAMLWindowLocalization.WindowATWSelect_Title;
 
             combobox_Format.SelectedIndex = 0;
+            FormMain.DebugInfo("[WindowATWSelect] Loaded.");
 
             label_Format.Content = Localizable.XAMLWindowLocalization.WindowATWSelect_Format;
             Button_Cancel.Content = Localizable.XAMLWindowLocalization.CancelCaption;
@@ -57,12 +59,14 @@ namespace ATRACTool_Reloaded
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             Common.Generic.WTAFlag = (sbyte)combobox_Format.SelectedIndex;
+            FormMain.DebugInfo($"[WindowATWSelect] Format selected. WTAFlag={Common.Generic.WTAFlag}");
             DialogResult = true;
             Close();
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
+            FormMain.DebugWarn("[WindowATWSelect] Cancelled.");
             DialogResult = false;
             Close();
         }

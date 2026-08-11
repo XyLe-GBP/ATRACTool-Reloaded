@@ -21,18 +21,26 @@ namespace ATRACTool_Reloaded
         public static void UpdateLoopStart(long startSamples, uint buttonIndex)
         {
             if (FormMain.FormMainInstance is null)
+            {
+                FormMain.DebugWarn("[LoopPoint] UpdateLoopStart skipped: FormMain is not available.");
                 return;
+            }
 
             var main = FormMain.FormMainInstance;
+            bool indexedLoopState = UsesIndexedLoopState();
+            FormMain.DebugInfo($"[LoopPoint] Update start. samples={startSamples}, buttonIndex={buttonIndex}, indexed={indexedLoopState}");
 
             // FormMain 側のテキストボックスを更新
             main.textBox_LoopStart.Text = startSamples.ToString();
 
-            if (Generic.IsOpenMulti)
+            if (indexedLoopState)
             {
                 int idx = (int)buttonIndex - 1;
                 if (idx < 0 || idx >= Generic.MultipleLoopStarts.Length)
+                {
+                    FormMain.DebugWarn($"[LoopPoint] Update start skipped: index out of range. index={idx}, length={Generic.MultipleLoopStarts.Length}");
                     return;
+                }
 
                 Generic.MultipleLoopStarts[idx] = (int)startSamples;
                 Generic.MultipleFilesLoopOKFlags[idx] =
@@ -55,7 +63,9 @@ namespace ATRACTool_Reloaded
 
                 Debug.WriteLine("MultipleFilesLoopOKFlags[]: " + string.Join(", ", Generic.MultipleFilesLoopOKFlags));
                 Debug.WriteLine("[Flag] LoopStartNG: " + Generic.LoopStartNG);
+                FormMain.DebugInfo($"[LoopPoint] Flags updated. ok={string.Join(", ", Generic.MultipleFilesLoopOKFlags)}, loopStartNG={Generic.LoopStartNG}");
             }
+            FormMain.DebugInfo($"[LoopPoint] Start updated. starts={string.Join(", ", Generic.MultipleLoopStarts)}, ok={string.Join(", ", Generic.MultipleFilesLoopOKFlags)}");
         }
 
         /// <summary>
@@ -65,18 +75,26 @@ namespace ATRACTool_Reloaded
         public static void UpdateLoopEnd(long endSamples, uint buttonIndex)
         {
             if (FormMain.FormMainInstance is null)
+            {
+                FormMain.DebugWarn("[LoopPoint] UpdateLoopEnd skipped: FormMain is not available.");
                 return;
+            }
 
             var main = FormMain.FormMainInstance;
+            bool indexedLoopState = UsesIndexedLoopState();
+            FormMain.DebugInfo($"[LoopPoint] Update end. samples={endSamples}, buttonIndex={buttonIndex}, indexed={indexedLoopState}");
 
             // FormMain 側のテキストボックスを更新
             main.textBox_LoopEnd.Text = endSamples.ToString();
 
-            if (Generic.IsOpenMulti)
+            if (indexedLoopState)
             {
                 int idx = (int)buttonIndex - 1;
                 if (idx < 0 || idx >= Generic.MultipleLoopEnds.Length)
+                {
+                    FormMain.DebugWarn($"[LoopPoint] Update end skipped: index out of range. index={idx}, length={Generic.MultipleLoopEnds.Length}");
                     return;
+                }
 
                 Generic.MultipleLoopEnds[idx] = (int)endSamples;
                 Generic.MultipleFilesLoopOKFlags[idx] =
@@ -98,7 +116,53 @@ namespace ATRACTool_Reloaded
 
                 Debug.WriteLine("MultipleFilesLoopOKFlags[]: " + string.Join(", ", Generic.MultipleFilesLoopOKFlags));
                 Debug.WriteLine("[Flag] LoopEndNG: " + Generic.LoopEndNG);
+                FormMain.DebugInfo($"[LoopPoint] Flags updated. ok={string.Join(", ", Generic.MultipleFilesLoopOKFlags)}, loopEndNG={Generic.LoopEndNG}");
             }
+            FormMain.DebugInfo($"[LoopPoint] End updated. ends={string.Join(", ", Generic.MultipleLoopEnds)}, ok={string.Join(", ", Generic.MultipleFilesLoopOKFlags)}");
+        }
+
+        public static void UpdateLoopPointsBySourceIndex(int sourceIndex, int? startSamples, int? endSamples)
+        {
+            if (sourceIndex < 0)
+            {
+                FormMain.DebugWarn($"[LoopPoint] Update by source skipped: invalid index. sourceIndex={sourceIndex}");
+                return;
+            }
+
+            EnsureLoopArraysForIndex(sourceIndex);
+
+            int start = Math.Max(0, startSamples.GetValueOrDefault());
+            int end = Math.Max(0, endSamples.GetValueOrDefault());
+
+            Generic.MultipleLoopStarts[sourceIndex] = start;
+            Generic.MultipleLoopEnds[sourceIndex] = end;
+            Generic.MultipleFilesLoopOKFlags[sourceIndex] =
+                startSamples.HasValue &&
+                endSamples.HasValue &&
+                end > start;
+
+            if (Generic.ATRACMultiMetadataBuffer is not null &&
+                Generic.ATRACMultiMetadataBuffer.GetLength(0) > sourceIndex &&
+                Generic.ATRACMultiMetadataBuffer.GetLength(1) >= 2)
+            {
+                Generic.ATRACMultiMetadataBuffer[sourceIndex, 0] = start;
+                Generic.ATRACMultiMetadataBuffer[sourceIndex, 1] = end;
+            }
+            FormMain.DebugInfo($"[LoopPoint] Source updated. sourceIndex={sourceIndex}, start={start}, end={end}, ok={Generic.MultipleFilesLoopOKFlags[sourceIndex]}");
+        }
+
+        private static void EnsureLoopArraysForIndex(int sourceIndex)
+        {
+            int requiredLength = sourceIndex + 1;
+
+            if (Generic.MultipleLoopStarts is null || Generic.MultipleLoopStarts.Length < requiredLength)
+                Array.Resize(ref Generic.MultipleLoopStarts, requiredLength);
+
+            if (Generic.MultipleLoopEnds is null || Generic.MultipleLoopEnds.Length < requiredLength)
+                Array.Resize(ref Generic.MultipleLoopEnds, requiredLength);
+
+            if (Generic.MultipleFilesLoopOKFlags is null || Generic.MultipleFilesLoopOKFlags.Length < requiredLength)
+                Array.Resize(ref Generic.MultipleFilesLoopOKFlags, requiredLength);
         }
 
         /// <summary>
@@ -141,7 +205,10 @@ namespace ATRACTool_Reloaded
 
         private static int GetIndex(uint buttonIndex)
         {
-            if (Generic.IsOpenMulti)
+            if (Generic.MultipleLoopStarts is null || Generic.MultipleLoopStarts.Length == 0)
+                return 0;
+
+            if (UsesIndexedLoopState())
             {
                 var idx = (int)buttonIndex - 1;
                 if (idx < 0) idx = 0;
@@ -154,11 +221,25 @@ namespace ATRACTool_Reloaded
             return 0;
         }
 
+        private static bool UsesIndexedLoopState()
+        {
+            return Generic.IsOpenMulti ||
+                (Generic.IsNus3Bank &&
+                 Generic.IsPlaybackNus3Bank &&
+                 Generic.pATRACOpenFilePaths is { Length: > 1 });
+        }
+
         /// <summary>
         /// 指定ファイル（ボタン）のループ状態を取得します。
         /// </summary>
         public static (int Start, int End, bool IsLoopOk) GetLoopState(uint buttonIndex)
         {
+            if (Generic.MultipleLoopStarts is null || Generic.MultipleLoopEnds is null || Generic.MultipleFilesLoopOKFlags is null ||
+                Generic.MultipleLoopStarts.Length == 0 || Generic.MultipleLoopEnds.Length == 0 || Generic.MultipleFilesLoopOKFlags.Length == 0)
+            {
+                return (0, 0, false);
+            }
+
             int idx = GetIndex(buttonIndex);
 
             int start = Generic.MultipleLoopStarts[idx];
@@ -174,6 +255,7 @@ namespace ATRACTool_Reloaded
         public static void ResetLoop(uint buttonIndex)
         {
             int idx = GetIndex(buttonIndex);
+            FormMain.DebugInfo($"[LoopPoint] Reset. buttonIndex={buttonIndex}, index={idx}");
 
             Generic.MultipleLoopStarts[idx] = 0;
             Generic.MultipleLoopEnds[idx] = 0;
@@ -183,7 +265,7 @@ namespace ATRACTool_Reloaded
                 return;
 
             // 単一ファイル時のみ NG フラグとテキストボックスを同期
-            if (!Generic.IsOpenMulti)
+            if (!UsesIndexedLoopState())
             {
                 var main = FormMain.FormMainInstance;
 
@@ -213,7 +295,7 @@ namespace ATRACTool_Reloaded
             main.textBox_LoopEnd.Text = end == 0 ? string.Empty : end.ToString();
 
             // 単一ファイル時だけ NG フラグも更新（従来仕様を維持）
-            if (!Generic.IsOpenMulti)
+            if (!UsesIndexedLoopState())
             {
                 Generic.LoopStartNG = string.IsNullOrWhiteSpace(main.textBox_LoopStart.Text);
                 Generic.LoopEndNG = string.IsNullOrWhiteSpace(main.textBox_LoopEnd.Text);
@@ -221,6 +303,7 @@ namespace ATRACTool_Reloaded
                 Debug.WriteLine("MultipleFilesLoopOKFlags[]: " + string.Join(", ", Generic.MultipleFilesLoopOKFlags));
                 Debug.WriteLine("[Flag] LoopStartNG: " + Generic.LoopStartNG);
                 Debug.WriteLine("[Flag] LoopEndNG: " + Generic.LoopEndNG);
+                FormMain.DebugInfo($"[LoopPoint] Flags updated. ok={string.Join(", ", Generic.MultipleFilesLoopOKFlags)}, loopStartNG={Generic.LoopStartNG}, loopEndNG={Generic.LoopEndNG}");
             }
         }
     }

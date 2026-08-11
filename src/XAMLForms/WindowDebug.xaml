@@ -8,32 +8,55 @@
         Title="WindowDebug" Height="570" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowActivated="False" Icon="/Properties/ATRACTool.ico" Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing">
     <Grid>
         <Label x:Name="label_Debug" Content="Debug mode is enabled." HorizontalAlignment="Left" VerticalAlignment="Top" Width="215" Height="31" FontSize="14" Margin="10,0,0,0"/>
-        <TabControl Margin="0,31,0,0" Opacity="0.9">
+        <TabControl x:Name="tabControl_Root" Margin="0,31,0,0" Opacity="0.9">
             <TabControl.Background>
-                <ImageBrush ImageSource="/Properties/IMG_1540.JPG" Opacity="0.5" Stretch="UniformToFill" />
+                <ImageBrush ImageSource="/Properties/SIE_Default.png" Opacity="0.5" Stretch="UniformToFill" />
             </TabControl.Background>
             <TabItem Header="Generals" Margin="-2,-2,-45,0">
                 <Grid Background="#80E5E5E5" Opacity="0.8">
-                    <Label Content="Main Instance:" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Top" Width="112"/>
-                    <Label x:Name="label_MainInstance" Content="Main_Instance" HorizontalAlignment="Left" Margin="97,239,0,0" VerticalAlignment="Top" Width="337"/>
+                    <Label Content="Main Instance:" HorizontalAlignment="Left" Margin="10,299,0,0" VerticalAlignment="Top" Width="112"/>
+                    <Label x:Name="label_MainInstance" Content="Main_Instance" HorizontalAlignment="Left" Margin="97,299,0,0" VerticalAlignment="Top" Width="337"/>
                     <Label x:Name="label_Version" Content="ATRACTool-Rel v0.0.0.0 (build:2000-01-01)" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="998"/>
-                    <GroupBox Header="Other Instances:" Margin="0,265,0,30">
+                    <GroupBox Header="Other Instances:" Margin="0,325,0,30">
                         <Border BorderThickness="1" Padding="6">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                 <TextBlock x:Name="textBlock_SubInstances" TextWrapping="Wrap" TextTrimming="None"/>
                             </ScrollViewer>
                         </Border>
                     </GroupBox>
-                    <GroupBox Header="DialogMessages:" Margin="0,36,0,256">
-                        <Border BorderThickness="1" Padding="6" Height="201" Margin="-6,0,-6,0">
-                            <RichTextBox x:Name="richText_Message" IsReadOnly="True" IsDocumentEnabled="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#00E5E5E5" Margin="-2,-7,-2,40"/>
-                        </Border>
+                    <GroupBox Header="DialogMessages:" Margin="0,36,0,196">
+                        <Grid Margin="-6,0,-6,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Margin="6,2,0,2">
+                                <Label Content="Filter:" Width="50" VerticalContentAlignment="Center"/>
+                                <ComboBox x:Name="comboBox_LogFilter" Width="96" SelectedIndex="3" SelectionChanged="ComboBox_LogFilter_SelectionChanged">
+                                    <ComboBoxItem Content="Info"/>
+                                    <ComboBoxItem Content="Warn"/>
+                                    <ComboBoxItem Content="Error"/>
+                                    <ComboBoxItem Content="All"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <Border Grid.Row="1" BorderThickness="1" Padding="6" Margin="0,0,0,0">
+                                <RichTextBox x:Name="richText_Message" IsReadOnly="True" IsDocumentEnabled="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#00E5E5E5" Margin="-2,-7,-2,-7"/>
+                            </Border>
+                        </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Options" Margin="45,-2,-92,0">
                 <Grid Background="#80E5E5E5" Opacity="0.8">
                     <CheckBox x:Name="checkBox_DebugFunc" Content="Allow execution of debug functions" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_DebugFunc_Changed" Unchecked="CheckBox_DebugFunc_Changed"/>
+                    <GroupBox Header="Background Image:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="965" Height="112" Margin="10,45,0,0">
+                        <Grid Margin="6">
+                            <CheckBox x:Name="checkBox_BackgroundImage" Content="Use custom background image" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="CheckBox_BackgroundImage_Changed" Unchecked="CheckBox_BackgroundImage_Changed"/>
+                            <TextBox x:Name="textBox_BackgroundImage" HorizontalAlignment="Left" VerticalAlignment="Top" Width="742" Height="24" Margin="0,34,0,0" IsReadOnly="True"/>
+                            <Button x:Name="button_BackgroundBrowse" Content="Browse..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="24" Margin="752,34,0,0" Click="Button_BackgroundBrowse_Click"/>
+                            <Button x:Name="button_BackgroundClear" Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Height="24" Margin="852,34,0,0" Click="Button_BackgroundClear_Click"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
         </TabControl>

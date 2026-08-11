@@ -39,6 +39,7 @@ namespace ATRACTool_Reloaded
         {
             ModernUI.ModernWpfTheme.Apply();
             InitializeComponent();
+            FormMain.DebugInfo("[WindowUpdateApplicationType] Initialized.");
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -56,6 +57,7 @@ namespace ATRACTool_Reloaded
             label_Type.Content = Localizable.XAMLWindowLocalization.WindowUpdateApplicationType_Type;
 
             Button_Cancel.Content = Localizable.XAMLWindowLocalization.CancelCaption;
+            FormMain.DebugInfo("[WindowUpdateApplicationType] Loaded.");
         }
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)
@@ -68,12 +70,14 @@ namespace ATRACTool_Reloaded
             {
                 Common.Generic.ApplicationPortable = true;
             }
+            FormMain.DebugInfo($"[WindowUpdateApplicationType] Update type selected. portable={Common.Generic.ApplicationPortable}");
             DialogResult = true;
             Close();
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
+            FormMain.DebugWarn("[WindowUpdateApplicationType] Cancelled.");
             DialogResult = false;
             Close();
         }
