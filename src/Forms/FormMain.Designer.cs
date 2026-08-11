@@ -86,7 +86,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.BackColor = Color.FromArgb(246, 247, 249);
             groupBox1.Controls.Add(label_Sizetxt);
             groupBox1.Controls.Add(label_Size);
@@ -95,6 +94,7 @@
             groupBox1.Controls.Add(label_Format);
             groupBox1.Controls.Add(label_File);
             groupBox1.ForeColor = Color.FromArgb(31, 35, 40);
+            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
@@ -114,17 +114,17 @@
             // 
             // label_Formattxt
             // 
-            resources.ApplyResources(label_Formattxt, "label_Formattxt");
             label_Formattxt.BackColor = Color.FromArgb(246, 247, 249);
             label_Formattxt.ForeColor = Color.FromArgb(31, 35, 40);
+            resources.ApplyResources(label_Formattxt, "label_Formattxt");
             label_Formattxt.Name = "label_Formattxt";
             // 
             // label_Filepath
             // 
-            resources.ApplyResources(label_Filepath, "label_Filepath");
             label_Filepath.AutoEllipsis = true;
             label_Filepath.BackColor = Color.FromArgb(246, 247, 249);
             label_Filepath.ForeColor = Color.FromArgb(31, 35, 40);
+            resources.ApplyResources(label_Filepath, "label_Filepath");
             label_Filepath.Name = "label_Filepath";
             // 
             // label_Format
@@ -143,8 +143,8 @@
             // 
             // textBox_LoopEnd
             // 
-            resources.ApplyResources(textBox_LoopEnd, "textBox_LoopEnd");
             textBox_LoopEnd.BackColor = Color.White;
+            resources.ApplyResources(textBox_LoopEnd, "textBox_LoopEnd");
             textBox_LoopEnd.ForeColor = Color.FromArgb(31, 35, 40);
             textBox_LoopEnd.Name = "textBox_LoopEnd";
             textBox_LoopEnd.TextChanged += TextBox_LoopEnd_TextChanged;
@@ -152,8 +152,8 @@
             // 
             // textBox_LoopStart
             // 
-            resources.ApplyResources(textBox_LoopStart, "textBox_LoopStart");
             textBox_LoopStart.BackColor = Color.White;
+            resources.ApplyResources(textBox_LoopStart, "textBox_LoopStart");
             textBox_LoopStart.ForeColor = Color.FromArgb(31, 35, 40);
             textBox_LoopStart.Name = "textBox_LoopStart";
             textBox_LoopStart.TextChanged += TextBox_LoopStart_TextChanged;
@@ -161,175 +161,175 @@
             // 
             // label_NotReaded
             // 
-            resources.ApplyResources(label_NotReaded, "label_NotReaded");
             label_NotReaded.BackColor = Color.FromArgb(246, 247, 249);
+            resources.ApplyResources(label_NotReaded, "label_NotReaded");
             label_NotReaded.ForeColor = Color.FromArgb(31, 35, 40);
             label_NotReaded.Name = "label_NotReaded";
             label_NotReaded.Click += label_NotReaded_Click;
             // 
             // menuStrip1
             // 
-            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.BackColor = Color.White;
             menuStrip1.ForeColor = Color.FromArgb(31, 35, 40);
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileFToolStripMenuItem, settingsSToolStripMenuItem, toolsTToolStripMenuItem, helpHToolStripMenuItem });
+            resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.Name = "menuStrip1";
             // 
             // fileFToolStripMenuItem
             // 
-            resources.ApplyResources(fileFToolStripMenuItem, "fileFToolStripMenuItem");
             fileFToolStripMenuItem.BackColor = Color.White;
             fileFToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openFileOToolStripMenuItem, closeFileCToolStripMenuItem, toolStripMenuItem1, exitXToolStripMenuItem });
             fileFToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             fileFToolStripMenuItem.Name = "fileFToolStripMenuItem";
+            resources.ApplyResources(fileFToolStripMenuItem, "fileFToolStripMenuItem");
             // 
             // openFileOToolStripMenuItem
             // 
-            resources.ApplyResources(openFileOToolStripMenuItem, "openFileOToolStripMenuItem");
             openFileOToolStripMenuItem.BackColor = Color.White;
             openFileOToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { filesToolStripMenuItem, folderToolStripMenuItem });
             openFileOToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             openFileOToolStripMenuItem.Name = "openFileOToolStripMenuItem";
+            resources.ApplyResources(openFileOToolStripMenuItem, "openFileOToolStripMenuItem");
             // 
             // filesToolStripMenuItem
             // 
-            resources.ApplyResources(filesToolStripMenuItem, "filesToolStripMenuItem");
             filesToolStripMenuItem.BackColor = Color.White;
             filesToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             filesToolStripMenuItem.Name = "filesToolStripMenuItem";
+            resources.ApplyResources(filesToolStripMenuItem, "filesToolStripMenuItem");
             filesToolStripMenuItem.Click += FilesToolStripMenuItem_Click;
             // 
             // folderToolStripMenuItem
             // 
-            resources.ApplyResources(folderToolStripMenuItem, "folderToolStripMenuItem");
             folderToolStripMenuItem.BackColor = Color.White;
             folderToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             folderToolStripMenuItem.Name = "folderToolStripMenuItem";
+            resources.ApplyResources(folderToolStripMenuItem, "folderToolStripMenuItem");
             folderToolStripMenuItem.Click += FolderToolStripMenuItem_Click;
             // 
             // closeFileCToolStripMenuItem
             // 
-            resources.ApplyResources(closeFileCToolStripMenuItem, "closeFileCToolStripMenuItem");
             closeFileCToolStripMenuItem.BackColor = Color.White;
             closeFileCToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             closeFileCToolStripMenuItem.Name = "closeFileCToolStripMenuItem";
+            resources.ApplyResources(closeFileCToolStripMenuItem, "closeFileCToolStripMenuItem");
             closeFileCToolStripMenuItem.Click += CloseFileCToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
-            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             toolStripMenuItem1.BackColor = Color.White;
             toolStripMenuItem1.ForeColor = Color.FromArgb(31, 35, 40);
             toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // exitXToolStripMenuItem
             // 
-            resources.ApplyResources(exitXToolStripMenuItem, "exitXToolStripMenuItem");
             exitXToolStripMenuItem.BackColor = Color.White;
+            resources.ApplyResources(exitXToolStripMenuItem, "exitXToolStripMenuItem");
             exitXToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             exitXToolStripMenuItem.Name = "exitXToolStripMenuItem";
             exitXToolStripMenuItem.Click += ExitXToolStripMenuItem_Click;
             // 
             // settingsSToolStripMenuItem
             // 
-            resources.ApplyResources(settingsSToolStripMenuItem, "settingsSToolStripMenuItem");
             settingsSToolStripMenuItem.BackColor = Color.White;
             settingsSToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertSettingsToolStripMenuItem, saveMethodSettingsMToolStripMenuItem });
             settingsSToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             settingsSToolStripMenuItem.Name = "settingsSToolStripMenuItem";
+            resources.ApplyResources(settingsSToolStripMenuItem, "settingsSToolStripMenuItem");
             // 
             // convertSettingsToolStripMenuItem
             // 
-            resources.ApplyResources(convertSettingsToolStripMenuItem, "convertSettingsToolStripMenuItem");
             convertSettingsToolStripMenuItem.BackColor = Color.White;
             convertSettingsToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             convertSettingsToolStripMenuItem.Name = "convertSettingsToolStripMenuItem";
+            resources.ApplyResources(convertSettingsToolStripMenuItem, "convertSettingsToolStripMenuItem");
             convertSettingsToolStripMenuItem.Click += ConvertSettingsToolStripMenuItem_Click;
             // 
             // saveMethodSettingsMToolStripMenuItem
             // 
-            resources.ApplyResources(saveMethodSettingsMToolStripMenuItem, "saveMethodSettingsMToolStripMenuItem");
             saveMethodSettingsMToolStripMenuItem.BackColor = Color.White;
             saveMethodSettingsMToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             saveMethodSettingsMToolStripMenuItem.Name = "saveMethodSettingsMToolStripMenuItem";
+            resources.ApplyResources(saveMethodSettingsMToolStripMenuItem, "saveMethodSettingsMToolStripMenuItem");
             saveMethodSettingsMToolStripMenuItem.Click += PreferencesMToolStripMenuItem_Click;
             // 
             // toolsTToolStripMenuItem
             // 
-            resources.ApplyResources(toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
             toolsTToolStripMenuItem.BackColor = Color.White;
             toolsTToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertAudioToolStripMenuItem, loopPointCreationToolStripMenuItem });
             toolsTToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             toolsTToolStripMenuItem.Name = "toolsTToolStripMenuItem";
+            resources.ApplyResources(toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
             // 
             // convertAudioToolStripMenuItem
             // 
-            resources.ApplyResources(convertAudioToolStripMenuItem, "convertAudioToolStripMenuItem");
             convertAudioToolStripMenuItem.BackColor = Color.White;
             convertAudioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { audioToWAVEToolStripMenuItem, wAVEToAudioToolStripMenuItem });
             convertAudioToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             convertAudioToolStripMenuItem.Name = "convertAudioToolStripMenuItem";
+            resources.ApplyResources(convertAudioToolStripMenuItem, "convertAudioToolStripMenuItem");
             // 
             // audioToWAVEToolStripMenuItem
             // 
-            resources.ApplyResources(audioToWAVEToolStripMenuItem, "audioToWAVEToolStripMenuItem");
             audioToWAVEToolStripMenuItem.BackColor = Color.White;
             audioToWAVEToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             audioToWAVEToolStripMenuItem.Name = "audioToWAVEToolStripMenuItem";
+            resources.ApplyResources(audioToWAVEToolStripMenuItem, "audioToWAVEToolStripMenuItem");
             audioToWAVEToolStripMenuItem.Click += AudioToWAVEToolStripMenuItem_Click;
             // 
             // wAVEToAudioToolStripMenuItem
             // 
-            resources.ApplyResources(wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             wAVEToAudioToolStripMenuItem.BackColor = Color.White;
             wAVEToAudioToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             wAVEToAudioToolStripMenuItem.Name = "wAVEToAudioToolStripMenuItem";
+            resources.ApplyResources(wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             wAVEToAudioToolStripMenuItem.Click += WAVEToAudioToolStripMenuItem_Click;
             // 
             // loopPointCreationToolStripMenuItem
             // 
-            resources.ApplyResources(loopPointCreationToolStripMenuItem, "loopPointCreationToolStripMenuItem");
             loopPointCreationToolStripMenuItem.BackColor = Color.White;
+            resources.ApplyResources(loopPointCreationToolStripMenuItem, "loopPointCreationToolStripMenuItem");
             loopPointCreationToolStripMenuItem.ForeColor = Color.FromArgb(108, 115, 123);
             loopPointCreationToolStripMenuItem.Name = "loopPointCreationToolStripMenuItem";
             loopPointCreationToolStripMenuItem.Click += LoopPointCreationToolStripMenuItem_Click;
             // 
             // helpHToolStripMenuItem
             // 
-            resources.ApplyResources(helpHToolStripMenuItem, "helpHToolStripMenuItem");
             helpHToolStripMenuItem.Alignment = ToolStripItemAlignment.Right;
             helpHToolStripMenuItem.BackColor = Color.White;
             helpHToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutATRACToolToolStripMenuItem, toolStripMenuItem2, checkForUpdatesUToolStripMenuItem });
             helpHToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             helpHToolStripMenuItem.Name = "helpHToolStripMenuItem";
+            resources.ApplyResources(helpHToolStripMenuItem, "helpHToolStripMenuItem");
             // 
             // aboutATRACToolToolStripMenuItem
             // 
-            resources.ApplyResources(aboutATRACToolToolStripMenuItem, "aboutATRACToolToolStripMenuItem");
             aboutATRACToolToolStripMenuItem.BackColor = Color.White;
             aboutATRACToolToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             aboutATRACToolToolStripMenuItem.Name = "aboutATRACToolToolStripMenuItem";
+            resources.ApplyResources(aboutATRACToolToolStripMenuItem, "aboutATRACToolToolStripMenuItem");
             aboutATRACToolToolStripMenuItem.Click += AboutATRACToolToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
-            resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
             toolStripMenuItem2.BackColor = Color.White;
             toolStripMenuItem2.ForeColor = Color.FromArgb(31, 35, 40);
             toolStripMenuItem2.Name = "toolStripMenuItem2";
+            resources.ApplyResources(toolStripMenuItem2, "toolStripMenuItem2");
             // 
             // checkForUpdatesUToolStripMenuItem
             // 
-            resources.ApplyResources(checkForUpdatesUToolStripMenuItem, "checkForUpdatesUToolStripMenuItem");
             checkForUpdatesUToolStripMenuItem.BackColor = Color.White;
             checkForUpdatesUToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             checkForUpdatesUToolStripMenuItem.Name = "checkForUpdatesUToolStripMenuItem";
+            resources.ApplyResources(checkForUpdatesUToolStripMenuItem, "checkForUpdatesUToolStripMenuItem");
             checkForUpdatesUToolStripMenuItem.Click += CheckForUpdatesUToolStripMenuItem_Click;
             // 
             // button_Decode
             // 
-            resources.ApplyResources(button_Decode, "button_Decode");
             button_Decode.BackColor = Color.White;
+            resources.ApplyResources(button_Decode, "button_Decode");
             button_Decode.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
             button_Decode.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
             button_Decode.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
@@ -340,8 +340,8 @@
             // 
             // button_Encode
             // 
-            resources.ApplyResources(button_Encode, "button_Encode");
             button_Encode.BackColor = Color.White;
+            resources.ApplyResources(button_Encode, "button_Encode");
             button_Encode.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
             button_Encode.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
             button_Encode.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
@@ -352,76 +352,76 @@
             // 
             // statusStrip1
             // 
-            resources.ApplyResources(statusStrip1, "statusStrip1");
             statusStrip1.BackColor = Color.White;
             statusStrip1.ForeColor = Color.FromArgb(31, 35, 40);
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel_Status, toolStripDropDownButton_EF, toolStripStatusLabel_EncMethod });
             statusStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            resources.ApplyResources(statusStrip1, "statusStrip1");
             statusStrip1.Name = "statusStrip1";
             statusStrip1.SizingGrip = false;
             // 
             // toolStripStatusLabel_Status
             // 
-            resources.ApplyResources(toolStripStatusLabel_Status, "toolStripStatusLabel_Status");
             toolStripStatusLabel_Status.BackColor = Color.White;
             toolStripStatusLabel_Status.ForeColor = Color.FromArgb(31, 35, 40);
             toolStripStatusLabel_Status.Name = "toolStripStatusLabel_Status";
+            resources.ApplyResources(toolStripStatusLabel_Status, "toolStripStatusLabel_Status");
             // 
             // toolStripDropDownButton_EF
             // 
-            resources.ApplyResources(toolStripDropDownButton_EF, "toolStripDropDownButton_EF");
             toolStripDropDownButton_EF.Alignment = ToolStripItemAlignment.Right;
             toolStripDropDownButton_EF.BackColor = Color.White;
             toolStripDropDownButton_EF.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStripDropDownButton_EF.DropDownItems.AddRange(new ToolStripItem[] { aTRAC3ATRAC3ToolStripMenuItem, aTRAC9ToolStripMenuItem, toolStripMenuItem3, walkmanToolStripMenuItem });
             toolStripDropDownButton_EF.ForeColor = Color.FromArgb(31, 35, 40);
+            resources.ApplyResources(toolStripDropDownButton_EF, "toolStripDropDownButton_EF");
             toolStripDropDownButton_EF.Name = "toolStripDropDownButton_EF";
             // 
             // aTRAC3ATRAC3ToolStripMenuItem
             // 
-            resources.ApplyResources(aTRAC3ATRAC3ToolStripMenuItem, "aTRAC3ATRAC3ToolStripMenuItem");
             aTRAC3ATRAC3ToolStripMenuItem.BackColor = Color.White;
             aTRAC3ATRAC3ToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             aTRAC3ATRAC3ToolStripMenuItem.Name = "aTRAC3ATRAC3ToolStripMenuItem";
+            resources.ApplyResources(aTRAC3ATRAC3ToolStripMenuItem, "aTRAC3ATRAC3ToolStripMenuItem");
             aTRAC3ATRAC3ToolStripMenuItem.Click += ATRAC3ATRAC3ToolStripMenuItem_Click;
             // 
             // aTRAC9ToolStripMenuItem
             // 
-            resources.ApplyResources(aTRAC9ToolStripMenuItem, "aTRAC9ToolStripMenuItem");
             aTRAC9ToolStripMenuItem.BackColor = Color.White;
             aTRAC9ToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             aTRAC9ToolStripMenuItem.Name = "aTRAC9ToolStripMenuItem";
+            resources.ApplyResources(aTRAC9ToolStripMenuItem, "aTRAC9ToolStripMenuItem");
             aTRAC9ToolStripMenuItem.Click += ATRAC9ToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
-            resources.ApplyResources(toolStripMenuItem3, "toolStripMenuItem3");
             toolStripMenuItem3.BackColor = Color.White;
             toolStripMenuItem3.ForeColor = Color.FromArgb(31, 35, 40);
             toolStripMenuItem3.Name = "toolStripMenuItem3";
+            resources.ApplyResources(toolStripMenuItem3, "toolStripMenuItem3");
             // 
             // walkmanToolStripMenuItem
             // 
-            resources.ApplyResources(walkmanToolStripMenuItem, "walkmanToolStripMenuItem");
             walkmanToolStripMenuItem.BackColor = Color.White;
             walkmanToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             walkmanToolStripMenuItem.Name = "walkmanToolStripMenuItem";
+            resources.ApplyResources(walkmanToolStripMenuItem, "walkmanToolStripMenuItem");
             walkmanToolStripMenuItem.Click += walkmanToolStripMenuItem_Click;
             // 
             // toolStripStatusLabel_EncMethod
             // 
-            resources.ApplyResources(toolStripStatusLabel_EncMethod, "toolStripStatusLabel_EncMethod");
             toolStripStatusLabel_EncMethod.BackColor = Color.White;
+            resources.ApplyResources(toolStripStatusLabel_EncMethod, "toolStripStatusLabel_EncMethod");
             toolStripStatusLabel_EncMethod.ForeColor = Color.FromArgb(108, 115, 123);
             toolStripStatusLabel_EncMethod.Name = "toolStripStatusLabel_EncMethod";
             // 
             // panel_Control
             // 
-            resources.ApplyResources(panel_Control, "panel_Control");
             panel_Control.BackColor = Color.FromArgb(246, 247, 249);
             panel_Control.Controls.Add(button_Encode);
             panel_Control.Controls.Add(button_Decode);
             panel_Control.ForeColor = Color.FromArgb(31, 35, 40);
+            resources.ApplyResources(panel_Control, "panel_Control");
             panel_Control.Name = "panel_Control";
             // 
             // panel_Main
@@ -462,7 +462,6 @@
             // 
             // groupBox_Loop
             // 
-            resources.ApplyResources(groupBox_Loop, "groupBox_Loop");
             groupBox_Loop.BackColor = Color.FromArgb(246, 247, 249);
             groupBox_Loop.Controls.Add(label_ESample);
             groupBox_Loop.Controls.Add(label_LoopEnd);
@@ -470,14 +469,15 @@
             groupBox_Loop.Controls.Add(label_LoopStart);
             groupBox_Loop.Controls.Add(textBox_LoopStart);
             groupBox_Loop.Controls.Add(textBox_LoopEnd);
+            resources.ApplyResources(groupBox_Loop, "groupBox_Loop");
             groupBox_Loop.ForeColor = Color.FromArgb(31, 35, 40);
             groupBox_Loop.Name = "groupBox_Loop";
             groupBox_Loop.TabStop = false;
             // 
             // FormMain
             // 
-            resources.ApplyResources(this, "$this");
             AllowDrop = true;
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox_Loop);
             Controls.Add(groupBox1);

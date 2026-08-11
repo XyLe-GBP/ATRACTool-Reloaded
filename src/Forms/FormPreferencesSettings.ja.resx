@@ -202,6 +202,39 @@
   <data name="tabPageGeneral.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="groupBox_Theme.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkBox_FollowSystemTheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 19</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>システム設定に従う</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="radioButton_ThemeLight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>ライト</value>
+  </data>
+  <data name="radioButton_ThemeLight.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="radioButton_ThemeDark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 19</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="radioButton_ThemeDark.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 19</value>
   </data>
@@ -248,7 +281,7 @@
   </data>
   <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
     <value>独自のスプラッシュスクリーン画像を設定します。
-JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピクセルである必要があります。</value>
+JPG, PNG, BMP のいずれかの形式を使用できます。</value>
   </data>
   <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 19</value>
@@ -312,6 +345,16 @@ JPG, PNG, BMPのいずれかの形式かつ、800x480 もしくは 400x240 ピ�
   <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
     <value>ATRAC形式を読み込み時に再生インターフェース機能を有効にします。
 このオプションを有効化している場合、'IO-&gt;指定したフォルダに保存'オプションは無視されます。</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 19</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Text" xml:space="preserve">
+    <value>NUSound読み込み時に再生機能を有効にする</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.ToolTip" xml:space="preserve">
+    <value>NUSound (NUB2, NUS3BANK) ファイル読み込み時に再生インターフェース機能を有効にします。
+内包されたATRAC3, ATRAC3plus, ATRAC9, IVAGストリームは、プレビュー用に一時的にWAVへデコードされます。</value>
   </data>
   <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 19</value>
@@ -535,18 +578,6 @@ ASIO: 再生には専用ドライバーと互換性のあるDACが必要です�
     <value>レガシーモードを有効化します。
 レガシーモードを有効にすると、古い処理方法を使用し、またループポイントクリエーターを独立して動作させますが
 バグが多く非推奨のため、通常はレガシーモードを有効にする必要はありません。</value>
-  </data>
-  <data name="groupBox_Theme.Text" xml:space="preserve">
-    <value>テーマ</value>
-  </data>
-  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
-    <value>システム設定に従う</value>
-  </data>
-  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
-    <value>ライト</value>
-  </data>
-  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
-    <value>ダーク</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>詳細設定</value>

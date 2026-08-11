@@ -170,6 +170,24 @@
   <data name="textBox_suffix.ToolTip" xml:space="preserve">
     <value>输入子文件夹名称</value>
   </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 19</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>跟随系统设置</value>
+  </data>
+  <data name="radioButton_ThemeLight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 19</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>深色</value>
+  </data>
   <data name="checkBox_ATRACEncodeSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 19</value>
   </data>
@@ -210,7 +228,7 @@
   </data>
   <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
     <value>设置您自己的启动画面图像。
-支持JPG、PNG或BMP格式，且必须为800x480或400x240像素。</value>
+支持 JPG、PNG 或 BMP 格式。</value>
   </data>
   <data name="checkBox_Checkupdate.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 19</value>
@@ -265,6 +283,16 @@
   <data name="checkBox_EnableATRACPlayback.ToolTip" xml:space="preserve">
     <value>启用此功能可在加载ATRAC格式时进行播放。
 启用此功能后，将无法使用“IO-&gt;输出至指定文件夹”功能。</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 19</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Text" xml:space="preserve">
+    <value>加载NUSound时启用播放界面</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.ToolTip" xml:space="preserve">
+    <value>加载NUSound (NUB2, NUS3BANK) 文件时启用播放界面。
+内含的ATRAC3, ATRAC3plus, ATRAC9, IVAG流会临时解码为WAV用于预览。</value>
   </data>
   <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 19</value>
@@ -455,18 +483,6 @@ ASIO：需专用驱动程序及兼容DAC设备支持播放。
     <value>启用传统模式。
 启用传统模式将采用旧版处理方法，并允许循环点创建器独立运行。
 但该模式存在缺陷且已被弃用，因此通常无需启用传统模式。</value>
-  </data>
-  <data name="groupBox_Theme.Text" xml:space="preserve">
-    <value>主题</value>
-  </data>
-  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
-    <value>跟随系统设置</value>
-  </data>
-  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
-    <value>浅色</value>
-  </data>
-  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
-    <value>深色</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>偏好设置</value>

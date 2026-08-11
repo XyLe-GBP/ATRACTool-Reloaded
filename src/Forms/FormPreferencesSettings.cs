@@ -59,6 +59,7 @@ namespace ATRACTool_Reloaded
 
                 // ATRAC 再生 / プレビュー警告
                 checkBox_EnableATRACPlayback.Checked = Utils.GetBool("PlaybackATRAC", false);
+                checkBox_EnableNus3BankPlayback.Checked = Utils.GetBool("PlaybackNus3Bank", true);
                 checkBox_DisablePreviewWarning.Checked = Utils.GetBool("DisablePreviewWarning", false);
 
                 // スプラッシュ画像
@@ -273,23 +274,20 @@ namespace ATRACTool_Reloaded
                 checkBox_Usepal.Checked = Parallelmethod;
 
                 // デバッグモード
-                if (AssemblyState.IsDebug)
-                {
-                    bool DebugMode = Utils.GetBool("Debugmode", false);
-                    checkBox_debug.Checked = DebugMode;
-                }
-                else
-                {
-#pragma warning disable CS0162 // 到達できないコードが検出されました
-                    checkBox_debug.Checked = false;
-#pragma warning restore CS0162 // 到達できないコードが検出されました
-                    checkBox_debug.Enabled = false;
-                }
+#if DEBUG
+                bool DebugMode = Utils.GetBool("Debugmode", false);
+                checkBox_debug.Checked = DebugMode;
+#else
+                checkBox_debug.Checked = false;
+                checkBox_debug.Enabled = false;
+#endif
 
                 FirstLoad = false;
+                FormMain.DebugInfo("[FormPreferencesSettings] Loaded.");
             }
             catch (Exception ex)
             {
+                FormMain.DebugError($"[FormPreferencesSettings] Load failed. error={ex}");
                 MessageBox.Show(this, string.Format("An error has occurred.\n{0}\nThe configuration file is incorrect.", ex), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Generic.IsConfigError = true;
                 Close();
@@ -298,7 +296,7 @@ namespace ATRACTool_Reloaded
 
         private void LoadThemeSettings()
         {
-            bool followSystem = Utils.GetBool("Theme_FollowSystem", false);
+            bool followSystem = Utils.GetBool("Theme_FollowSystem", true);
             string themeMode = Utils.GetString("Theme_Mode", nameof(ModernUI.ModernTheme.AppThemeMode.Light));
 
             checkBox_FollowSystemTheme.Checked = followSystem;
@@ -383,20 +381,24 @@ namespace ATRACTool_Reloaded
         {
             if (checkBox_Splashimg.Checked == true && string.IsNullOrEmpty(textBox_Splashimg.Text))
             {
+                FormMain.DebugWarn("[FormPreferencesSettings] Save blocked: splash image path is empty.");
                 MessageBox.Show(this, Localization.SplashPathErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (radioButton_spc.Checked == true && textBox_Path.Text == "")
             {
+                FormMain.DebugWarn("[FormPreferencesSettings] Save blocked: specific path is empty.");
                 MessageBox.Show(this, Localization.SpecificPathErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (radioButton_spc.Checked == true && checkBox_Subfolder.Checked == true && textBox_suffix.Text == "")
             {
+                FormMain.DebugWarn("[FormPreferencesSettings] Save blocked: subfolder suffix is empty.");
                 MessageBox.Show(this, Localization.SpecificSubfolderErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            FormMain.DebugInfo("[FormPreferencesSettings] Save started.");
             string oldsplashimgpath = Config.Entry["SplashImage_Path"].Value;
 
 
@@ -425,6 +427,15 @@ namespace ATRACTool_Reloaded
             else
             {
                 Config.Entry["PlaybackATRAC"].Value = "true";
+            }
+
+            if (checkBox_EnableNus3BankPlayback.Checked != true)
+            {
+                Config.Entry["PlaybackNus3Bank"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["PlaybackNus3Bank"].Value = "true";
             }
 
             if (checkBox_DisablePreviewWarning.Checked != true)
@@ -462,16 +473,11 @@ namespace ATRACTool_Reloaded
             }
             else
             {
-                if (AssemblyState.IsDebug)
-                {
-                    Config.Entry["Debugmode"].Value = "true";
-                }
-                else
-                {
-#pragma warning disable CS0162 // 到達できないコードが検出されました
-                    Config.Entry["Debugmode"].Value = "false";
-#pragma warning restore CS0162 // 到達できないコードが検出されました
-                }
+#if DEBUG
+                Config.Entry["Debugmode"].Value = "true";
+#else
+                Config.Entry["Debugmode"].Value = "false";
+#endif
             }
 
             if (checkBox_Hidesplash.Checked != true)
@@ -636,6 +642,7 @@ namespace ATRACTool_Reloaded
 
             Config.Save(xmlpath);
             ModernUI.ModernTheme.RefreshOpenWindows();
+            FormMain.DebugInfo("[FormPreferencesSettings] Save completed.");
 
             if (checkBox_Splashimg.Checked == true && !string.IsNullOrEmpty(textBox_Splashimg.Text) && oldsplashimgpath != textBox_Splashimg.Text)
             {
@@ -647,6 +654,7 @@ namespace ATRACTool_Reloaded
 
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
+            FormMain.DebugWarn("[FormPreferencesSettings] Cancelled.");
             Close();
         }
 
@@ -682,31 +690,28 @@ namespace ATRACTool_Reloaded
 
         private void Button_Splashimg_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new()
+            using OpenFileDialog ofd = new()
             {
                 Filter = "All Supported Files (*.jpg, *.png, *.bmp)|*.jpg;*.png;*.bmp",
             };
-            if (ofd.ShowDialog() == DialogResult.OK)
+
+            if (ofd.ShowDialog(this) != DialogResult.OK)
             {
-                using var img = Image.FromFile(ofd.FileName);
-                if (img.Width == 800 && img.Height == 480)
-                {
-                    textBox_Splashimg.Text = ofd.FileName;
-                }
-                else if (img.Width == 400 && img.Height == 240)
-                {
-                    textBox_Splashimg.Text = ofd.FileName;
-                }
-                else
-                {
-                    MessageBox.Show(Localization.CustomSplashSizeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    textBox_Splashimg.Text = string.Empty;
-                }
+                FormMain.DebugInfo("[FormPreferencesSettings] Custom splash image selection cancelled.");
                 return;
             }
-            else
+
+            try
             {
-                return;
+                using var img = Image.FromFile(ofd.FileName);
+                textBox_Splashimg.Text = ofd.FileName;
+                FormMain.DebugInfo($"[FormPreferencesSettings] Custom splash image selected. path={ofd.FileName}, size={img.Width}x{img.Height}");
+            }
+            catch (Exception ex)
+            {
+                textBox_Splashimg.Text = string.Empty;
+                FormMain.DebugError($"[FormPreferencesSettings] Custom splash image could not be loaded. path={ofd.FileName}, error={ex.Message}");
+                MessageBox.Show(this, Localization.CustomSplashSizeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -894,6 +899,38 @@ namespace ATRACTool_Reloaded
         private void FormPreferencesSettings_FormClosed(object sender, FormClosedEventArgs e)
         {
             FormMain.DebugInfo("[FormPreferencesSettings] Closed.");
+        }
+
+        private void CheckBox_debug_CheckedChanged(object sender, EventArgs e)
+        {
+            DialogResult dr;
+            if (!FirstLoad && checkBox_debug.Checked)
+            {
+                dr = MessageBox.Show(Localization.DebugModeEnableConfirm, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes)
+                {
+                    try
+                    {
+#if DEBUG
+                        Config.Entry["Debugmode"].Value = "true";
+#else
+                        Config.Entry["Debugmode"].Value = "false";
+#endif
+                        Config.Save(xmlpath);
+                        FormMain.DebugInfo("[FormPreferencesSettings] Debug mode enabled. Restart requested.");
+                        Program.RestartCurrentApplication();
+                    }
+                    catch (Exception ex)
+                    {
+                        FormMain.DebugError($"[FormPreferencesSettings] Failed to restart after enabling debug mode. error={ex}");
+                        MessageBox.Show(this, ex.Message, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    FormMain.DebugWarn("[FormPreferencesSettings] Debug mode restart declined.");
+                }
+            }
         }
     }
 }

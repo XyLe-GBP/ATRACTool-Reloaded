@@ -58,6 +58,7 @@ namespace ATRACTool_Reloaded
             if (_flag)
             {
                 int idx = comboBox_OutputFormats.SelectedIndex;
+                FormMain.DebugInfo($"[FormSelectWalkmanFormats] Output format selected. index={idx}");
 
                 // 既存の Generic も更新（即時反映のため）
                 Common.Generic.WalkmanMultiConvFmt = idx.ToString();
@@ -94,6 +95,7 @@ namespace ATRACTool_Reloaded
             else
             {
                 int idx = comboBox_DecodeFormats.SelectedIndex;
+                FormMain.DebugInfo($"[FormSelectWalkmanFormats] Decode format selected. index={idx}");
 
                 // 既存の Generic も更新
                 Common.Generic.WalkmanMultiConvFmt = idx.ToString();
@@ -105,6 +107,7 @@ namespace ATRACTool_Reloaded
             // 設定を永続化（この Save/Load の有無で「次回起動」や「変換開始時のロード」に差が出ます）
             Common.Config.Save(Common.xmlpath);
             Common.Config.Load(Common.xmlpath);
+            FormMain.DebugInfo($"[FormSelectWalkmanFormats] Selection saved. encodeMode={_flag}, format={Common.Generic.WalkmanMultiConvFmt}, ext={Common.Generic.WalkmanMultiConvExt}");
 
             DialogResult = DialogResult.OK;
             Close();
@@ -112,6 +115,7 @@ namespace ATRACTool_Reloaded
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {
+            FormMain.DebugWarn("[FormSelectWalkmanFormats] Cancelled.");
             DialogResult = DialogResult.Cancel;
             Close();
         }

@@ -47,8 +47,10 @@ namespace ATRACTool_Reloaded
         private void FormSetWalkmanInformations_Load(object sender, EventArgs e)
         {
             Config.Load(xmlpath);
+            FormMain.DebugInfo("[FormSetWalkmanInformations] Config loaded. Initializing controls.");
 
             iseveryfmt = bool.Parse(Config.Entry["Walkman_EveryFmt"].Value);
+            FormMain.DebugInfo($"[FormSetWalkmanInformations] Loaded. everyFormat={iseveryfmt}");
             if (iseveryfmt)
             {
                 button_Cancel.Enabled = false;
@@ -375,6 +377,7 @@ namespace ATRACTool_Reloaded
 
         private void Button_OK_Click(object sender, EventArgs e)
         {
+            FormMain.DebugInfo("[FormSetWalkmanInformations] Save started.");
 
             if (string.IsNullOrWhiteSpace(textBox_Bitrates.Text))
             {
@@ -561,6 +564,7 @@ namespace ATRACTool_Reloaded
             Config.Entry["Walkman_Params"].Value = paramWalkman;
 
             Config.Save(xmlpath);
+            FormMain.DebugInfo($"[FormSetWalkmanInformations] Save completed. fileType={Config.Entry["Walkman_FileType"].Value}, bitrate={Config.Entry["Walkman_Bitrate"].Value}");
 
             Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
             DialogResult = DialogResult.OK;
@@ -569,6 +573,7 @@ namespace ATRACTool_Reloaded
 
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
+            FormMain.DebugWarn("[FormSetWalkmanInformations] Cancelled.");
             DialogResult = DialogResult.Cancel;
             Close();
         }

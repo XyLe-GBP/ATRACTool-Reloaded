@@ -31,12 +31,16 @@ namespace ATRACTool_Reloaded
         long totalsamples;
         uint btnpos;
         TimeSpan time;
-        bool mouseDown = false, stopflag = false, IsPausedMoveTrackbar, SmoothSamples = false, IsPlaybackATRAC = false, IsEncodeSourceATRAC = false, IsMultiChannel = false, IsWASAPI = false, IsWASAPIex = false, IsASIO = false, UseParallel = false;
+        bool mouseDown = false, stopflag = false, IsPausedMoveTrackbar, SmoothSamples = false, IsPlaybackATRAC = false, IsEncodeSourceATRAC = false, IsPlaybackNus3Bank = false, IsMultiChannel = false, IsWASAPI = false, IsWASAPIex = false, IsASIO = false, UseParallel = false, applyingExternalLoopState = false;
         private volatile bool _isClosing;
         float ScaleWidthTrk = 0f, ScaleWidthStart = 0f, ScaleWidthEnd = 0f;
         Point MainDefaultPoint = new(15, 88), StartDefaultPoint = new(15, 160), EndDefaultPoint = new(15, 32);
         private const int TrackOverlayTextTopOffset = 17;
         private const int EndLabelFileGap = 2;
+        private const int StartLabelXOffset = -5;
+        private const int StartLabelYOffset = -1;
+        private const int EndLabelXOffset = -3;
+        private const int EndLabelYOffset = 5;
 
         Point labelTrk, labelStart, labelEnd;
 
@@ -218,6 +222,110 @@ namespace ATRACTool_Reloaded
             timer_Reload.Interval = 1;
         }
 
+        private bool IsNus3BankPlaybackActive()
+        {
+            return IsPlaybackNus3Bank &&
+                Generic.IsNus3Bank &&
+                Generic.IsPlaybackNus3Bank &&
+                Generic.pATRACOpenFilePaths is { Length: > 0 };
+        }
+
+        private bool ShouldUseDecodedPreviewPaths()
+        {
+            return IsNus3BankPlaybackActive() ||
+                (IsPlaybackATRAC && Generic.IsATRAC) ||
+                (IsEncodeSourceATRAC && Generic.IsATRAC);
+        }
+
+        private string[] GetLpcPlaybackPaths()
+        {
+            return ShouldUseDecodedPreviewPaths()
+                ? Generic.pATRACOpenFilePaths
+                : Generic.OpenFilePaths;
+        }
+
+        private string[] GetLpcOriginPaths()
+        {
+            if (IsNus3BankPlaybackActive() && Generic.Nus3BankPlaybackOriginPaths is { Length: > 0 })
+                return Generic.Nus3BankPlaybackOriginPaths;
+
+            if ((IsPlaybackATRAC && Generic.IsATRAC) || (IsEncodeSourceATRAC && Generic.IsATRAC))
+                return Generic.OpenFilePaths;
+
+            return Generic.OriginOpenFilePaths;
+        }
+
+        private int GetLpcPathCount()
+        {
+            return GetLpcPlaybackPaths()?.Length ?? 0;
+        }
+
+        private static string GetIndexedPath(string[]? paths, int index, string fallback)
+        {
+            if (paths is not null && index >= 0 && index < paths.Length && !string.IsNullOrWhiteSpace(paths[index]))
+                return paths[index];
+
+            return fallback;
+        }
+
+        private string BuildLpcDisplayLabel(int index, WaveFileReader currentReader)
+        {
+            string originPath;
+            if (IsNus3BankPlaybackActive())
+            {
+                originPath = GetIndexedPath(Generic.Nus3BankPlaybackOriginPaths, index, GetIndexedPath(Generic.pATRACOpenFilePaths, index, string.Empty));
+            }
+            else if (Generic.InputJobs is not null && index >= 0 && index < Generic.InputJobs.Count)
+            {
+                originPath = Generic.InputJobs[index].OriginPath;
+            }
+            else
+            {
+                originPath = GetIndexedPath(GetLpcOriginPaths(), index, GetIndexedPath(GetLpcPlaybackPaths(), index, string.Empty));
+            }
+
+            string name = string.IsNullOrWhiteSpace(originPath)
+                ? string.Empty
+                : Path.GetFileNameWithoutExtension(originPath);
+
+            return name + GetCurrentReaderBitAndHzFromLabel(currentReader);
+        }
+
+        private static string GetNus3BankPlaybackSourcePath()
+        {
+            if (Generic.OpenFilePaths is null || Generic.OpenFilePaths.Length == 0)
+                return string.Empty;
+
+            foreach (string path in Generic.OpenFilePaths)
+            {
+                if (Nus3BankFile.HasNus3BankExtension(path))
+                    return path;
+            }
+
+            return Generic.OpenFilePaths[0] ?? string.Empty;
+        }
+
+        private void UpdateMainFileLabelsForCurrentPlayback(FileInfo fallbackOrigin)
+        {
+            FileInfo displayFile = fallbackOrigin;
+
+            if (IsNus3BankPlaybackActive())
+            {
+                string sourcePath = GetNus3BankPlaybackSourcePath();
+                if (!string.IsNullOrWhiteSpace(sourcePath))
+                    displayFile = new FileInfo(sourcePath);
+            }
+
+            long fileSize = displayFile.Exists
+                ? displayFile.Length
+                : fallbackOrigin.Exists
+                    ? fallbackOrigin.Length
+                    : 0;
+
+            FormMain.FormMainInstance.FPLabel = displayFile.FullName;
+            FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, fileSize / 1024, fileSize);
+        }
+
         public string ExecuteDebugFunction(string functionName)
         {
             if (!FormMain.AreDebugFunctionsEnabled)
@@ -293,8 +401,8 @@ namespace ATRACTool_Reloaded
             label_start.Height = labelHeight;
             label_end.Height = labelHeight;
             label_end.Top = Math.Max(label_File.Bottom + EndLabelFileGap, labelEndBottom - label_end.Height);
-            StartDefaultPoint = new Point(StartDefaultPoint.X, label_start.Top);
-            EndDefaultPoint = new Point(EndDefaultPoint.X, label_end.Top);
+            StartDefaultPoint = new Point(StartDefaultPoint.X, label_start.Top + StartLabelYOffset);
+            EndDefaultPoint = new Point(EndDefaultPoint.X, label_end.Top + EndLabelYOffset);
             labelStart = StartDefaultPoint;
             labelEnd = EndDefaultPoint;
             label_start.TextAlign = ContentAlignment.MiddleCenter;
@@ -358,6 +466,7 @@ namespace ATRACTool_Reloaded
 
         private void FormLPC_Load(object sender, EventArgs e)
         {
+            FormMain.DebugInfo("[FormLPC] Load started.");
             Config.Load(xmlpath);
 
             FormLPCInstance = this;
@@ -367,9 +476,11 @@ namespace ATRACTool_Reloaded
 
             // ATRAC 再生可否
             IsPlaybackATRAC = Utils.GetBool("PlaybackATRAC", false);
+            IsPlaybackNus3Bank = Utils.GetBool("PlaybackNus3Bank", true);
 
-            // ATRAC をエンコードソースとして扱うか
+            // ATRAC をエンコードソースとして扱ぁE��
             IsEncodeSourceATRAC = Utils.GetBool("ATRACEncodeSource", false);
+            FormMain.DebugInfo($"[FormLPC] Config loaded. smoothSamples={SmoothSamples}, playbackAtrac={IsPlaybackATRAC}, playbackNus3Bank={IsPlaybackNus3Bank}, encodeSourceAtrac={IsEncodeSourceATRAC}");
 
             // LPCPlaybackMethod
             LPCPlaybackMethodType playbackMethod = (LPCPlaybackMethodType)Utils.GetInt("LPCPlaybackMethod", 0);
@@ -402,7 +513,7 @@ namespace ATRACTool_Reloaded
                     break;
             }
 
-            // ASIO ドライバ名取得
+            // ASIO ドライバ名取征E
             string asioConfig = Utils.GetString("LPCUseASIODriver", string.Empty);
             if (string.IsNullOrWhiteSpace(asioConfig))
             {
@@ -412,6 +523,7 @@ namespace ATRACTool_Reloaded
 
                 if (lpcPlayback == 3 || multiPlayback == 2)
                 {
+                    FormMain.DebugWarn("[FormLPC] ASIO playback requested but no driver is configured. Falling back to WASAPI exclusive.");
                     MessageBox.Show(
                         "It is configured to play using ASIO, but no valid driver was found.\r\nIt will play using WASAPI exclusive mode instead.",
                         Localization.MSGBoxWarningCaption,
@@ -475,8 +587,26 @@ namespace ATRACTool_Reloaded
                 checkBox_LoopEnable.Enabled = false;
             }
 
-            if (IsPlaybackATRAC && Generic.IsATRAC) // ATRAC再生機能有効
+            if (IsNus3BankPlaybackActive())
             {
+                FormMain.DebugInfo("[FormLPC] Loading NUS3BANK playback preview.");
+                checkBox_LoopEnable.Checked = false;
+                checkBox_LoopEnable.Enabled = false;
+                radioButton_at3.Enabled = false;
+                radioButton_at9.Enabled = false;
+                DisableLoopUiControls();
+
+                string[] paths = GetLpcPlaybackPaths();
+                reader = new(paths[0]);
+                label_File.Text = BuildLpcDisplayLabel(0, reader);
+                button_Prev.Enabled = false;
+                button_Next.Enabled = paths.Length > 1;
+                if (paths.Length > 1)
+                    btnpos = 1;
+            }
+            else if (IsPlaybackATRAC && Generic.IsATRAC) // ATRAC再生機�E有効
+            {
+                FormMain.DebugInfo($"[FormLPC] Loading ATRAC playback preview. files={Common.Generic.pATRACOpenFilePaths.Length}");
                 checkBox_LoopEnable.Enabled = false;
                 radioButton_at3.Enabled = false;
                 radioButton_at9.Enabled = false;
@@ -485,15 +615,15 @@ namespace ATRACTool_Reloaded
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
                     //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                    label_File.Text = BuildLpcDisplayLabel(0, reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
-                else // 複数ファイル
+                else // 褁E��ファイル
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
                     //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                    label_File.Text = BuildLpcDisplayLabel(0, reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = true;
                     btnpos = 1;
@@ -501,11 +631,12 @@ namespace ATRACTool_Reloaded
             }
             else if (IsEncodeSourceATRAC && Generic.IsATRAC) // ATRACをエンコード用ソースとして読み込み
             {
+                FormMain.DebugInfo($"[FormLPC] Loading ATRAC encode source preview. files={Common.Generic.pATRACOpenFilePaths.Length}");
                 if (Common.Generic.pATRACOpenFilePaths.Length == 1) // 単一ファイル
                 {
                     reader = new(Common.Generic.pATRACOpenFilePaths[0]);
                     //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                    label_File.Text = BuildLpcDisplayLabel(0, reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
@@ -539,11 +670,11 @@ namespace ATRACTool_Reloaded
                                 break;
                         }
                     }
-                    else // 複数ファイル
+                    else // 褁E��ファイル
                     {
                         reader = new(Common.Generic.pATRACOpenFilePaths[0]);
                         //FileInfo fi = new(Common.Generic.pATRACOpenFilePaths[0]);
-                        label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                        label_File.Text = BuildLpcDisplayLabel(0, reader);
                         button_Prev.Enabled = false;
                         button_Next.Enabled = true;
                         btnpos = 1;
@@ -552,11 +683,12 @@ namespace ATRACTool_Reloaded
             }
             else // 通常ファイル
             {
+                FormMain.DebugInfo($"[FormLPC] Loading normal preview. files={Common.Generic.OpenFilePaths.Length}");
                 if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
                 {
                     reader = new(Common.Generic.OpenFilePaths[0]);
                     //FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                    label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                    label_File.Text = BuildLpcDisplayLabel(0, reader);
                     button_Prev.Enabled = false;
                     button_Next.Enabled = false;
                 }
@@ -590,11 +722,11 @@ namespace ATRACTool_Reloaded
                                 break;
                         }
                     }
-                    else // 複数ファイル
+                    else // 褁E��ファイル
                     {
                         reader = new(Common.Generic.OpenFilePaths[0]);
                         //FileInfo fi = new(Common.Generic.OpenFilePaths[0]);
-                        label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
+                        label_File.Text = BuildLpcDisplayLabel(0, reader);
                         button_Prev.Enabled = false;
                         button_Next.Enabled = true;
                         btnpos = 1;
@@ -604,7 +736,8 @@ namespace ATRACTool_Reloaded
 
             if (!PlaybackInit())
             {
-                // 再生の初期化に失敗した場合は、このフォーム自体も閉じる
+                FormMain.DebugError("[FormLPC] Playback initialization failed. Closing LPC form.");
+                // 再生の初期化に失敗した場合�E、このフォーム自体も閉じめE
                 Close();
                 return;
             }
@@ -617,7 +750,7 @@ namespace ATRACTool_Reloaded
             {
                 BufwaveProvider = new BufferedWaveProvider(reader.WaveFormat)
                 {
-                    BufferDuration = TimeSpan.FromMilliseconds(500) // バッファの長さを設定
+                    BufferDuration = TimeSpan.FromMilliseconds(500) // バッファの長さを設宁E
                 };
                 //wo.Init(BufwaveProvider);
                 volumeSmplProvider = new VolumeSampleProvider(BufwaveProvider.ToSampleProvider());
@@ -670,22 +803,31 @@ namespace ATRACTool_Reloaded
 
             smplrate = reader.WaveFormat.SampleRate;
             totalsamples = reader.SampleCount;
-            SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, 0);
+            if (IsNus3BankPlaybackActive())
+            {
+                ApplyLoopStateFromGenericSilently();
+            }
+            else
+            {
+                SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, 0);
+            }
 
             Generic.LPCTotalSamples = reader.SampleCount;
+            RefreshTrackbarVisuals();
+            FormMain.DebugInfo($"[FormLPC] Load completed. file={label_File.Text}, channels={reader.WaveFormat.Channels}, sampleRate={reader.WaveFormat.SampleRate}, samples={reader.SampleCount}");
 
         }
 
         private IWaveProvider BuildOutputChain(WaveFileReader reader)
         {
-            // まずは「Extensible含む何でも」→ float(ISampleProvider)
+            // まず�E「Extensible含む何でも」�E float(ISampleProvider)
             var floatSP = BuildFloatFromWaveFileReader(reader);
 
-            // 音量（多ch対応）
+            // 音量（多ch対応！E
             //_sample = new SampleChannel(floatSP, true);
             ISampleProvider chain = floatSP;
 
-            // パンは mono/stereo のみ（5.1/7.1 では無効にするのが無難）
+            // パンは mono/stereo のみ�E�E.1/7.1 では無効にするのが無難�E�E
             if (reader.WaveFormat.Channels <= 2)
             {
                 panSmplProvider = new PanningSampleProvider(chain);
@@ -696,11 +838,11 @@ namespace ATRACTool_Reloaded
                 panSmplProvider = null!;
             }
 
-            // 出力ドライバが要求する IWaveProvider へ
+            // 出力ドライバが要求すめEIWaveProvider へ
             return chain.ToWaveProvider();
         }
 
-        // 「WaveFileReader から必ず 32-bit float(ISampleProvider) を得る」ヘルパ
+        // 「WaveFileReader から忁E�� 32-bit float(ISampleProvider) を得る」�EルチE
         private static ISampleProvider BuildFloatFromWaveFileReader(WaveFileReader reader)
         {
             var wf = reader.WaveFormat;
@@ -709,7 +851,7 @@ namespace ATRACTool_Reloaded
             if (wf.Encoding == WaveFormatEncoding.IeeeFloat)
                 return reader.ToSampleProvider();
 
-            // 2) Extensible でも 16/24/32bit PCM なら “シム” → そのビット深度→float
+            // 2) Extensible でめE16/24/32bit PCM なめE“シム EↁEそ�Eビット深度→float
             if (wf.Encoding == WaveFormatEncoding.Extensible)
             {
                 IWaveProvider shim = new ExtensiblePcmShim(reader);
@@ -717,12 +859,12 @@ namespace ATRACTool_Reloaded
                 {
                     16 => new Wave16ToFloatProvider(shim).ToSampleProvider(),
                     24 => new WaveToSampleProvider(shim),// これ自体が ISampleProvider(float)
-                    32 => new WaveToSampleProvider(shim),// 同上
-                    _ => throw new NotSupportedException($"Extensible {wf.BitsPerSample}bit は未対応です。"),
+                    32 => new WaveToSampleProvider(shim),// 同丁E
+                    _ => throw new NotSupportedException($"Extensible {wf.BitsPerSample}bit is not supported."),
                 };
             }
 
-            // 3) 素の PCM（非 Extensible）
+            // 3) 素の PCM�E�非 Extensible�E�E
             if (wf.Encoding == WaveFormatEncoding.Pcm)
             {
                 return wf.BitsPerSample switch
@@ -730,21 +872,21 @@ namespace ATRACTool_Reloaded
                     16 => new Wave16ToFloatProvider(reader).ToSampleProvider(),
                     24 => new WaveToSampleProvider(reader),
                     32 => new WaveToSampleProvider(reader),
-                    _ => throw new NotSupportedException($"PCM {wf.BitsPerSample}bit は未対応です。"),
+                    _ => throw new NotSupportedException($"PCM {wf.BitsPerSample}bit is not supported."),
                 };
             }
 
-            // 4) それ以外（ADPCM / μ-law 等）は WaveFileReader ではなく MediaFoundationReader を使う
-            throw new NotSupportedException("このWAVは圧縮コーデックを含むため、WaveFileReaderではなく MediaFoundationReader を使用してください。");
+            // 4) それ以外！EDPCM / μ-law 等）�E WaveFileReader ではなぁEMediaFoundationReader を使ぁE
+            throw new NotSupportedException("This WAV uses a compressed codec. Please use MediaFoundationReader instead of WaveFileReader.");
         }
 
-        // 再生監視スレッドとタイマーを停止するヘルパー
+        // 再生監視スレチE��とタイマ�Eを停止するヘルパ�E
         private void StopPlaybackLoop()
         {
-            // Playback() → StartPlaybackThread() が回しているループの終了トリガ
+            // Playback() ↁEStartPlaybackThread() が回してぁE��ループ�E終亁E��リガ
             SLTAlive = false;
 
-            // 進行状況更新用タイマーも止めておく
+            // 進行状況更新用タイマ�Eも止めておく
             try
             {
                 if (timer_Reload.Enabled)
@@ -758,15 +900,16 @@ namespace ATRACTool_Reloaded
         }
 
         /// <summary>
-        /// WASAPI(共有/排他)の初期化を行う共通ヘルパー。
-        /// 排他モードでフォーマット未対応の場合は共有モードにフォールバックする。
+        /// WASAPI(共朁E排仁Eの初期化を行う共通�Eルパ�E、E
+        /// 排他モードでフォーマット未対応�E場合�E共有モードにフォールバックする、E
         /// </summary>
         private bool TryInitWasapi(IWaveProvider provider)
         {
+            FormMain.DebugInfo($"[FormLPC] WASAPI initialization started. exclusive={IsWASAPIex}, shared={IsWASAPI}");
             mmDevice = new MMDeviceEnumerator()
                 .GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 
-            // まずは現在の設定（共有 or 排他）で試す
+            // まず�E現在の設定（�E朁Eor 排他）で試ぁE
             try
             {
                 wasapiOut = new WasapiOut(
@@ -776,23 +919,25 @@ namespace ATRACTool_Reloaded
                     IsWASAPIex ? WASAPIexLatency : WASAPILatency);
 
                 wasapiOut.Init(provider);
+                FormMain.DebugInfo($"[FormLPC] WASAPI initialization completed. shareMode={(IsWASAPIex ? "Exclusive" : "Shared")}");
                 return true;
             }
             catch (COMException ex) when (IsWASAPIex && ex.HResult == unchecked((int)0x8889000A))
             {
-                // 排他モードでフォーマット未対応の典型パターン (0x8889000A)
-                // → 共有モードにフォールバック
+                FormMain.DebugWarn($"[FormLPC] WASAPI exclusive format unsupported. Falling back to shared. hresult=0x{ex.HResult:X8}");
+                // 排他モードでフォーマット未対応�E典型パターン (0x8889000A)
+                // ↁE共有モードにフォールバック
                 MessageBox.Show(
                     this,
-                    "このオーディオ形式は WASAPI 排他モードでは再生できません。\r\n" +
-                    "WASAPI 共有モードで再生します。",
+                    "This audio format cannot be played in WASAPI exclusive mode.\r\n" +
+                    "Playback will use WASAPI shared mode.",
                     Localization.MSGBoxWarningCaption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 try
                 {
-                    // 排他→共有 に切り替え
+                    // 排他�E共朁Eに刁E��替ぁE
                     IsWASAPI = true;
                     IsWASAPIex = false;
 
@@ -803,37 +948,40 @@ namespace ATRACTool_Reloaded
                         WASAPILatency);
 
                     wasapiOut.Init(provider);
+                    FormMain.DebugInfo("[FormLPC] WASAPI shared fallback completed.");
                     return true;
                 }
-                catch (COMException)
+                catch (COMException sharedEx)
                 {
+                    FormMain.DebugError($"[FormLPC] WASAPI shared fallback failed. error={sharedEx}");
                     // 共有でもダメなら諦める
                     MessageBox.Show(
                         this,
-                        "このオーディオ形式は WASAPI では再生できません。\r\n" +
-                        "再生方法の設定を変更してください。",
+                        "This audio format cannot be played with WASAPI.\r\n" +
+                        "Please change the playback method setting.",
                         Localization.MSGBoxErrorCaption,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
 
-                    // ★ 再生監視スレッド＆タイマーを即停止
+                    // ☁E再生監視スレチE���E�E��イマ�Eを即停止
                     StopPlaybackLoop();
 
-                    // ★ メインフォームを「起動直後の状態」に戻す
+                    // ☁Eメインフォームを「起動直後�E状態」に戻ぁE
                     FormMain.FormMainInstance.ResetToInitialState();
 
                     // false を返すことで、FormLPC_Load 側の
-                    // 「if (!PlaybackInit()) { Close(); }」が実行され、
-                    // この LPC フォーム自体も閉じられます。
+                    // 「if (!PlaybackInit()) { Close(); }」が実行され、E
+                    // こ�E LPC フォーム自体も閉じられます、E
                     return false;
                 }
             }
             catch (COMException ex)
             {
-                // その他の WASAPI 初期化エラー
+                FormMain.DebugError($"[FormLPC] WASAPI initialization failed. error={ex}");
+                // そ�E他�E WASAPI 初期化エラー
                 MessageBox.Show(
                     this,
-                    "WASAPI の初期化に失敗しました。\r\n" + ex.Message,
+                    "WASAPI の初期化に失敗しました、Er\n" + ex.Message,
                     Localization.MSGBoxErrorCaption,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -846,8 +994,8 @@ namespace ATRACTool_Reloaded
         }
 
         /// <summary>
-        /// 曲の長さの半分（ms）を計算し、
-        /// TrackBar / NumericUpDown の上限を超えないようにクランプした値を返します。
+        /// 曲の長さ�E半�E�E�Es�E�を計算し、E
+        /// TrackBar / NumericUpDown の上限を趁E��なぁE��ぁE��クランプした値を返します、E
         /// </summary>
         private int GetSafeHalfDurationMillisecondsForLoopEnd()
         {
@@ -856,10 +1004,10 @@ namespace ATRACTool_Reloaded
                 return 0;
             }
 
-            // TotalMilliseconds は long で受ける（オーバーフロー対策）
+            // TotalMilliseconds は long で受ける（オーバ�Eフロー対策！E
             long halfMs = (long)(reader.TotalTime.TotalMilliseconds / 2.0);
 
-            // TrackBar と NumericUpDown のどちらでも扱える範囲に合わせる
+            // TrackBar と NumericUpDown のどちらでも扱える篁E��に合わせる
             int tbMax = customTrackBar_End.Maximum;
             int nudMax = (int)numericUpDown_LoopEnd.Maximum;
             int max = Math.Min(tbMax, nudMax);
@@ -869,7 +1017,7 @@ namespace ATRACTool_Reloaded
                 return 0;
             }
 
-            // 0 ～ max の範囲にクランプして int にキャスト
+            // 0 �E�Emax の篁E��にクランプして int にキャスチE
             if (halfMs < 0)
             {
                 return 0;
@@ -883,8 +1031,8 @@ namespace ATRACTool_Reloaded
         }
 
         /// <summary>
-        /// 曲の全長（ms）を安全に int に収めて返す。
-        /// TrackBar / NumericUpDown の Maximum に使う用。
+        /// 曲の全長�E�Es�E�を安�Eに int に収めて返す、E
+        /// TrackBar / NumericUpDown の Maximum に使ぁE��、E
         /// </summary>
         private int GetSafeDurationMilliseconds()
         {
@@ -913,6 +1061,7 @@ namespace ATRACTool_Reloaded
 
             try
             {
+                FormMain.DebugInfo($"[FormLPC] PlaybackInit started. channels={reader.WaveFormat.Channels}, sampleRate={reader.WaveFormat.SampleRate}, bits={reader.WaveFormat.BitsPerSample}, wasapi={IsWASAPI}, wasapiExclusive={IsWASAPIex}, asio={IsASIO}");
                 switch (reader.WaveFormat.Channels)
                 {
                     case 1: // Mono
@@ -922,7 +1071,7 @@ namespace ATRACTool_Reloaded
                             var provider = new WaveChannel32(reader);
                             if (!TryInitWasapi(provider))
                             {
-                                return false; // エラーを出しているのでそのまま抜ける
+                                return false; // エラーを�EしてぁE��のでそ�Eまま抜けめE
                             }
                         }
                         else if (IsASIO)
@@ -942,7 +1091,7 @@ namespace ATRACTool_Reloaded
                             var provider = new WaveChannel32(reader);
                             if (!TryInitWasapi(provider))
                             {
-                                return false; // エラーを出しているのでそのまま抜ける
+                                return false; // エラーを�EしてぁE��のでそ�Eまま抜けめE
                             }
                         }
                         else if (IsASIO)
@@ -1007,19 +1156,21 @@ namespace ATRACTool_Reloaded
             }
             catch (Exception Ex)
             {
+                FormMain.DebugError($"[FormLPC] PlaybackInit failed. error={Ex}");
                 MessageBox.Show(this, string.Format(Localization.LPCUnsupportedFormatErrorCaption, Ex), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Generic.LPCException = true;
                 return false;
             }
         }
 
-        // 再生ボタンの動作を共通化するヘルパー
+        // 再生ボタンの動作を共通化するヘルパ�E
         private async Task HandlePlayButtonAsync(IWavePlayer output)
         {
             switch (output.PlaybackState)
             {
                 case PlaybackState.Stopped:
-                    // 再生時間や長さの計算（従来と同じ）
+                    FormMain.DebugInfo($"[FormLPC] Playback started. file={label_File.Text}, positionMs={customTrackBar_Trk.Value}");
+                    // 再生時間めE��さ�E計算（従来と同じ�E�E
                     bytePerSec = reader.WaveFormat.BitsPerSample / 8
                                  * reader.WaveFormat.SampleRate
                                  * reader.WaveFormat.Channels;
@@ -1038,7 +1189,8 @@ namespace ATRACTool_Reloaded
                     {
                         if (IsPausedMoveTrackbar)
                         {
-                            // 一度止めて位置を移動してから再生し直す
+                            FormMain.DebugInfo($"[FormLPC] Playback resumed after seek. positionMs={customTrackBar_Trk.Value}");
+                            // 一度止めて位置を移動してから再生し直ぁE
                             output.Stop();
                             reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
                             output.Play();
@@ -1047,6 +1199,7 @@ namespace ATRACTool_Reloaded
                         }
                         else
                         {
+                            FormMain.DebugInfo($"[FormLPC] Playback resumed. positionMs={customTrackBar_Trk.Value}");
                             output.Play();
                         }
 
@@ -1055,6 +1208,7 @@ namespace ATRACTool_Reloaded
                     }
                     catch (NAudio.MmException)
                     {
+                        FormMain.DebugWarn("[FormLPC] Playback resume failed with MME error.");
                         output.Stop();
 
                         button_Play.Text = "MME Detect.\r\nPlay Again";
@@ -1062,6 +1216,7 @@ namespace ATRACTool_Reloaded
                     }
 
                 case PlaybackState.Playing:
+                    FormMain.DebugInfo($"[FormLPC] Playback paused. positionMs={customTrackBar_Trk.Value}");
                     output.Pause();
                     button_Play.Text = Localization.PlayCaption;
                     break;
@@ -1088,6 +1243,7 @@ namespace ATRACTool_Reloaded
         {
             if (output.PlaybackState != PlaybackState.Stopped)
             {
+                FormMain.DebugInfo($"[FormLPC] Playback stopped. file={label_File.Text}, positionMs={customTrackBar_Trk.Value}");
                 stopflag = true;
                 timer_Reload.Stop();
                 output.Stop();
@@ -1116,7 +1272,7 @@ namespace ATRACTool_Reloaded
         }
 
         /// <summary>
-        /// Timer_Reload_Tick から呼び出す、再生終了／再生再開の共通処理。
+        /// Timer_Reload_Tick から呼び出す、�E生終亁E���E生�E開�E共通�E琁E��E
         /// </summary>
         private void HandleTimerReloadForOutput(IWavePlayer output)
         {
@@ -1125,9 +1281,10 @@ namespace ATRACTool_Reloaded
                 return;
             }
 
-            // 再生が最後まで到達したら停止処理
+            // 再生が最後まで到達したら停止処琁E
             if (reader.CurrentTime == reader.TotalTime)
             {
+                FormMain.DebugInfo($"[FormLPC] Playback reached end. file={label_File.Text}");
                 stopflag = true;
                 Sample = reader.SampleCount;
 
@@ -1137,11 +1294,12 @@ namespace ATRACTool_Reloaded
                 button_Stop.Enabled = false;
                 Resettrackbarlabels();
             }
-            // 先頭付近まで戻っていて、ユーザーが Stop していない場合は再生し直す
+            // 先頭付近まで戻ってぁE��、ユーザーぁEStop してぁE��ぁE��合�E再生し直ぁE
             else if (reader.Position == 0 || customTrackBar_Trk.Value == 0)
             {
                 if (!stopflag)
                 {
+                    FormMain.DebugInfo($"[FormLPC] Playback restarted from beginning. file={label_File.Text}");
                     output.Stop();
                     button_Stop.Enabled = false;
                     Sample = 0;
@@ -1150,7 +1308,7 @@ namespace ATRACTool_Reloaded
                     output.Play();
                     button_Play.Text = Localization.PauseCaption;
 
-                    // 監視スレッドを再度起動（従来どおり）
+                    // 監視スレチE��を�E度起動（従来どおり�E�E
                     Task.Run(Playback);
                     button_Stop.Enabled = true;
                 }
@@ -1174,7 +1332,7 @@ namespace ATRACTool_Reloaded
                     Sample = reader.Position / reader.BlockAlign;
                 }
 
-                // 出力デバイスごとの処理は共通ヘルパーに集約
+                // 出力デバイスごとの処琁E�E共通�Eルパ�Eに雁E��E
                 if (IsWASAPI || IsWASAPIex)
                 {
                     HandleTimerReloadForOutput(wasapiOut);
@@ -1237,7 +1395,7 @@ namespace ATRACTool_Reloaded
                         break;
                     }
 
-                    // 再生が止まっていたら監視スレッドも終了
+                    // 再生が止まってぁE��ら監視スレチE��も終亁E
                     PlaybackState state;
 
                     if (IsWASAPI || IsWASAPIex)
@@ -1268,17 +1426,17 @@ namespace ATRACTool_Reloaded
                     time = new TimeSpan(0, 0, position);
                     Sample = reader.Position / reader.BlockAlign;
 
-                    // CPU を休ませる（10〜20ms くらいなら十分）
+                    // CPU を休ませる�E�E0、E0ms くらぁE��ら十刁E��E
                     Thread.Sleep(10);
                 }
             }
             catch (ObjectDisposedException)
             {
-                // フォームクローズ中に Dispose された場合の保険
+                // フォームクローズ中に Dispose された場合�E保険
             }
-            catch
+            catch (Exception ex)
             {
-                // 必要ならここでログ出力など
+                FormMain.DebugError($"[FormLPC] Playback monitor failed. error={ex}");
             }
         }
 
@@ -1304,14 +1462,16 @@ namespace ATRACTool_Reloaded
             label_LoopStartSamples.Text = "LoopStart: " + pos.ToString() + " " + Localization.SampleCaption;
             if (pos == 0)
             {
+                FormMain.DebugWarn("[FormLPC] Loop start rejected: zero sample.");
                 MessageBox.Show(this, "You cannot set the LoopStart value to zero.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             Start = pos;
+            FormMain.DebugInfo($"[FormLPC] Loop start set. sample={Start}, buttonIndex={btnpos}");
 
             if (!Generic.lpcreatev2)
             {
-                // ★ Generic / FormMain 側の更新はコントローラに丸投げ
+                // ☁EGeneric / FormMain 側の更新はコントローラに丸投げ
                 LoopPointController.UpdateLoopStart(pos, btnpos);
             }
         }
@@ -1324,13 +1484,14 @@ namespace ATRACTool_Reloaded
             reader.CurrentTime = oldc;
             label_LoopEndSamples.Text = "LoopEnd: " + pos.ToString() + " " + Localization.SampleCaption;
             End = pos;
+            FormMain.DebugInfo($"[FormLPC] Loop end set. sample={End}, buttonIndex={btnpos}");
 
             if (!Generic.lpcreatev2)
             {
-                // ★ Generic / FormMain 側はコントローラに任せる
+                // ☁EGeneric / FormMain 側はコントローラに任せる
                 LoopPointController.UpdateLoopEnd(pos, btnpos);
 
-                // ラベルを消すロジックだけ LPC 内に残す（UI の話なので）
+                // ラベルを消すロジチE��だぁELPC 冁E��残す�E�EI の話なので�E�E
                 if (Generic.IsOpenMulti)
                 {
                     if (Generic.MultipleLoopStarts[btnpos - 1] == 0)
@@ -1362,7 +1523,7 @@ namespace ATRACTool_Reloaded
             {
             }
 
-            // 読み取り位置を先頭に戻しておく
+            // 読み取り位置を�E頭に戻しておく
             try
             {
                 if (reader is not null)
@@ -1413,7 +1574,7 @@ namespace ATRACTool_Reloaded
                 try { asioOut.Dispose(); } catch (ObjectDisposedException) { }
             }
 
-            // マルチチャンネル時に保持している追加の IDisposable を解放
+            // マルチチャンネル時に保持してぁE��追加の IDisposable を解放
             if (_disposables is not null && _disposables.Count > 0)
             {
                 foreach (var d in _disposables)
@@ -1423,7 +1584,7 @@ namespace ATRACTool_Reloaded
                 _disposables.Clear();
             }
 
-            // WASAPI のデバイスも解放
+            // WASAPI のチE��イスも解放
             try { mmDevice?.Dispose(); } catch (ObjectDisposedException) { }
             mmDevice = null;
 
@@ -1440,6 +1601,7 @@ namespace ATRACTool_Reloaded
 
         private void Button_Prev_Click(object sender, EventArgs e)
         {
+            FormMain.DebugInfo($"[FormLPC] Previous file requested. currentButtonIndex={btnpos}");
             btnpos--;
 
             if (btnpos - 1 == uint.MaxValue)
@@ -1456,7 +1618,7 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo("MultipleLoopStarts[]: " + string.Join(", ", Generic.MultipleLoopStarts));
             FormMain.DebugInfo("MultipleLoopEnds[]: " + string.Join(", ", Generic.MultipleLoopEnds));
 
-            // ▼ ループ警告ロジック：Generic 直読み → LoopPointController 経由に
+            // ▼ ループ警告ロジチE���E�Generic 直読み ↁELoopPointController 経由に
             if (Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked)
             {
                 var (start, end, ok) = LoopPointController.GetLoopState(btnpos + 1);
@@ -1471,7 +1633,8 @@ namespace ATRACTool_Reloaded
 
                     if (dr == DialogResult.No)
                     {
-                        if (btnpos != Generic.OpenFilePaths.Length)
+                        FormMain.DebugWarn($"[FormLPC] Previous file cancelled by loop warning. buttonIndex={btnpos}");
+                        if (btnpos != (uint)GetLpcPathCount())
                         {
                             btnpos++;
                         }
@@ -1482,27 +1645,12 @@ namespace ATRACTool_Reloaded
             }
 
             Generic.IsLPCStreamingReloaded = true;
-            string[] Paths, OriginPaths;
-            if (IsPlaybackATRAC && Generic.IsATRAC)
-            {
-                Paths = Generic.pATRACOpenFilePaths;
-                OriginPaths = Generic.OpenFilePaths;
-            }
-            else if (IsEncodeSourceATRAC && Generic.IsATRAC)
-            {
-                Paths = Generic.pATRACOpenFilePaths;
-                OriginPaths = Generic.OpenFilePaths;
-            }
-            else
-            {
-                Paths = Generic.OpenFilePaths;
-                OriginPaths = Generic.OriginOpenFilePaths;
-            }
+            string[] Paths = GetLpcPlaybackPaths();
+            string[] OriginPaths = GetLpcOriginPaths();
+            int pathIndex = (int)btnpos - 1;
 
-            FileInfo fi = new(Paths[btnpos - 1]);
-            FileInfo fiorig = new(OriginPaths[btnpos - 1]);
-
-            long FS = fiorig.Length;
+            FileInfo fi = new(Paths[pathIndex]);
+            FileInfo fiorig = new(GetIndexedPath(OriginPaths, pathIndex, Paths[pathIndex]));
 
             if (IsWASAPI || IsWASAPIex)
             {
@@ -1526,29 +1674,27 @@ namespace ATRACTool_Reloaded
 
             if (btnpos == 1)
             {
-                reader = new(Paths[btnpos - 1]);
+                reader = new(Paths[pathIndex]);
                 if (!PlaybackInit())
                 {
                     return;
                 }
                 ResetAFR();
-                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
-                FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
-                FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
+                label_File.Text = BuildLpcDisplayLabel((int)btnpos - 1, reader);
+                UpdateMainFileLabelsForCurrentPlayback(fiorig);
                 button_Prev.Enabled = false;
                 button_Next.Enabled = true;
             }
             else
             {
-                reader = new(Paths[btnpos - 1]);
+                reader = new(Paths[pathIndex]);
                 if (!PlaybackInit())
                 {
                     return;
                 }
                 ResetAFR();
-                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
-                FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
-                FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
+                label_File.Text = BuildLpcDisplayLabel((int)btnpos - 1, reader);
+                UpdateMainFileLabelsForCurrentPlayback(fiorig);
                 button_Prev.Enabled = true;
                 button_Next.Enabled = true;
             }
@@ -1556,19 +1702,22 @@ namespace ATRACTool_Reloaded
             // ATRAC バッファに由来するループ情報は従来通り
             SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, btnpos - 1);
 
-            // ▼ MultipleFiles 用ループ表示処理は共通ヘルパーに置き換え
-            ApplyLoopStateFromGeneric();
+            // ▼ MultipleFiles 用ループ表示処琁E�E共通�Eルパ�Eに置き換ぁE
+            ApplyLoopStateFromGenericSilently();
 
             smplrate = reader.WaveFormat.SampleRate;
             totalsamples = reader.SampleCount;
             Generic.IsLPCStreamingReloaded = false;
+            RefreshTrackbarVisuals();
+            FormMain.DebugInfo($"[FormLPC] Previous file loaded. buttonIndex={btnpos}, file={label_File.Text}");
         }
 
         private void Button_Next_Click(object sender, EventArgs e)
         {
+            FormMain.DebugInfo($"[FormLPC] Next file requested. currentButtonIndex={btnpos}");
             btnpos++;
 
-            if (btnpos == Generic.OpenFilePaths.Length + 1)
+            if (btnpos == (uint)GetLpcPathCount() + 1)
             {
                 btnpos--;
             }
@@ -1582,7 +1731,7 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo("MultipleLoopStarts[]: " + string.Join(", ", Generic.MultipleLoopStarts));
             FormMain.DebugInfo("MultipleLoopEnds[]: " + string.Join(", ", Generic.MultipleLoopEnds));
 
-            // ▼ 「今から離れる前のファイル」に対するループ警告
+            // ▼ 「今から離れる前�Eファイル」に対するループ警呁E
             if (Generic.IsLoopWarning && Generic.IsOpenMulti && checkBox_LoopEnable.Checked && btnpos != 1)
             {
                 uint prevButton = (uint)(btnpos - 1);
@@ -1598,6 +1747,7 @@ namespace ATRACTool_Reloaded
 
                     if (dr == DialogResult.No)
                     {
+                        FormMain.DebugWarn($"[FormLPC] Next file cancelled by loop warning. buttonIndex={btnpos}");
                         if (btnpos != 1)
                         {
                             btnpos--;
@@ -1608,27 +1758,12 @@ namespace ATRACTool_Reloaded
             }
 
             Generic.IsLPCStreamingReloaded = true;
-            string[] Paths, OriginPaths;
-            if (IsPlaybackATRAC && Generic.IsATRAC)
-            {
-                Paths = Generic.pATRACOpenFilePaths;
-                OriginPaths = Generic.OpenFilePaths;
-            }
-            else if (IsEncodeSourceATRAC && Generic.IsATRAC)
-            {
-                Paths = Generic.pATRACOpenFilePaths;
-                OriginPaths = Generic.OpenFilePaths;
-            }
-            else
-            {
-                Paths = Generic.OpenFilePaths;
-                OriginPaths = Generic.OriginOpenFilePaths;
-            }
+            string[] Paths = GetLpcPlaybackPaths();
+            string[] OriginPaths = GetLpcOriginPaths();
+            int pathIndex = (int)btnpos - 1;
 
-            FileInfo fi = new(Paths[btnpos - 1]);
-            FileInfo fiorig = new(OriginPaths[btnpos - 1]);
-
-            long FS = fiorig.Length;
+            FileInfo fi = new(Paths[pathIndex]);
+            FileInfo fiorig = new(GetIndexedPath(OriginPaths, pathIndex, Paths[pathIndex]));
 
             if (IsWASAPI || IsWASAPIex)
             {
@@ -1650,59 +1785,72 @@ namespace ATRACTool_Reloaded
 
             _ = FormMain.FormMainInstance.Meta;
 
-            if (btnpos == Paths.Length)
+            if (btnpos == (uint)Paths.Length)
             {
-                reader = new(Paths[btnpos - 1]);
+                reader = new(Paths[pathIndex]);
                 if (!PlaybackInit())
                 {
                     return;
                 }
                 ResetAFR();
-                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
-                FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
-                FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
+                label_File.Text = BuildLpcDisplayLabel((int)btnpos - 1, reader);
+                UpdateMainFileLabelsForCurrentPlayback(fiorig);
                 button_Next.Enabled = false;
                 button_Prev.Enabled = true;
             }
             else
             {
-                reader = new(Paths[btnpos - 1]);
+                reader = new(Paths[pathIndex]);
                 if (!PlaybackInit())
                 {
                     return;
                 }
                 ResetAFR();
-                label_File.Text = Path.GetFileNameWithoutExtension(Generic.InputJobs[(int)btnpos - 1].OriginPath) + GetCurrentReaderBitAndHzFromLabel(reader);
-                FormMain.FormMainInstance.FPLabel = fiorig.Directory + @"\" + fiorig.Name;
-                FormMain.FormMainInstance.FSLabel = string.Format(Localization.FileSizeCaption, FS / 1024, FS);
+                label_File.Text = BuildLpcDisplayLabel((int)btnpos - 1, reader);
+                UpdateMainFileLabelsForCurrentPlayback(fiorig);
                 button_Next.Enabled = true;
                 button_Prev.Enabled = true;
             }
 
-            // ATRAC 由来のループは従来通り
+            // ATRAC 由来のループ�E従来通り
             SetLoopPointsWithATRACBuffer(reader.WaveFormat.SampleRate, btnpos - 1);
 
-            // MultipleFiles 用ループ表示は共通処理に任せる
-            ApplyLoopStateFromGeneric();
+            // MultipleFiles 用ループ表示は共通�E琁E��任せる
+            ApplyLoopStateFromGenericSilently();
 
             smplrate = reader.WaveFormat.SampleRate;
             totalsamples = reader.SampleCount;
             Generic.IsLPCStreamingReloaded = false;
+            RefreshTrackbarVisuals();
+            FormMain.DebugInfo($"[FormLPC] Next file loaded. buttonIndex={btnpos}, file={label_File.Text}");
+        }
+
+        private void ApplyLoopStateFromGenericSilently()
+        {
+            applyingExternalLoopState = true;
+            try
+            {
+                ApplyLoopStateFromGeneric();
+            }
+            finally
+            {
+                applyingExternalLoopState = false;
+            }
         }
 
         /// <summary>
-        /// 現在の btnpos / Generic のループ状態を LPC の UI に反映する。
+        /// 現在の btnpos / Generic のループ状態を LPC の UI に反映する、E
         /// </summary>
         private void ApplyLoopStateFromGeneric()
         {
-            // 現在のボタン（ファイル）のループ状態を取得
+            // 現在のボタン�E�ファイル�E��Eループ状態を取征E
             var (startSamples, endSamples, isLoopOk) = LoopPointController.GetLoopState(btnpos);
 
             // 一旦ラベルはクリア
             label_LoopStartSamples.Text = string.Empty;
             label_LoopEndSamples.Text = string.Empty;
 
-            // ループ未設定ならチェックを外して UI を初期化
+            // ループ未設定ならチェチE��を外して UI を�E期化
             if (!isLoopOk || (startSamples == 0 && endSamples == 0))
             {
                 int tb = GetSafeHalfDurationMillisecondsForLoopEnd();
@@ -1714,10 +1862,11 @@ namespace ATRACTool_Reloaded
                 numericUpDown_LoopEnd.Value = tb;
 
                 LoopPointController.SyncMainLoopTextFromGeneric(btnpos);
+                LockNus3BankPreviewLoopControls();
                 return;
             }
 
-            // サンプル数 → ミリ秒に変換（元の計算式に合わせる）
+            // サンプル数 ↁEミリ秒に変換�E��Eの計算式に合わせる�E�E
             int sampleRate = reader.WaveFormat.SampleRate;
 
             if (startSamples > 0)
@@ -1764,11 +1913,17 @@ namespace ATRACTool_Reloaded
                 numericUpDown_LoopEnd.Value = 0;
             }
 
-            // メインフォーム側のテキストボックスも Generic から同期
+            // メインフォーム側のチE��スト�EチE��スめEGeneric から同期
             LoopPointController.SyncMainLoopTextFromGeneric(btnpos);
 
-            // ループ OK ならチェック ON & UI 有効化
+            // ルーチEOK ならチェチE�� ON & UI 有効匁E
             checkBox_LoopEnable.Checked = true;
+            if (IsNus3BankPlaybackActive())
+            {
+                LockNus3BankPreviewLoopControls();
+                return;
+            }
+
             //EnableLoopUiControls();
             if (!IsPlaybackATRAC && Generic.IsATRAC)
             {
@@ -1780,8 +1935,41 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        public void RefreshLoopStateFromGeneric()
+        {
+            if (IsDisposed || reader is null)
+                return;
+
+            applyingExternalLoopState = true;
+            try
+            {
+                ApplyLoopStateFromGeneric();
+
+                var (_, _, isLoopOk) = LoopPointController.GetLoopState(btnpos);
+                if (isLoopOk)
+                {
+                    checkBox_LoopEnable.Enabled = true;
+                    checkBox_LoopEnable.Checked = true;
+                    if (IsNus3BankPlaybackActive())
+                    {
+                        LockNus3BankPreviewLoopControls();
+                        return;
+                    }
+
+                    if (!Generic.lpcreatev2)
+                        LoopPointController.EnableMainLoopUi();
+                    EnableLoopUiControls();
+                }
+            }
+            finally
+            {
+                applyingExternalLoopState = false;
+            }
+        }
+
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
+            FormMain.DebugWarn("[FormLPC] Cancelled.");
             Close();
         }
 
@@ -1815,11 +2003,36 @@ namespace ATRACTool_Reloaded
 
         private void CheckBox_LoopEnable_CheckedChanged(object sender, EventArgs e)
         {
+            if (applyingExternalLoopState)
+            {
+                if (IsNus3BankPlaybackActive())
+                {
+                    LockNus3BankPreviewLoopControls();
+                    return;
+                }
+
+                if (checkBox_LoopEnable.Checked)
+                {
+                    if (!Generic.lpcreatev2)
+                        LoopPointController.EnableMainLoopUi();
+                    EnableLoopUiControls();
+                }
+                else
+                {
+                    if (!Generic.lpcreatev2)
+                        LoopPointController.DisableMainLoopUi();
+                    DisableLoopUiControls();
+                }
+
+                return;
+            }
+
+            FormMain.DebugInfo($"[FormLPC] Loop enable changed. enabled={checkBox_LoopEnable.Checked}, multiple={Generic.IsOpenMulti}, buttonIndex={btnpos}");
             if (!Generic.IsOpenMulti) // Single
             {
-                if (checkBox_LoopEnable.Checked) // 有効化
+                if (checkBox_LoopEnable.Checked) // 有効匁E
                 {
-                    // --- 既存の競合チェック（AT3/AT9, LPC_CREATE） ---
+                    // --- 既存�E競合チェチE���E�ET3/AT9, LPC_CREATE�E�E---
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
@@ -1887,7 +2100,7 @@ namespace ATRACTool_Reloaded
                         checkBox_LoopEnable.Enabled = false;
                     }
 
-                    // --- Main 側のループ UI を有効化 ---
+                    // --- Main 側のルーチEUI を有効匁E---
                     if (!Generic.lpcreatev2)
                     {
                         LoopPointController.EnableMainLoopUi();
@@ -1896,20 +2109,20 @@ namespace ATRACTool_Reloaded
                     // --- LPC 側コントロールをまとめて ON ---
                     EnableLoopUiControls();
                 }
-                else // 無効化
+                else // 無効匁E
                 {
-                    // --- 既存の「ループ消してもいい？」警告ロジック ---
+                    // --- 既存�E「ループ消してもいぁE��」警告ロジチE�� ---
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
-                            // 何もしない（従来どおり空ブロック）
+                            // 何もしなぁE��従来どおり空ブロチE���E�E
                         }
                         else
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
-                                // 何もしない（従来どおり空ブロック）
+                                // 何もしなぁE��従来どおり空ブロチE���E�E
                             }
                             else
                             {
@@ -1937,7 +2150,7 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
-                                // 何もしない（従来どおり空ブロック）
+                                // 何もしなぁE��従来どおり空ブロチE���E�E
                             }
                             else
                             {
@@ -1960,16 +2173,16 @@ namespace ATRACTool_Reloaded
                         }
                     }
 
-                    // --- フラグのリセットはコントローラに任せる ---
+                    // --- フラグのリセチE��はコントローラに任せる ---
                     LoopPointController.ResetLoop(0);
 
-                    // --- Main 側 UI を OFF ---
+                    // --- Main 側 UI めEOFF ---
                     if (!Generic.lpcreatev2)
                     {
                         LoopPointController.DisableMainLoopUi();
                     }
 
-                    // --- LPC 側 UI を OFF ---
+                    // --- LPC 側 UI めEOFF ---
                     DisableLoopUiControls();
 
                     // ラベルは空にする
@@ -1979,7 +2192,7 @@ namespace ATRACTool_Reloaded
             }
             else // Multiple
             {
-                if (checkBox_LoopEnable.Checked) // 有効化
+                if (checkBox_LoopEnable.Checked) // 有効匁E
                 {
                     if (ShouldDisableLoopEnableForAtracEncodeSourceOnly())
                     {
@@ -2069,20 +2282,20 @@ namespace ATRACTool_Reloaded
                     }
 
                 }
-                else // 無効化
+                else // 無効匁E
                 {
-                    // 既存の「ループ消していい？」警告
+                    // 既存�E「ループ消してぁE���E�」警呁E
                     if (Generic.IsAT3LoopSound || Generic.IsAT3LoopPoint)
                     {
                         if (Generic.IsAT9LoopSound || Generic.IsAT9LoopPoint)
                         {
-                            // 何もしない
+                            // 何もしなぁE
                         }
                         else
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC3 / ATRAC3+")
                             {
-                                // 何もしない
+                                // 何もしなぁE
                             }
                             else
                             {
@@ -2110,7 +2323,7 @@ namespace ATRACTool_Reloaded
                         {
                             if (FormMain.FormMainInstance.toolStripDropDownButton_EF.Text == "ATRAC9")
                             {
-                                // 何もしない
+                                // 何もしなぁE
                             }
                             else
                             {
@@ -2135,24 +2348,35 @@ namespace ATRACTool_Reloaded
 
                     if (!Generic.lpcreatev2)
                     {
-                        // このファイルのループ設定をリセット
+                        // こ�Eファイルのループ設定をリセチE��
                         LoopPointController.ResetLoop(ButtonPosition);
 
                         LoopPointController.DisableMainLoopUi();
                     }
                     else
                     {
-                        // --- フラグのリセットはコントローラに任せる ---
+                        // --- フラグのリセチE��はコントローラに任せる ---
                         LoopPointController.ResetLoop(0);
                     }
 
-                    // LPC 側 UI を OFF
+                    // LPC 側 UI めEOFF
                     DisableLoopUiControls();
 
                     label_LoopStartSamples.Text = string.Empty;
                     label_LoopEndSamples.Text = string.Empty;
                 }
             }
+        }
+
+        private void LockNus3BankPreviewLoopControls()
+        {
+            if (!IsNus3BankPlaybackActive())
+                return;
+
+            checkBox_LoopEnable.Enabled = false;
+            DisableLoopUiControls();
+            if (!Generic.lpcreatev2)
+                LoopPointController.DisableMainLoopUi();
         }
 
         private bool ShouldShowLpCreateAlreadyEnabledWarning()
@@ -2189,12 +2413,14 @@ namespace ATRACTool_Reloaded
             {
                 if (Start == 0 || End == 0)
                 {
+                    FormMain.DebugWarn($"[FormLPC] OK blocked: loop point is not set. start={Start}, end={End}");
                     MessageBox.Show(this, Localization.LoopNotSetCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 if (Start == End)
                 {
+                    FormMain.DebugWarn($"[FormLPC] OK blocked: loop start equals end. start={Start}, end={End}");
                     MessageBox.Show(this, "Incorrect loop value.\r\nLoop start and loop end values cannot be the same.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -2202,6 +2428,7 @@ namespace ATRACTool_Reloaded
                 double result = Math.Sign(End - Start);
                 if (result == -1)
                 {
+                    FormMain.DebugWarn($"[FormLPC] OK blocked: loop end is before start. start={Start}, end={End}");
                     MessageBox.Show(this, "Incorrect loop value.\r\nNegative value between loop start and loop end values.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -2210,12 +2437,14 @@ namespace ATRACTool_Reloaded
                     long loopdistancevalue = End - Start;
                     if (loopdistancevalue <= 1000 && loopdistancevalue >= 0)
                     {
+                        FormMain.DebugWarn($"[FormLPC] OK blocked: loop interval too short. start={Start}, end={End}, interval={loopdistancevalue}");
                         MessageBox.Show(this, "Incorrect loop value.\r\nThe interval between the loop start and loop end values must be greater than or equal to 1000.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
                 else
                 {
+                    FormMain.DebugWarn($"[FormLPC] OK blocked: invalid loop result. start={Start}, end={End}");
                     MessageBox.Show(this, "Incorrect loop value.\r\nLoop start and loop end values cannot be the same.", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -2251,6 +2480,7 @@ namespace ATRACTool_Reloaded
                     label_start.Enabled = false;
                     label_end.Enabled = false;
                 }
+                FormMain.DebugInfo($"[FormLPC] OK. loopEnabled=true, start={Start}, end={End}, suffix={Generic.LPCSuffix}");
                 Close();
             }
             else
@@ -2267,6 +2497,7 @@ namespace ATRACTool_Reloaded
                 {
                     wo.Stop();
                 }
+                FormMain.DebugInfo("[FormLPC] OK. loopEnabled=false");
                 Close();
             }
         }
@@ -2349,7 +2580,7 @@ namespace ATRACTool_Reloaded
             label_end.Enabled = true;
         }
 
-        // ループ関連コントロールを無効化
+        // ループ関連コントロールを無効匁E
         private void DisableLoopUiControls()
         {
             customTrackBar_Start.Enabled = false;
@@ -2380,7 +2611,7 @@ namespace ATRACTool_Reloaded
             label_LoopStartSamples.Text = string.Empty;
             label_LoopEndSamples.Text = string.Empty;
 
-            // ★ Main 側の Loop UI はコントローラに任せる
+            // ☁EMain 側の Loop UI はコントローラに任せる
             LoopPointController.DisableMainLoopUi();
         }
 
@@ -2424,6 +2655,15 @@ namespace ATRACTool_Reloaded
             labelEnd = EndDefaultPoint;
         }
 
+        private void RefreshTrackbarVisuals()
+        {
+            Resettrackbarlabels();
+            UpdateLoopPointValueLabels();
+            customTrackBar_Trk.Invalidate();
+            customTrackBar_Start.Invalidate();
+            customTrackBar_End.Invalidate();
+        }
+
         private void SetTrackbarTrack()
         {
             customTrackBar_Trk.Invalidate();
@@ -2433,19 +2673,19 @@ namespace ATRACTool_Reloaded
         {
             if (customTrackBar_Start.Value < customTrackBar_Start.Maximum / 2)
             {
-                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X + 9, labelStart.Y);
+                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X + 9 + StartLabelXOffset, labelStart.Y);
             }
             else if (customTrackBar_Start.Value > customTrackBar_Start.Maximum / 2)
             {
-                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X - 9, labelStart.Y);
+                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X - 9 + StartLabelXOffset, labelStart.Y);
             }
             else if (customTrackBar_Start.Value == customTrackBar_Start.Maximum / 2)
             {
-                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X, labelStart.Y);
+                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X + StartLabelXOffset, labelStart.Y);
             }
             else
             {
-                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X, labelStart.Y);
+                label_start.Location = new Point(labelStart.X + (int)((customTrackBar_Start.Value - customTrackBar_Start.Minimum) * ScaleWidthStart) - customTrackBar_Start.Location.X - labelStart.X + StartLabelXOffset, labelStart.Y);
             }
         }
 
@@ -2453,20 +2693,64 @@ namespace ATRACTool_Reloaded
         {
             if (customTrackBar_End.Value < customTrackBar_End.Maximum / 2)
             {
-                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X + 9, labelEnd.Y);
+                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X + 9 + EndLabelXOffset, labelEnd.Y);
             }
             else if (customTrackBar_End.Value > customTrackBar_End.Maximum / 2)
             {
-                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X - 9, labelEnd.Y);
+                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X - 9 + EndLabelXOffset, labelEnd.Y);
             }
             else if (customTrackBar_End.Value == customTrackBar_End.Maximum / 2)
             {
-                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X, labelEnd.Y);
+                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X + EndLabelXOffset, labelEnd.Y);
             }
             else
             {
-                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X, labelEnd.Y);
+                label_end.Location = new Point(labelEnd.X + (int)((customTrackBar_End.Value - customTrackBar_End.Minimum) * ScaleWidthEnd) - customTrackBar_End.Location.X - labelEnd.X + EndLabelXOffset, labelEnd.Y);
             }
+        }
+
+        private static int ClampTrackBarValue(src.Controls.CustomTrackBar trackBar, int value)
+        {
+            if (value < trackBar.Minimum)
+                return trackBar.Minimum;
+
+            if (value > trackBar.Maximum)
+                return trackBar.Maximum;
+
+            return value;
+        }
+
+        private static decimal ClampNumericUpDownValue(NumericUpDown numericUpDown, int value)
+        {
+            decimal decimalValue = value;
+
+            if (decimalValue < numericUpDown.Minimum)
+                return numericUpDown.Minimum;
+
+            if (decimalValue > numericUpDown.Maximum)
+                return numericUpDown.Maximum;
+
+            return decimalValue;
+        }
+
+        public void SetLoopStartMilliseconds(int startMs)
+        {
+            startMs = ClampTrackBarValue(customTrackBar_Start, startMs);
+            customTrackBar_Start.Value = startMs;
+            numericUpDown_LoopStart.Value = ClampNumericUpDownValue(numericUpDown_LoopStart, startMs);
+        }
+
+        public void SetLoopEndMilliseconds(int endMs)
+        {
+            endMs = ClampTrackBarValue(customTrackBar_End, endMs);
+            customTrackBar_End.Value = endMs;
+            numericUpDown_LoopEnd.Value = ClampNumericUpDownValue(numericUpDown_LoopEnd, endMs);
+        }
+
+        private void SetLoopUiMilliseconds(int startMs, int endMs)
+        {
+            SetLoopStartMilliseconds(startMs);
+            SetLoopEndMilliseconds(endMs);
         }
 
         private void PanSlider1_PanChanged(object sender, EventArgs e)
@@ -2541,28 +2825,24 @@ namespace ATRACTool_Reloaded
                 switch (samplerate)
                 {
                     case 12000: // ATRAC9 Only
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 12.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 12.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
+                        SetLoopUiMilliseconds(
+                            (int)Math.Round(Generic.MultipleLoopStarts[pos] / 12.0, MidpointRounding.AwayFromZero),
+                            (int)Math.Round(Generic.MultipleLoopEnds[pos] / 12.0, MidpointRounding.AwayFromZero));
                         break;
                     case 24000: // ATRAC9 Only
-                        customTrackBar_Start.Value = (int)Math.Round(Generic.MultipleLoopStarts[pos] / 24.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(Generic.MultipleLoopEnds[pos] / 24.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
+                        SetLoopUiMilliseconds(
+                            (int)Math.Round(Generic.MultipleLoopStarts[pos] / 24.0, MidpointRounding.AwayFromZero),
+                            (int)Math.Round(Generic.MultipleLoopEnds[pos] / 24.0, MidpointRounding.AwayFromZero));
                         break;
                     case 44100:
-                        customTrackBar_Start.Value = (int)Math.Round(bufferloop[0] / 44.1, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(bufferloop[1] / 44.1, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
+                        SetLoopUiMilliseconds(
+                            (int)Math.Round(bufferloop[0] / 44.1, MidpointRounding.AwayFromZero),
+                            (int)Math.Round(bufferloop[1] / 44.1, MidpointRounding.AwayFromZero));
                         break;
                     case 48000:
-                        customTrackBar_Start.Value = (int)Math.Round(bufferloop[0] / 48.0, MidpointRounding.AwayFromZero);//value[0];
-                        numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
-                        customTrackBar_End.Value = (int)Math.Round(bufferloop[1] / 48.0, MidpointRounding.AwayFromZero);//value[1];
-                        numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
+                        SetLoopUiMilliseconds(
+                            (int)Math.Round(bufferloop[0] / 48.0, MidpointRounding.AwayFromZero),
+                            (int)Math.Round(bufferloop[1] / 48.0, MidpointRounding.AwayFromZero));
                         break;
                     default:
                         break;
@@ -2573,7 +2853,7 @@ namespace ATRACTool_Reloaded
                     if (Generic.MultipleFilesLoopOKFlags[pos] && !checkBox_LoopEnable.Checked)
                     {
                         checkBox_LoopEnable.Checked = true;
-                        // ループ UI を共通メソッドで有効化
+                        // ルーチEUI を�E通メソチE��で有効匁E
                         EnableLoopUiControls();
                     }
                     label_LoopStartSamples.Text = "LoopStart: " + Generic.MultipleLoopStarts[pos].ToString() + " " + Localizable.Localization.SampleCaption;

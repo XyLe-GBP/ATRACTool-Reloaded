@@ -29,6 +29,7 @@ namespace ATRACTool_Reloaded
         private static readonly HttpClient appUpdatechecker = new(handler);
         #endregion
         FormLPC? FLPC;
+        private ToolStripMenuItem? nus3bankToolStripMenuItem;
         //static FormSplash? fs;
         static WindowSplash? fsWPF;
         static object? lockobj;
@@ -37,9 +38,13 @@ namespace ATRACTool_Reloaded
 
         private volatile bool _isClosing = false;
         private int _closingCancelIssued = 0;
+        private bool _mainWindowHiddenForSplash = false;
+        private double _opacityBeforeSplash = 1d;
+        private bool _showInTaskbarBeforeSplash = true;
 
         private static readonly ConcurrentQueue<DebugLogEntry> _debugMsgQueue = new();
         private static readonly ManualResetEventSlim _debugReady = new(false);
+        private const int MaxQueuedDebugMessages = 1000;
 
         public static void DebugInfo(string message) => EnqueueLog(DebugLogLevel.Info, message);
         public static void DebugWarn(string message) => EnqueueLog(DebugLogLevel.Warn, message);
@@ -112,6 +117,44 @@ namespace ATRACTool_Reloaded
         public FormMain()
         {
             InitializeComponent();
+            PrepareMainWindowForSplash();
+            InitializeNus3BankEncodeMenu();
+            DebugInfo("[FormMain] Initialized.");
+        }
+
+        private void PrepareMainWindowForSplash()
+        {
+            try
+            {
+                if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || Utils.GetBool("HideSplash", false))
+                {
+                    return;
+                }
+
+                _opacityBeforeSplash = Opacity;
+                _showInTaskbarBeforeSplash = ShowInTaskbar;
+                _mainWindowHiddenForSplash = true;
+                Opacity = 0d;
+                ShowInTaskbar = false;
+                DebugInfo("[FormMain] Main window hidden while splash screen is active.");
+            }
+            catch (Exception ex)
+            {
+                DebugWarn($"[FormMain] Failed to hide main window before splash. error={ex.Message}");
+            }
+        }
+
+        private void RestoreMainWindowAfterSplash()
+        {
+            if (!_mainWindowHiddenForSplash || IsDisposed || Disposing)
+            {
+                return;
+            }
+
+            Opacity = _opacityBeforeSplash;
+            ShowInTaskbar = _showInTaskbarBeforeSplash;
+            _mainWindowHiddenForSplash = false;
+            DebugInfo("[FormMain] Main window restored after splash screen.");
         }
 
         // 初期化
@@ -125,6 +168,7 @@ namespace ATRACTool_Reloaded
         {
             try
             {
+                DebugInfo("[FormMain] Load started.");
                 FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
                 Text = "ATRACTool Rel";
 
@@ -137,7 +181,8 @@ namespace ATRACTool_Reloaded
                     Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_tempAudio");
                 }
 
-                Common.Utils.LoadOrCreateConfig();
+                bool configInitialized = Common.Utils.LoadOrCreateConfig();
+                DebugInfo($"[FormMain] Config ready. initialized={configInitialized}");
 
                 if (File.Exists(Directory.GetCurrentDirectory() + @"\updated.dat"))
                 {
@@ -205,6 +250,15 @@ namespace ATRACTool_Reloaded
                                     aTRAC9ToolStripMenuItem.Checked = true;
                                     walkmanToolStripMenuItem.Checked = false;
                                     toolStripDropDownButton_EF.Text = "ATRAC9";
+                                    EncodeMethodIsATRAC(true);
+                                    break;
+                                case 3:
+                                    Common.Generic.ATRACFlag = 1;
+                                    aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                    aTRAC9ToolStripMenuItem.Checked = false;
+                                    walkmanToolStripMenuItem.Checked = false;
+                                    SetNus3BankEncodeOutput(true);
+                                    toolStripDropDownButton_EF.Text = "NUS3BANK";
                                     EncodeMethodIsATRAC(true);
                                     break;
                                 case 2:
@@ -327,6 +381,7 @@ namespace ATRACTool_Reloaded
                         }
                         catch (Exception ex)
                         {
+                            DebugWarn($"[FormMain] Startup update check failed. error={ex.Message}");
                             MessageBox.Show("An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         }
 
@@ -344,9 +399,11 @@ namespace ATRACTool_Reloaded
                     }
 
                     CloseSplash();
+                    RestoreMainWindowAfterSplash();
                 }
                 else // スプラッシュスクリーンなし
                 {
+                    RestoreMainWindowAfterSplash();
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\_temp");
                     ResetStatus();
 
@@ -370,6 +427,15 @@ namespace ATRACTool_Reloaded
                                 aTRAC9ToolStripMenuItem.Checked = true;
                                 walkmanToolStripMenuItem.Checked = false;
                                 toolStripDropDownButton_EF.Text = "ATRAC9";
+                                EncodeMethodIsATRAC(true);
+                                break;
+                            case 3:
+                                Common.Generic.ATRACFlag = 1;
+                                aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+                                aTRAC9ToolStripMenuItem.Checked = false;
+                                walkmanToolStripMenuItem.Checked = false;
+                                SetNus3BankEncodeOutput(true);
+                                toolStripDropDownButton_EF.Text = "NUS3BANK";
                                 EncodeMethodIsATRAC(true);
                                 break;
                             case 2:
@@ -470,6 +536,7 @@ namespace ATRACTool_Reloaded
                         }
                         catch (Exception ex)
                         {
+                            DebugWarn($"[FormMain] Startup update check failed. error={ex.Message}");
                             MessageBox.Show(this, "An error occured.\n" + ex, Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
@@ -488,14 +555,14 @@ namespace ATRACTool_Reloaded
 
                 if (ver.FileVersion != null)
                 {
-                    Text = "ATRACTool Rel ( build: " + ver.FileVersion.ToString() + "-Beta )";
+                    Text = "ATRACTool ( build: " + ver.FileVersion.ToString() + " )";
                 }
                 else
                 {
-                    Text = "ATRACTool Rel";
+                    Text = "ATRACTool";
                 }
 
-                panel_Main.BackgroundImage = Resources.SIEv2;
+                panel_Main.BackgroundImage = Resources.SIE;
                 Activate();
 
                 if (!Utils.OpenMGCheck64() && !Utils.OpenMGCheck64_32())
@@ -505,11 +572,14 @@ namespace ATRACTool_Reloaded
 
                 if (Generic.GlobalException is not null)
                 {
+                    DebugError($"[FormMain] Global exception detected. error={Generic.GlobalException}");
                     MessageBox.Show(this, string.Format(Localization.UnExpectedCaption, Generic.GlobalException), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+                DebugInfo("[FormMain] Load completed.");
             }
             catch (Exception ex)
             {
+                DebugError($"[FormMain] Load failed. error={ex}");
                 Utils.CreateExceptionLog(ex, true, this);
                 Close();
             }
@@ -626,6 +696,7 @@ namespace ATRACTool_Reloaded
         private static void EnqueueLog(DebugLogLevel level, string message)
         {
             _debugMsgQueue.Enqueue(new DebugLogEntry(level, message, DateTime.Now));
+            while (_debugMsgQueue.Count > MaxQueuedDebugMessages && _debugMsgQueue.TryDequeue(out _)) { }
 
             if (!_debugReady.IsSet) return; // 生成前は溜める
             FlushQueuedDebugMessages();
@@ -963,6 +1034,21 @@ namespace ATRACTool_Reloaded
             window.ShowDialog();
         }
 
+        private static string ExtractVersionInfo(string raw)
+        {
+            string versionInfo = (raw ?? string.Empty).Trim();
+            return versionInfo.Length <= 8 ? string.Empty : versionInfo[8..].Trim();
+        }
+
+        private static int CompareVersions(string? currentVersion, string? latestVersion)
+        {
+            int comparison = Version.TryParse(currentVersion, out Version? current) && Version.TryParse(latestVersion, out Version? latest)
+                ? current.CompareTo(latest)
+                : string.Compare(currentVersion, latestVersion, StringComparison.OrdinalIgnoreCase);
+
+            return comparison < 0 ? -1 : comparison > 0 ? 1 : 0;
+        }
+
         /// <summary>
         /// アップデート確認
         /// </summary>
@@ -971,6 +1057,7 @@ namespace ATRACTool_Reloaded
         private async void CheckForUpdatesUToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool IsDebug = Utils.GetBool("Debugmode");
+            DebugInfo($"[UpdateCheck] Manual check started. debug={IsDebug}");
 
             if (NetworkInterface.GetIsNetworkAvailable())
             {
@@ -984,15 +1071,16 @@ namespace ATRACTool_Reloaded
                         using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
                         using StreamReader hsr = new(hcs);
                         hv = await Task.Run(() => hsr.ReadToEndAsync());
-                        Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
+                        Common.Generic.GitHubLatestVersion = ExtractVersionInfo(hv);
+                        DebugInfo($"[UpdateCheck] Latest version fetched. latest={Common.Generic.GitHubLatestVersion}");
 
                         string dummyver = "1.23.4567.890";
 
-                        switch (dummyver.CompareTo(hv[8..].Replace("\n", "")))
+                        switch (CompareVersions(dummyver, Common.Generic.GitHubLatestVersion))
                         {
                             case -1:
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                     if (dr == DialogResult.Yes)
                                     {
                                         WindowUpdateApplicationType fuat = new();
@@ -1087,7 +1175,7 @@ namespace ATRACTool_Reloaded
                                     }
                                     else
                                     {
-                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (dr2 == DialogResult.Yes)
                                         {
                                             Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
@@ -1102,12 +1190,13 @@ namespace ATRACTool_Reloaded
                             case 0:
                                 break;
                             case 1:
-                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + dummyver + "\nあんたバカぁ？");
+                                throw new Exception(Common.Generic.GitHubLatestVersion + " < " + dummyver + "\nあんたバカぁ？");
                         }
                         return;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        DebugWarn($"[UpdateCheck] Check failed. error={ex.Message}");
                         return;
                     }
                 }
@@ -1120,16 +1209,17 @@ namespace ATRACTool_Reloaded
                         using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
                         using StreamReader hsr = new(hcs);
                         hv = await Task.Run(hsr.ReadToEndAsync);
-                        Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
+                        Common.Generic.GitHubLatestVersion = ExtractVersionInfo(hv);
+                        DebugInfo($"[UpdateCheck] Latest version fetched. latest={Common.Generic.GitHubLatestVersion}");
 
                         FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
 
                         if (ver.FileVersion != null)
                         {
-                            switch (ver.FileVersion.ToString().CompareTo(hv[8..].Replace("\n", "")))
+                            switch (CompareVersions(ver.FileVersion, Common.Generic.GitHubLatestVersion))
                             {
                                 case -1:
-                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                     if (dr == DialogResult.Yes)
                                     {
                                         WindowUpdateApplicationType fuat = new();
@@ -1211,7 +1301,7 @@ namespace ATRACTool_Reloaded
                                     }
                                     else
                                     {
-                                        DialogResult dr2 = MessageBox.Show(this, Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        DialogResult dr2 = MessageBox.Show(this, Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (dr2 == DialogResult.Yes)
                                         {
                                             Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
@@ -1223,16 +1313,17 @@ namespace ATRACTool_Reloaded
                                         }
                                     }
                                 case 0:
-                                    MessageBox.Show(this, Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UptodateCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show(this, Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UptodateCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     break;
                                 case 1:
-                                    throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
+                                    throw new Exception(Common.Generic.GitHubLatestVersion + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
                             }
                             return;
                         }
                     }
                     catch (Exception ex)
                     {
+                        DebugError($"[UpdateCheck] Manual check failed. error={ex}");
                         MessageBox.Show(this, string.Format(Localization.UnExpectedCaption, ex.ToString()), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -1240,6 +1331,7 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                DebugWarn("[UpdateCheck] Manual check skipped: network unavailable.");
                 MessageBox.Show(this, Localization.NetworkNotConnectedCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1252,6 +1344,7 @@ namespace ATRACTool_Reloaded
         private async Task CheckForUpdatesForInit()
         {
             bool IsDebug = Utils.GetBool("Debugmode");
+            DebugInfo($"[UpdateCheck] Startup check started. debug={IsDebug}");
 
             if (NetworkInterface.GetIsNetworkAvailable())
             {
@@ -1265,15 +1358,16 @@ namespace ATRACTool_Reloaded
                         using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
                         using StreamReader hsr = new(hcs);
                         hv = await Task.Run(() => hsr.ReadToEndAsync());
-                        Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
+                        Common.Generic.GitHubLatestVersion = ExtractVersionInfo(hv);
+                        DebugInfo($"[UpdateCheck] Latest version fetched. latest={Common.Generic.GitHubLatestVersion}");
 
                         string dummyver = "1.23.4567.890";
 
-                        switch (dummyver.CompareTo(hv[8..].Replace("\n", "")))
+                        switch (CompareVersions(dummyver, Common.Generic.GitHubLatestVersion))
                         {
                             case -1:
                                 {
-                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                     if (dr == DialogResult.Yes)
                                     {
                                         using FormUpdateApplicationType fuat = new();
@@ -1367,7 +1461,7 @@ namespace ATRACTool_Reloaded
                                     }
                                     else
                                     {
-                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + dummyver + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (dr2 == DialogResult.Yes)
                                         {
                                             Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
@@ -1382,12 +1476,13 @@ namespace ATRACTool_Reloaded
                             case 0:
                                 break;
                             case 1:
-                                throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + dummyver + "\nあんたバカぁ？");
+                                throw new Exception(Common.Generic.GitHubLatestVersion + " < " + dummyver + "\nあんたバカぁ？");
                         }
                         return;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        DebugWarn($"[UpdateCheck] Check failed. error={ex.Message}");
                         return;
                     }
                 }
@@ -1400,16 +1495,17 @@ namespace ATRACTool_Reloaded
                         using Stream hcs = await Task.Run(() => Common.Network.GetWebStreamAsync(appUpdatechecker, Common.Network.GetUri("https://raw.githubusercontent.com/XyLe-GBP/ATRACTool-Reloaded/master/VERSIONINFO")));
                         using StreamReader hsr = new(hcs);
                         hv = await Task.Run(() => hsr.ReadToEndAsync());
-                        Common.Generic.GitHubLatestVersion = hv[8..].Replace("\n", "");
+                        Common.Generic.GitHubLatestVersion = ExtractVersionInfo(hv);
+                        DebugInfo($"[UpdateCheck] Latest version fetched. latest={Common.Generic.GitHubLatestVersion}");
 
                         FileVersionInfo ver = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
 
                         if (ver.FileVersion != null)
                         {
-                            switch (ver.FileVersion.ToString().CompareTo(hv[8..].Replace("\n", "")))
+                            switch (CompareVersions(ver.FileVersion, Common.Generic.GitHubLatestVersion))
                             {
                                 case -1:
-                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    DialogResult dr = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.UpdateConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                     if (dr == DialogResult.Yes)
                                     {
                                         using FormUpdateApplicationType fuat = new();
@@ -1490,7 +1586,7 @@ namespace ATRACTool_Reloaded
                                     }
                                     else
                                     {
-                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + hv[8..].Replace("\n", "") + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        DialogResult dr2 = MessageBox.Show(Localization.LatestCaption + Common.Generic.GitHubLatestVersion + "\n" + Localization.CurrentCaption + ver.FileVersion + "\n" + Localization.SiteOpenCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (dr2 == DialogResult.Yes)
                                         {
                                             Common.Utils.OpenURI("https://github.com/XyLe-GBP/ATRACTool-Reloaded/releases");
@@ -1504,13 +1600,14 @@ namespace ATRACTool_Reloaded
                                 case 0:
                                     break;
                                 case 1:
-                                    throw new Exception(hv[8..].Replace("\n", "").ToString() + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
+                                    throw new Exception(Common.Generic.GitHubLatestVersion + " < " + ver.FileVersion.ToString() + "\nあんたバカぁ？");
                             }
                             return;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        DebugWarn($"[UpdateCheck] Check failed. error={ex.Message}");
                         return;
                     }
                 }
@@ -1523,6 +1620,114 @@ namespace ATRACTool_Reloaded
 
         // ステータスバー
 
+        private void InitializeNus3BankEncodeMenu()
+        {
+            if (nus3bankToolStripMenuItem is not null)
+                return;
+
+            nus3bankToolStripMenuItem = new ToolStripMenuItem("NUS3BANK")
+            {
+                Name = "nus3bankToolStripMenuItem",
+                BackColor = Color.White,
+                ForeColor = Color.FromArgb(31, 35, 40)
+            };
+            nus3bankToolStripMenuItem.Click += NUS3BANKToolStripMenuItem_Click;
+
+            int insertIndex = toolStripDropDownButton_EF.DropDownItems.IndexOf(toolStripMenuItem3);
+            if (insertIndex < 0)
+                insertIndex = Math.Min(2, toolStripDropDownButton_EF.DropDownItems.Count);
+
+            toolStripDropDownButton_EF.DropDownItems.Insert(insertIndex, nus3bankToolStripMenuItem);
+            nus3bankToolStripMenuItem.Visible = false;
+            nus3bankToolStripMenuItem.Enabled = false;
+            aTRAC3ATRAC3ToolStripMenuItem.CheckedChanged += ExistingEncodeToolStripMenuItem_CheckedChanged;
+            aTRAC9ToolStripMenuItem.CheckedChanged += ExistingEncodeToolStripMenuItem_CheckedChanged;
+            walkmanToolStripMenuItem.CheckedChanged += ExistingEncodeToolStripMenuItem_CheckedChanged;
+        }
+
+        private bool ShouldShowNus3BankEncodeMenu()
+        {
+            return Generic.OpenFilePaths is not null && Generic.OpenFilePaths.Length > 1;
+        }
+
+        private void UpdateNus3BankEncodeMenuAvailability()
+        {
+            bool show = ShouldShowNus3BankEncodeMenu();
+            if (nus3bankToolStripMenuItem is not null)
+            {
+                nus3bankToolStripMenuItem.Visible = show;
+                nus3bankToolStripMenuItem.Enabled = show;
+            }
+
+            if (show)
+            {
+                RestoreConfiguredNus3BankEncodeSelection();
+                return;
+            }
+
+            if (Common.Generic.Nus3BankEncodeOutput || Utils.GetInt("ToolStrip", 65535) == 3 || nus3bankToolStripMenuItem?.Checked == true)
+            {
+                SetNus3BankEncodeOutput(false);
+                if (Generic.OpenFilePaths is not null && Generic.OpenFilePaths.Length == 1)
+                    SelectAtrac9EncodeMenuWithoutSaving();
+            }
+        }
+
+        private void RestoreConfiguredNus3BankEncodeSelection()
+        {
+            if (!ShouldShowNus3BankEncodeMenu() || Utils.GetInt("ToolStrip", 65535) != 3)
+                return;
+
+            Common.Generic.ATRACFlag = Common.Generic.Nus3BankEncodeCodecFlag;
+            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+            aTRAC9ToolStripMenuItem.Checked = false;
+            walkmanToolStripMenuItem.Checked = false;
+            SetNus3BankEncodeOutput(true);
+            toolStripDropDownButton_EF.Text = "NUS3BANK";
+            EncodeMethodIsATRAC(true);
+        }
+
+        private void SelectAtrac9EncodeMenuWithoutSaving()
+        {
+            Common.Generic.ATRACFlag = 1;
+            aTRAC3ATRAC3ToolStripMenuItem.Checked = false;
+            aTRAC9ToolStripMenuItem.Checked = true;
+            walkmanToolStripMenuItem.Checked = false;
+            toolStripDropDownButton_EF.Text = "ATRAC9";
+            EncodeMethodIsATRAC(true);
+        }
+        private void ExistingEncodeToolStripMenuItem_CheckedChanged(object? sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem { Checked: true })
+                SetNus3BankEncodeOutput(false);
+        }
+
+        private void SetNus3BankEncodeOutput(bool enabled)
+        {
+            Common.Generic.Nus3BankEncodeOutput = enabled;
+            if (!enabled)
+                Common.Generic.Nus3BankEncodeStreamSettings.Clear();
+
+            if (nus3bankToolStripMenuItem is not null && nus3bankToolStripMenuItem.Checked != enabled)
+                nus3bankToolStripMenuItem.Checked = enabled;
+        }
+
+        private void NUS3BANKToolStripMenuItem_Click(object? sender, EventArgs e)
+        {
+            if (!ShouldShowNus3BankEncodeMenu())
+            {
+                UpdateNus3BankEncodeMenuAvailability();
+                return;
+            }
+
+            ATRAC9ToolStripMenuItem_Click(sender ?? this, e);
+            Config.Entry["ToolStrip"].Value = "3";
+            Config.Save(xmlpath);
+            aTRAC9ToolStripMenuItem.Checked = false;
+            SetNus3BankEncodeOutput(true);
+            Common.Generic.Nus3BankEncodeCodecFlag = 1;
+            toolStripDropDownButton_EF.Text = "NUS3BANK";
+        }
         private void ATRAC3ATRAC3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Config.Entry["ToolStrip"].Value = "0";
@@ -1647,7 +1852,12 @@ namespace ATRACTool_Reloaded
             bool IsFasterATRAC = Utils.GetBool("FasterATRAC", false);
             bool IsPlayingATRAC = Utils.GetBool("PlaybackATRAC", false);
 
-            if (IsPlayingATRAC && Generic.IsATRAC && !IsFasterATRAC) // ATRAC再生が有効
+            if (Generic.IsPlaybackNus3Bank)
+            {
+                ActivateOrDeactivateLPC(false);
+            }
+
+            if (IsPlayingATRAC && Generic.IsATRAC && !Generic.IsNus3Bank && !IsFasterATRAC) // ATRAC再生が有効
             {
                 if (manual)
                 {
@@ -1837,7 +2047,7 @@ namespace ATRACTool_Reloaded
                     }
                 }
             }
-            else if (IsFasterATRAC && IsPlayingATRAC && Generic.IsATRAC)
+            else if (IsFasterATRAC && IsPlayingATRAC && Generic.IsATRAC && !Generic.IsNus3Bank)
             {
                 Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
             }
@@ -1847,9 +2057,39 @@ namespace ATRACTool_Reloaded
             }
 
             toolStripStatusLabel_Status.ForeColor = Color.FromArgb(0, 0, 0, 0);
+            Generic.IsPlaybackNus3Bank = false;
+            Generic.IsATRACLooped = false;
+            Generic.Nus3BankDecodeToFolder = false;
+            SetNus3BankEncodeOutput(false);
+            Generic.Nus3BankEncodeCodecFlag = 1;
+            Generic.Nus3BankEncodeStreamSettings.Clear();
+            Generic.Nus3BankPlaybackTempPaths.Clear();
+            Generic.Nus3BankPlaybackOriginPaths = null!;
+            Generic.Nus3BankOutputCount = 0;
+
+            if (HasNus3BankInputs())
+            {
+                int nus3OutputCount = GetNus3BankAtracToneCount();
+                if (nus3OutputCount <= 0)
+                {
+                    MessageBox.Show(this, "No decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles were found in the selected NUS3/NUB2 file(s).", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ResetStatus();
+                    return;
+                }
+
+                if (!PrepareNus3BankDecodeFolder(manual, nus3OutputCount))
+                {
+                    ResetStatus();
+                    return;
+                }
+            }
+
             toolStripStatusLabel_Status.Text = "Decoding...";
 
-            if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
+            if (Common.Generic.Nus3BankDecodeToFolder)
+            {
+            }
+            else if (Common.Generic.OpenFilePaths.Length == 1) // 単一ファイル
             {
                 switch (manual)
                 {
@@ -2036,7 +2276,7 @@ namespace ATRACTool_Reloaded
 
             }
 
-            Common.Generic.ProcessFlag = 0;
+            Common.Generic.ProcessFlag = Constants.ProcessType.Decode;
 
             Form formProgress = new FormProgress();
             formProgress.ShowDialog();
@@ -2052,6 +2292,26 @@ namespace ATRACTool_Reloaded
             }
             else
             {
+                if (Common.Generic.Nus3BankDecodeToFolder)
+                {
+                    Common.Generic.cts.Dispose();
+                    int moved = MoveTempWaveOutputsToFolder(Common.Generic.FolderSavePath);
+                    Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
+
+                    if (moved > 0)
+                    {
+                        MessageBox.Show(this, string.Format(Localization.DecodeSuccessCaption + "\nSuccess: {0} Files", moved), Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Utils.ShowFolder(Common.Generic.FolderSavePath, Utils.GetBool("ShowFolder", true));
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, Localization.DecodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    ResetStatus();
+                    return;
+                }
+
                 if (Common.Generic.OpenFilePaths.Length == 1) // 単一
                 {
                     FileInfo fi = new(Common.Generic.SavePath);
@@ -2229,6 +2489,14 @@ namespace ATRACTool_Reloaded
                 true => true,
             };
 
+            if (Common.Generic.Nus3BankEncodeOutput && Common.Generic.OpenFilePaths.Length > 1)
+            {
+                if (!ShowNus3BankMultiEncodeSettings())
+                {
+                    return;
+                }
+            }
+
             if (Generic.ATRACFlag == 0 || Generic.ATRACFlag == 1)
             {
                 if (Utils.CheckATRACFormatError(FormLPC.FormLPCInstance.SampleRate))
@@ -2258,13 +2526,16 @@ namespace ATRACTool_Reloaded
                         Generic.ATRACEncodeSourceTempPath = Directory.GetCurrentDirectory() + @"\_ATRACEnc" + ct;
 
                         List<string> list = [];
-                        foreach (string path in Generic.pATRACOpenFilePaths)
+                        for (int i = 0; i < Generic.pATRACOpenFilePaths.Length; i++)
                         {
+                            string path = Generic.pATRACOpenFilePaths[i];
                             FileInfo fi = new(path);
-                            File.Move(path, Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav"));
-                            if (File.Exists(Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav")))
+                            string workPath = Path.Combine(Generic.ATRACEncodeSourceTempPath, Path.ChangeExtension(fi.Name, ".wav"));
+                            File.Move(path, workPath);
+                            if (File.Exists(workPath))
                             {
-                                list.Add(Generic.ATRACEncodeSourceTempPath + @"\" + fi.Name.Replace(".ata", ".wav"));
+                                list.Add(workPath);
+                                SyncAtracEncodeSourceWorkPath(path, workPath, i);
                             }
                             else
                             {
@@ -2295,7 +2566,7 @@ namespace ATRACTool_Reloaded
                                         {
                                             FileName = Common.Utils.SFDRandomNumber(),
                                             InitialDirectory = "",
-                                            Filter = Localization.AT3Filter,
+                                            Filter = AddNus3BankSaveFilter(Localization.AT3Filter, includeNub2: true),
                                             FilterIndex = 1,
                                             Title = Localization.SaveDialogTitle,
                                             OverwritePrompt = true,
@@ -2303,7 +2574,7 @@ namespace ATRACTool_Reloaded
                                         };
                                         if (sfd.ShowDialog() == DialogResult.OK)
                                         {
-                                            Common.Generic.SavePath = sfd.FileName;
+                                            Common.Generic.SavePath = EnsureAtracSaveExtension(sfd.FileName, sfd.FilterIndex, ".at3");
                                             Common.Generic.ProgressMax = 1;
                                         }
                                         else // Cancelled
@@ -2319,15 +2590,15 @@ namespace ATRACTool_Reloaded
                                         {
                                             FileName = Common.Utils.SFDRandomNumber(),
                                             InitialDirectory = "",
-                                            Filter = Localization.AT9Filter,
-                                            FilterIndex = 1,
+                                            Filter = AddNus3BankSaveFilter(Localization.AT9Filter),
+                                            FilterIndex = Common.Generic.Nus3BankEncodeOutput ? 2 : 1,
                                             Title = Localization.SaveDialogTitle,
                                             OverwritePrompt = true,
                                             RestoreDirectory = true
                                         };
                                         if (sfd.ShowDialog() == DialogResult.OK)
                                         {
-                                            Common.Generic.SavePath = sfd.FileName;
+                                            Common.Generic.SavePath = EnsureAtracSaveExtension(sfd.FileName, sfd.FilterIndex, ".at9");
                                             Common.Generic.ProgressMax = 1;
                                         }
                                         else // Cancelled
@@ -2427,10 +2698,13 @@ namespace ATRACTool_Reloaded
                                                 Generic.ProgressMax = 1;
                                                 break;
                                             case 1:
-                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9");
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9";
-                                                Generic.ProgressMax = 1;
-                                                break;
+                                                {
+                                                    string ext = Generic.Nus3BankEncodeOutput ? ".nus3bank" : ".at9";
+                                                    Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ext);
+                                                    Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + suffix + @"\" + fi.Name.Replace(fi.Extension, "") + ext;
+                                                    Generic.ProgressMax = 1;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -2444,10 +2718,13 @@ namespace ATRACTool_Reloaded
                                                 Generic.ProgressMax = 1;
                                                 break;
                                             case 1:
-                                                Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9");
-                                                Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ".at9";
-                                                Generic.ProgressMax = 1;
-                                                break;
+                                                {
+                                                    string ext = Generic.Nus3BankEncodeOutput ? ".nus3bank" : ".at9";
+                                                    Utils.CheckExistsFile(Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ext);
+                                                    Generic.SavePath = Config.Entry["Save_Isfolder"].Value + @"\" + fi.Name.Replace(fi.Extension, "") + ext;
+                                                    Generic.ProgressMax = 1;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -2463,7 +2740,15 @@ namespace ATRACTool_Reloaded
                             ResetStatus();
                             return;
                         }
-                        if (manual != true) // 通常保存
+                        if (Common.Generic.Nus3BankEncodeOutput)
+                        {
+                            if (!PrepareNus3BankMultiEncodeSavePath(manual))
+                            {
+                                ResetStatus();
+                                return;
+                            }
+                        }
+                        else if (manual != true) // 通常保存
                         {
                             FolderBrowserDialog fbd = new()
                             {
@@ -2673,6 +2958,47 @@ namespace ATRACTool_Reloaded
                         else // 複数
                         {
                             Common.Generic.cts.Dispose();
+
+                            if (Common.Generic.Nus3BankEncodeOutput)
+                            {
+                                string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp");
+                                FileInfo fi = new(Common.Generic.SavePath);
+                                string tempOut = Path.Combine(tempDir, fi.Name);
+
+                                try
+                                {
+                                    if (!File.Exists(tempOut))
+                                        throw new FileNotFoundException(tempOut);
+
+                                    string? destDir = Path.GetDirectoryName(Common.Generic.SavePath);
+                                    if (!string.IsNullOrWhiteSpace(destDir) && !Directory.Exists(destDir))
+                                        Directory.CreateDirectory(destDir);
+
+                                    if (File.Exists(Common.Generic.SavePath))
+                                        File.Delete(Common.Generic.SavePath);
+
+                                    File.Move(tempOut, Common.Generic.SavePath);
+                                    if (File.Exists(Common.Generic.SavePath) && new FileInfo(Common.Generic.SavePath).Length > 0)
+                                    {
+                                        Common.Utils.DeleteDirectoryFiles(tempDir);
+                                        MessageBox.Show(this, Localization.EncodeSuccessCaption, Localization.MSGBoxSuccessCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        Utils.ShowFolder(Common.Generic.SavePath, Utils.GetBool("ShowFolder", true));
+                                        ResetStatus();
+                                        return;
+                                    }
+
+                                    if (File.Exists(Common.Generic.SavePath))
+                                        File.Delete(Common.Generic.SavePath);
+                                }
+                                catch
+                                {
+                                }
+
+                                Common.Utils.DeleteDirectoryFiles(tempDir);
+                                MessageBox.Show(this, Localization.EncodeErrorCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                ResetStatus();
+                                return;
+                            }
 
                             if (Utils.GetBool("Save_NestFolderSource", false) && Generic.IsLoadFolder) // ネスト保存
                             {
@@ -2891,7 +3217,7 @@ namespace ATRACTool_Reloaded
             {
                 MessageBox.Show(this, "The configuration file is corrupt. Delete the configuration file and restart the application.", Localization.MSGBoxWarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 File.Delete(Common.xmlpath);
-                Application.Restart();
+                Program.RestartCurrentApplication();
                 return;
             }
 
@@ -3016,9 +3342,605 @@ namespace ATRACTool_Reloaded
         /// <summary>
         /// ファイルを閉じたときにUIや変数をリセットする
         /// </summary>
+        private static bool IsAtracInputExtension(string extension)
+        {
+            string ext = (extension ?? string.Empty).ToUpperInvariant();
+            return ext == ".AT3" || ext == ".AT9" || ext == ".NUS3BANK" || ext == ".NUB2";
+        }
+
+        private static bool HasNus3BankInputs()
+        {
+            return Generic.OpenFilePaths != null && Generic.OpenFilePaths.Any(Nus3BankFile.HasNus3BankExtension);
+        }
+
+        private static int GetNus3BankAtracToneCount()
+        {
+            if (Generic.OpenFilePaths == null)
+                return 0;
+
+            int count = 0;
+            foreach (string path in Generic.OpenFilePaths.Where(Nus3BankFile.HasNus3BankExtension))
+            {
+                try
+                {
+                    using Nus3BankFile bank = Nus3BankFile.Load(path);
+                    count += bank.DecodableWaveToneCount;
+                }
+                catch (Exception ex)
+                {
+                    DebugWarn("NUS3/NUB2 parse failed: " + path + " / " + ex.Message);
+                }
+            }
+
+            return count;
+        }
+
+        private void ApplyNus3BankLoopStateToUi()
+        {
+            List<(int Start, int End, bool IsLoopOk, int SampleRate)> loopStates = ReadNus3BankLoopStates();
+            int length = Math.Max(loopStates.Count, 1);
+
+            Generic.MultipleLoopStarts = new int[length];
+            Generic.MultipleLoopEnds = new int[length];
+            Generic.MultipleFilesLoopOKFlags = new bool[length];
+            Generic.ATRACMultiMetadataBuffer = new int[length, 3];
+
+            for (int i = 0; i < loopStates.Count; i++)
+            {
+                var state = loopStates[i];
+                Generic.MultipleLoopStarts[i] = state.Start;
+                Generic.MultipleLoopEnds[i] = state.End;
+                Generic.MultipleFilesLoopOKFlags[i] = state.IsLoopOk;
+                Generic.ATRACMultiMetadataBuffer[i, 0] = state.Start;
+                Generic.ATRACMultiMetadataBuffer[i, 1] = state.End;
+                Generic.ATRACMultiMetadataBuffer[i, 2] = state.SampleRate;
+            }
+
+            if (loopStates.Count > 0 && loopStates[0].IsLoopOk)
+            {
+                textBox_LoopStart.Text = loopStates[0].Start.ToString();
+                textBox_LoopEnd.Text = loopStates[0].End.ToString();
+            }
+            else
+            {
+                textBox_LoopStart.Text = string.Empty;
+                textBox_LoopEnd.Text = string.Empty;
+            }
+        }
+
+        private static List<(int Start, int End, bool IsLoopOk, int SampleRate)> ReadNus3BankLoopStates()
+        {
+            var states = new List<(int Start, int End, bool IsLoopOk, int SampleRate)>();
+            if (Generic.OpenFilePaths == null)
+                return states;
+
+            bool isAtrac3Ps3 = Utils.GetInt("ATRAC3_Console", 0) == (int)Constants.ATRAC3ConsoleType.PS3;
+            foreach (string path in Generic.OpenFilePaths.Where(Nus3BankFile.HasNus3BankExtension))
+            {
+                try
+                {
+                    using Nus3BankFile bank = Nus3BankFile.Load(path);
+                    foreach (Nus3Tone tone in bank.DecodableWaveTones)
+                    {
+                        if (bank.TryReadToneLoopPoints(tone, isAtrac3Ps3, out int start, out int end, out int sampleRate))
+                            states.Add((start, end, true, sampleRate));
+                        else
+                            states.Add((0, 0, false, 0));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugWarn("NUS3/NUB2 loop parse failed: " + path + " / " + ex.Message);
+                }
+            }
+
+            return states;
+        }
+
+        private static string AddNus3BankOpenFilter(string filter)
+        {
+            const string nus3BankFilterName = "NUS3BANK / NUB2 Sound Bank (*.nus3bank;*.nub2)";
+            const string nus3BankPattern = "*.nus3bank;*.nub2;";
+
+            if (filter.Contains("*.nus3bank", StringComparison.OrdinalIgnoreCase) &&
+                filter.Contains("*.nub2", StringComparison.OrdinalIgnoreCase))
+            {
+                return filter;
+            }
+
+            string[] parts = filter.Split('|');
+            if (parts.Length < 2 || parts.Length % 2 != 0)
+                return filter + "|" + nus3BankFilterName + "|" + nus3BankPattern;
+
+            List<string> rebuilt = new(parts.Length + 2);
+            int lastPairIndex = parts.Length - 2;
+
+            for (int i = 0; i < parts.Length; i += 2)
+            {
+                if (i == lastPairIndex)
+                {
+                    rebuilt.Add(nus3BankFilterName);
+                    rebuilt.Add(nus3BankPattern);
+                    rebuilt.Add(parts[i]);
+                    rebuilt.Add(AppendFilterPattern(AppendFilterPattern(parts[i + 1], "*.nus3bank"), "*.nub2"));
+                }
+                else
+                {
+                    rebuilt.Add(parts[i]);
+                    rebuilt.Add(parts[i + 1]);
+                }
+            }
+
+            return string.Join("|", rebuilt);
+        }
+
+        private static string AppendFilterPattern(string pattern, string extensionPattern)
+        {
+            if (pattern.Contains(extensionPattern, StringComparison.OrdinalIgnoreCase))
+                return pattern;
+
+            string suffix = pattern.EndsWith(';') ? string.Empty : ";";
+            return pattern + suffix + extensionPattern;
+        }
+
+        private static int GetLastFilterIndex(string filter)
+        {
+            return Math.Max(1, filter.Split('|').Length / 2);
+        }
+
+        private static string AddNus3BankSaveFilter(string filter, bool includeNub2 = false)
+        {
+            bool hasNus3Bank = filter.Contains("*.nus3bank", StringComparison.OrdinalIgnoreCase);
+            bool hasNub2 = filter.Contains("*.nub2", StringComparison.OrdinalIgnoreCase);
+
+            if (hasNus3Bank && (!includeNub2 || hasNub2))
+                return filter;
+
+            if (!hasNus3Bank)
+                filter += "|NUS3BANK Sound Bank (*.nus3bank)|*.nus3bank;";
+
+            if (includeNub2 && !hasNub2)
+                filter += "|NUB2 Sound Bank (*.nub2)|*.nub2;";
+
+            return filter;
+        }
+        private static string EnsureAtracSaveExtension(string fileName, int filterIndex, string atracExtension)
+        {
+            if (!string.IsNullOrWhiteSpace(Path.GetExtension(fileName)))
+                return fileName;
+
+            return filterIndex switch
+            {
+                2 => fileName + ".nus3bank",
+                3 => fileName + ".nub2",
+                _ => fileName + atracExtension,
+            };
+        }
+        private static void SyncAtracEncodeSourceWorkPath(string temporaryAtracPath, string workPath, int fallbackIndex)
+        {
+            if (Generic.InputJobs.Count == 0)
+                return;
+
+            string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp");
+            for (int i = 0; i < Generic.InputJobs.Count; i++)
+            {
+                string expectedPath = Utils.MakeTempUniquePath(tempDir, Generic.InputJobs[i].OriginPath, i, ".ata");
+                if (string.Equals(expectedPath, temporaryAtracPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    Generic.InputJobs[i].WorkPath = workPath;
+                    return;
+                }
+            }
+
+            if (fallbackIndex >= 0 && fallbackIndex < Generic.InputJobs.Count)
+                Generic.InputJobs[fallbackIndex].WorkPath = workPath;
+        }
+
+        private bool ShowNus3BankMultiEncodeSettings()
+        {
+            if (Generic.OpenFilePaths is null || Generic.OpenFilePaths.Length <= 1)
+                return false;
+
+            if (Generic.InputJobs.Count != Generic.OpenFilePaths.Length)
+            {
+                string[] origins = Generic.OriginOpenFilePaths is not null && Generic.OriginOpenFilePaths.Length == Generic.OpenFilePaths.Length
+                    ? Generic.OriginOpenFilePaths
+                    : Generic.OpenFilePaths;
+                Generic.BuildInputJobsFromPaths(Generic.OpenFilePaths, origins);
+            }
+
+            using var form = new FormNus3BankMultiEncode(BuildNus3BankMultiEncodeStreamSettings(), Generic.Nus3BankEncodeCodecFlag);
+            DialogResult dialogResult = form.ShowDialog(this);
+            IReadOnlyList<Nus3BankEncodeStreamSetting> currentSettings = dialogResult == DialogResult.OK
+                ? form.StreamSettings
+                : form.GetCurrentStreamSettings();
+            ApplyNus3BankMultiEncodeLoopSettings(currentSettings);
+
+            if (dialogResult != DialogResult.OK)
+                return false;
+
+            Generic.Nus3BankEncodeCodecFlag = form.SelectedAtracFlag;
+            Generic.Nus3BankEncodeStreamSettings = form.StreamSettings.ToList();
+            Generic.ATRACFlag = form.SelectedAtracFlag;
+            return true;
+        }
+
+        private void ApplyNus3BankMultiEncodeLoopSettings(IReadOnlyList<Nus3BankEncodeStreamSetting> settings)
+        {
+            foreach (Nus3BankEncodeStreamSetting setting in settings)
+                LoopPointController.UpdateLoopPointsBySourceIndex(setting.SourceIndex, setting.LoopStart, setting.LoopEnd);
+
+            if (FLPC is not null && !FLPC.IsDisposed)
+            {
+                FLPC.RefreshLoopStateFromGeneric();
+                return;
+            }
+
+            if (settings.Count == 0)
+                return;
+
+            Nus3BankEncodeStreamSetting first = settings[0];
+            textBox_LoopStart.Text = first.LoopStart?.ToString() ?? string.Empty;
+            textBox_LoopEnd.Text = first.LoopEnd?.ToString() ?? string.Empty;
+        }
+
+        private static List<Nus3BankEncodeStreamSetting> BuildNus3BankMultiEncodeStreamSettings()
+        {
+            var settings = new List<Nus3BankEncodeStreamSetting>();
+            for (int i = 0; i < Generic.InputJobs.Count; i++)
+            {
+                InputJob job = Generic.InputJobs[i];
+                string sourcePath = string.IsNullOrWhiteSpace(job.OriginPath) ? job.WorkPath : job.OriginPath;
+                string streamName = Path.GetFileNameWithoutExtension(sourcePath);
+                if (string.IsNullOrWhiteSpace(streamName))
+                    streamName = Path.GetFileNameWithoutExtension(job.DisplayName);
+                if (string.IsNullOrWhiteSpace(streamName))
+                    streamName = $"stream_{i:D4}";
+
+                (int? loopStart, int? loopEnd) = GetNus3BankMultiEncodeLoopInfo(i);
+                settings.Add(new Nus3BankEncodeStreamSetting
+                {
+                    SourceIndex = i,
+                    StreamName = streamName,
+                    LoopStart = loopStart,
+                    LoopEnd = loopEnd,
+                });
+            }
+
+            return settings;
+        }
+
+        private static (int? Start, int? End) GetNus3BankMultiEncodeLoopInfo(int index)
+        {
+            if (Generic.MultipleFilesLoopOKFlags is not null &&
+                index < Generic.MultipleFilesLoopOKFlags.Length &&
+                Generic.MultipleFilesLoopOKFlags[index] &&
+                index < Generic.MultipleLoopStarts.Length &&
+                index < Generic.MultipleLoopEnds.Length &&
+                Generic.MultipleLoopEnds[index] > Generic.MultipleLoopStarts[index])
+            {
+                return (Generic.MultipleLoopStarts[index], Generic.MultipleLoopEnds[index]);
+            }
+
+            if (Generic.ATRACMultiMetadataBuffer is not null &&
+                Generic.ATRACMultiMetadataBuffer.GetLength(0) > index &&
+                Generic.ATRACMultiMetadataBuffer.GetLength(1) >= 2 &&
+                Generic.ATRACMultiMetadataBuffer[index, 0] != 0 &&
+                Generic.ATRACMultiMetadataBuffer[index, 1] != 0 &&
+                Generic.ATRACMultiMetadataBuffer[index, 1] > Generic.ATRACMultiMetadataBuffer[index, 0])
+            {
+                return (Generic.ATRACMultiMetadataBuffer[index, 0], Generic.ATRACMultiMetadataBuffer[index, 1]);
+            }
+
+            return (null, null);
+        }
+
+        private bool PrepareNus3BankMultiEncodeSavePath(bool manual)
+        {
+            string defaultName = BuildNus3BankMultiEncodeDefaultName();
+            if (manual)
+            {
+                string folder = Config.Entry["Save_Isfolder"].Value;
+                if (string.IsNullOrWhiteSpace(folder))
+                    return false;
+
+                if (bool.Parse(Config.Entry["Save_IsSubfolder"].Value))
+                {
+                    string suffix = Config.Entry["Save_Subfolder_Suffix"].Value;
+                    if (!string.IsNullOrWhiteSpace(suffix))
+                        folder = Path.Combine(folder, suffix);
+                }
+
+                Directory.CreateDirectory(folder);
+                string savePath = Path.Combine(folder, defaultName + ".nus3bank");
+                Utils.CheckExistsFile(savePath);
+                Generic.SavePath = savePath;
+                Generic.ProgressMax = Generic.OpenFilePaths.Length;
+                return true;
+            }
+
+            bool includeNub2 = Generic.Nus3BankEncodeCodecFlag == 0 || Generic.ATRACFlag == 0;
+            string filter = includeNub2
+                ? "NUS3BANK Sound Bank (*.nus3bank)|*.nus3bank;|NUB2 Sound Bank (*.nub2)|*.nub2;"
+                : "NUS3BANK Sound Bank (*.nus3bank)|*.nus3bank;";
+
+            SaveFileDialog sfd = new()
+            {
+                FileName = defaultName,
+                InitialDirectory = "",
+                Filter = filter,
+                DefaultExt = "nus3bank",
+                AddExtension = true,
+                FilterIndex = 1,
+                Title = Localization.SaveDialogTitle,
+                OverwritePrompt = true,
+                RestoreDirectory = true
+            };
+
+            using (sfd)
+            {
+                if (sfd.ShowDialog(this) != DialogResult.OK)
+                    return false;
+
+                Generic.SavePath = EnsureNus3BankSaveExtension(sfd.FileName, sfd.FilterIndex, includeNub2);
+                if (includeNub2 && Nus3BankFile.HasNub2Extension(Generic.SavePath))
+                {
+                    Generic.Nus3BankEncodeCodecFlag = 0;
+                    Generic.ATRACFlag = 0;
+                }
+                Generic.ProgressMax = Generic.OpenFilePaths.Length;
+                return true;
+            }
+        }
+
+        private static string BuildNus3BankMultiEncodeDefaultName()
+        {
+            string name = string.Empty;
+
+            if (Generic.IsLoadFolder && !string.IsNullOrWhiteSpace(Generic.LoadFolderRootPath))
+                name = Path.GetFileName(Generic.LoadFolderRootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+
+            if (string.IsNullOrWhiteSpace(name) && Generic.InputJobs.Count > 0)
+                name = Path.GetFileNameWithoutExtension(Generic.InputJobs[0].OriginPath) + "_multi";
+
+            if (string.IsNullOrWhiteSpace(name))
+                name = "NUS3BANK";
+
+            char[] invalid = Path.GetInvalidFileNameChars();
+            string sanitized = new(name.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+            return string.IsNullOrWhiteSpace(sanitized) ? "NUS3BANK" : sanitized.Trim();
+        }
+
+        private static string EnsureNus3BankSaveExtension(string fileName, int filterIndex = 1, bool includeNub2 = true)
+        {
+            if (Nus3BankFile.HasNub2Extension(fileName))
+                return includeNub2 ? fileName : Path.ChangeExtension(fileName, ".nus3bank");
+
+            if (string.Equals(Path.GetExtension(fileName), ".nus3bank", StringComparison.OrdinalIgnoreCase))
+                return fileName;
+
+            return Path.ChangeExtension(fileName, includeNub2 && filterIndex == 2 ? ".nub2" : ".nus3bank");
+        }
+        private void PrepareNus3BankFormat(string path)
+        {
+            Config.Load(xmlpath);
+
+            Generic.ReadedATRACFlag = Nus3BankFile.GetPrimaryAtracCodec(path) switch
+            {
+                Nus3SubfileCodec.Atrac3 => 0,
+                Nus3SubfileCodec.Atrac9 => 1,
+                _ => -1,
+            };
+
+            Generic.IsWave = false;
+            Generic.IsATRAC = false;
+            Generic.IsNus3Bank = true;
+            Generic.IsATW = false;
+            Generic.IsPlaybackNus3Bank = false;
+            Generic.IsATRACLooped = false;
+            Generic.Nus3BankDecodeToFolder = false;
+            Generic.Nus3BankPlaybackTempPaths.Clear();
+            Generic.Nus3BankPlaybackOriginPaths = null!;
+            SetNus3BankEncodeOutput(false);
+
+            panel_Main.BackgroundImage = Resources.SIE;
+            label_Formattxt.Text = Nus3BankFile.HasNub2Extension(path) ? "NUB2" : "NUS3BANK";
+            toolStripDropDownButton_EF.Enabled = false;
+            toolStripDropDownButton_EF.Visible = false;
+            toolStripStatusLabel_EncMethod.Enabled = false;
+            toolStripStatusLabel_EncMethod.Visible = false;
+            button_Decode.Enabled = true;
+            button_Encode.Enabled = false;
+            loopPointCreationToolStripMenuItem.Enabled = false;
+            groupBox_Loop.Enabled = false;
+            textBox_LoopStart.Text = string.Empty;
+            textBox_LoopEnd.Text = string.Empty;
+            ApplyNus3BankLoopStateToUi();
+
+            if (!Utils.GetBool("PlaybackNus3Bank", true))
+                return;
+
+            if (PlaybackNus3BankConvert())
+            {
+                Generic.IsPlaybackNus3Bank = true;
+                ActivateOrDeactivateLPC(true);
+                CheckLPCException();
+            }
+            else
+            {
+                Generic.IsPlaybackNus3Bank = false;
+                Generic.Nus3BankDecodeToFolder = false;
+                Generic.Nus3BankPlaybackTempPaths.Clear();
+                Generic.Nus3BankPlaybackOriginPaths = null!;
+            }
+        }
+
+        private bool PlaybackNus3BankConvert()
+        {
+            string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp");
+
+            Common.Utils.DeleteDirectoryFiles(tempDir);
+            Generic.Nus3BankPlaybackTempPaths.Clear();
+            Generic.Nus3BankPlaybackOriginPaths = null!;
+            Generic.Nus3BankOutputCount = 0;
+
+            int outputCount = GetNus3BankAtracToneCount();
+            if (outputCount <= 0)
+            {
+                DebugWarn("NUS3/NUB2 playback preview skipped: no decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles were found.");
+                return false;
+            }
+
+            Generic.Nus3BankDecodeToFolder = true;
+            Generic.IsPlaybackNus3Bank = true;
+            Generic.ProgressMax = outputCount;
+            Generic.ProcessFlag = Constants.ProcessType.Decode;
+
+            try
+            {
+                using Form formProgress = new FormProgress();
+                formProgress.ShowDialog();
+            }
+            finally
+            {
+                Generic.Nus3BankDecodeToFolder = false;
+            }
+
+            if (Generic.Result == false || Generic.cts.IsCancellationRequested)
+            {
+                bool cancelled = Generic.cts.IsCancellationRequested;
+                Generic.cts.Dispose();
+                Generic.IsPlaybackNus3Bank = false;
+                Common.Utils.DeleteDirectoryFiles(tempDir);
+
+                if (cancelled)
+                {
+                    DebugWarn("NUS3/NUB2 playback preview cancelled.");
+                    MessageBox.Show(this, Localization.CancelledCaption, Localization.MSGBoxAbortedCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ResetStatus();
+                }
+                else
+                {
+                    DebugWarn("NUS3/NUB2 playback preview decode failed.");
+                }
+
+                return false;
+            }
+
+            Generic.cts.Dispose();
+
+            string[] previewPaths = Generic.Nus3BankPlaybackTempPaths
+                .Where(File.Exists)
+                .ToArray();
+
+            if (previewPaths.Length == 0)
+            {
+                Generic.IsPlaybackNus3Bank = false;
+                Common.Utils.DeleteDirectoryFiles(tempDir);
+                DebugWarn("NUS3BANK playback preview produced no temporary WAV files.");
+                return false;
+            }
+
+            Generic.pATRACOpenFilePaths = previewPaths;
+            Generic.Nus3BankPlaybackOriginPaths = previewPaths;
+            Generic.ProgressMax = previewPaths.Length;
+            return true;
+        }
+
+        private bool PrepareNus3BankDecodeFolder(bool manual, int outputCount)
+        {
+            string folderPath;
+            if (manual)
+            {
+                string suffix = string.Empty;
+                if (bool.Parse(Config.Entry["Save_IsSubfolder"].Value))
+                    suffix = Config.Entry["Save_Subfolder_Suffix"].Value ?? string.Empty;
+
+                folderPath = string.IsNullOrWhiteSpace(suffix)
+                    ? Config.Entry["Save_Isfolder"].Value
+                    : Path.Combine(Config.Entry["Save_Isfolder"].Value, suffix);
+            }
+            else
+            {
+                using FolderBrowserDialog fbd = new()
+                {
+                    Description = Localization.FolderSaveDialogTitle,
+                    RootFolder = Environment.SpecialFolder.MyDocuments,
+                    SelectedPath = @"",
+                };
+
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return false;
+
+                folderPath = fbd.SelectedPath;
+            }
+
+            Directory.CreateDirectory(folderPath);
+            if (Directory.GetFiles(folderPath, "*", SearchOption.AllDirectories).Length != 0 ||
+                Directory.GetDirectories(folderPath, "*", SearchOption.AllDirectories).Length != 0)
+            {
+                DialogResult dr = MessageBox.Show(this, Localization.AlreadyExistsCaption, Localization.MSGBoxWarningCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dr != DialogResult.Yes)
+                    return false;
+
+                Common.Utils.TryDeleteDirectoryContents(folderPath);
+            }
+
+            Generic.FolderSavePath = folderPath;
+            Generic.ProgressMax = Math.Max(outputCount, 1);
+            Generic.Nus3BankDecodeToFolder = true;
+            return true;
+        }
+
+        private static int MoveTempWaveOutputsToFolder(string folderPath)
+        {
+            string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp");
+            if (!Directory.Exists(tempDir))
+                return 0;
+
+            Directory.CreateDirectory(folderPath);
+            int moved = 0;
+            foreach (string tempFile in Directory.GetFiles(tempDir, "*.wav", SearchOption.TopDirectoryOnly))
+            {
+                string dest = Common.Utils.MakeNonCollidingPath(Path.Combine(folderPath, Path.GetFileName(tempFile)));
+                File.Move(tempFile, dest);
+                if (File.Exists(dest) && new FileInfo(dest).Length > 0)
+                    moved++;
+            }
+
+            return moved;
+        }
+
+        private void CloseLpcPanelForCleanup()
+        {
+            try
+            {
+                if (FLPC is not null && !FLPC.IsDisposed)
+                {
+                    if (FLPC.Visible)
+                    {
+                        FLPC.Close();
+                    }
+
+                    FLPC.Dispose();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            finally
+            {
+                FLPC = null;
+            }
+        }
+
         private void ResetStatus()
         {
             AllowDrop = true;
+            CloseLpcPanelForCleanup();
             if (Generic.IsATWCancelled)
             {
                 Utils.ATWCheck(Generic.IsATW, true);
@@ -3030,6 +3952,15 @@ namespace ATRACTool_Reloaded
             }
             Generic.IsWave = false;
             Generic.IsATRAC = false;
+            Generic.IsNus3Bank = false;
+            Generic.IsPlaybackNus3Bank = false;
+            Generic.Nus3BankDecodeToFolder = false;
+            SetNus3BankEncodeOutput(false);
+            Generic.Nus3BankEncodeCodecFlag = 1;
+            Generic.Nus3BankEncodeStreamSettings.Clear();
+            Generic.Nus3BankPlaybackTempPaths.Clear();
+            Generic.Nus3BankPlaybackOriginPaths = null!;
+            Generic.Nus3BankOutputCount = 0;
             Generic.IsATRACLooped = false;
             Generic.ReadedATRACFlag = -1;
 
@@ -3066,6 +3997,11 @@ namespace ATRACTool_Reloaded
             label_Formattxt.Visible = false;
             toolStripDropDownButton_EF.Enabled = false;
             toolStripDropDownButton_EF.Visible = false;
+            if (nus3bankToolStripMenuItem is not null)
+            {
+                nus3bankToolStripMenuItem.Visible = false;
+                nus3bankToolStripMenuItem.Enabled = false;
+            }
             toolStripStatusLabel_EncMethod.Enabled = false;
             toolStripStatusLabel_EncMethod.Visible = false;
             loopPointCreationToolStripMenuItem.Enabled = false;
@@ -3094,6 +4030,7 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void AudioToWAVEToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string openFilter = AddNus3BankOpenFilter(Localization.Filters);
             OpenFileDialog ofd = new()
             {
                 FileName = "",
@@ -3391,6 +4328,7 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void WAVEToAudioToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string openFilter = AddNus3BankOpenFilter(Localization.Filters);
             OpenFileDialog ofd = new()
             {
                 FileName = "",
@@ -3564,12 +4502,13 @@ namespace ATRACTool_Reloaded
         /// <param name="e"></param>
         private void FilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string openFilter = AddNus3BankOpenFilter(Localization.Filters);
             OpenFileDialog ofd = new()
             {
                 FileName = "",
                 InitialDirectory = "",
-                Filter = Localization.Filters,
-                FilterIndex = 12,
+                Filter = openFilter,
+                FilterIndex = GetLastFilterIndex(openFilter),
                 Title = Localization.OpenDialogTitle,
                 Multiselect = true,
                 RestoreDirectory = true
@@ -3661,6 +4600,10 @@ namespace ATRACTool_Reloaded
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
+                            break;
                     }
 
                     return;
@@ -3697,7 +4640,7 @@ namespace ATRACTool_Reloaded
 
                         if (count != 0)
                         {
-                            if (Ft == ".AT3" || Ft == ".AT9")
+                            if (IsAtracInputExtension(Ft))
                             {
                                 if (Ft != fi.Extension.ToUpper())
                                 {
@@ -3715,7 +4658,7 @@ namespace ATRACTool_Reloaded
                             }
                             else
                             {
-                                if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                                if (IsAtracInputExtension(fi.Extension))
                                 {
                                     MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     closeFileCToolStripMenuItem.Enabled = false;
@@ -3776,7 +4719,7 @@ namespace ATRACTool_Reloaded
                                 count++;
                                 continue;
                             }
-                            else if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                            else if (IsAtracInputExtension(fi.Extension))
                             {
                                 Ft = fi.Extension.ToUpper();
                             }
@@ -3822,6 +4765,10 @@ namespace ATRACTool_Reloaded
                             Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
+                            break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
                             break;
                     }
 
@@ -3957,6 +4904,10 @@ namespace ATRACTool_Reloaded
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
+                            break;
                     }
 
                     return;
@@ -4019,7 +4970,7 @@ namespace ATRACTool_Reloaded
 
                         if (count != 0)
                         {
-                            if (Ft == ".AT3" || Ft == ".AT9")
+                            if (IsAtracInputExtension(Ft))
                             {
                                 if (Ft != fi.Extension.ToUpper())
                                 {
@@ -4037,7 +4988,7 @@ namespace ATRACTool_Reloaded
                             }
                             else
                             {
-                                if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                                if (IsAtracInputExtension(fi.Extension))
                                 {
                                     MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     closeFileCToolStripMenuItem.Enabled = false;
@@ -4098,7 +5049,7 @@ namespace ATRACTool_Reloaded
                                 count++;
                                 continue;
                             }
-                            else if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                            else if (IsAtracInputExtension(fi.Extension))
                             {
                                 Ft = fi.Extension.ToUpper();
                             }
@@ -4144,6 +5095,10 @@ namespace ATRACTool_Reloaded
                             Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
+                            break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
                             break;
                     }
 
@@ -4247,6 +5202,9 @@ namespace ATRACTool_Reloaded
                                 continue;
                             case ".AT9":
                                 continue;
+                            case ".NUS3BANK":
+                            case ".NUB2":
+                                continue;
                             default:
                                 {
                                     MessageBox.Show(this, Localization.NotAllowedExtensionCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4345,6 +5303,10 @@ namespace ATRACTool_Reloaded
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
+                            break;
                     }
 
                     return;
@@ -4407,7 +5369,7 @@ namespace ATRACTool_Reloaded
 
                         if (count != 0)
                         {
-                            if (Ft == ".AT3" || Ft == ".AT9")
+                            if (IsAtracInputExtension(Ft))
                             {
                                 if (Ft != fi.Extension.ToUpper())
                                 {
@@ -4425,7 +5387,7 @@ namespace ATRACTool_Reloaded
                             }
                             else
                             {
-                                if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                                if (IsAtracInputExtension(fi.Extension))
                                 {
                                     MessageBox.Show(this, Localization.FileMixedWithATRACCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     closeFileCToolStripMenuItem.Enabled = false;
@@ -4486,7 +5448,7 @@ namespace ATRACTool_Reloaded
                                 count++;
                                 continue;
                             }
-                            else if (fi.Extension.ToUpper() == ".AT3" || fi.Extension.ToUpper() == ".AT9")
+                            else if (IsAtracInputExtension(fi.Extension))
                             {
                                 Ft = fi.Extension.ToUpper();
                             }
@@ -4532,6 +5494,10 @@ namespace ATRACTool_Reloaded
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
+                        case ".NUS3BANK":
+                        case ".NUB2":
+                            PrepareNus3BankFormat(Generic.OpenFilePaths[0]);
+                            break;
                     }
 
                     return;
@@ -4546,6 +5512,7 @@ namespace ATRACTool_Reloaded
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             _isClosing = true;
+            DebugInfo($"[FormMain] Closing requested. process={Common.Generic.ProcessFlag}");
 
             bool isBusy = Common.Generic.ProcessFlag != Constants.ProcessType.None
                   && Common.Generic.cts != null
@@ -4553,12 +5520,13 @@ namespace ATRACTool_Reloaded
 
             if (isBusy)
             {
+                DebugWarn($"[FormMain] Closing delayed: process is busy. process={Common.Generic.ProcessFlag}");
                 // ★まず閉じるのを止める（デッドロック/再帰防止）
                 e.Cancel = true;
 
                 if (Interlocked.Exchange(ref _closingCancelIssued, 1) == 0)
                 {
-                    try { Common.Generic.cts!.Cancel(); } catch { }
+                    try { Common.Generic.cts!.Cancel(); DebugWarn("[FormMain] Cancellation requested during close."); } catch { }
                 }
 
                 // すぐ戻る。停止完了後に自分で Close する
@@ -4636,6 +5604,7 @@ namespace ATRACTool_Reloaded
             {
                 // 終了処理なので、致命的でない限りログだけに留めるのが無難
                 Debug.WriteLine("Failed to clean temp dir: " + ex);
+                DebugWarn($"[FormMain] Failed to clean temp directory. path={tempDir}, error={ex.Message}");
             }
 
             string ffPath = Path.Combine(Directory.GetCurrentDirectory(), @"res\ffmpeg.exe");
@@ -4650,6 +5619,7 @@ namespace ATRACTool_Reloaded
             catch (Exception ex)
             {
                 Debug.WriteLine("Failed to delete ffmpeg.exe: " + ex);
+                DebugWarn($"[FormMain] Failed to delete temporary ffmpeg. path={ffPath}, error={ex.Message}");
             }
         }
 
@@ -5250,6 +6220,7 @@ namespace ATRACTool_Reloaded
                     toolStripStatusLabel_EncMethod.Visible = true;
                     button_Decode.Enabled = false;
                     button_Encode.Enabled = true;
+                    UpdateNus3BankEncodeMenuAvailability();
                     CheckLPCException();
                 }
                 else // NotWave
@@ -5272,6 +6243,7 @@ namespace ATRACTool_Reloaded
                         toolStripStatusLabel_EncMethod.Visible = true;
                         button_Decode.Enabled = false;
                         button_Encode.Enabled = true;
+                        UpdateNus3BankEncodeMenuAvailability();
                         CheckLPCException();
                     }
                     else
@@ -5290,7 +6262,7 @@ namespace ATRACTool_Reloaded
 
                 if (faster_atrac && play_atrac)
                 {
-                    panel_Main.BackgroundImage = Resources.SIEv2;
+                    panel_Main.BackgroundImage = Resources.SIE;
                     Common.Generic.IsWave = false;
                     Common.Generic.IsATRAC = true;
                     Generic.IsATW = false;
@@ -5305,7 +6277,7 @@ namespace ATRACTool_Reloaded
                 }
                 else if (!faster_atrac && play_atrac)
                 {
-                    panel_Main.BackgroundImage = Resources.SIEv2;
+                    panel_Main.BackgroundImage = Resources.SIE;
                     Common.Generic.IsWave = false;
                     Common.Generic.IsATRAC = true;
                     Generic.IsATW = false;
@@ -5330,7 +6302,7 @@ namespace ATRACTool_Reloaded
                 }
                 else if (faster_atrac && !play_atrac)
                 {
-                    panel_Main.BackgroundImage = Resources.SIEv2;
+                    panel_Main.BackgroundImage = Resources.SIE;
                     Common.Generic.IsWave = false;
                     Common.Generic.IsATRAC = true;
                     Generic.IsATW = false;
@@ -5364,6 +6336,7 @@ namespace ATRACTool_Reloaded
                             toolStripStatusLabel_EncMethod.Visible = true;
                             button_Decode.Enabled = false;
                             button_Encode.Enabled = true;
+                            UpdateNus3BankEncodeMenuAvailability();
                             CheckLPCException();
                         }
                         else
@@ -5374,7 +6347,7 @@ namespace ATRACTool_Reloaded
                     }
                     else
                     {
-                        panel_Main.BackgroundImage = Resources.SIEv2;
+                        panel_Main.BackgroundImage = Resources.SIE;
                         Common.Generic.IsWave = false;
                         Common.Generic.IsATRAC = true;
                         Generic.IsATW = false;
@@ -5715,6 +6688,13 @@ namespace ATRACTool_Reloaded
 
         public static void SetMetaDatas()
         {
+            if (Generic.OpenFilePaths is null)
+                return;
+
+            FormLPC? lpc = FormLPC.FormLPCInstance;
+            if (lpc is null || lpc.IsDisposed)
+                return;
+
             if (Generic.IsATRAC && Generic.OpenFilePaths.Length == 1)
             {
                 int[] loopbuf = new int[2];
@@ -5871,49 +6851,62 @@ namespace ATRACTool_Reloaded
             {
                 return;
             }
+
+            if (!int.TryParse(textBox_LoopStart.Text, out int loopStart))
+            {
+                return;
+            }
+
+            FormLPC? lpc = FormLPC.FormLPCInstance;
+            if (lpc is null || lpc.IsDisposed)
+            {
+                return;
+            }
+
             if (!Generic.IsLPCStreamingReloaded)
             {
-                if (FormLPC.FormLPCInstance.TotalSamples < int.Parse(textBox_LoopStart.Text))
+                if (lpc.TotalSamples < loopStart)
                 {
                     textBox_LoopStart.Text = textBox_LoopStart.Text.Remove(textBox_LoopStart.TextLength - 1);
                     return;
                 }
             }
 
-            switch (FormLPC.FormLPCInstance.SampleRate)
+            switch (lpc.SampleRate)
             {
-                case 8000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 8.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                case 8000:
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 8.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
-                case 12000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 12.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                case 12000:
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 12.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
-                case 16000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 16.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                case 16000:
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 16.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
-                case 24000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 24.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                case 24000:
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 24.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
-                case 32000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 32.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                case 32000:
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 32.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
                 case 44100:
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 44.1, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 44.1, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
                 case 48000:
-                    FormLPC.FormLPCInstance.customTrackBar_Start.Value = (int)Math.Round(int.Parse(textBox_LoopStart.Text) / 48.0, MidpointRounding.AwayFromZero);//value[0];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopStart.Value = FormLPC.FormLPCInstance.customTrackBar_Start.Value;
+                    lpc.customTrackBar_Start.Value = (int)Math.Round(loopStart / 48.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopStart.Value = lpc.customTrackBar_Start.Value;
                     break;
                 default:
                     break;
             }
-            FormLPC.FormLPCInstance.customTrackBar_Start.Invalidate();
+
+            lpc.customTrackBar_Start.Invalidate();
         }
 
         private void TextBox_LoopEnd_TextChanged(object sender, EventArgs e)
@@ -5922,49 +6915,62 @@ namespace ATRACTool_Reloaded
             {
                 return;
             }
+
+            if (!int.TryParse(textBox_LoopEnd.Text, out int loopEnd))
+            {
+                return;
+            }
+
+            FormLPC? lpc = FormLPC.FormLPCInstance;
+            if (lpc is null || lpc.IsDisposed)
+            {
+                return;
+            }
+
             if (!Generic.IsLPCStreamingReloaded)
             {
-                if (FormLPC.FormLPCInstance.TotalSamples < int.Parse(textBox_LoopEnd.Text))
+                if (lpc.TotalSamples < loopEnd)
                 {
                     textBox_LoopEnd.Text = textBox_LoopEnd.Text.Remove(textBox_LoopEnd.TextLength - 1);
                     return;
                 }
             }
 
-            switch (FormLPC.FormLPCInstance.SampleRate)
+            switch (lpc.SampleRate)
             {
-                case 8000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 8.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                case 8000:
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 8.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
-                case 12000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 12.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                case 12000:
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 12.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
-                case 16000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 16.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                case 16000:
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 16.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
-                case 24000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 24.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                case 24000:
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 24.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
-                case 32000: // ATRAC9 Only
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 32.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                case 32000:
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 32.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
                 case 44100:
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 44.1, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 44.1, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
                 case 48000:
-                    FormLPC.FormLPCInstance.customTrackBar_End.Value = (int)Math.Round(int.Parse(textBox_LoopEnd.Text) / 48.0, MidpointRounding.AwayFromZero);//value[1];
-                    FormLPC.FormLPCInstance.numericUpDown_LoopEnd.Value = FormLPC.FormLPCInstance.customTrackBar_End.Value;
+                    lpc.customTrackBar_End.Value = (int)Math.Round(loopEnd / 48.0, MidpointRounding.AwayFromZero);
+                    lpc.numericUpDown_LoopEnd.Value = lpc.customTrackBar_End.Value;
                     break;
                 default:
                     break;
             }
-            FormLPC.FormLPCInstance.customTrackBar_End.Invalidate();
+
+            lpc.customTrackBar_End.Invalidate();
         }
     }
 }

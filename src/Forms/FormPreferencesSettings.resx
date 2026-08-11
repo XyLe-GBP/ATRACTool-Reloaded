@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -266,7 +266,7 @@ enabled, this option will not work. (Applicable only during encoding operations)
     <value>7</value>
   </data>
   <data name="button_OK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>466, 326</value>
+    <value>466, 351</value>
   </data>
   <data name="button_OK.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -290,7 +290,7 @@ enabled, this option will not work. (Applicable only during encoding operations)
     <value>2</value>
   </data>
   <data name="button_Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>547, 326</value>
+    <value>547, 351</value>
   </data>
   <data name="button_Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -466,6 +466,111 @@ enabled, this option will not work. (Applicable only during encoding operations)
   <data name="&gt;&gt;textBox_suffix.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="checkBox_FollowSystemTheme.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 22</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 19</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
+    <value>Follow system theme</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FollowSystemTheme.Name" xml:space="preserve">
+    <value>checkBox_FollowSystemTheme</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FollowSystemTheme.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FollowSystemTheme.Parent" xml:space="preserve">
+    <value>groupBox_Theme</value>
+  </data>
+  <data name="&gt;&gt;checkBox_FollowSystemTheme.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioButton_ThemeLight.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_ThemeLight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 52</value>
+  </data>
+  <data name="radioButton_ThemeLight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 19</value>
+  </data>
+  <data name="radioButton_ThemeLight.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeLight.Name" xml:space="preserve">
+    <value>radioButton_ThemeLight</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeLight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeLight.Parent" xml:space="preserve">
+    <value>groupBox_Theme</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeLight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radioButton_ThemeDark.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_ThemeDark.Location" type="System.Drawing.Point, System.Drawing">
+    <value>100, 52</value>
+  </data>
+  <data name="radioButton_ThemeDark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 19</value>
+  </data>
+  <data name="radioButton_ThemeDark.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeDark.Name" xml:space="preserve">
+    <value>radioButton_ThemeDark</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeDark.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeDark.Parent" xml:space="preserve">
+    <value>groupBox_Theme</value>
+  </data>
+  <data name="&gt;&gt;radioButton_ThemeDark.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox_Theme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 6</value>
+  </data>
+  <data name="groupBox_Theme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 86</value>
+  </data>
+  <data name="groupBox_Theme.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBox_Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Theme.Name" xml:space="preserve">
+    <value>groupBox_Theme</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Theme.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Theme.Parent" xml:space="preserve">
+    <value>tabPageGeneral</value>
+  </data>
+  <data name="&gt;&gt;groupBox_Theme.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="checkBox_ATRACEncodeSource.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -501,7 +606,7 @@ This option is ignored when the ‘Enable playback interface when loading ATRAC�
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;checkBox_ATRACEncodeSource.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="checkBox_Hidesplash.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -535,13 +640,13 @@ This may be useful when you want to speed up application startup.</value>
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;checkBox_Hidesplash.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 265</value>
+    <value>6, 292</value>
   </data>
   <data name="checkBox_DisablePreviewWarning.Size" type="System.Drawing.Size, System.Drawing">
     <value>366, 19</value>
@@ -566,13 +671,13 @@ However, to prevent mistakes, it is usually recommended to leave it disabled.</v
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;checkBox_DisablePreviewWarning.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="button_Splashimg.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="button_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>583, 235</value>
+    <value>583, 260</value>
   </data>
   <data name="button_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 23</value>
@@ -593,13 +698,13 @@ However, to prevent mistakes, it is usually recommended to leave it disabled.</v
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;button_Splashimg.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="textBox_Splashimg.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="textBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 235</value>
+    <value>6, 260</value>
   </data>
   <data name="textBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
     <value>571, 23</value>
@@ -617,13 +722,13 @@ However, to prevent mistakes, it is usually recommended to leave it disabled.</v
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;textBox_Splashimg.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="checkBox_Splashimg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="checkBox_Splashimg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 215</value>
+    <value>6, 240</value>
   </data>
   <data name="checkBox_Splashimg.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 19</value>
@@ -636,7 +741,7 @@ However, to prevent mistakes, it is usually recommended to leave it disabled.</v
   </data>
   <data name="checkBox_Splashimg.ToolTip" xml:space="preserve">
     <value>Set your own splash screen image.
-JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
+JPG, PNG, or BMP images can be used.</value>
   </data>
   <data name="&gt;&gt;checkBox_Splashimg.Name" xml:space="preserve">
     <value>checkBox_Splashimg</value>
@@ -648,7 +753,7 @@ JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;checkBox_Splashimg.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="checkBox_Checkupdate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -678,7 +783,7 @@ JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
     <value>tabPageGeneral</value>
   </data>
   <data name="&gt;&gt;checkBox_Checkupdate.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="tabPageGeneral.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>
@@ -688,7 +793,7 @@ JPG, PNG, or BMP format and must be 800x480 and 400x240 pixels.</value>
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPageGeneral.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 292</value>
+    <value>626, 317</value>
   </data>
   <data name="tabPageGeneral.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -774,7 +879,7 @@ This may be useful when processing source folders organized by item.</value>
     <value>True</value>
   </data>
   <data name="checkBox_ShowFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 267</value>
+    <value>13, 283</value>
   </data>
   <data name="checkBox_ShowFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>241, 19</value>
@@ -807,7 +912,7 @@ This may be useful when processing source folders organized by item.</value>
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPageIO.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 292</value>
+    <value>626, 317</value>
   </data>
   <data name="tabPageIO.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -888,6 +993,40 @@ When this function is enabled, the 'IO-&gt;Output to specified folder' function 
   <data name="&gt;&gt;checkBox_EnableATRACPlayback.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="checkBox_EnableNus3BankPlayback.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 290</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 19</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.Text" xml:space="preserve">
+    <value>Enable playback interface when loading NUSound</value>
+  </data>
+  <data name="checkBox_EnableNus3BankPlayback.ToolTip" xml:space="preserve">
+    <value>Enables the playback function when loading NUSound (NUB2, NUS3BANK) files.
+The contained ATRAC3, ATRAC3plus, ATRAC9, IVAG streams are temporarily decoded to WAV for preview.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableNus3BankPlayback.Name" xml:space="preserve">
+    <value>checkBox_EnableNus3BankPlayback</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableNus3BankPlayback.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableNus3BankPlayback.Parent" xml:space="preserve">
+    <value>tabPageLPC</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableNus3BankPlayback.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="checkBox_Smoothsamples.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -921,7 +1060,7 @@ Disabling this option enables advanced settings such as playback buffer and late
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;checkBox_Smoothsamples.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="comboBox_LPCMultisourcePlaybackmode.Items" xml:space="preserve">
     <value>WASAPI (Shared)</value>
@@ -958,7 +1097,7 @@ Otherwise, the application will return an error.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;comboBox_LPCMultisourcePlaybackmode.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label_LPC_MultiplesourcePlaybackmode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -985,7 +1124,7 @@ Otherwise, the application will return an error.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;label_LPC_MultiplesourcePlaybackmode.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="comboBox_LPCASIODriver.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1013,7 +1152,7 @@ If no valid drivers are available, the field will remain blank.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;comboBox_LPCASIODriver.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label_LPC_ASIODriver.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1043,7 +1182,7 @@ If no valid drivers are available, the field will remain blank.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;label_LPC_ASIODriver.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="checkBox_MultisoundDontDS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1074,7 +1213,7 @@ Therefore, we strongly recommend enabling this option.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;checkBox_MultisoundDontDS.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="comboBox_LPCplayback.Items" xml:space="preserve">
     <value>DirectSound (Default)</value>
@@ -1115,7 +1254,7 @@ Otherwise, the application will return an error.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;comboBox_LPCplayback.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label_LPC_PlaybackMode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1142,13 +1281,13 @@ Otherwise, the application will return an error.</value>
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;label_LPC_PlaybackMode.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="tabPageLPC.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>
   </data>
   <data name="tabPageLPC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 292</value>
+    <value>626, 317</value>
   </data>
   <data name="tabPageLPC.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1172,7 +1311,7 @@ Otherwise, the application will return an error.</value>
     <value>True</value>
   </data>
   <data name="checkBox_debug.Location" type="System.Drawing.Point, System.Drawing">
-    <value>485, 261</value>
+    <value>485, 286</value>
   </data>
   <data name="checkBox_debug.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 19</value>
@@ -1743,7 +1882,7 @@ If this option is enabled, the 'General-&gt;Enable playback interface when loadi
     <value>True</value>
   </data>
   <data name="checkBox_Oldmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 261</value>
+    <value>8, 286</value>
   </data>
   <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
     <value>245, 19</value>
@@ -1775,7 +1914,7 @@ However, it is buggy and deprecated, so there is usually no need to enable Legac
     <value>4, 24</value>
   </data>
   <data name="tabPageAdvanced.Size" type="System.Drawing.Size, System.Drawing">
-    <value>626, 292</value>
+    <value>626, 317</value>
   </data>
   <data name="tabPageAdvanced.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1799,7 +1938,7 @@ However, it is buggy and deprecated, so there is usually no need to enable Legac
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 320</value>
+    <value>634, 345</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1823,7 +1962,7 @@ However, it is buggy and deprecated, so there is usually no need to enable Legac
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>634, 361</value>
+    <value>634, 386</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -1842,17 +1981,5 @@ However, it is buggy and deprecated, so there is usually no need to enable Legac
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBox_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
-  </data>
-  <data name="checkBox_FollowSystemTheme.Text" xml:space="preserve">
-    <value>Follow system theme</value>
-  </data>
-  <data name="radioButton_ThemeLight.Text" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="radioButton_ThemeDark.Text" xml:space="preserve">
-    <value>Dark</value>
   </data>
 </root>

@@ -62,6 +62,7 @@
             tabPageLPC = new TabPage();
             checkBox_Usepal = new CheckBox();
             checkBox_EnableATRACPlayback = new CheckBox();
+            checkBox_EnableNus3BankPlayback = new CheckBox();
             checkBox_Smoothsamples = new CheckBox();
             comboBox_LPCMultisourcePlaybackmode = new ComboBox();
             label_LPC_MultiplesourcePlaybackmode = new Label();
@@ -212,44 +213,31 @@
             groupBox_Theme.Controls.Add(checkBox_FollowSystemTheme);
             groupBox_Theme.Controls.Add(radioButton_ThemeLight);
             groupBox_Theme.Controls.Add(radioButton_ThemeDark);
-            groupBox_Theme.Location = new System.Drawing.Point(360, 6);
+            resources.ApplyResources(groupBox_Theme, "groupBox_Theme");
             groupBox_Theme.Name = "groupBox_Theme";
-            groupBox_Theme.Size = new System.Drawing.Size(258, 86);
-            groupBox_Theme.TabIndex = 11;
             groupBox_Theme.TabStop = false;
-            groupBox_Theme.Text = resources.GetString("groupBox_Theme.Text");
             // 
             // checkBox_FollowSystemTheme
             // 
-            checkBox_FollowSystemTheme.AutoSize = true;
-            checkBox_FollowSystemTheme.Location = new System.Drawing.Point(12, 22);
+            resources.ApplyResources(checkBox_FollowSystemTheme, "checkBox_FollowSystemTheme");
+            checkBox_FollowSystemTheme.Checked = true;
+            checkBox_FollowSystemTheme.CheckState = CheckState.Checked;
             checkBox_FollowSystemTheme.Name = "checkBox_FollowSystemTheme";
-            checkBox_FollowSystemTheme.Size = new System.Drawing.Size(138, 19);
-            checkBox_FollowSystemTheme.TabIndex = 0;
-            checkBox_FollowSystemTheme.Text = resources.GetString("checkBox_FollowSystemTheme.Text");
             checkBox_FollowSystemTheme.UseVisualStyleBackColor = true;
             checkBox_FollowSystemTheme.CheckedChanged += CheckBox_FollowSystemTheme_CheckedChanged;
             // 
             // radioButton_ThemeLight
             // 
-            radioButton_ThemeLight.AutoSize = true;
+            resources.ApplyResources(radioButton_ThemeLight, "radioButton_ThemeLight");
             radioButton_ThemeLight.Checked = true;
-            radioButton_ThemeLight.Location = new System.Drawing.Point(24, 52);
             radioButton_ThemeLight.Name = "radioButton_ThemeLight";
-            radioButton_ThemeLight.Size = new System.Drawing.Size(52, 19);
-            radioButton_ThemeLight.TabIndex = 1;
             radioButton_ThemeLight.TabStop = true;
-            radioButton_ThemeLight.Text = resources.GetString("radioButton_ThemeLight.Text");
             radioButton_ThemeLight.UseVisualStyleBackColor = true;
             // 
             // radioButton_ThemeDark
             // 
-            radioButton_ThemeDark.AutoSize = true;
-            radioButton_ThemeDark.Location = new System.Drawing.Point(100, 52);
+            resources.ApplyResources(radioButton_ThemeDark, "radioButton_ThemeDark");
             radioButton_ThemeDark.Name = "radioButton_ThemeDark";
-            radioButton_ThemeDark.Size = new System.Drawing.Size(49, 19);
-            radioButton_ThemeDark.TabIndex = 2;
-            radioButton_ThemeDark.Text = resources.GetString("radioButton_ThemeDark.Text");
             radioButton_ThemeDark.UseVisualStyleBackColor = true;
             // 
             // checkBox_ATRACEncodeSource
@@ -348,6 +336,7 @@
             // 
             tabPageLPC.Controls.Add(checkBox_Usepal);
             tabPageLPC.Controls.Add(checkBox_EnableATRACPlayback);
+            tabPageLPC.Controls.Add(checkBox_EnableNus3BankPlayback);
             tabPageLPC.Controls.Add(checkBox_Smoothsamples);
             tabPageLPC.Controls.Add(comboBox_LPCMultisourcePlaybackmode);
             tabPageLPC.Controls.Add(label_LPC_MultiplesourcePlaybackmode);
@@ -374,6 +363,15 @@
             checkBox_EnableATRACPlayback.Name = "checkBox_EnableATRACPlayback";
             toolTip_Description.SetToolTip(checkBox_EnableATRACPlayback, resources.GetString("checkBox_EnableATRACPlayback.ToolTip"));
             checkBox_EnableATRACPlayback.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_EnableNus3BankPlayback
+            // 
+            resources.ApplyResources(checkBox_EnableNus3BankPlayback, "checkBox_EnableNus3BankPlayback");
+            checkBox_EnableNus3BankPlayback.Checked = true;
+            checkBox_EnableNus3BankPlayback.CheckState = CheckState.Checked;
+            checkBox_EnableNus3BankPlayback.Name = "checkBox_EnableNus3BankPlayback";
+            toolTip_Description.SetToolTip(checkBox_EnableNus3BankPlayback, resources.GetString("checkBox_EnableNus3BankPlayback.ToolTip"));
+            checkBox_EnableNus3BankPlayback.UseVisualStyleBackColor = true;
             // 
             // checkBox_Smoothsamples
             // 
@@ -463,6 +461,7 @@
             resources.ApplyResources(checkBox_debug, "checkBox_debug");
             checkBox_debug.Name = "checkBox_debug";
             checkBox_debug.UseVisualStyleBackColor = true;
+            checkBox_debug.CheckedChanged += CheckBox_debug_CheckedChanged;
             // 
             // comboBox_WASAPILatencysS
             // 
@@ -595,10 +594,10 @@
             groupBox_IO_Behavior.ResumeLayout(false);
             groupBox_IO_Behavior.PerformLayout();
             tabControl1.ResumeLayout(false);
-            groupBox_Theme.ResumeLayout(false);
-            groupBox_Theme.PerformLayout();
             tabPageGeneral.ResumeLayout(false);
             tabPageGeneral.PerformLayout();
+            groupBox_Theme.ResumeLayout(false);
+            groupBox_Theme.PerformLayout();
             tabPageIO.ResumeLayout(false);
             tabPageIO.PerformLayout();
             tabPageLPC.ResumeLayout(false);
@@ -653,6 +652,7 @@
         private CheckBox checkBox_Hidesplash;
         private CheckBox checkBox_Smoothsamples;
         private CheckBox checkBox_EnableATRACPlayback;
+        private CheckBox checkBox_EnableNus3BankPlayback;
         private CheckBox checkBox_ATRACEncodeSource;
         private CheckBox checkBox_IO_SaveSourcesnest;
         private Label label_WASAPILatencyE;

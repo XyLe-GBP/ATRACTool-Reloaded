@@ -39,23 +39,33 @@
             // 
             // label1
             // 
+            label1.BackColor = Color.FromArgb(246, 247, 249);
+            label1.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
             // 
             // progressBar_MainProgress
             // 
+            progressBar_MainProgress.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(progressBar_MainProgress, "progressBar_MainProgress");
             progressBar_MainProgress.Name = "progressBar_MainProgress";
             // 
             // button_Abort
             // 
+            button_Abort.BackColor = Color.White;
+            button_Abort.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_Abort.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_Abort.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
             resources.ApplyResources(button_Abort, "button_Abort");
+            button_Abort.ForeColor = Color.FromArgb(31, 35, 40);
             button_Abort.Name = "button_Abort";
-            button_Abort.UseVisualStyleBackColor = true;
+            button_Abort.UseVisualStyleBackColor = false;
             button_Abort.Click += Button_Abort_Click;
             // 
             // label_Status
             // 
+            label_Status.BackColor = Color.FromArgb(246, 247, 249);
+            label_Status.ForeColor = Color.FromArgb(31, 35, 40);
             resources.ApplyResources(label_Status, "label_Status");
             label_Status.Name = "label_Status";
             // 
@@ -72,6 +82,8 @@
             Controls.Add(button_Abort);
             Controls.Add(progressBar_MainProgress);
             Controls.Add(label1);
+            DoubleBuffered = true;
+            ForeColor = Color.FromArgb(31, 35, 40);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormProgress";
             FormClosed += FormProgress_FormClosed;

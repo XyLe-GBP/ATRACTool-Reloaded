@@ -51,6 +51,7 @@ namespace ATRACTool_Reloaded
 
         private void FormWalkmanInformations_Load(object sender, EventArgs e)
         {
+            FormMain.DebugInfo($"[FormWalkmanInformations] Loaded. index={_job.Index}, origin={_job.OriginPath}, work={_job.WorkPath}");
             // ここで Config を読まない（責務を切る）
             // Config のデフォルト適用は BuildInputJobsFromPaths / PopulateWalkmanMetaFromOrigin 側に寄せる
 
@@ -148,6 +149,7 @@ namespace ATRACTool_Reloaded
             }
 
             Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
+            FormMain.DebugInfo($"[FormWalkmanInformations] OK. index={_job.Index}, title={_job.Meta.Title}, artist={_job.Meta.Artist}, jacket={_job.Meta.JacketPath}");
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -155,15 +157,20 @@ namespace ATRACTool_Reloaded
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
             var dr = MessageBox.Show(this, Localizable.Localization.WalkmanMetadataConfirmCaption, Localizable.Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            FormMain.DebugInfo($"[FormWalkmanInformations] Cancel option selected. index={_job.Index}, dialogResult={dr}");
 
             if (dr == DialogResult.Cancel)
+            {
+                FormMain.DebugWarn($"[FormWalkmanInformations] Cancel dialog closed without decision. index={_job.Index}");
                 return;
+            }
 
             if (dr == DialogResult.No)
             {
                 // 変換中止
                 // ★ユーザー中止をジョブに記録
                 _job.UserCancelled = true;
+                FormMain.DebugWarn($"[FormWalkmanInformations] User cancelled conversion. index={_job.Index}");
                 DialogResult = DialogResult.Cancel;
                 Close();
                 return;
@@ -171,6 +178,7 @@ namespace ATRACTool_Reloaded
 
             // Yes：タグ無しで続行（Meta 自体は差し替えず、中身だけ消す）
             _job.Meta.ClearTagFieldsKeepRequired();
+            FormMain.DebugWarn($"[FormWalkmanInformations] Continue without tags. index={_job.Index}");
 
             DialogResult = DialogResult.OK;
             Close();

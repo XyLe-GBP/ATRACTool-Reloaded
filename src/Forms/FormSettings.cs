@@ -101,6 +101,7 @@ namespace ATRACTool_Reloaded
         private void FormSettings_Load(object sender, EventArgs e)
         {
             Common.Config.Load(Common.xmlpath);
+            FormMain.DebugInfo("[FormSettings] Config loaded. Initializing controls.");
             comboBox_at3_encmethod.DropDownWidth = 300;
 
             comboBox_at9_enctype.SelectedIndex = 5;
@@ -2360,6 +2361,7 @@ namespace ATRACTool_Reloaded
         {
             if (paramAT3.Contains("$InFile $OutFile") != true || paramAT3.Contains("$InFile") != true || paramAT3.Contains("$OutFile") != true)
             {
+                FormMain.DebugWarn("[FormSettings] Save blocked: ATRAC3 parameter is missing $InFile/$OutFile.");
                 MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 paramAT3 = RefleshParamAT3();
                 textBox_at3_cmd.Text = paramAT3;
@@ -2368,6 +2370,7 @@ namespace ATRACTool_Reloaded
 
             if (paramAT9.Contains("$InFile $OutFile") != true || paramAT9.Contains("$InFile") != true || paramAT9.Contains("$OutFile") != true)
             {
+                FormMain.DebugWarn("[FormSettings] Save blocked: ATRAC9 parameter is missing $InFile/$OutFile.");
                 MessageBox.Show(this, Localization.NotFoundIOStringCaption, Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 paramAT9 = RefleshParamAT9();
                 textBox_at9_cmd.Text = paramAT9;
@@ -2895,7 +2898,9 @@ namespace ATRACTool_Reloaded
             Common.Config.Entry["ATRAC9_Params"].Value = paramAT9;
             Config.Entry["Walkman_Params"].Value = paramWalkman;
 
+            FormMain.DebugInfo($"[FormSettings] Save started. atracFlag={Generic.ATRACFlag}");
             Config.Save(xmlpath);
+            FormMain.DebugInfo("[FormSettings] Save completed.");
 
             Utils.PictureboxImageDispose(pictureBox_Jacket);
             Close();
@@ -2903,6 +2908,7 @@ namespace ATRACTool_Reloaded
 
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
+            FormMain.DebugWarn("[FormSettings] Cancelled.");
             Close();
         }
 
