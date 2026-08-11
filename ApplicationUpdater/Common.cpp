@@ -345,7 +345,7 @@ void Common::FindDirectory(wstring oFolderPath)
 	WIN32_FIND_DATA tFindFileData;
 
 	// 全てのファイル
-	oFolderPath += L"¥¥*.*";
+	oFolderPath += L"\\*.*";
 
 	// 最初に一致するファイルを取得
 	HANDLE hFile = ::FindFirstFile(oFolderPath.c_str(), &tFindFileData);
@@ -353,7 +353,7 @@ void Common::FindDirectory(wstring oFolderPath)
 		return;
 	}
 
-	// L"¥¥*.*"を削除
+	// L"\\*.*"を削除
 	oFolderPath = oFolderPath.substr(0, oFolderPath.size() - 4);
 
 	do {
@@ -367,15 +367,15 @@ void Common::FindDirectory(wstring oFolderPath)
 				L"."とL".."はスキップ
 			*/
 			if (L'.' == wpFileName[0]) {
-				if ((L'¥0' == wpFileName[1])
-					|| (L'.' == wpFileName[1] && L'¥0' == wpFileName[2])
+				if ((L'\0' == wpFileName[1])
+					|| (L'.' == wpFileName[1] && L'\0' == wpFileName[2])
 					) {
 					continue;
 				}
 			}
 
 			// フルパスの生成
-			std::wstring oFullPath = oFolderPath + L"¥¥" + wpFileName;
+			std::wstring oFullPath = oFolderPath + L"\\" + wpFileName;
 			std::wcout << L"(dir )" << oFullPath << std::endl;
 
 			// 再起してサブフォルダを巡回する
@@ -384,7 +384,7 @@ void Common::FindDirectory(wstring oFolderPath)
 		else {
 
 			// フルパスの生成
-			std::wstring oFullPath = oFolderPath + L"¥¥" + wpFileName;
+			std::wstring oFullPath = oFolderPath + L"\\" + wpFileName;
 			std::wcout << L"(file)" << oFullPath << std::endl;
 		}
 
