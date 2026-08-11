@@ -333,13 +333,10 @@ namespace ATRACTool_Reloaded.src.Controls
             get => value;
             set
             {
-                if (this.value != value)
+                int clampedValue = Math.Clamp(value, minimum, maximum);
+                if (this.value != clampedValue)
                 {
-                    if (value < minimum || value > maximum)
-                    {
-                        throw new ArgumentOutOfRangeException(nameof(Value), "Value must be between Minimum and Maximum");
-                    }
-                    this.value = value;
+                    this.value = clampedValue;
                     Invalidate();
                     OnValueChanged(EventArgs.Empty);
                 }
@@ -492,16 +489,22 @@ namespace ATRACTool_Reloaded.src.Controls
                 return;
             }
 
+            long range = (long)Maximum - Minimum;
+            if (range <= 0)
+            {
+                return;
+            }
+
             Color disabledTickColor = ModernTheme.IsDarkMode
                 ? ControlPaint.Dark(ThemeColors.DisabledText, 0.2F)
                 : ControlPaint.Dark(ThemeColors.TextMuted, 0.2F);
 
-            for (int tickValue = Minimum; tickValue <= Maximum; tickValue += TickFrequency)
+            void DrawTick(int tickValue)
             {
-                float ratio = (float)(tickValue - Minimum) / (Maximum - Minimum);
+                float ratio = (float)((long)tickValue - Minimum) / range;
                 bool isActiveTick = tickValue <= Value;
                 Color tickPenColor = Enabled
-                    ? isActiveTick ? Color.FromArgb(175, activeTrackColor) : baseTrackColor
+                    ? (isActiveTick ? Color.FromArgb(175, activeTrackColor) : baseTrackColor)
                     : disabledTickColor;
                 using Pen pen = new(tickPenColor, 1F);
 
@@ -529,6 +532,24 @@ namespace ATRACTool_Reloaded.src.Controls
                         graphics.DrawLine(pen, trackRect.Right + 3, y, trackRect.Right + 3 + TickSize, y);
                     }
                 }
+            }
+
+            int? lastTickValue = null;
+            for (long tickValue = Minimum; tickValue <= Maximum; tickValue += TickFrequency)
+            {
+                int currentTickValue = (int)tickValue;
+                DrawTick(currentTickValue);
+                lastTickValue = currentTickValue;
+
+                if (tickValue > Maximum - (long)TickFrequency)
+                {
+                    break;
+                }
+            }
+
+            if (!lastTickValue.HasValue || lastTickValue.Value != Maximum)
+            {
+                DrawTick(Maximum);
             }
         }
 
