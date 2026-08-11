@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Threading;
 
@@ -5,21 +6,25 @@ namespace ATRACTool_Reloaded
 {
     internal static class Program
     {
+        private const string SingleInstanceMutexName = "ATRACTool_Reloaded";
+        private const string RestartParentPidEnvironmentVariable = "ATRACTOOL_RESTART_PARENT_PID";
+        private static readonly TimeSpan RestartMutexWaitTimeout = TimeSpan.FromSeconds(30);
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            string mutexName = "ATRACTool_Reloaded";
-            System.Threading.Mutex mutex = new(false, mutexName);
+            System.Threading.Mutex mutex = new(false, SingleInstanceMutexName);
 
             bool hasHandle = false;
             try
             {
                 try
                 {
-                    hasHandle = mutex.WaitOne(0, false);
+                    TimeSpan mutexWaitTimeout = IsRestartLaunch() ? RestartMutexWaitTimeout : TimeSpan.Zero;
+                    hasHandle = mutex.WaitOne(mutexWaitTimeout, false);
                 }
                 catch (System.Threading.AbandonedMutexException)
                 {
@@ -56,7 +61,9 @@ namespace ATRACTool_Reloaded
                     return;
                 }
 
+                Common.Utils.LoadOrCreateConfig();
                 WpfBootstrap.Ensure();
+                ModernUI.ModernWpfTheme.RefreshResources();
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -71,6 +78,43 @@ namespace ATRACTool_Reloaded
                 }
                 mutex.Close();
             }
+        }
+
+        public static bool RestartCurrentApplication()
+        {
+            try
+            {
+                ProcessStartInfo startInfo = new(Application.ExecutablePath)
+                {
+                    UseShellExecute = false,
+                    WorkingDirectory = Directory.GetCurrentDirectory()
+                };
+
+                foreach (string arg in Environment.GetCommandLineArgs().Skip(1))
+                {
+                    startInfo.ArgumentList.Add(arg);
+                }
+
+                startInfo.Environment[RestartParentPidEnvironmentVariable] = Environment.ProcessId.ToString();
+                Process.Start(startInfo);
+                Application.Exit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Failed to restart the application.\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private static bool IsRestartLaunch()
+        {
+            return int.TryParse(Environment.GetEnvironmentVariable(RestartParentPidEnvironmentVariable), out int parentPid)
+                && parentPid > 0;
         }
     }
 
