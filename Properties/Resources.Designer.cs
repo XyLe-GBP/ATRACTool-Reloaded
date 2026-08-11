@@ -83,9 +83,9 @@ namespace ATRACTool_Reloaded.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap SIEv2 {
+        internal static System.Drawing.Bitmap SIE_Default {
             get {
-                object obj = ResourceManager.GetObject("SIEv2", resourceCulture);
+                object obj = ResourceManager.GetObject("SIE_Default", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,19 +93,9 @@ namespace ATRACTool_Reloaded.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap Splash {
+        internal static System.Drawing.Bitmap SIE_White {
             get {
-                object obj = ResourceManager.GetObject("Splash", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Bitmap Splash_SIE_Default {
-            get {
-                object obj = ResourceManager.GetObject("Splash_SIE_Default", resourceCulture);
+                object obj = ResourceManager.GetObject("SIE_White", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
