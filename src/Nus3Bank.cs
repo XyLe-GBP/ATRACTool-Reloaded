@@ -80,6 +80,7 @@ namespace ATRACTool_Reloaded
     internal sealed class Nus3BankEncodeStream
     {
         public string Name { get; init; } = "";
+        public string? DataPath { get; init; }
         public byte[] Data { get; init; } = [];
         public Nus3RiffLoopPoints? LoopPoints { get; init; }
     }
@@ -117,7 +118,9 @@ namespace ATRACTool_Reloaded
         public IReadOnlyList<Nus3Chunk> Chunks => _chunks;
         public IReadOnlyList<Nus3Tone> Tones => _tones;
         public IEnumerable<Nus3Tone> AtracTones => _tones.Where(t => t.Codec is Nus3SubfileCodec.Atrac3 or Nus3SubfileCodec.Atrac9);
+        public IEnumerable<Nus3Tone> ExtractableTones => _tones.Where(t => t.StreamSize > 0);
         public IEnumerable<Nus3Tone> DecodableWaveTones => _tones.Where(t => t.Codec is Nus3SubfileCodec.Atrac3 or Nus3SubfileCodec.Atrac9 or Nus3SubfileCodec.PcmWave or Nus3SubfileCodec.Ivag);
+        public int ExtractableToneCount => _tones.Count(t => t.StreamSize > 0);
         public int DecodableWaveToneCount => _tones.Count(t => t.Codec is Nus3SubfileCodec.Atrac3 or Nus3SubfileCodec.Atrac9 or Nus3SubfileCodec.PcmWave or Nus3SubfileCodec.Ivag);
 
         public void Dispose()
@@ -245,7 +248,7 @@ namespace ATRACTool_Reloaded
                 throw new ArgumentException("The tone does not belong to this bank.", nameof(tone));
 
             FormMain.DebugInfo($"[Nus3Bank] Extract tone started. source={SourcePath}, tone={tone.Name}, codec={tone.Codec}, output={outputPath}");
-            Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
+            CreateParentDirectory(outputPath);
             using var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None);
             fs.Write(Data, tone.SubfileOffset, tone.StreamSize);
             FormMain.DebugInfo($"[Nus3Bank] Extract tone completed. output={outputPath}, bytes={tone.StreamSize}");
@@ -303,8 +306,30 @@ namespace ATRACTool_Reloaded
         public static void WriteSingleToneBank(string encodedSubfilePath, string outputPath, string bankName, string toneName, Nus3RiffLoopPoints? loopPoints = null, Nus3BankBuildFlavor flavor = Nus3BankBuildFlavor.Nus3Bank)
         {
             FormMain.DebugInfo($"[Nus3Bank] Write single tone started. input={encodedSubfilePath}, output={outputPath}, flavor={flavor}");
-            byte[] subfile = File.ReadAllBytes(encodedSubfilePath);
-            WriteSingleToneBank(subfile, outputPath, bankName, toneName, loopPoints, flavor);
+            if (loopPoints.HasValue)
+            {
+                byte[] subfile = File.ReadAllBytes(encodedSubfilePath);
+                WriteSingleToneBank(subfile, outputPath, bankName, toneName, loopPoints, flavor);
+            }
+            else
+            {
+                long length = GetExistingFileLength(encodedSubfilePath);
+                ValidateSubfileSize(length);
+                ValidateNub2StreamCodecFromFile(encodedSubfilePath, length, flavor);
+
+                bankName = SanitizeAsciiToken(bankName, "bank");
+                toneName = SanitizeAsciiToken(toneName, bankName);
+
+                byte[] tone = BuildToneChunkData(toneName, checked((uint)length), flavor);
+                using var prepared = new Nus3PreparedPackStream(
+                    string.Empty,
+                    0,
+                    length,
+                    data: null,
+                    filePath: encodedSubfilePath,
+                    deleteFileOnDispose: false);
+                WriteToneBankFromPreparedStreams(outputPath, bankName, tone, [prepared], length, flavor);
+            }
             FormMain.DebugInfo($"[Nus3Bank] Write single tone completed. output={outputPath}");
         }
 
@@ -333,46 +358,66 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo($"[Nus3Bank] Write multi tone started. streams={streams.Count}, output={outputPath}, flavor={flavor}");
             bankName = SanitizeAsciiToken(bankName, "bank");
 
-            var toneEntries = new List<Nus3TonePackEntry>(streams.Count);
-            using var packStream = new MemoryStream();
-
-            for (int i = 0; i < streams.Count; i++)
+            var preparedStreams = new List<Nus3PreparedPackStream>(streams.Count);
+            try
             {
-                Nus3BankEncodeStream stream = streams[i];
-                if (stream.Data.Length == 0)
-                    throw new InvalidDataException("A NUS3BANK stream is empty.");
+                var toneEntries = new List<Nus3TonePackEntry>(streams.Count);
+                long packPosition = 0;
 
-                byte[] subfile = stream.LoopPoints.HasValue
-                    ? EnsureRiffLoopChunk(stream.Data, stream.LoopPoints.Value)
-                    : stream.Data;
+                for (int i = 0; i < streams.Count; i++)
+                {
+                    Nus3PreparedPackStream prepared = PreparePackStream(streams[i], flavor);
+                    string toneName = SanitizeAsciiToken(streams[i].Name, $"tone_{i:D4}");
 
-                ValidateNub2StreamCodec(subfile, flavor);
+                    long streamRelativeOffset = Align(packPosition, 0x10);
+                    long streamEnd = checked(streamRelativeOffset + prepared.Length);
+                    if (streamRelativeOffset > uint.MaxValue || prepared.Length > uint.MaxValue || streamEnd > uint.MaxValue)
+                        throw new InvalidDataException("The NUS3BANK is too large.");
 
-                if (packStream.Position > int.MaxValue || subfile.LongLength > uint.MaxValue)
+                    prepared.Name = toneName;
+                    prepared.StreamRelativeOffset = streamRelativeOffset;
+                    toneEntries.Add(new Nus3TonePackEntry(
+                        toneName,
+                        checked((uint)streamRelativeOffset),
+                        checked((uint)prepared.Length)));
+
+                    preparedStreams.Add(prepared);
+                    packPosition = streamEnd;
+                }
+
+                if (packPosition > uint.MaxValue)
                     throw new InvalidDataException("The NUS3BANK is too large.");
 
-                int streamRelativeOffset = Align(checked((int)packStream.Position), 0x10);
-                while (packStream.Position < streamRelativeOffset)
-                    packStream.WriteByte(0);
-
-                string toneName = SanitizeAsciiToken(stream.Name, $"tone_{i:D4}");
-                toneEntries.Add(new Nus3TonePackEntry(
-                    toneName,
-                    checked((uint)streamRelativeOffset),
-                    checked((uint)subfile.Length)));
-
-                packStream.Write(subfile, 0, subfile.Length);
+                byte[] tone = BuildToneChunkData(toneEntries, flavor);
+                WriteToneBankFromPreparedStreams(outputPath, bankName, tone, preparedStreams, packPosition, flavor);
+                FormMain.DebugInfo($"[Nus3Bank] Write multi tone completed. streams={streams.Count}, output={outputPath}");
             }
-
-            if (packStream.Length > uint.MaxValue)
-                throw new InvalidDataException("The NUS3BANK is too large.");
-
-            byte[] tone = BuildToneChunkData(toneEntries, flavor);
-            WriteToneBank(outputPath, bankName, tone, packStream.ToArray(), flavor);
-            FormMain.DebugInfo($"[Nus3Bank] Write multi tone completed. streams={streams.Count}, output={outputPath}");
+            finally
+            {
+                foreach (Nus3PreparedPackStream prepared in preparedStreams)
+                    prepared.Dispose();
+            }
         }
 
         private static void WriteToneBank(string outputPath, string bankName, byte[] tone, byte[] pack, Nus3BankBuildFlavor flavor)
+        {
+            using var prepared = new Nus3PreparedPackStream(
+                string.Empty,
+                0,
+                pack.LongLength,
+                pack,
+                filePath: null,
+                deleteFileOnDispose: false);
+            WriteToneBankFromPreparedStreams(outputPath, bankName, tone, [prepared], pack.LongLength, flavor);
+        }
+
+        private static void WriteToneBankFromPreparedStreams(
+            string outputPath,
+            string bankName,
+            byte[] tone,
+            IReadOnlyList<Nus3PreparedPackStream> packStreams,
+            long packSize,
+            Nus3BankBuildFlavor flavor)
         {
             byte[] prop = BuildPropChunkData(flavor);
             byte[] binf = BuildBinfChunkData(bankName);
@@ -390,48 +435,212 @@ namespace ATRACTool_Reloaded
 
             const int chunkCount = 7;
             int tocSize = 4 + chunkCount * 8;
-            int currentOffset = 0x14 + tocSize;
+            long currentOffset = 0x14 + tocSize;
             foreach (var chunk in preJunkChunks)
                 currentOffset += 8 + chunk.Data.Length;
 
-            int junkSize = Align(currentOffset + 16, 0x10) - (currentOffset + 16);
+            int junkSize = checked((int)(Align(currentOffset + 16, 0x10) - (currentOffset + 16)));
             byte[] junk = new byte[junkSize];
 
-            var chunks = new List<(string Id, byte[] Data)>(preJunkChunks)
-            {
-                ("JUNK", junk),
-                ("PACK", pack),
-            };
+            CreateParentDirectory(outputPath);
+            using var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.SequentialScan);
+            WriteAscii(fs, "NUS3");
+            WriteU32LE(fs, 0);
+            WriteAscii(fs, "BANK");
+            WriteAscii(fs, "TOC ");
+            WriteU32LE(fs, checked((uint)tocSize));
+            WriteU32LE(fs, chunkCount);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-            using var ms = new MemoryStream();
-            WriteAscii(ms, "NUS3");
-            WriteU32LE(ms, 0);
-            WriteAscii(ms, "BANK");
-            WriteAscii(ms, "TOC ");
-            WriteU32LE(ms, checked((uint)tocSize));
-            WriteU32LE(ms, chunkCount);
-
-            foreach (var chunk in chunks)
+            foreach (var chunk in preJunkChunks)
             {
-                WriteAscii(ms, chunk.Id);
-                WriteU32LE(ms, checked((uint)chunk.Data.Length));
+                WriteAscii(fs, chunk.Id);
+                WriteU32LE(fs, checked((uint)chunk.Data.Length));
             }
 
-            foreach (var chunk in chunks)
+            WriteAscii(fs, "JUNK");
+            WriteU32LE(fs, checked((uint)junk.Length));
+            WriteAscii(fs, "PACK");
+            WriteU32LE(fs, checked((uint)packSize));
+
+            foreach (var chunk in preJunkChunks)
             {
-                WriteAscii(ms, chunk.Id);
-                WriteU32LE(ms, checked((uint)chunk.Data.Length));
-                ms.Write(chunk.Data, 0, chunk.Data.Length);
+                WriteAscii(fs, chunk.Id);
+                WriteU32LE(fs, checked((uint)chunk.Data.Length));
+                fs.Write(chunk.Data, 0, chunk.Data.Length);
             }
 
-            if (ms.Length > uint.MaxValue)
+            WriteAscii(fs, "JUNK");
+            WriteU32LE(fs, checked((uint)junk.Length));
+            fs.Write(junk, 0, junk.Length);
+
+            WriteAscii(fs, "PACK");
+            WriteU32LE(fs, checked((uint)packSize));
+            long writtenPackBytes = 0;
+            foreach (Nus3PreparedPackStream stream in packStreams)
+            {
+                WriteZeroPadding(fs, checked(stream.StreamRelativeOffset - writtenPackBytes));
+                writtenPackBytes = stream.StreamRelativeOffset;
+                stream.CopyTo(fs);
+                writtenPackBytes = checked(writtenPackBytes + stream.Length);
+            }
+
+            if (writtenPackBytes != packSize)
+                throw new InvalidDataException("The NUS3BANK PACK size does not match the stream data.");
+
+            if (fs.Length > uint.MaxValue)
                 throw new InvalidDataException("The NUS3BANK is too large.");
 
-            ms.Position = 0x04;
-            WriteU32LE(ms, checked((uint)(ms.Length - 8)));
-            File.WriteAllBytes(outputPath, ms.ToArray());
-            FormMain.DebugInfo($"[Nus3Bank] Bank file written. output={outputPath}, bytes={ms.Length}, flavor={flavor}");
+            fs.Position = 0x04;
+            WriteU32LE(fs, checked((uint)(fs.Length - 8)));
+            FormMain.DebugInfo($"[Nus3Bank] Bank file written. output={outputPath}, bytes={fs.Length}, flavor={flavor}");
+        }
+
+        private static Nus3PreparedPackStream PreparePackStream(Nus3BankEncodeStream stream, Nus3BankBuildFlavor flavor)
+        {
+            if (!string.IsNullOrWhiteSpace(stream.DataPath))
+                return PreparePackStreamFromFile(stream.DataPath, stream.LoopPoints, flavor);
+
+            if (stream.Data.Length == 0)
+                throw new InvalidDataException("A NUS3BANK stream is empty.");
+
+            byte[] subfile = stream.LoopPoints.HasValue
+                ? EnsureRiffLoopChunk(stream.Data, stream.LoopPoints.Value)
+                : stream.Data;
+
+            ValidateSubfileSize(subfile.LongLength);
+            ValidateNub2StreamCodec(subfile, flavor);
+            return new Nus3PreparedPackStream(
+                string.Empty,
+                0,
+                subfile.LongLength,
+                subfile,
+                filePath: null,
+                deleteFileOnDispose: false);
+        }
+
+        private static Nus3PreparedPackStream PreparePackStreamFromFile(string path, Nus3RiffLoopPoints? loopPoints, Nus3BankBuildFlavor flavor)
+        {
+            long length = GetExistingFileLength(path);
+            ValidateSubfileSize(length);
+
+            if (!loopPoints.HasValue)
+            {
+                ValidateNub2StreamCodecFromFile(path, length, flavor);
+                return new Nus3PreparedPackStream(
+                    string.Empty,
+                    0,
+                    length,
+                    data: null,
+                    filePath: path,
+                    deleteFileOnDispose: false);
+            }
+
+            byte[] original = File.ReadAllBytes(path);
+            byte[] subfile = EnsureRiffLoopChunk(original, loopPoints.Value);
+            ValidateSubfileSize(subfile.LongLength);
+            ValidateNub2StreamCodec(subfile, flavor);
+
+            string tempPath = Path.Combine(Path.GetTempPath(), "ATRACTool_Reloaded_" + Guid.NewGuid().ToString("N") + ".pack");
+            File.WriteAllBytes(tempPath, subfile);
+            return new Nus3PreparedPackStream(
+                string.Empty,
+                0,
+                subfile.LongLength,
+                data: null,
+                filePath: tempPath,
+                deleteFileOnDispose: true);
+        }
+
+        private static long GetExistingFileLength(string path)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException("The encoded subfile was not found.", path);
+
+            long length = new FileInfo(path).Length;
+            if (length == 0)
+                throw new InvalidDataException("The encoded subfile is empty.");
+
+            return length;
+        }
+
+        private static void ValidateSubfileSize(long length)
+        {
+            if (length <= 0)
+                throw new InvalidDataException("A NUS3BANK stream is empty.");
+
+            if (length > int.MaxValue)
+                throw new InvalidDataException("The NUS3BANK stream is too large.");
+        }
+
+        private static void WriteZeroPadding(Stream stream, long count)
+        {
+            if (count < 0)
+                throw new InvalidDataException("The NUS3BANK stream offsets are invalid.");
+
+            Span<byte> zeroes = stackalloc byte[16];
+            while (count > 0)
+            {
+                int write = (int)Math.Min(zeroes.Length, count);
+                stream.Write(zeroes[..write]);
+                count -= write;
+            }
+        }
+
+        private sealed class Nus3PreparedPackStream : IDisposable
+        {
+            public Nus3PreparedPackStream(string name, long streamRelativeOffset, long length, byte[]? data, string? filePath, bool deleteFileOnDispose)
+            {
+                Name = name;
+                StreamRelativeOffset = streamRelativeOffset;
+                Length = length;
+                Data = data;
+                FilePath = filePath;
+                DeleteFileOnDispose = deleteFileOnDispose;
+            }
+
+            public string Name { get; set; }
+            public long StreamRelativeOffset { get; set; }
+            public long Length { get; }
+            private byte[]? Data { get; }
+            private string? FilePath { get; }
+            private bool DeleteFileOnDispose { get; }
+
+            public void CopyTo(Stream destination)
+            {
+                if (Data is not null)
+                {
+                    if (Data.LongLength != Length)
+                        throw new InvalidDataException("The NUS3BANK stream length changed before writing.");
+
+                    destination.Write(Data, 0, Data.Length);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(FilePath))
+                    throw new InvalidDataException("The NUS3BANK stream source is invalid.");
+
+                using var source = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+                if (source.Length != Length)
+                    throw new InvalidDataException("The NUS3BANK stream length changed before writing.");
+
+                source.CopyTo(destination);
+            }
+
+            public void Dispose()
+            {
+                if (!DeleteFileOnDispose || string.IsNullOrWhiteSpace(FilePath))
+                    return;
+
+                try
+                {
+                    if (File.Exists(FilePath))
+                        File.Delete(FilePath);
+                }
+                catch
+                {
+                    // Temporary pack files are best-effort cleanup.
+                }
+            }
         }
 
         private static List<Nus3Tone> ParseTones(byte[] data, Nus3Chunk toneChunk, Nus3Chunk packChunk)
@@ -665,13 +874,32 @@ namespace ATRACTool_Reloaded
 
             try
             {
-                return TryReadRiffWaveSampleRate(File.ReadAllBytes(path), out sampleRate);
+                return TryReadRiffWaveSampleRateFromFile(path, out sampleRate);
             }
             catch
             {
                 sampleRate = 0;
                 return false;
             }
+        }
+
+        private static bool TryReadRiffWaveSampleRateFromFile(string path, out int sampleRate)
+        {
+            sampleRate = 0;
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+            if (!TryReadRiffHeader(fs, out long riffEnd))
+                return false;
+
+            Span<byte> fmtData = stackalloc byte[40];
+            if (!TryReadRiffFmtChunk(fs, riffEnd, fmtData, out int fmtBytesRead) || fmtBytesRead < 8)
+                return false;
+
+            uint rate = BinaryPrimitives.ReadUInt32LittleEndian(fmtData.Slice(4, 4));
+            if (rate == 0 || rate > int.MaxValue)
+                return false;
+
+            sampleRate = (int)rate;
+            return true;
         }
 
         private static bool TryReadRiffWaveSampleRate(byte[] data, out int sampleRate)
@@ -898,10 +1126,19 @@ namespace ATRACTool_Reloaded
 
         private static Nus3SubfileCodec DetectWaveFormat(byte[] data, int offset, int size)
         {
+            if (offset < 0 || size < 0 || offset > data.Length || size > data.Length - offset)
+                return Nus3SubfileCodec.RiffUnknown;
+
+            return DetectWaveFormat(data.AsSpan(offset, size));
+        }
+
+        private static Nus3SubfileCodec DetectWaveFormat(ReadOnlySpan<byte> data)
+        {
+            int size = data.Length;
             if (size < 16)
                 return Nus3SubfileCodec.RiffUnknown;
 
-            ushort formatTag = ReadU16LE(data, offset);
+            ushort formatTag = BinaryPrimitives.ReadUInt16LittleEndian(data[..2]);
             if (formatTag == 0x0001)
                 return Nus3SubfileCodec.PcmWave;
 
@@ -910,7 +1147,7 @@ namespace ATRACTool_Reloaded
 
             if (formatTag == 0xFFFE && size >= 40)
             {
-                ReadOnlySpan<byte> subtype = new(data, offset + 24, 16);
+                ReadOnlySpan<byte> subtype = data.Slice(24, 16);
                 if (IsAtrac9WaveGuid(subtype))
                     return Nus3SubfileCodec.Atrac9;
 
@@ -937,6 +1174,99 @@ namespace ATRACTool_Reloaded
 
             if (DetectSubfileCodec(subfile, 0, subfile.Length) != Nus3SubfileCodec.Atrac3)
                 throw new InvalidDataException("NUB2 output supports ATRAC3/ATRAC3+ RIFF streams only.");
+        }
+
+        private static void ValidateNub2StreamCodecFromFile(string path, long length, Nus3BankBuildFlavor flavor)
+        {
+            if (flavor != Nus3BankBuildFlavor.Nub2)
+                return;
+
+            if (DetectSubfileCodecFromFile(path, length) != Nus3SubfileCodec.Atrac3)
+                throw new InvalidDataException("NUB2 output supports ATRAC3/ATRAC3+ RIFF streams only.");
+        }
+
+        private static Nus3SubfileCodec DetectSubfileCodecFromFile(string path, long length)
+        {
+            if (length < 4)
+                return Nus3SubfileCodec.Unknown;
+
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+            Span<byte> signature = stackalloc byte[4];
+            if (!TryReadExactly(fs, signature))
+                return Nus3SubfileCodec.Unknown;
+
+            if (AsciiEquals(signature, "BNSF"))
+                return Nus3SubfileCodec.Bnsf;
+
+            if (AsciiEquals(signature, "IVAG"))
+                return Nus3SubfileCodec.Ivag;
+
+            if (!AsciiEquals(signature, "RIFF"))
+                return Nus3SubfileCodec.Unknown;
+
+            fs.Position = 0;
+            if (!TryReadRiffHeader(fs, out long riffEnd))
+                return Nus3SubfileCodec.RiffUnknown;
+
+            Span<byte> fmtData = stackalloc byte[40];
+            return TryReadRiffFmtChunk(fs, riffEnd, fmtData, out int fmtBytesRead)
+                ? DetectWaveFormat(fmtData[..fmtBytesRead])
+                : Nus3SubfileCodec.RiffUnknown;
+        }
+
+        private static bool TryReadRiffHeader(FileStream fs, out long riffEnd)
+        {
+            riffEnd = 0;
+            if (fs.Length < 12)
+                return false;
+
+            Span<byte> header = stackalloc byte[12];
+            fs.Position = 0;
+            if (!TryReadExactly(fs, header) ||
+                !AsciiEquals(header[..4], "RIFF") ||
+                !AsciiEquals(header.Slice(8, 4), "WAVE"))
+            {
+                return false;
+            }
+
+            long declaredEnd = BinaryPrimitives.ReadUInt32LittleEndian(header.Slice(4, 4)) + 8L;
+            riffEnd = declaredEnd < 12 || declaredEnd > fs.Length ? fs.Length : declaredEnd;
+            return true;
+        }
+
+        private static void CreateParentDirectory(string path)
+        {
+            string? directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
+        }
+
+        private static bool TryReadRiffFmtChunk(FileStream fs, long riffEnd, Span<byte> fmtData, out int fmtBytesRead)
+        {
+            fmtBytesRead = 0;
+            long p = 12;
+            Span<byte> chunkHeader = stackalloc byte[8];
+            while (p + 8 <= riffEnd)
+            {
+                fs.Position = p;
+                if (!TryReadExactly(fs, chunkHeader))
+                    return false;
+
+                uint payloadSize = BinaryPrimitives.ReadUInt32LittleEndian(chunkHeader.Slice(4, 4));
+                long next = p + 8 + payloadSize + (payloadSize & 1u);
+                if (next < p || next > riffEnd)
+                    return false;
+
+                if (AsciiEquals(chunkHeader[..4], "fmt "))
+                {
+                    fmtBytesRead = checked((int)Math.Min(payloadSize, (uint)fmtData.Length));
+                    return fmtBytesRead == 0 || TryReadExactly(fs, fmtData[..fmtBytesRead]);
+                }
+
+                p = next;
+            }
+
+            return false;
         }
 
         private static bool IsAtrac9WaveGuid(ReadOnlySpan<byte> subtype)
@@ -1114,6 +1444,35 @@ namespace ATRACTool_Reloaded
             return Encoding.ASCII.GetString(data, offset, length);
         }
 
+        private static bool AsciiEquals(ReadOnlySpan<byte> data, string value)
+        {
+            if (data.Length != value.Length)
+                return false;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (data[i] != (byte)value[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool TryReadExactly(Stream stream, Span<byte> buffer)
+        {
+            int offset = 0;
+            while (offset < buffer.Length)
+            {
+                int read = stream.Read(buffer[offset..]);
+                if (read == 0)
+                    return false;
+
+                offset += read;
+            }
+
+            return true;
+        }
+
         private static string ReadString(byte[] data, int offset, int length)
         {
             if (length <= 0) return string.Empty;
@@ -1202,6 +1561,12 @@ namespace ATRACTool_Reloaded
         private static int Align(int value, int alignment)
         {
             int mask = alignment - 1;
+            return (value + mask) & ~mask;
+        }
+
+        private static long Align(long value, int alignment)
+        {
+            long mask = alignment - 1;
             return (value + mask) & ~mask;
         }
     }

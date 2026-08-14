@@ -323,6 +323,7 @@ namespace ATRACTool_Reloaded
             public static bool IsNus3Bank = false;
             public static bool IsPlaybackNus3Bank = false;
             public static bool Nus3BankDecodeToFolder = false;
+            public static bool Nus3BankExtractEmbedded = false;
             public static bool Nus3BankEncodeOutput = false;
             public static sbyte Nus3BankEncodeCodecFlag = 1;
             public static List<Nus3BankEncodeStreamSetting> Nus3BankEncodeStreamSettings { get; set; } = [];

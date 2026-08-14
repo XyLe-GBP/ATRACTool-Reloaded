@@ -472,6 +472,10 @@
 否：中止转换
 取消：返回编辑界面</value>
   </data>
+  <data name="Nus3BankRawExtractConfirmCaption" xml:space="preserve">
+    <value>是否按原样输出 NUSound 中带有循环信息的内嵌文件？
+选择“否”将输出不保留循环信息的普通 WAV 文件。</value>
+  </data>
   <data name="NotNUSoundDecodeTarget" xml:space="preserve">
     <value>此 NUS3BANK/NUB2 文件不包含可解码的 RIFF/WAVE PCM、ATRAC3、ATRAC9 或 IVAG 子文件：</value>
   </data>

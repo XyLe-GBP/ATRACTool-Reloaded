@@ -7,14 +7,22 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.50.2620.811</AssemblyVersion>
-    <FileVersion>1.50.2620.811</FileVersion>
+    <AssemblyVersion>1.51.2620.814</AssemblyVersion>
+    <FileVersion>1.51.2620.814</FileVersion>
+    <Version>$(FileVersion)</Version>
+    <InformationalVersion>$(FileVersion)</InformationalVersion>
+    <AssemblyTitle>ATRACTool Reloaded</AssemblyTitle>
+    <Product>ATRACTool Reloaded</Product>
+    <Authors>XyLe</Authors>
     <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/XyLe-GBP/ATRACTool-Reloaded</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/XyLe-GBP/ATRACTool-Reloaded</PackageProjectUrl>
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
     <Copyright>Copyright © 2026 - XyLe. All Rights Reserved.</Copyright>
     <PackageTags>ATRAC, ATRAC3, ATRAC9, walkman, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <UseWPF>True</UseWPF>
     <CodeSignToolPath Condition="'$(CodeSignToolPath)' == ''">signtool.exe</CodeSignToolPath>
     <CodeSignTimestampUrl Condition="'$(CodeSignTimestampUrl)' == ''">http://timestamp.digicert.com</CodeSignTimestampUrl>
@@ -120,6 +128,14 @@
     <Message Importance="High" Text="Signing published executable: %(PublishedExecutableToSign.Identity)" Condition="'@(PublishedExecutableToSign)' != ''" />
     <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; sign /f &quot;$(CodeSignCertificateFile)&quot; $(CodeSignCertificatePasswordArgument) /fd SHA256 /tr &quot;$(CodeSignTimestampUrl)&quot; /td SHA256 /d &quot;$(CodeSignDescription)&quot; /du &quot;$(CodeSignDescriptionUrl)&quot; &quot;%(PublishedExecutableToSign.Identity)&quot;" />
     <Exec Condition="'@(PublishedExecutableToSign)' != ''" Command="&quot;$(CodeSignToolPath)&quot; verify /pa /tw &quot;%(PublishedExecutableToSign.Identity)&quot;" />
+  </Target>
+
+  <Target Name="ReportUnsignedPublishedExecutables" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release' and '$(CodeSignCertificateThumbprint)' == '' and '$(CodeSignCertificateFile)' == ''">
+    <ItemGroup>
+      <UnsignedPublishedExecutable Include="$(PublishDir)ATRACTool-Reloaded.exe" Condition="Exists('$(PublishDir)ATRACTool-Reloaded.exe')" />
+      <UnsignedPublishedExecutable Include="$(PublishDir)res\updater.exe" Condition="Exists('$(PublishDir)res\updater.exe')" />
+    </ItemGroup>
+    <Message Importance="High" Text="Published executable is unsigned: %(UnsignedPublishedExecutable.Identity). Set CodeSignCertificateThumbprint or CodeSignCertificateFile to reduce Norton/SmartScreen reputation warnings." Condition="'@(UnsignedPublishedExecutable)' != ''" />
   </Target>
 
 </Project>

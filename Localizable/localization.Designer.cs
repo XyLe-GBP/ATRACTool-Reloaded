@@ -708,6 +708,16 @@ namespace ATRACTool_Reloaded.Localizable {
         }
         
         /// <summary>
+        ///   Output the embedded files with loop information in NUSound as-is?
+        ///Select No to output normal WAV files without preserving loop information. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Nus3BankRawExtractConfirmCaption {
+            get {
+                return ResourceManager.GetString("Nus3BankRawExtractConfirmCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This NUS3BANK/NUB2 does not contain decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles: に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotNUSoundDecodeTarget {

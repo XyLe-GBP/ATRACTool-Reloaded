@@ -472,6 +472,10 @@ GitHubリポジトリのページを開きますか？</value>
 いいえ：変換を中止
 キャンセル：編集画面に戻る</value>
   </data>
+  <data name="Nus3BankRawExtractConfirmCaption" xml:space="preserve">
+    <value>NUSound内のループ情報付き内包ファイルをそのまま出力しますか？
+いいえを選択するとループ情報が保持されず、通常のWAVで出力されます。</value>
+  </data>
   <data name="NotNUSoundDecodeTarget" xml:space="preserve">
     <value>このNUS3BANK/NUB2には、デコード可能なRIFF/WAVE PCM、ATRAC3、ATRAC9、またはIVAGサブファイルは含まれていません：</value>
   </data>

@@ -466,6 +466,10 @@ Yes: Continue without tags
 No: Stop conversion
 Cancel: Return to edit screen</value>
   </data>
+  <data name="Nus3BankRawExtractConfirmCaption" xml:space="preserve">
+    <value>Output the embedded files with loop information in NUSound as-is?
+Select No to output normal WAV files without preserving loop information.</value>
+  </data>
   <data name="NotNUSoundDecodeTarget" xml:space="preserve">
     <value>This NUS3BANK/NUB2 does not contain decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles:</value>
   </data>

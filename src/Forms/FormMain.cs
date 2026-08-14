@@ -2060,6 +2060,7 @@ namespace ATRACTool_Reloaded
             Generic.IsPlaybackNus3Bank = false;
             Generic.IsATRACLooped = false;
             Generic.Nus3BankDecodeToFolder = false;
+            Generic.Nus3BankExtractEmbedded = false;
             SetNus3BankEncodeOutput(false);
             Generic.Nus3BankEncodeCodecFlag = 1;
             Generic.Nus3BankEncodeStreamSettings.Clear();
@@ -2069,7 +2070,19 @@ namespace ATRACTool_Reloaded
 
             if (HasNus3BankInputs())
             {
-                int nus3OutputCount = GetNus3BankAtracToneCount();
+                int nus3ExtractableCount = GetNus3BankExtractableToneCount();
+                int nus3WavOutputCount = GetNus3BankAtracToneCount();
+                if (nus3ExtractableCount <= 0 && nus3WavOutputCount <= 0)
+                {
+                    MessageBox.Show(this, "No decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles were found in the selected NUS3/NUB2 file(s).", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ResetStatus();
+                    return;
+                }
+
+                DialogResult extractDialogResult = MessageBox.Show(this, Localization.Nus3BankRawExtractConfirmCaption, Localization.MSGBoxConfirmCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                Generic.Nus3BankExtractEmbedded = extractDialogResult == DialogResult.Yes;
+
+                int nus3OutputCount = Generic.Nus3BankExtractEmbedded ? nus3ExtractableCount : nus3WavOutputCount;
                 if (nus3OutputCount <= 0)
                 {
                     MessageBox.Show(this, "No decodable RIFF/WAVE PCM, ATRAC3, ATRAC9, or IVAG subfiles were found in the selected NUS3/NUB2 file(s).", Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2084,7 +2097,7 @@ namespace ATRACTool_Reloaded
                 }
             }
 
-            toolStripStatusLabel_Status.Text = "Decoding...";
+            toolStripStatusLabel_Status.Text = Generic.Nus3BankExtractEmbedded ? "Extracting..." : "Decoding...";
 
             if (Common.Generic.Nus3BankDecodeToFolder)
             {
@@ -2295,7 +2308,7 @@ namespace ATRACTool_Reloaded
                 if (Common.Generic.Nus3BankDecodeToFolder)
                 {
                     Common.Generic.cts.Dispose();
-                    int moved = MoveTempWaveOutputsToFolder(Common.Generic.FolderSavePath);
+                    int moved = MoveTempNus3BankOutputsToFolder(Common.Generic.FolderSavePath);
                     Common.Utils.DeleteDirectoryFiles(Directory.GetCurrentDirectory() + @"\_temp");
 
                     if (moved > 0)
@@ -3348,6 +3361,104 @@ namespace ATRACTool_Reloaded
             return ext == ".AT3" || ext == ".AT9" || ext == ".NUS3BANK" || ext == ".NUB2";
         }
 
+        private void ClearLoadedLoopState()
+        {
+            Generic.IsATRACLooped = false;
+            textBox_LoopStart.Text = string.Empty;
+            textBox_LoopEnd.Text = string.Empty;
+        }
+
+        private void ReadSingleAtracMetadataForLoad(string path, sbyte atracFlag)
+        {
+            Generic.ReadedATRACFlag = atracFlag;
+            Generic.ATRACMetadataBuffers = new int[3];
+            ClearLoadedLoopState();
+
+            if (!CanReadAtracMetadataSafely(path) || !Utils.ReadMetadatas(path, Generic.ATRACMetadataBuffers))
+            {
+                DebugWarn($"[ATRAC] Metadata read skipped or failed. path={path}");
+                return;
+            }
+
+            int[] loop = new int[2];
+            if (Utils.GetATRACLooped(Generic.ATRACMetadataBuffers, loop))
+            {
+                Generic.IsATRACLooped = true;
+                textBox_LoopStart.Text = loop[0].ToString();
+                textBox_LoopEnd.Text = loop[1].ToString();
+                DebugInfo($"[ATRAC] Loop metadata applied. path={path}, start={loop[0]}, end={loop[1]}");
+            }
+        }
+
+        private void ReadMultipleAtracMetadataForLoad(string[] paths, sbyte atracFlag)
+        {
+            Generic.ReadedATRACFlag = atracFlag;
+            Generic.ATRACMultiMetadataBuffer = new int[paths.Length, 3];
+            Generic.MultipleLoopStarts = new int[paths.Length];
+            Generic.MultipleLoopEnds = new int[paths.Length];
+            Generic.MultipleFilesLoopOKFlags = new bool[paths.Length];
+            ClearLoadedLoopState();
+
+            int[] firstLoop = new int[2];
+            bool hasFirstLoop = false;
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                string path = paths[i];
+                int[] metadata = new int[3];
+                if (!CanReadAtracMetadataSafely(path) || !Utils.ReadMetadatas(path, metadata))
+                {
+                    DebugWarn($"[ATRAC] Metadata read skipped or failed. index={i}, path={path}");
+                    continue;
+                }
+
+                Generic.ATRACMultiMetadataBuffer[i, 0] = metadata[0];
+                Generic.ATRACMultiMetadataBuffer[i, 1] = metadata[1];
+                Generic.ATRACMultiMetadataBuffer[i, 2] = metadata[2];
+
+                int[] loop = new int[2];
+                if (!Utils.GetATRACLooped(metadata, loop))
+                    continue;
+
+                Generic.MultipleLoopStarts[i] = loop[0];
+                Generic.MultipleLoopEnds[i] = loop[1];
+                Generic.MultipleFilesLoopOKFlags[i] = true;
+
+                if (!hasFirstLoop)
+                {
+                    firstLoop[0] = loop[0];
+                    firstLoop[1] = loop[1];
+                    hasFirstLoop = true;
+                }
+            }
+
+            if (hasFirstLoop)
+            {
+                Generic.IsATRACLooped = true;
+                textBox_LoopStart.Text = firstLoop[0].ToString();
+                textBox_LoopEnd.Text = firstLoop[1].ToString();
+                DebugInfo($"[ATRAC] First valid loop metadata applied. start={firstLoop[0]}, end={firstLoop[1]}");
+            }
+        }
+
+        private static bool CanReadAtracMetadataSafely(string path)
+        {
+            try
+            {
+                if (!File.Exists(path) || new FileInfo(path).Length < 0x98)
+                    return false;
+
+                Span<byte> header = stackalloc byte[12];
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                return fs.Read(header) == header.Length &&
+                    header[0] == (byte)'R' && header[1] == (byte)'I' && header[2] == (byte)'F' && header[3] == (byte)'F' &&
+                    header[8] == (byte)'W' && header[9] == (byte)'A' && header[10] == (byte)'V' && header[11] == (byte)'E';
+            }
+            catch
+            {
+                return false;
+            }
+        }
         private static bool HasNus3BankInputs()
         {
             return Generic.OpenFilePaths != null && Generic.OpenFilePaths.Any(Nus3BankFile.HasNus3BankExtension);
@@ -3365,6 +3476,28 @@ namespace ATRACTool_Reloaded
                 {
                     using Nus3BankFile bank = Nus3BankFile.Load(path);
                     count += bank.DecodableWaveToneCount;
+                }
+                catch (Exception ex)
+                {
+                    DebugWarn("NUS3/NUB2 parse failed: " + path + " / " + ex.Message);
+                }
+            }
+
+            return count;
+        }
+
+        private static int GetNus3BankExtractableToneCount()
+        {
+            if (Generic.OpenFilePaths == null)
+                return 0;
+
+            int count = 0;
+            foreach (string path in Generic.OpenFilePaths.Where(Nus3BankFile.HasNus3BankExtension))
+            {
+                try
+                {
+                    using Nus3BankFile bank = Nus3BankFile.Load(path);
+                    count += bank.ExtractableToneCount;
                 }
                 catch (Exception ex)
                 {
@@ -3396,15 +3529,20 @@ namespace ATRACTool_Reloaded
                 Generic.ATRACMultiMetadataBuffer[i, 2] = state.SampleRate;
             }
 
-            if (loopStates.Count > 0 && loopStates[0].IsLoopOk)
+            var firstValidLoop = loopStates.FirstOrDefault(state => state.IsLoopOk && state.End > state.Start);
+            if (firstValidLoop.IsLoopOk)
             {
-                textBox_LoopStart.Text = loopStates[0].Start.ToString();
-                textBox_LoopEnd.Text = loopStates[0].End.ToString();
+                Generic.IsATRACLooped = true;
+                textBox_LoopStart.Text = firstValidLoop.Start.ToString();
+                textBox_LoopEnd.Text = firstValidLoop.End.ToString();
+                DebugInfo($"NUS3/NUB2 loop state applied. start={firstValidLoop.Start}, end={firstValidLoop.End}");
             }
             else
             {
+                Generic.IsATRACLooped = false;
                 textBox_LoopStart.Text = string.Empty;
                 textBox_LoopEnd.Text = string.Empty;
+                DebugWarn("NUS3/NUB2 loop state not found.");
             }
         }
 
@@ -3739,6 +3877,7 @@ namespace ATRACTool_Reloaded
             Generic.IsPlaybackNus3Bank = false;
             Generic.IsATRACLooped = false;
             Generic.Nus3BankDecodeToFolder = false;
+            Generic.Nus3BankExtractEmbedded = false;
             Generic.Nus3BankPlaybackTempPaths.Clear();
             Generic.Nus3BankPlaybackOriginPaths = null!;
             SetNus3BankEncodeOutput(false);
@@ -3783,6 +3922,7 @@ namespace ATRACTool_Reloaded
             Generic.Nus3BankPlaybackTempPaths.Clear();
             Generic.Nus3BankPlaybackOriginPaths = null!;
             Generic.Nus3BankOutputCount = 0;
+            Generic.Nus3BankExtractEmbedded = false;
 
             int outputCount = GetNus3BankAtracToneCount();
             if (outputCount <= 0)
@@ -3892,7 +4032,7 @@ namespace ATRACTool_Reloaded
             return true;
         }
 
-        private static int MoveTempWaveOutputsToFolder(string folderPath)
+        private static int MoveTempNus3BankOutputsToFolder(string folderPath)
         {
             string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "_temp");
             if (!Directory.Exists(tempDir))
@@ -3900,8 +4040,12 @@ namespace ATRACTool_Reloaded
 
             Directory.CreateDirectory(folderPath);
             int moved = 0;
-            foreach (string tempFile in Directory.GetFiles(tempDir, "*.wav", SearchOption.TopDirectoryOnly))
+            string searchPattern = Generic.Nus3BankExtractEmbedded ? "*" : "*.wav";
+            foreach (string tempFile in Directory.GetFiles(tempDir, searchPattern, SearchOption.TopDirectoryOnly))
             {
+                if (Generic.Nus3BankExtractEmbedded && string.Equals(Path.GetExtension(tempFile), ".tmp", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
                 string dest = Common.Utils.MakeNonCollidingPath(Path.Combine(folderPath, Path.GetFileName(tempFile)));
                 File.Move(tempFile, dest);
                 if (File.Exists(dest) && new FileInfo(dest).Length > 0)
@@ -3955,6 +4099,7 @@ namespace ATRACTool_Reloaded
             Generic.IsNus3Bank = false;
             Generic.IsPlaybackNus3Bank = false;
             Generic.Nus3BankDecodeToFolder = false;
+            Generic.Nus3BankExtractEmbedded = false;
             SetNus3BankEncodeOutput(false);
             Generic.Nus3BankEncodeCodecFlag = 1;
             Generic.Nus3BankEncodeStreamSettings.Clear();
@@ -4589,14 +4734,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -4755,14 +4898,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -4893,14 +5034,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -5085,14 +5224,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -5292,14 +5429,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatas(Generic.OpenFilePaths[0], Generic.ATRACMetadataBuffers);
+                            ReadSingleAtracMetadataForLoad(Generic.OpenFilePaths[0], 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;
@@ -5483,14 +5618,12 @@ namespace ATRACTool_Reloaded
                             FormatSorter(true, true);
                             break;
                         case ".AT3":
-                            Generic.ReadedATRACFlag = 0;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 0);
                             label_Formattxt.Text = Localization.ATRAC3FormatCaption;
                             FormatSorter(false);
                             break;
                         case ".AT9":
-                            Generic.ReadedATRACFlag = 1;
-                            Utils.ReadMetadatasMulti(Generic.OpenFilePaths, Generic.ATRACMultiMetadataBuffer);
+                            ReadMultipleAtracMetadataForLoad(Generic.OpenFilePaths, 1);
                             label_Formattxt.Text = Localization.ATRAC9FormatCaption;
                             FormatSorter(false);
                             break;

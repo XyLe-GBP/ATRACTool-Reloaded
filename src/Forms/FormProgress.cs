@@ -57,6 +57,8 @@ namespace ATRACTool_Reloaded
             { 122, -60 },
         };
 
+        private const int ProgressDirectoryPollIntervalMs = 250;
+
         private sealed class IvagInfo
         {
             public required int Channels { get; init; }
@@ -73,6 +75,13 @@ namespace ATRACTool_Reloaded
             public required string OriginPath { get; init; }
             public required string StreamName { get; init; }
             public Nus3RiffLoopPoints? LoopPoints { get; init; }
+        }
+
+        private sealed class Nus3BankDecodeWorkItem
+        {
+            public required Nus3SubfileCodec Codec { get; init; }
+            public required string EncodedPath { get; init; }
+            public required string WavPath { get; init; }
         }
 
         private sealed class MultipleEncodeItem
@@ -257,7 +266,7 @@ namespace ATRACTool_Reloaded
         {
             Config.Load(xmlpath);
             int length = Generic.OpenFilePaths.Length;
-            FormMain.DebugInfo($"[Decode] Dispatch. files={length}, nus3bank={Generic.IsNus3Bank}, playbackNus3bank={Generic.IsPlaybackNus3Bank}");
+            FormMain.DebugInfo($"[Decode] Dispatch. files={length}, nus3bank={Generic.IsNus3Bank}, playbackNus3bank={Generic.IsPlaybackNus3Bank}, extractEmbedded={Generic.Nus3BankExtractEmbedded}");
 
             if (length == 1)
             {
@@ -606,62 +615,86 @@ namespace ATRACTool_Reloaded
 
         private static bool DecodeNus3Bank(string file, string? singleOutputPath, IProgress<int> p, CancellationToken cToken)
         {
-            using var bank = Nus3BankFile.Load(file);
-            var decodableTones = bank.DecodableWaveTones.ToList();
-            if (decodableTones.Count == 0)
+            var decodeItems = new List<Nus3BankDecodeWorkItem>();
+            int completed = 0;
+            int targetCount;
+
+            using (var bank = Nus3BankFile.Load(file))
             {
-                FormMain.DebugWarn(Localization.NotNUSoundDecodeTarget + file);
-                return false;
+                var targetTones = Generic.Nus3BankExtractEmbedded
+                    ? bank.ExtractableTones.ToList()
+                    : bank.DecodableWaveTones.ToList();
+                if (targetTones.Count == 0)
+                {
+                    FormMain.DebugWarn(Localization.NotNUSoundDecodeTarget + file);
+                    return false;
+                }
+
+                targetCount = targetTones.Count;
+                bool useSingleOutput = !Generic.Nus3BankExtractEmbedded && targetTones.Count == 1 && !string.IsNullOrWhiteSpace(singleOutputPath);
+
+                foreach (var tone in targetTones)
+                {
+                    if (cToken.IsCancellationRequested)
+                        return false;
+
+                    string encodedExt = GetEmbeddedSubfileExtension(tone.Codec);
+                    string encodedPath = Path.Combine(TempDirectory, bank.MakeToneOutputName(tone, encodedExt));
+                    string wavPath = useSingleOutput
+                        ? singleOutputPath!
+                        : Path.Combine(TempDirectory, bank.MakeToneOutputName(tone, ".wav"));
+
+                    if (Generic.Nus3BankExtractEmbedded)
+                    {
+                        bank.ExtractToneToFile(tone, encodedPath);
+                        completed++;
+                        p.Report(completed);
+                        continue;
+                    }
+
+                    if (tone.Codec == Nus3SubfileCodec.PcmWave)
+                    {
+                        bank.ExtractToneToFile(tone, wavPath);
+                        if (Generic.IsPlaybackNus3Bank)
+                            Generic.Nus3BankPlaybackTempPaths.Add(wavPath);
+
+                        completed++;
+                        p.Report(completed);
+                        continue;
+                    }
+
+                    bank.ExtractToneToFile(tone, encodedPath);
+                    decodeItems.Add(new Nus3BankDecodeWorkItem
+                    {
+                        Codec = tone.Codec,
+                        EncodedPath = encodedPath,
+                        WavPath = wavPath,
+                    });
+                }
             }
 
             var atrac3Console = (Constants.ATRAC3ConsoleType)Utils.GetInt("ATRAC3_Console", (int)Constants.ATRAC3ConsoleType.PSP);
             var atrac9Console = (Constants.ATRAC9ConsoleType)Utils.GetInt("ATRAC9_Console", (int)Constants.ATRAC9ConsoleType.PSV);
 
-            bool useSingleOutput = decodableTones.Count == 1 && !string.IsNullOrWhiteSpace(singleOutputPath);
-            int completed = 0;
-            foreach (var tone in decodableTones)
+            foreach (Nus3BankDecodeWorkItem item in decodeItems)
             {
                 if (cToken.IsCancellationRequested)
                     return false;
 
-                string encodedExt = tone.Codec switch
-                {
-                    Nus3SubfileCodec.Atrac9 => ".at9",
-                    Nus3SubfileCodec.Ivag => ".ivag",
-                    _ => ".at3",
-                };
-                string encodedPath = Path.Combine(TempDirectory, bank.MakeToneOutputName(tone, encodedExt));
-                string wavPath = useSingleOutput
-                    ? singleOutputPath!
-                    : Path.Combine(TempDirectory, bank.MakeToneOutputName(tone, ".wav"));
-
-                if (tone.Codec == Nus3SubfileCodec.PcmWave)
-                {
-                    bank.ExtractToneToFile(tone, wavPath);
-                    if (Generic.IsPlaybackNus3Bank)
-                        Generic.Nus3BankPlaybackTempPaths.Add(wavPath);
-
-                    completed++;
-                    p.Report(completed);
-                    continue;
-                }
-
-                bank.ExtractToneToFile(tone, encodedPath);
-
-                bool decoded = tone.Codec == Nus3SubfileCodec.Ivag
-                    ? DecodeNus3BankIvagTone(encodedPath, wavPath, p, cToken, () => completed)
-                    : DecodeNus3BankAtracTone(tone.Codec, encodedPath, wavPath, atrac3Console, atrac9Console, p, cToken, () => completed);
+                bool decoded = item.Codec == Nus3SubfileCodec.Ivag
+                    ? DecodeNus3BankIvagTone(item.EncodedPath, item.WavPath, p, cToken, () => completed)
+                    : DecodeNus3BankAtracTone(item.Codec, item.EncodedPath, item.WavPath, atrac3Console, atrac9Console, p, cToken, () => completed);
 
                 if (!decoded)
                     return false;
 
                 if (Generic.IsPlaybackNus3Bank)
-                    Generic.Nus3BankPlaybackTempPaths.Add(wavPath);
+                    Generic.Nus3BankPlaybackTempPaths.Add(item.WavPath);
 
                 try
                 {
-                    if (File.Exists(encodedPath))
-                        File.Delete(encodedPath);
+                    if (File.Exists(item.EncodedPath))
+                        File.Delete(item.EncodedPath);
                 }
                 catch
                 {
@@ -672,8 +705,22 @@ namespace ATRACTool_Reloaded
                 p.Report(completed);
             }
 
-            Generic.Nus3BankOutputCount += decodableTones.Count;
+            Generic.Nus3BankOutputCount += targetCount;
             return true;
+        }
+
+        private static string GetEmbeddedSubfileExtension(Nus3SubfileCodec codec)
+        {
+            return codec switch
+            {
+                Nus3SubfileCodec.Atrac3 => ".at3",
+                Nus3SubfileCodec.Atrac9 => ".at9",
+                Nus3SubfileCodec.PcmWave => ".wav",
+                Nus3SubfileCodec.RiffUnknown => ".riff",
+                Nus3SubfileCodec.Bnsf => ".bnsf",
+                Nus3SubfileCodec.Ivag => ".ivag",
+                _ => ".bin",
+            };
         }
 
         private static bool DecodeNus3BankIvagTone(
@@ -833,7 +880,7 @@ namespace ATRACTool_Reloaded
                 {
                     cToken.ThrowIfCancellationRequested();
                     if (Directory.Exists(TempDirectory))
-                        progress.Report(progressValueProvider?.Invoke() ?? Directory.GetFiles(TempDirectory, "*").Length);
+                        progress.Report(progressValueProvider?.Invoke() ?? CountTopDirectoryFiles(TempDirectory));
                 }
 
                 for (int channel = 0; channel < info.Channels; channel++)
@@ -1398,7 +1445,7 @@ namespace ATRACTool_Reloaded
                     bankStreams.Add(new Nus3BankEncodeStream
                     {
                         Name = stream.StreamName,
-                        Data = File.ReadAllBytes(stream.EncodedPath),
+                        DataPath = stream.EncodedPath,
                         LoopPoints = stream.LoopPoints,
                     });
                 }
@@ -2059,6 +2106,7 @@ namespace ATRACTool_Reloaded
         {
             string tempPath = TempDirectory;
             string processInfo = BuildProcessInfo(ps, processLabel);
+            Stopwatch progressTimer = Stopwatch.StartNew();
 
             try
             {
@@ -2072,10 +2120,11 @@ namespace ATRACTool_Reloaded
                     }
 
                     // 疑似進捗
-                    if (Directory.Exists(tempPath))
+                    if (progressTimer.ElapsedMilliseconds >= ProgressDirectoryPollIntervalMs && Directory.Exists(tempPath))
                     {
-                        int progressValue = progressValueProvider?.Invoke() ?? Directory.GetFiles(tempPath, "*").Length;
+                        int progressValue = progressValueProvider?.Invoke() ?? CountTopDirectoryFiles(tempPath);
                         progress.Report(progressValue);
+                        progressTimer.Restart();
                     }
 
                     Thread.Sleep(50); // CPU に優しい
@@ -2128,6 +2177,26 @@ namespace ATRACTool_Reloaded
             }
         }
 
+        private static void ReportTempFileCount(IProgress<int> progress, string tempDir)
+        {
+            if (!Directory.Exists(tempDir))
+                return;
+
+            progress.Report(CountTopDirectoryFiles(tempDir));
+        }
+
+        private static int CountTopDirectoryFiles(string path)
+        {
+            try
+            {
+                return Directory.EnumerateFiles(path, "*", SearchOption.TopDirectoryOnly).Count();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         private static void KillProcessTreeAndWait(Process ps, string processInfo)
         {
             try
@@ -2157,6 +2226,7 @@ namespace ATRACTool_Reloaded
         {
             string tempDir = TempDirectory;
             bool cancelled = false;
+            Stopwatch progressTimer = Stopwatch.StartNew();
 
             while (!conversionTask.IsCompleted)
             {
@@ -2171,10 +2241,11 @@ namespace ATRACTool_Reloaded
                 }
 
                 // 疑似進捗更新
-                if (Directory.Exists(tempDir))
+                if (progressTimer.ElapsedMilliseconds >= ProgressDirectoryPollIntervalMs && Directory.Exists(tempDir))
                 {
-                    int files = Directory.GetFiles(tempDir, "*").Length;
+                    int files = CountTopDirectoryFiles(tempDir);
                     progress.Report(files);
+                    progressTimer.Restart();
                 }
 
                 // CPU を休ませる
@@ -2242,8 +2313,7 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo($"[ATW] ConvertAudioToWave started. files={length}, sampleRate={sampleRate}");
 
             // 進捗初期値
-            if (Directory.Exists(tempDir))
-                p.Report(Directory.GetFiles(tempDir, "*").Length);
+            ReportTempFileCount(p, tempDir);
 
             // ★ InputJobs が未構築なら、OpenFilePaths/OriginOpenFilePaths から最低限構築しておく（保険）
             if (Generic.InputJobs == null || Generic.InputJobs.Count == 0)
@@ -2454,10 +2524,7 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo($"[WTA] ConvertWaveToAudio started. files={length}, format={Generic.WTAFmt}");
 
             // 最初の進捗通知
-            if (Directory.Exists(tempDir))
-            {
-                p.Report(Directory.GetFiles(tempDir, "*").Length);
-            }
+            ReportTempFileCount(p, tempDir);
 
             if (length == 1)
             {
