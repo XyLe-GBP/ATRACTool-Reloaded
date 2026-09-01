@@ -2,6 +2,8 @@
 using MediaToolkit;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
+using NAudio.Wave;
+using System.Buffers;
 using System.Buffers.Binary;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -328,7 +330,8 @@ namespace ATRACTool_Reloaded
 
             if (ext == ".AT3")
             {
-                string tool = Atrac3Tools[atrac3Console];
+                Constants.ATRAC3ConsoleType decodeConsole = ResolveAtrac3DecoderConsole(Generic.OpenFilePaths[0], atrac3Console);
+                string tool = Atrac3Tools[decodeConsole];
                 if (!RunAtracTool(tool, Generic.DecodeParamAT3, Generic.OpenFilePaths[0], outPath, p, cToken)) return false;
             }
             else if (ext == ".AT9")
@@ -491,10 +494,9 @@ namespace ATRACTool_Reloaded
             FormMain.DebugInfo($"[Decode] Multiple files started. files={Generic.OpenFilePaths.Length}, atrac3Console={atrac3Console}, atrac9Console={atrac9Console}");
 
             string ffpath = Path.Combine(Directory.GetCurrentDirectory(), "res", "ffmpeg.exe");
-            Engine? ffEngine = null;
-            if (File.Exists(ffpath))
+            using Engine? ffEngine = File.Exists(ffpath) ? new Engine(ffpath) : null;
+            if (ffEngine != null)
             {
-                ffEngine = new Engine(ffpath);
                 FormMain.DebugInfo($"[Decode] FFmpeg engine prepared. path={ffpath}");
             }
             else
@@ -520,15 +522,8 @@ namespace ATRACTool_Reloaded
                 {
                     case ".AT3":
                         {
-                            switch (atrac3Console)
-                            {
-                                case Constants.ATRAC3ConsoleType.PSP:
-                                    if (!RunAtracTool(Generic.PSP_ATRAC3tool, Generic.DecodeParamAT3, file, outPath, p, cToken)) return false;
-                                    break;
-                                case Constants.ATRAC3ConsoleType.PS3:
-                                    if (!RunAtracTool(Generic.PS3_ATRAC3tool, Generic.DecodeParamAT3, file, outPath, p, cToken)) return false;
-                                    break;
-                            }
+                            Constants.ATRAC3ConsoleType decodeConsole = ResolveAtrac3DecoderConsole(file, atrac3Console);
+                            if (!RunAtracTool(Atrac3Tools[decodeConsole], Generic.DecodeParamAT3, file, outPath, p, cToken)) return false;
                         }
                         break;
 
@@ -590,8 +585,6 @@ namespace ATRACTool_Reloaded
                 }
                 FormMain.DebugInfo($"[Decode] File completed. index={i + 1}/{Generic.OpenFilePaths.Length}, input={file}");
             }
-            ffEngine?.Dispose();
-
             FormMain.DebugInfo($"[Decode] Multiple files completed. files={Generic.OpenFilePaths.Length}");
             return true;
         }
@@ -734,8 +727,14 @@ namespace ATRACTool_Reloaded
 
             try
             {
-                byte[] ivag = File.ReadAllBytes(ivagPath);
-                if (!TryReadIvagInfo(ivag, out var info, out string error))
+                using var ivagStream = new FileStream(
+                    ivagPath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.ReadWrite | FileShare.Delete,
+                    81920,
+                    FileOptions.SequentialScan);
+                if (!TryReadIvagInfo(ivagStream, out var info, out string error))
                 {
                     FormMain.DebugWarn($"NUS3/NUB2 IVAG decode skipped: {error}");
                     return false;
@@ -743,7 +742,7 @@ namespace ATRACTool_Reloaded
 
                 Directory.CreateDirectory(Path.GetDirectoryName(wavPath)!);
                 TryDeleteFile(tempWavPath);
-                WriteIvagPcmWav(ivag, info, tempWavPath, p, cToken, progressValueProvider);
+                WriteIvagPcmWav(ivagStream, info, tempWavPath, p, cToken, progressValueProvider);
 
                 if (cToken.IsCancellationRequested)
                     return false;
@@ -767,22 +766,30 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private static bool TryReadIvagInfo(byte[] ivag, out IvagInfo info, out string error)
+        private static bool TryReadIvagInfo(Stream ivag, out IvagInfo info, out string error)
         {
             info = null!;
             error = string.Empty;
 
-            if (ivag.Length < 0x80 || Encoding.ASCII.GetString(ivag, 0, 4) != "IVAG")
+            if (!ivag.CanRead || !ivag.CanSeek || ivag.Length < 0x80)
             {
                 error = "The stream does not start with IVAG.";
                 return false;
             }
 
-            uint channelsRaw = ReadU32BE(ivag, 0x08);
-            uint sampleRateRaw = ReadU32BE(ivag, 0x0C);
-            uint sampleCountRaw = ReadU32BE(ivag, 0x10);
-            uint dataOffsetRaw = ReadU32BE(ivag, 0x28);
-            uint channelDataSizeRaw = ReadU32BE(ivag, 0x2C);
+            Span<byte> header = stackalloc byte[0x30];
+            ivag.Position = 0;
+            if (!TryReadExactly(ivag, header) || !header[..4].SequenceEqual("IVAG"u8))
+            {
+                error = "The stream does not start with IVAG.";
+                return false;
+            }
+
+            uint channelsRaw = ReadU32BE(header, 0x08);
+            uint sampleRateRaw = ReadU32BE(header, 0x0C);
+            uint sampleCountRaw = ReadU32BE(header, 0x10);
+            uint dataOffsetRaw = ReadU32BE(header, 0x28);
+            uint channelDataSizeRaw = ReadU32BE(header, 0x2C);
 
             if (channelsRaw is < 1 or > 8 || channelsRaw > int.MaxValue)
             {
@@ -805,10 +812,12 @@ namespace ATRACTool_Reloaded
                 return false;
             }
 
+            Span<byte> vagHeader = stackalloc byte[4];
             for (int channel = 0; channel < channels; channel++)
             {
                 int vagHeaderOffset = 0x40 + channel * 0x40;
-                if (vagHeaderOffset + 4 > ivag.Length || Encoding.ASCII.GetString(ivag, vagHeaderOffset, 4) != "VAGp")
+                ivag.Position = vagHeaderOffset;
+                if (!TryReadExactly(ivag, vagHeader) || !vagHeader.SequenceEqual("VAGp"u8))
                 {
                     error = $"IVAG channel {channel} does not contain a VAGp header.";
                     return false;
@@ -816,8 +825,9 @@ namespace ATRACTool_Reloaded
             }
 
             int dataOffset = (int)dataOffsetRaw;
-            int availableData = ivag.Length - dataOffset;
-            int maxChannelDataSize = (availableData / channels) & ~0x0F;
+            long availableData = ivag.Length - dataOffset;
+            long maxChannelDataSizeLong = (availableData / channels) & ~0x0FL;
+            int maxChannelDataSize = (int)Math.Min(maxChannelDataSizeLong, int.MaxValue & ~0x0F);
             int channelDataSize = channelDataSizeRaw <= int.MaxValue
                 ? (int)channelDataSizeRaw
                 : maxChannelDataSize;
@@ -832,7 +842,7 @@ namespace ATRACTool_Reloaded
             }
 
             int frameGroups = channelDataSize / 0x10;
-            int sampleCapacity = frameGroups * 28;
+            int sampleCapacity = (int)Math.Min((long)frameGroups * 28, int.MaxValue);
             int sampleCount = sampleCountRaw <= int.MaxValue
                 ? (int)sampleCountRaw
                 : sampleCapacity;
@@ -852,7 +862,7 @@ namespace ATRACTool_Reloaded
         }
 
         private static void WriteIvagPcmWav(
-            byte[] ivag,
+            Stream ivag,
             IvagInfo info,
             string wavPath,
             IProgress<int> progress,
@@ -863,7 +873,13 @@ namespace ATRACTool_Reloaded
             if (dataSize > uint.MaxValue - 36u)
                 throw new InvalidDataException(Localization.DecodedIVAGLargeSize);
 
-            using var fs = new FileStream(wavPath, FileMode.Create, FileAccess.Write, FileShare.None);
+            using var fs = new FileStream(
+                wavPath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                81920,
+                FileOptions.SequentialScan);
             using var writer = new BinaryWriter(fs, Encoding.ASCII, leaveOpen: false);
             WriteWaveHeader(writer, info.Channels, info.SampleRate, (uint)dataSize);
 
@@ -873,6 +889,9 @@ namespace ATRACTool_Reloaded
             for (int channel = 0; channel < info.Channels; channel++)
                 decoded[channel] = new short[28];
 
+            Span<byte> compressedFrames = stackalloc byte[8 * 0x10];
+            Span<byte> pcmFrames = stackalloc byte[28 * 8 * sizeof(short)];
+            ivag.Position = info.DataOffset;
             int samplesWritten = 0;
             for (int group = 0; group < info.FrameGroups && samplesWritten < info.SampleCount; group++)
             {
@@ -883,18 +902,32 @@ namespace ATRACTool_Reloaded
                         progress.Report(progressValueProvider?.Invoke() ?? CountTopDirectoryFiles(TempDirectory));
                 }
 
+                Span<byte> currentCompressedFrames = compressedFrames[..(info.Channels * 0x10)];
+                if (!TryReadExactly(ivag, currentCompressedFrames))
+                    throw new EndOfStreamException("IVAG ended before all ADPCM frames were decoded.");
+
                 for (int channel = 0; channel < info.Channels; channel++)
                 {
-                    int blockOffset = info.DataOffset + group * info.Channels * 0x10 + channel * 0x10;
-                    DecodePsxAdpcmFrame(ivag.AsSpan(blockOffset, 0x10), ref previous1[channel], ref previous2[channel], decoded[channel]);
+                    DecodePsxAdpcmFrame(
+                        currentCompressedFrames.Slice(channel * 0x10, 0x10),
+                        ref previous1[channel],
+                        ref previous2[channel],
+                        decoded[channel]);
                 }
 
                 int samplesThisGroup = Math.Min(28, info.SampleCount - samplesWritten);
+                int pcmOffset = 0;
                 for (int sample = 0; sample < samplesThisGroup; sample++)
                 {
                     for (int channel = 0; channel < info.Channels; channel++)
-                        writer.Write(decoded[channel][sample]);
+                    {
+                        BinaryPrimitives.WriteInt16LittleEndian(
+                            pcmFrames.Slice(pcmOffset, sizeof(short)),
+                            decoded[channel][sample]);
+                        pcmOffset += sizeof(short);
+                    }
                 }
+                writer.Write(pcmFrames[..pcmOffset]);
 
                 samplesWritten += samplesThisGroup;
             }
@@ -929,9 +962,24 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private static uint ReadU32BE(byte[] data, int offset)
+        private static bool TryReadExactly(Stream stream, Span<byte> buffer)
         {
-            return BinaryPrimitives.ReadUInt32BigEndian(data.AsSpan(offset, sizeof(uint)));
+            int offset = 0;
+            while (offset < buffer.Length)
+            {
+                int read = stream.Read(buffer[offset..]);
+                if (read <= 0)
+                    return false;
+
+                offset += read;
+            }
+
+            return true;
+        }
+
+        private static uint ReadU32BE(ReadOnlySpan<byte> data, int offset)
+        {
+            return BinaryPrimitives.ReadUInt32BigEndian(data.Slice(offset, sizeof(uint)));
         }
 
         private static void WriteWaveHeader(BinaryWriter writer, int channels, int sampleRate, uint dataSize)
@@ -970,9 +1018,12 @@ namespace ATRACTool_Reloaded
             CancellationToken cToken,
             Func<int>? progressValueProvider = null)
         {
+            Constants.ATRAC3ConsoleType selectedAtrac3Console = codec == Nus3SubfileCodec.Atrac3
+                ? ResolveAtrac3DecoderConsole(encodedPath, atrac3Console)
+                : atrac3Console;
             IEnumerable<string> tools = codec == Nus3SubfileCodec.Atrac9
                 ? BuildToolFallbackList(Atrac9Tools, atrac9Console)
-                : BuildToolFallbackList(Atrac3Tools, atrac3Console);
+                : BuildToolFallbackList(Atrac3Tools, selectedAtrac3Console);
             string parameter = codec == Nus3SubfileCodec.Atrac9
                 ? Generic.DecodeParamAT9
                 : Generic.DecodeParamAT3;
@@ -985,7 +1036,15 @@ namespace ATRACTool_Reloaded
                 bool ran;
                 try
                 {
-                    ran = RunAtracTool(tool, parameter, encodedPath, wavPath, p, cToken, progressValueProvider);
+                    ran = RunAtracTool(
+                        tool,
+                        parameter,
+                        encodedPath,
+                        wavPath,
+                        p,
+                        cToken,
+                        progressValueProvider,
+                        forceLoopExpandedDecodeNormalization: true);
                 }
                 catch (Exception ex)
                 {
@@ -1008,6 +1067,37 @@ namespace ATRACTool_Reloaded
 
             TryDeleteFile(wavPath);
             return false;
+        }
+
+        private static Constants.ATRAC3ConsoleType ResolveAtrac3DecoderConsole(
+            string path,
+            Constants.ATRAC3ConsoleType configuredConsole)
+        {
+            Constants.ATRAC3ConsoleType fallback = Atrac3Tools.ContainsKey(configuredConsole)
+                ? configuredConsole
+                : Constants.ATRAC3ConsoleType.PSP;
+
+            if (!Nus3BankFile.TryReadRiffWaveSampleRate(path, out int sampleRate))
+            {
+                FormMain.DebugWarn($"[Decode] ATRAC3 sample rate could not be detected. Using configured decoder. input={path}, decoder={fallback}");
+                return fallback;
+            }
+
+            Constants.ATRAC3ConsoleType? detectedConsole = sampleRate switch
+            {
+                44100 => Constants.ATRAC3ConsoleType.PSP,
+                48000 => Constants.ATRAC3ConsoleType.PS3,
+                _ => null,
+            };
+
+            if (!detectedConsole.HasValue)
+            {
+                FormMain.DebugWarn($"[Decode] Unsupported ATRAC3 sample rate. Using configured decoder. input={path}, sampleRate={sampleRate}, decoder={fallback}");
+                return fallback;
+            }
+
+            FormMain.DebugInfo($"[Decode] ATRAC3 decoder auto-detected. input={path}, sampleRate={sampleRate}, decoder={detectedConsole.Value}");
+            return detectedConsole.Value;
         }
 
         private static IEnumerable<string> BuildToolFallbackList<T>(IReadOnlyDictionary<T, string> tools, T selected)
@@ -1098,98 +1188,77 @@ namespace ATRACTool_Reloaded
                 case 0: // ATRAC3
                     {
                         var atrac3Console = (Constants.ATRAC3ConsoleType)Utils.GetInt("ATRAC3_Console", (int)Constants.ATRAC3ConsoleType.PSP);
-
-                        string outPath = BuildSingleAtracTempOutputPath(fi2, ".at3");
-
-                        switch (atrac3Console)
+                        if (!Atrac3Tools.TryGetValue(atrac3Console, out string? atrac3Tool))
                         {
-                            case Constants.ATRAC3ConsoleType.PSP: // PSP
-                                {
-                                    if (mloop)
-                                    {
-                                        Generic.EncodeParamAT3 = atrac3Params;
-                                        Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
-                                    }
-                                    else
-                                    {
-                                        if (Generic.lpcreate != false)
-                                        {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
-                                            Generic.EncodeParamAT3 = atrac3Params;
-                                            Generic.EncodeParamAT3 += Generic.LPCSuffix;
-                                        }
-                                        else
-                                        {
-                                            Generic.EncodeParamAT3 = atrac3Params;
-                                        }
-                                    }
-
-
-                                    if (!RunAtracTool(
-                                    Generic.PSP_ATRAC3tool,
-                                    Generic.EncodeParamAT3,
-                                    fi.FullName,
-                                    outPath,
-                                    p,
-                                    cToken))
-                                    {
-                                        return false;
-                                    }
-                                }
-                                break;
-                            case Constants.ATRAC3ConsoleType.PS3: // PS3
-                                {
-                                    if (mloop)
-                                    {
-                                        Generic.EncodeParamAT3 = atrac3Params;
-                                        Generic.EncodeParamAT3 += " -loop " + Generic.MultipleLoopStarts[0] + " " + Generic.MultipleLoopEnds[0];
-                                    }
-                                    else
-                                    {
-                                        if (Generic.lpcreate != false)
-                                        {
-                                            Generic.lpcreatev2 = true;
-                                            using FormLPC form = new(true);
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = false));
-                                            form.ShowDialog();
-                                            FormProgressInstance.Invoke(new Action(() => FormProgressInstance.Enabled = true));
-                                            Generic.EncodeParamAT3 = atrac3Params;
-                                            Generic.EncodeParamAT3 += Generic.LPCSuffix;
-                                        }
-                                        else
-                                        {
-                                            Generic.EncodeParamAT3 = atrac3Params;
-                                        }
-                                    }
-
-
-                                    if (!RunAtracTool(
-                                    Generic.PS3_ATRAC3tool,
-                                    Generic.EncodeParamAT3,
-                                    fi.FullName,
-                                    outPath,
-                                    p,
-                                    cToken))
-                                    {
-                                        return false;
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
+                            FormMain.DebugError($"[Encode] Unsupported ATRAC3 console selected. console={atrac3Console}");
+                            return false;
                         }
 
-                        if (!WrapSingleNus3BankIfRequested(
-                                outPath,
-                                fi2,
-                                fi,
-                                BuildNus3RiffLoopPoints(outPath, Generic.EncodeParamAT3, isAtrac9: false, isAtrac3Ps3: atrac3Console == Constants.ATRAC3ConsoleType.PS3)))
+                        bool isAtrac3Ps3 = atrac3Console == Constants.ATRAC3ConsoleType.PS3;
+                        int targetSamplingRate = isAtrac3Ps3 ? 48000 : 44100;
+                        string encoderInputPath = fi.FullName;
+                        int sourceSamplingRate = targetSamplingRate;
+                        if (!TryPrepareAtracEncodeInput(
+                                fi.FullName,
+                                fi.FullName,
+                                0,
+                                targetSamplingRate,
+                                "ATRAC3",
+                                out encoderInputPath,
+                                out sourceSamplingRate))
                         {
                             return false;
+                        }
+
+                        string? resampledInputPath = string.Equals(encoderInputPath, fi.FullName, StringComparison.OrdinalIgnoreCase)
+                            ? null
+                            : encoderInputPath;
+                        string outPath = BuildSingleAtracTempOutputPath(fi2, ".at3");
+
+                        try
+                        {
+                            Generic.EncodeParamAT3 = BuildAtracEncodeParam(
+                                atrac3Params,
+                                mloop,
+                                Generic.MultipleLoopStarts.Length > 0 ? Generic.MultipleLoopStarts[0] : 0,
+                                Generic.MultipleLoopEnds.Length > 0 ? Generic.MultipleLoopEnds[0] : 0,
+                                Generic.lpcreate,
+                                fileIndex: 0);
+
+                            if (sourceSamplingRate != targetSamplingRate &&
+                                !TryScaleLoopInEncodeParam(ref Generic.EncodeParamAT3, sourceSamplingRate, targetSamplingRate, "ATRAC3", fi.FullName))
+                            {
+                                FormMain.DebugError($"[Encode] ATRAC3 loop scaling failed. rate={sourceSamplingRate}->{targetSamplingRate}, input={fi.FullName}");
+                                return false;
+                            }
+
+                            if (!RunAtracTool(
+                                    atrac3Tool,
+                                    Generic.EncodeParamAT3,
+                                    encoderInputPath,
+                                    outPath,
+                                    p,
+                                    cToken))
+                            {
+                                return false;
+                            }
+
+                            if (!TryNormalizeAtrac3LoopMetadata(outPath, Generic.EncodeParamAT3, isAtrac3Ps3))
+                                return false;
+
+                            if (!WrapSingleNus3BankIfRequested(
+                                    outPath,
+                                    fi2,
+                                    fi,
+                                    BuildNus3RiffLoopPoints(outPath, Generic.EncodeParamAT3, isAtrac9: false, isAtrac3Ps3: isAtrac3Ps3, sourceInputPath: fi.FullName)))
+                            {
+                                return false;
+                            }
+                        }
+                        finally
+                        {
+                            if (resampledInputPath is not null)
+                                TryDeleteFile(resampledInputPath);
                         }
                     }
                     break;
@@ -1285,7 +1354,7 @@ namespace ATRACTool_Reloaded
                                 outPath,
                                 fi2,
                                 fi,
-                                BuildNus3RiffLoopPoints(outPath, Generic.EncodeParamAT9, isAtrac9: true, isAtrac3Ps3: false)))
+                                BuildNus3RiffLoopPoints(outPath, Generic.EncodeParamAT9, isAtrac9: true, isAtrac3Ps3: false, sourceInputPath: fi.FullName)))
                         {
                             return false;
                         }
@@ -1398,7 +1467,7 @@ namespace ATRACTool_Reloaded
             return WriteNus3BankFromEncodedFile(encodedPath, outputPath, sourceInput.FullName, loopPoints);
         }
 
-        private static bool AddMultipleNus3BankStreamIfRequested(List<Nus3BankEncodedStreamSource>? streams, string encodedPath, string originPath, string streamName, string encodeParam, bool isAtrac9, bool isAtrac3Ps3)
+        private static bool AddMultipleNus3BankStreamIfRequested(List<Nus3BankEncodedStreamSource>? streams, string encodedPath, string sourceInputPath, string originPath, string streamName, string encodeParam, bool isAtrac9, bool isAtrac3Ps3)
         {
             if (!Generic.Nus3BankEncodeOutput)
                 return true;
@@ -1411,7 +1480,7 @@ namespace ATRACTool_Reloaded
                 EncodedPath = encodedPath,
                 OriginPath = originPath,
                 StreamName = streamName,
-                LoopPoints = BuildNus3RiffLoopPoints(encodedPath, encodeParam, isAtrac9, isAtrac3Ps3),
+                LoopPoints = BuildNus3RiffLoopPoints(encodedPath, encodeParam, isAtrac9, isAtrac3Ps3, sourceInputPath),
             });
 
             return true;
@@ -1569,10 +1638,35 @@ namespace ATRACTool_Reloaded
             return File.Exists(outputPath) && new FileInfo(outputPath).Length > 0;
         }
 
-        private static Nus3RiffLoopPoints? BuildNus3RiffLoopPoints(string encodedPath, string encodeParam, bool isAtrac9, bool isAtrac3Ps3)
+        private static Nus3RiffLoopPoints? BuildNus3RiffLoopPoints(string encodedPath, string encodeParam, bool isAtrac9, bool isAtrac3Ps3, string? sourceInputPath = null)
         {
+            // at9tool converts loop positions to the output sample rate and writes them to smpl.
+            // Preserve that chunk so a 44.1 kHz source is not overwritten with unscaled values.
+            if (isAtrac9 && Nus3BankFile.TryReadRiffLoopChunk(encodedPath, out uint encodedLoopStart, out uint encodedLoopEnd))
+            {
+                FormMain.DebugInfo($"[NUS3BANK] Preserving ATRAC9 loop metadata. rawStart={encodedLoopStart}, rawEnd={encodedLoopEnd}, input={encodedPath}");
+                return null;
+            }
+
             if (!TryGetLoopPointSamples(encodeParam, out int loopStart, out int loopEnd))
                 return null;
+
+            if (isAtrac9 &&
+                !string.IsNullOrWhiteSpace(sourceInputPath) &&
+                Nus3BankFile.TryReadRiffWaveSampleRate(sourceInputPath, out int sourceSampleRate) &&
+                Nus3BankFile.TryReadRiffWaveSampleRate(encodedPath, out int outputSampleRate) &&
+                sourceSampleRate != outputSampleRate)
+            {
+                if (!TryScaleLoopPoints(loopStart, loopEnd, sourceSampleRate, outputSampleRate, out int scaledStart, out int scaledEnd))
+                {
+                    FormMain.DebugWarn($"[NUS3BANK] ATRAC9 loop scaling failed. start={loopStart}, end={loopEnd}, sourceRate={sourceSampleRate}, outputRate={outputSampleRate}");
+                    return null;
+                }
+
+                FormMain.DebugInfo($"[NUS3BANK] ATRAC9 loop metadata scaled for fallback. start={loopStart}->{scaledStart}, end={loopEnd}->{scaledEnd}, rate={sourceSampleRate}->{outputSampleRate}");
+                loopStart = scaledStart;
+                loopEnd = scaledEnd;
+            }
 
             (int startAdjustment, int endAdjustment) = isAtrac9
                 ? GetAtrac9LoopAdjustments(encodedPath)
@@ -1580,7 +1674,174 @@ namespace ATRACTool_Reloaded
                     ? (3271, 3270)
                     : (2459, 2458);
 
-            return new Nus3RiffLoopPoints(loopStart, loopEnd, startAdjustment, endAdjustment);
+            var loopPoints = new Nus3RiffLoopPoints(loopStart, loopEnd, startAdjustment, endAdjustment);
+            if (!isAtrac9 &&
+                loopPoints.TryGetRiffLoop(out uint expectedLoopStart, out uint expectedLoopEnd) &&
+                Nus3BankFile.TryReadRiffLoopChunk(encodedPath, out uint normalizedLoopStart, out uint normalizedLoopEnd) &&
+                normalizedLoopStart == expectedLoopStart &&
+                normalizedLoopEnd == expectedLoopEnd)
+            {
+                FormMain.DebugInfo($"[NUS3BANK] Preserving normalized ATRAC3 loop metadata. rawStart={normalizedLoopStart}, rawEnd={normalizedLoopEnd}, input={encodedPath}");
+                return null;
+            }
+
+            return loopPoints;
+        }
+
+        private static bool TryNormalizeAtrac3LoopMetadata(string encodedPath, string encodeParam, bool isAtrac3Ps3)
+        {
+            if (!TryGetLoopPointSamples(encodeParam, out int loopStart, out int loopEnd))
+                return true;
+
+            (int startAdjustment, int endAdjustment) = isAtrac3Ps3
+                ? (3271, 3270)
+                : (2459, 2458);
+            var loopPoints = new Nus3RiffLoopPoints(loopStart, loopEnd, startAdjustment, endAdjustment);
+            if (!loopPoints.TryGetRiffLoop(out uint rawLoopStart, out uint rawLoopEnd))
+            {
+                FormMain.DebugError($"[Encode] ATRAC3 loop metadata is invalid. start={loopStart}, end={loopEnd}, input={encodedPath}");
+                return false;
+            }
+
+            if (!Nus3BankFile.TryWriteRiffLoopChunk(encodedPath, loopPoints))
+            {
+                FormMain.DebugError($"[Encode] ATRAC3 loop metadata normalization failed. rawStart={rawLoopStart}, rawEnd={rawLoopEnd}, input={encodedPath}");
+                return false;
+            }
+
+            FormMain.DebugInfo($"[Encode] ATRAC3 loop metadata normalized. rawStart={rawLoopStart}, rawEnd={rawLoopEnd}, console={(isAtrac3Ps3 ? "PS3" : "PSP")}, input={encodedPath}");
+            return true;
+        }
+
+        private static bool TryScaleLoopPoints(int loopStart, int loopEnd, int sourceSampleRate, int outputSampleRate, out int scaledStart, out int scaledEnd)
+        {
+            scaledStart = 0;
+            scaledEnd = 0;
+            if (loopStart < 0 || loopEnd <= loopStart || sourceSampleRate <= 0 || outputSampleRate <= 0)
+                return false;
+
+            long convertedStart = ((long)loopStart * outputSampleRate + sourceSampleRate / 2L) / sourceSampleRate;
+            long convertedEnd = ((long)loopEnd * outputSampleRate + sourceSampleRate / 2L) / sourceSampleRate;
+            if (convertedStart > int.MaxValue || convertedEnd > int.MaxValue || convertedEnd <= convertedStart)
+                return false;
+
+            scaledStart = (int)convertedStart;
+            scaledEnd = (int)convertedEnd;
+            return true;
+        }
+
+        private static string OverrideAtrac9SamplingRate(string parameters, int samplingRate)
+        {
+            const string samplingRatePattern = @"(?<!\S)-fs\s+\d+";
+            string replacement = $"-fs {samplingRate}";
+            var regex = new Regex(samplingRatePattern, RegexOptions.IgnoreCase);
+            if (regex.IsMatch(parameters))
+                return regex.Replace(parameters, replacement, 1);
+
+            int inputPlaceholderIndex = parameters.IndexOf("$InFile", StringComparison.Ordinal);
+            return inputPlaceholderIndex >= 0
+                ? parameters.Insert(inputPlaceholderIndex, replacement + " ")
+                : parameters.TrimEnd() + " " + replacement;
+        }
+
+        private static bool TryScaleLoopInEncodeParam(
+            ref string parameters,
+            int sourceSamplingRate,
+            int targetSamplingRate,
+            string codecName,
+            string inputPath)
+        {
+            if (!TryGetLoopPointSamples(parameters, out int loopStart, out int loopEnd))
+                return true;
+
+            if (!TryScaleLoopPoints(loopStart, loopEnd, sourceSamplingRate, targetSamplingRate, out int scaledStart, out int scaledEnd))
+                return false;
+
+            var regex = new Regex(@"((?:^|\s)-loop\s+)-?\d+\s+-?\d+", RegexOptions.IgnoreCase);
+            parameters = regex.Replace(parameters, $"${{1}}{scaledStart} {scaledEnd}", 1);
+            FormMain.DebugInfo($"[Encode] {codecName} loop points scaled. rate={sourceSamplingRate}->{targetSamplingRate}, start={loopStart}->{scaledStart}, end={loopEnd}->{scaledEnd}, input={inputPath}");
+            return true;
+        }
+
+        private static bool TryPrepareAtracEncodeInput(
+            string inputPath,
+            string originPath,
+            int fileIndex,
+            int targetSamplingRate,
+            string codecName,
+            out string encoderInputPath,
+            out int sourceSamplingRate)
+        {
+            encoderInputPath = inputPath;
+            sourceSamplingRate = targetSamplingRate;
+
+            if (!Nus3BankFile.TryReadRiffWaveSampleRate(inputPath, out sourceSamplingRate))
+            {
+                FormMain.DebugWarn($"[Encode] {codecName} input sample rate could not be read. Encoding the original input. input={inputPath}, targetRate={targetSamplingRate}");
+                return true;
+            }
+
+            if (sourceSamplingRate == targetSamplingRate)
+                return true;
+
+            string resampleKey = $"{Path.GetFileNameWithoutExtension(originPath)}__{codecName.ToLowerInvariant()}_{targetSamplingRate}";
+            string resampledPath = Utils.MakeTempUniquePath(
+                TempDirectory,
+                resampleKey,
+                fileIndex,
+                ".wav");
+
+            TryDeleteFile(resampledPath);
+            try
+            {
+                string resamplerName = ResampleWaveFileForAtrac(inputPath, resampledPath, targetSamplingRate, codecName);
+
+                if (!Nus3BankFile.TryReadRiffWaveSampleRate(resampledPath, out int actualSamplingRate) ||
+                    actualSamplingRate != targetSamplingRate)
+                {
+                    FormMain.DebugError($"[Encode] {codecName} resampling validation failed. input={inputPath}, output={resampledPath}, expectedRate={targetSamplingRate}, actualRate={actualSamplingRate}");
+                    TryDeleteFile(resampledPath);
+                    return false;
+                }
+
+                encoderInputPath = resampledPath;
+                FormMain.DebugInfo($"[Encode] {codecName} input resampled. engine={resamplerName}, input={inputPath}, output={resampledPath}, rate={sourceSamplingRate}->{targetSamplingRate}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[Encode] {codecName} input resampling failed. input={inputPath}, targetRate={targetSamplingRate}, error={ex}");
+                TryDeleteFile(resampledPath);
+                return false;
+            }
+        }
+
+        private static string ResampleWaveFileForAtrac(string inputPath, string outputPath, int targetSamplingRate, string codecName)
+        {
+            try
+            {
+                using var reader = new WaveFileReader(inputPath);
+                var outputFormat = new WaveFormat(targetSamplingRate, 16, reader.WaveFormat.Channels);
+                using var resampler = new MediaFoundationResampler(reader, outputFormat)
+                {
+                    ResamplerQuality = 60,
+                };
+                WaveFileWriter.CreateWaveFile(outputPath, resampler);
+                return "MediaFoundation(q=60)";
+            }
+            catch (Exception ex)
+            {
+                TryDeleteFile(outputPath);
+                FormMain.DebugWarn($"[Encode] {codecName} high-quality resampler unavailable; using WDL fallback. input={inputPath}, targetRate={targetSamplingRate}, error={ex.Message}");
+            }
+
+            using (var reader = new WaveFileReader(inputPath))
+            {
+                var resampler = new NAudio.Wave.SampleProviders.WdlResamplingSampleProvider(reader.ToSampleProvider(), targetSamplingRate);
+                WaveFileWriter.CreateWaveFile16(outputPath, resampler);
+            }
+
+            return "WDL(fallback)";
         }
 
         private static (int Start, int End) GetAtrac9LoopAdjustments(string encodedPath)
@@ -1626,6 +1887,29 @@ namespace ATRACTool_Reloaded
 
             var atrac3Console = (Constants.ATRAC3ConsoleType)Utils.GetInt("ATRAC3_Console", (int)Constants.ATRAC3ConsoleType.PSP);
             var atrac9Console = (Constants.ATRAC9ConsoleType)Utils.GetInt("ATRAC9_Console", (int)Constants.ATRAC9ConsoleType.PSV);
+
+            if (Generic.Nus3BankEncodeOutput)
+            {
+                int selectedSamplingRate = Generic.Nus3BankEncodeSamplingRate;
+                if (Generic.ATRACFlag == 0)
+                {
+                    selectedSamplingRate = selectedSamplingRate is 44100 or 48000
+                        ? selectedSamplingRate
+                        : 44100;
+                    atrac3Console = selectedSamplingRate == 48000
+                        ? Constants.ATRAC3ConsoleType.PS3
+                        : Constants.ATRAC3ConsoleType.PSP;
+                }
+                else if (Generic.ATRACFlag == 1)
+                {
+                    selectedSamplingRate = selectedSamplingRate is 48000 or 24000 or 12000
+                        ? selectedSamplingRate
+                        : 48000;
+                    atrac9Params = OverrideAtrac9SamplingRate(atrac9Params, selectedSamplingRate);
+                }
+
+                FormMain.DebugInfo($"[NUS3BANK] Multiple encode format selected. atracFlag={Generic.ATRACFlag}, samplingRate={selectedSamplingRate}, atrac3Console={atrac3Console}, atrac9Console={atrac9Console}");
+            }
 
             string[] fp;
 
@@ -1764,163 +2048,173 @@ namespace ATRACTool_Reloaded
                 {
                     case 0: // ATRAC3
                         {
-                            switch (atrac3Console)
+                            if (!Atrac3Tools.TryGetValue(atrac3Console, out string? atrac3Tool))
                             {
-                                case Constants.ATRAC3ConsoleType.PSP: // PSP
-                                    {
-                                        Generic.EncodeParamAT3 = BuildAtracEncodeParam(
-                                            atrac3Params,
-                                            mloop,
-                                            loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0,
-                                            loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0,
-                                            Generic.lpcreate,
-                                            sourceIndex);
+                                FormMain.DebugError($"[Encode] Unsupported ATRAC3 console selected. console={atrac3Console}");
+                                return false;
+                            }
 
+                            bool isAtrac3Ps3 = atrac3Console == Constants.ATRAC3ConsoleType.PS3;
+                            int targetSamplingRate = isAtrac3Ps3 ? 48000 : 44100;
+                            int loopStart = loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0;
+                            int loopEnd = loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0;
+                            string encoderInputPath = file;
+                            int sourceSamplingRate = targetSamplingRate;
 
-                                        Generic.ATRACExt = ".at3";
-                                        string outPath = Utils.MakeTempUniquePath(
-                                            TempDirectory,
-                                            originPath,
-                                            fs,
-                                            Generic.ATRACExt);
+                            if (!TryPrepareAtracEncodeInput(
+                                    file,
+                                    originPath,
+                                    fs,
+                                    targetSamplingRate,
+                                    "ATRAC3",
+                                    out encoderInputPath,
+                                    out sourceSamplingRate))
+                            {
+                                return false;
+                            }
 
-                                        if (!RunAtracToolWithValidation(
-                                                Generic.PSP_ATRAC3tool,
-                                                Generic.EncodeParamAT3,
-                                                file,
-                                                outPath,
-                                                Path.GetFileName(originPath),
-                                                p,
-                                                cToken))
-                                        {
-                                            return false;
-                                        }
+                            string? resampledInputPath = string.Equals(encoderInputPath, file, StringComparison.OrdinalIgnoreCase)
+                                ? null
+                                : encoderInputPath;
 
-                                        if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, originPath, streamName, Generic.EncodeParamAT3, isAtrac9: false, isAtrac3Ps3: false))
-                                        {
-                                            return false;
-                                        }
-                                    }
-                                    break;
-                                case Constants.ATRAC3ConsoleType.PS3: // PS3
-                                    {
-                                        Generic.EncodeParamAT3 = BuildAtracEncodeParam(
-                                            atrac3Params,
-                                            mloop,
-                                            loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0,
-                                            loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0,
-                                            Generic.lpcreate,
-                                            sourceIndex);
+                            try
+                            {
+                                Generic.EncodeParamAT3 = BuildAtracEncodeParam(
+                                    atrac3Params,
+                                    mloop,
+                                    loopStart,
+                                    loopEnd,
+                                    Generic.lpcreate,
+                                    sourceIndex);
 
+                                if (sourceSamplingRate != targetSamplingRate &&
+                                    !TryScaleLoopInEncodeParam(ref Generic.EncodeParamAT3, sourceSamplingRate, targetSamplingRate, "ATRAC3", file))
+                                {
+                                    FormMain.DebugError($"[Encode] ATRAC3 loop scaling failed. rate={sourceSamplingRate}->{targetSamplingRate}, input={file}");
+                                    return false;
+                                }
 
-                                        Generic.ATRACExt = ".at3";
-                                        string outPath = Utils.MakeTempUniquePath(
-                                            TempDirectory,
-                                            originPath,
-                                            fs,
-                                            Generic.ATRACExt);
+                                Generic.ATRACExt = ".at3";
+                                string outPath = Utils.MakeTempUniquePath(
+                                    TempDirectory,
+                                    originPath,
+                                    fs,
+                                    Generic.ATRACExt);
 
-                                        if (!RunAtracToolWithValidation(
-                                                Generic.PS3_ATRAC3tool,
-                                                Generic.EncodeParamAT3,
-                                                file,
-                                                outPath,
-                                                Path.GetFileName(originPath),
-                                                p,
-                                                cToken))
-                                        {
-                                            return false;
-                                        }
+                                if (!RunAtracToolWithValidation(
+                                        atrac3Tool,
+                                        Generic.EncodeParamAT3,
+                                        encoderInputPath,
+                                        outPath,
+                                        Path.GetFileName(originPath),
+                                        p,
+                                        cToken))
+                                {
+                                    return false;
+                                }
 
-                                        if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, originPath, streamName, Generic.EncodeParamAT3, isAtrac9: false, isAtrac3Ps3: true))
-                                        {
-                                            return false;
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                if (!TryNormalizeAtrac3LoopMetadata(outPath, Generic.EncodeParamAT3, isAtrac3Ps3))
+                                    return false;
+
+                                if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, file, originPath, streamName, Generic.EncodeParamAT3, isAtrac9: false, isAtrac3Ps3: isAtrac3Ps3))
+                                    return false;
+                            }
+                            finally
+                            {
+                                if (resampledInputPath is not null)
+                                    TryDeleteFile(resampledInputPath);
                             }
                         }
                         break;
                     case 1: // ATRAC9
                         {
-                            switch (atrac9Console)
+                            if (!Atrac9Tools.TryGetValue(atrac9Console, out string? atrac9Tool))
                             {
-                                case Constants.ATRAC9ConsoleType.PSV: // PSV
+                                FormMain.DebugError($"[NUS3BANK] Unsupported ATRAC9 console selected. console={atrac9Console}");
+                                return false;
+                            }
+
+                            int targetSamplingRate = Generic.Nus3BankEncodeSamplingRate is 48000 or 24000 or 12000
+                                ? Generic.Nus3BankEncodeSamplingRate
+                                : 48000;
+                            int loopStart = loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0;
+                            int loopEnd = loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0;
+                            string encoderInputPath = file;
+                            int sourceSamplingRate = targetSamplingRate;
+
+                            if (Generic.Nus3BankEncodeOutput &&
+                                targetSamplingRate != 48000 &&
+                                !TryPrepareAtracEncodeInput(
+                                    file,
+                                    originPath,
+                                    fs,
+                                    targetSamplingRate,
+                                    "ATRAC9",
+                                    out encoderInputPath,
+                                    out sourceSamplingRate))
+                            {
+                                return false;
+                            }
+
+                            string? resampledInputPath = string.Equals(encoderInputPath, file, StringComparison.OrdinalIgnoreCase)
+                                ? null
+                                : encoderInputPath;
+
+                            try
+                            {
+                                if (mloop && sourceSamplingRate != targetSamplingRate)
+                                {
+                                    if (!TryScaleLoopPoints(loopStart, loopEnd, sourceSamplingRate, targetSamplingRate, out loopStart, out loopEnd))
                                     {
-                                        Generic.EncodeParamAT9 = BuildAtracEncodeParam(
-                                            atrac9Params,
-                                            mloop,
-                                            loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0,
-                                            loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0,
-                                            Generic.lpcreate,
-                                            sourceIndex);
-
-
-                                        Generic.ATRACExt = ".at9";
-                                        string outPath = Utils.MakeTempUniquePath(
-                                            TempDirectory,
-                                            originPath,
-                                            fs,
-                                            Generic.ATRACExt);
-
-                                        if (!RunAtracToolWithValidation(
-                                                Generic.PSV_ATRAC9tool,
-                                                Generic.EncodeParamAT9,
-                                                file,
-                                                outPath,
-                                                Path.GetFileName(originPath),
-                                                p,
-                                                cToken))
-                                        {
-                                            return false;
-                                        }
-
-                                        if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, originPath, streamName, Generic.EncodeParamAT9, isAtrac9: true, isAtrac3Ps3: false))
-                                        {
-                                            return false;
-                                        }
+                                        FormMain.DebugError($"[NUS3BANK] ATRAC9 loop scaling failed. start={loopStart}, end={loopEnd}, rate={sourceSamplingRate}->{targetSamplingRate}, input={file}");
+                                        return false;
                                     }
-                                    break;
-                                case Constants.ATRAC9ConsoleType.PS4: // PS4
-                                    {
-                                        Generic.EncodeParamAT9 = BuildAtracEncodeParam(
-                                            atrac9Params,
-                                            mloop,
-                                            loopIndex < Generic.MultipleLoopStarts.Length ? Generic.MultipleLoopStarts[loopIndex] : 0,
-                                            loopIndex < Generic.MultipleLoopEnds.Length ? Generic.MultipleLoopEnds[loopIndex] : 0,
-                                            Generic.lpcreate,
-                                            sourceIndex);
 
+                                    FormMain.DebugInfo($"[NUS3BANK] ATRAC9 loop points scaled. rate={sourceSamplingRate}->{targetSamplingRate}, start={loopStart}, end={loopEnd}, input={file}");
+                                }
 
-                                        Generic.ATRACExt = ".at9";
-                                        string outPath = Utils.MakeTempUniquePath(
-                                            TempDirectory,
-                                            originPath,
-                                            fs,
-                                            Generic.ATRACExt);
+                                Generic.EncodeParamAT9 = BuildAtracEncodeParam(
+                                    atrac9Params,
+                                    mloop,
+                                    loopStart,
+                                    loopEnd,
+                                    Generic.lpcreate,
+                                    sourceIndex);
 
-                                        if (!RunAtracToolWithValidation(
-                                                Generic.PS4_ATRAC9tool,
-                                                Generic.EncodeParamAT9,
-                                                file,
-                                                outPath,
-                                                Path.GetFileName(originPath),
-                                                p,
-                                                cToken))
-                                        {
-                                            return false;
-                                        }
+                                if (!mloop &&
+                                    sourceSamplingRate != targetSamplingRate &&
+                                    !TryScaleLoopInEncodeParam(ref Generic.EncodeParamAT9, sourceSamplingRate, targetSamplingRate, "ATRAC9", file))
+                                {
+                                    FormMain.DebugError($"[NUS3BANK] ATRAC9 LPC loop scaling failed. rate={sourceSamplingRate}->{targetSamplingRate}, input={file}");
+                                    return false;
+                                }
 
-                                        if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, originPath, streamName, Generic.EncodeParamAT9, isAtrac9: true, isAtrac3Ps3: false))
-                                        {
-                                            return false;
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                Generic.ATRACExt = ".at9";
+                                string outPath = Utils.MakeTempUniquePath(
+                                    TempDirectory,
+                                    originPath,
+                                    fs,
+                                    Generic.ATRACExt);
+
+                                if (!RunAtracToolWithValidation(
+                                        atrac9Tool,
+                                        Generic.EncodeParamAT9,
+                                        encoderInputPath,
+                                        outPath,
+                                        Path.GetFileName(originPath),
+                                        p,
+                                        cToken))
+                                {
+                                    return false;
+                                }
+
+                                if (!AddMultipleNus3BankStreamIfRequested(nus3BankStreams, outPath, file, originPath, streamName, Generic.EncodeParamAT9, isAtrac9: true, isAtrac3Ps3: false))
+                                    return false;
+                            }
+                            finally
+                            {
+                                if (resampledInputPath is not null)
+                                    TryDeleteFile(resampledInputPath);
                             }
 
                             break;
@@ -1963,14 +2257,20 @@ namespace ATRACTool_Reloaded
             string outputFile,
             IProgress<int> progress,
             CancellationToken cToken,
-            Func<int>? progressValueProvider = null)
+            Func<int>? progressValueProvider = null,
+            bool forceLoopExpandedDecodeNormalization = false)
         {
+            bool normalizeLoopExpandedDecode =
+                forceLoopExpandedDecodeNormalization ||
+                IsAtracDecodeCommand(parameterTemplate, inputFile, outputFile);
             var args = parameterTemplate
                 .Replace("$InFile", "\"" + inputFile + "\"")
                 .Replace("$OutFile", "\"" + outputFile + "\"")
                 .Replace("at3tool ", "")
                 .Replace("at9tool ", "")
                 .Replace("traconv ", "");
+            if (normalizeLoopExpandedDecode)
+                args = UseSingleLoopRepeatForDecode(args);
 
             var pi = new ProcessStartInfo
             {
@@ -2002,7 +2302,275 @@ namespace ATRACTool_Reloaded
             // デバッグ用ログはこれまで通り Generic.Log に保持
             Generic.Log = ps.StandardOutput;
 
-            return WaitForProcessExit(ps, Path.GetFileName(toolPath), progress, cToken, progressValueProvider);
+            if (!WaitForProcessExit(ps, Path.GetFileName(toolPath), progress, cToken, progressValueProvider))
+                return false;
+
+            if (normalizeLoopExpandedDecode &&
+                !TryTrimLoopExpandedAtracDecode(
+                    inputFile,
+                    outputFile,
+                    allowLossyNestedRepeatChain:
+                        forceLoopExpandedDecodeNormalization ||
+                        Path.GetExtension(inputFile).Equals(".at9", StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static string UseSingleLoopRepeatForDecode(string arguments)
+        {
+            const string repeatPattern = @"(?<!\S)-repeat\s+\d+";
+            if (Regex.IsMatch(arguments, repeatPattern, RegexOptions.IgnoreCase))
+                return Regex.Replace(arguments, repeatPattern, "-repeat 1", RegexOptions.IgnoreCase);
+
+            var decodeOption = new Regex(@"(?<!\S)-d(?!\S)", RegexOptions.IgnoreCase);
+            return decodeOption.Replace(arguments, "$0 -repeat 1", 1);
+        }
+
+        private static bool IsAtracDecodeCommand(string parameterTemplate, string inputFile, string outputFile)
+        {
+            string inputExtension = Path.GetExtension(inputFile);
+            return (inputExtension.Equals(".at3", StringComparison.OrdinalIgnoreCase) ||
+                    inputExtension.Equals(".at9", StringComparison.OrdinalIgnoreCase)) &&
+                Path.GetExtension(outputFile).Equals(".wav", StringComparison.OrdinalIgnoreCase) &&
+                Regex.IsMatch(parameterTemplate, @"(?:^|\s)-d(?:\s|$)", RegexOptions.IgnoreCase);
+        }
+
+        private static bool TryTrimLoopExpandedAtracDecode(
+            string encodedPath,
+            string decodedWavePath,
+            bool allowLossyNestedRepeatChain = false)
+        {
+            if (!Nus3BankFile.TryReadRiffLoopChunk(encodedPath, out uint rawLoopStart, out uint rawLoopEnd) ||
+                !Nus3BankFile.TryReadRiffFactSampleCount(encodedPath, out uint expectedSampleFrames))
+            {
+                return true;
+            }
+
+            if (!TryGetDecodedLoopRange(encodedPath, rawLoopStart, rawLoopEnd, out long loopStart, out long loopEnd))
+                return true;
+
+            string tempPath = decodedWavePath + ".looptrim-" + Guid.NewGuid().ToString("N") + ".wav";
+            try
+            {
+                long actualSampleFrames;
+                using (var reader = new WaveFileReader(decodedWavePath))
+                {
+                    actualSampleFrames = reader.SampleCount;
+                }
+
+                long loopFrames = loopEnd - loopStart;
+                if (loopFrames <= 0)
+                    return true;
+
+                if (actualSampleFrames > expectedSampleFrames)
+                {
+                    long expandedFrames = actualSampleFrames - expectedSampleFrames;
+                    long removeStart = expandedFrames == loopFrames && loopEnd + expandedFrames <= actualSampleFrames
+                        ? loopEnd
+                        : expectedSampleFrames;
+
+                    RewriteWaveWithoutFrameRange(decodedWavePath, tempPath, removeStart, expandedFrames);
+                    File.Move(tempPath, decodedWavePath, overwrite: true);
+                    actualSampleFrames = expectedSampleFrames;
+                    FormMain.DebugInfo($"[Decode] Removed decoder loop repeat. input={encodedPath}, output={decodedWavePath}, remove={removeStart}+{expandedFrames}, samples={actualSampleFrames + expandedFrames}->{actualSampleFrames}");
+                }
+
+                bool removeNestedRepeatChain =
+                    allowLossyNestedRepeatChain &&
+                    Path.GetExtension(encodedPath).Equals(".at9", StringComparison.OrdinalIgnoreCase);
+                double minimumCorrelation = removeNestedRepeatChain ? 0.90 : 0.98;
+                int maximumRepeatRemovals = removeNestedRepeatChain ? 16 : 1;
+                int removedRepeatCount = 0;
+
+                while (removedRepeatCount < maximumRepeatRemovals &&
+                       actualSampleFrames >= loopEnd + loopFrames &&
+                       actualSampleFrames - loopFrames >= loopEnd)
+                {
+                    double correlation = MeasureWaveRangeCorrelation(decodedWavePath, loopStart, loopEnd, loopEnd);
+                    FormMain.DebugInfo($"[Decode] Nested loop check. input={encodedPath}, loop={loopStart}-{loopEnd}, samples={actualSampleFrames}, correlation={correlation:F6}, threshold={minimumCorrelation:F2}");
+                    if (correlation < minimumCorrelation)
+                        break;
+
+                    RewriteWaveWithoutFrameRange(decodedWavePath, tempPath, loopEnd, loopFrames);
+                    File.Move(tempPath, decodedWavePath, overwrite: true);
+                    long normalizedSampleFrames = actualSampleFrames - loopFrames;
+                    using var nestedValidationReader = new WaveFileReader(decodedWavePath);
+                    if (nestedValidationReader.SampleCount != normalizedSampleFrames)
+                        throw new InvalidDataException($"Normalized WAV has {nestedValidationReader.SampleCount} samples; expected {normalizedSampleFrames}.");
+
+                    removedRepeatCount++;
+                    FormMain.DebugInfo($"[Decode] Removed nested loop-expanded PCM range. input={encodedPath}, output={decodedWavePath}, remove={loopEnd}+{loopFrames}, samples={actualSampleFrames}->{normalizedSampleFrames}, correlation={correlation:F6}, repeat={removedRepeatCount}");
+                    actualSampleFrames = normalizedSampleFrames;
+                }
+
+                using var validationReader = new WaveFileReader(decodedWavePath);
+                if (validationReader.SampleCount != actualSampleFrames)
+                    throw new InvalidDataException($"Normalized WAV has {validationReader.SampleCount} samples; expected {actualSampleFrames}.");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[Decode] Failed to normalize loop-expanded PCM. input={encodedPath}, output={decodedWavePath}, error={ex}");
+                return false;
+            }
+            finally
+            {
+                TryDeleteFile(tempPath);
+            }
+        }
+
+        private static bool TryGetDecodedLoopRange(
+            string encodedPath,
+            uint rawLoopStart,
+            uint rawLoopEnd,
+            out long loopStart,
+            out long loopEnd)
+        {
+            loopStart = 0;
+            loopEnd = 0;
+            string extension = Path.GetExtension(encodedPath);
+            (int startAdjustment, int endAdjustment) = extension.Equals(".at9", StringComparison.OrdinalIgnoreCase)
+                ? GetAtrac9LoopAdjustments(encodedPath)
+                : Nus3BankFile.TryReadRiffWaveSampleRate(encodedPath, out int sampleRate) && sampleRate == 48000
+                    ? (3271, 3270)
+                    : (2459, 2458);
+
+            loopStart = (long)rawLoopStart - startAdjustment;
+            loopEnd = (long)rawLoopEnd - endAdjustment;
+            return loopStart >= 0 && loopEnd > loopStart;
+        }
+
+        private static void RewriteWaveWithoutFrameRange(
+            string sourcePath,
+            string tempPath,
+            long removeStartFrame,
+            long removeFrameCount)
+        {
+            TryDeleteFile(tempPath);
+            using var reader = new WaveFileReader(sourcePath);
+            long removeEndFrame = checked(removeStartFrame + removeFrameCount);
+            if (removeStartFrame < 0 || removeFrameCount <= 0 || removeEndFrame > reader.SampleCount)
+                throw new InvalidDataException($"Invalid WAV removal range: {removeStartFrame}+{removeFrameCount}/{reader.SampleCount}.");
+
+            int blockAlign = reader.BlockAlign;
+            int bufferSize = 81920 - (81920 % blockAlign);
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
+            try
+            {
+                using var writer = new WaveFileWriter(tempPath, reader.WaveFormat);
+                CopyWaveBytes(reader, writer, checked(removeStartFrame * blockAlign), buffer, bufferSize);
+                reader.Position = checked(removeEndFrame * blockAlign);
+                CopyWaveBytes(reader, writer, checked((reader.SampleCount - removeEndFrame) * blockAlign), buffer, bufferSize);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+        }
+
+        private static void CopyWaveBytes(
+            WaveFileReader reader,
+            WaveFileWriter writer,
+            long byteCount,
+            byte[] buffer,
+            int bufferSize)
+        {
+            long remaining = byteCount;
+            while (remaining > 0)
+            {
+                int requested = (int)Math.Min(bufferSize, remaining);
+                int read = reader.Read(buffer, 0, requested);
+                if (read <= 0)
+                    throw new EndOfStreamException("Decoded WAV ended while removing a loop-expanded range.");
+
+                writer.Write(buffer, 0, read);
+                remaining -= read;
+            }
+        }
+
+        private static double MeasureWaveRangeCorrelation(
+            string wavePath,
+            long sourceStartFrame,
+            long sourceEndFrame,
+            long comparisonStartFrame)
+        {
+            using var reader = new WaveFileReader(wavePath);
+            if (reader.WaveFormat.BitsPerSample != 16)
+                return 0;
+
+            long sourceFrames = sourceEndFrame - sourceStartFrame;
+            if (sourceFrames <= 0 || comparisonStartFrame < 0 || comparisonStartFrame + sourceFrames > reader.SampleCount)
+                return 0;
+
+            int windowFrames = (int)Math.Min(8192, Math.Max(1024, sourceFrames / 16));
+            int windowBytes = checked(windowFrames * reader.BlockAlign);
+            byte[] sourceBuffer = ArrayPool<byte>.Shared.Rent(windowBytes);
+            byte[] comparisonBuffer = ArrayPool<byte>.Shared.Rent(windowBytes);
+            double correlationSum = 0;
+            int comparedWindows = 0;
+            try
+            {
+                foreach (double fraction in new[] { 0.15, 0.5, 0.85 })
+                {
+                    long offset = Math.Min(sourceFrames - windowFrames, Math.Max(0, (long)(sourceFrames * fraction)));
+                    int sourceBytes = ReadWaveFrames(reader, sourceStartFrame + offset, windowFrames, sourceBuffer);
+                    int comparisonBytes = ReadWaveFrames(reader, comparisonStartFrame + offset, windowFrames, comparisonBuffer);
+                    if (sourceBytes != comparisonBytes || sourceBytes < sizeof(short))
+                        continue;
+
+                    double dot = 0;
+                    double sourceEnergy = 0;
+                    double comparisonEnergy = 0;
+                    for (int i = 0; i + 1 < sourceBytes; i += sizeof(short))
+                    {
+                        short first = BinaryPrimitives.ReadInt16LittleEndian(sourceBuffer.AsSpan(i, sizeof(short)));
+                        short second = BinaryPrimitives.ReadInt16LittleEndian(comparisonBuffer.AsSpan(i, sizeof(short)));
+                        dot += (double)first * second;
+                        sourceEnergy += (double)first * first;
+                        comparisonEnergy += (double)second * second;
+                    }
+
+                    if (sourceEnergy > 0 && comparisonEnergy > 0)
+                    {
+                        correlationSum += dot / Math.Sqrt(sourceEnergy * comparisonEnergy);
+                        comparedWindows++;
+                    }
+                }
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(sourceBuffer);
+                ArrayPool<byte>.Shared.Return(comparisonBuffer);
+            }
+
+            return comparedWindows == 0 ? 0 : correlationSum / comparedWindows;
+        }
+
+        private static int ReadWaveFrames(
+            WaveFileReader reader,
+            long startFrame,
+            int frameCount,
+            byte[] buffer)
+        {
+            int byteCount = checked(frameCount * reader.BlockAlign);
+            if (buffer.Length < byteCount)
+                throw new ArgumentException("The WAV read buffer is too small.", nameof(buffer));
+
+            reader.Position = checked(startFrame * reader.BlockAlign);
+            int offset = 0;
+            while (offset < byteCount)
+            {
+                int read = reader.Read(buffer, offset, byteCount - offset);
+                if (read <= 0)
+                    break;
+                offset += read;
+            }
+
+            return offset;
         }
 
         /// <summary>
@@ -2262,7 +2830,7 @@ namespace ATRACTool_Reloaded
             {
                 // MediaToolkit 内部での例外などは上位にそのまま投げる
                 FormMain.DebugError($"[MediaToolkit] Conversion failed. error={ex.GetBaseException()}");
-                throw ex.GetBaseException();
+                throw;
             }
 
             // キャンセルフラグが立っていたら false（上位で「中止」として扱う）

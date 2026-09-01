@@ -325,7 +325,8 @@ namespace ATRACTool_Reloaded
             public static bool Nus3BankDecodeToFolder = false;
             public static bool Nus3BankExtractEmbedded = false;
             public static bool Nus3BankEncodeOutput = false;
-            public static sbyte Nus3BankEncodeCodecFlag = 1;
+            public static sbyte Nus3BankEncodeCodecFlag = 0;
+            public static int Nus3BankEncodeSamplingRate = 0;
             public static List<Nus3BankEncodeStreamSetting> Nus3BankEncodeStreamSettings { get; set; } = [];
             public static List<string> Nus3BankPlaybackTempPaths { get; set; } = [];
             public static string[] Nus3BankPlaybackOriginPaths = null!;
@@ -948,9 +949,8 @@ namespace ATRACTool_Reloaded
                 // 表示用ではない（内部ファイル名専用）
                 var stem = Path.GetFileNameWithoutExtension(originPath);
 
-                using var sha1 = System.Security.Cryptography.SHA1.Create();
                 var bytes = System.Text.Encoding.UTF8.GetBytes(originPath);
-                var hash = Convert.ToHexString(sha1.ComputeHash(bytes)).Substring(0, 8);
+                var hash = Convert.ToHexString(System.Security.Cryptography.SHA1.HashData(bytes)).Substring(0, 8);
 
                 return $"{stem}__{hash}";
             }
@@ -1153,6 +1153,19 @@ namespace ATRACTool_Reloaded
                 }
             }
 
+            private static bool ResolveAtrac3Ps3ForMetadata(byte[] sampleRateBytes)
+            {
+                if (sampleRateBytes.Length < 2)
+                    return Generic.IsAT3PS3;
+
+                return BitConverter.ToUInt16(sampleRateBytes, 0) switch
+                {
+                    44100 => false,
+                    48000 => true,
+                    _ => Generic.IsAT3PS3,
+                };
+            }
+
             public static bool ReadMetadatas(string ATRACfile, int[] buffers)
             {
                 try
@@ -1167,9 +1180,10 @@ namespace ATRACTool_Reloaded
 
                     br.BaseStream.Seek(24, SeekOrigin.Begin);
                     byte[] rsamplelate = br.ReadBytes(2);
+                    bool isAtrac3Ps3 = ResolveAtrac3Ps3ForMetadata(rsamplelate);
 
                     byte[] chunk;
-                    if (Generic.ReadedATRACFlag == 0 && !Generic.IsAT3PS3)
+                    if (Generic.ReadedATRACFlag == 0 && !isAtrac3Ps3)
                     {
                         br.BaseStream.Seek(88, SeekOrigin.Begin);
                         chunk = br.ReadBytes(4);
@@ -1186,7 +1200,7 @@ namespace ATRACTool_Reloaded
                     {
                         if (Generic.ReadedATRACFlag == 0) // ATRAC3
                         {
-                            if (Generic.IsAT3PS3) // PS3
+                            if (isAtrac3Ps3) // PS3
                             {
                                 br.BaseStream.Seek(144, SeekOrigin.Begin);
                                 byte[] rloop_start = br.ReadBytes(4);
@@ -1291,7 +1305,7 @@ namespace ATRACTool_Reloaded
                     {
                         if (Generic.ReadedATRACFlag == 0) // ATRAC3
                         {
-                            if (Generic.IsAT3PS3) // PS3
+                            if (isAtrac3Ps3) // PS3
                             {
                                 buffers[0] = 0;
                                 buffers[1] = 0;
@@ -1412,9 +1426,10 @@ namespace ATRACTool_Reloaded
 
                         br.BaseStream.Seek(24, SeekOrigin.Begin);
                         byte[] rsamplelate = br.ReadBytes(2);
+                        bool isAtrac3Ps3 = ResolveAtrac3Ps3ForMetadata(rsamplelate);
 
                         byte[] chunk;
-                        if (Generic.ReadedATRACFlag == 0 && !Generic.IsAT3PS3)
+                        if (Generic.ReadedATRACFlag == 0 && !isAtrac3Ps3)
                         {
                             br.BaseStream.Seek(88, SeekOrigin.Begin);
                             chunk = br.ReadBytes(4);
@@ -1430,7 +1445,7 @@ namespace ATRACTool_Reloaded
                         {
                             if (Generic.ReadedATRACFlag == 0) // ATRAC3
                             {
-                                if (Generic.IsAT3PS3) // PS3
+                                if (isAtrac3Ps3) // PS3
                                 {
                                     br.BaseStream.Seek(144, SeekOrigin.Begin);
                                     byte[] rloop_start = br.ReadBytes(4);
@@ -1538,7 +1553,7 @@ namespace ATRACTool_Reloaded
                         {
                             if (Generic.ReadedATRACFlag == 0) // ATRAC3
                             {
-                                if (Generic.IsAT3PS3) // PS3
+                                if (isAtrac3Ps3) // PS3
                                 {
                                     mbuffer[count, 0] = 0;
                                     mbuffer[count, 1] = 0;
@@ -3267,8 +3282,7 @@ namespace ATRACTool_Reloaded
 
             private static string ShortHash(string s)
             {
-                using var sha1 = SHA1.Create();
-                var bytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(s));
+                var bytes = SHA1.HashData(Encoding.UTF8.GetBytes(s));
                 return BitConverter.ToString(bytes, 0, 8).Replace("-", "").ToLowerInvariant();
             }
 
@@ -3404,7 +3418,8 @@ namespace ATRACTool_Reloaded
             {
                 FormMain.DebugInfo($"[Network] Get image started. uri={uri}");
                 using Stream stream = await GetWebStreamAsync(httpClient, uri);
-                Image image = Image.FromStream(stream);
+                using Image source = Image.FromStream(stream);
+                Image image = new Bitmap(source);
                 FormMain.DebugInfo($"[Network] Get image completed. uri={uri}");
                 return image;
             }
@@ -3439,9 +3454,38 @@ namespace ATRACTool_Reloaded
             {
                 FormMain.DebugInfo($"[Config] Save started. path={filename}");
                 var serializer = new XmlSerializer(typeof(ConfigEntry));
-                using var streamWriter = new StreamWriter(filename, false, Encoding.UTF8);
-                serializer.Serialize(streamWriter, Entry);
-                FormMain.DebugInfo($"[Config] Save completed. path={filename}");
+                string tempFilename = filename + ".tmp-" + Guid.NewGuid().ToString("N");
+                try
+                {
+                    using (var fileStream = new FileStream(
+                        tempFilename,
+                        FileMode.CreateNew,
+                        FileAccess.Write,
+                        FileShare.None,
+                        4096,
+                        FileOptions.WriteThrough))
+                    {
+                        using var streamWriter = new StreamWriter(fileStream, Encoding.UTF8, 4096, leaveOpen: true);
+                        serializer.Serialize(streamWriter, Entry);
+                        streamWriter.Flush();
+                        fileStream.Flush(flushToDisk: true);
+                    }
+
+                    File.Move(tempFilename, filename, overwrite: true);
+                    FormMain.DebugInfo($"[Config] Save completed. path={filename}");
+                }
+                finally
+                {
+                    try
+                    {
+                        if (File.Exists(tempFilename))
+                            File.Delete(tempFilename);
+                    }
+                    catch (Exception ex)
+                    {
+                        FormMain.DebugWarn($"[Config] Failed to remove temporary config file. path={tempFilename}, error={ex.Message}");
+                    }
+                }
             }
         }
 

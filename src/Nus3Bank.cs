@@ -278,7 +278,15 @@ namespace ATRACTool_Reloaded
 
             TryReadRiffWaveSampleRate(data, tone.SubfileOffset, tone.StreamSize, out sampleRate);
 
-            (int startAdjustment, int endAdjustment) = GetLoopReadAdjustments(tone.Codec, sampleRate, isAtrac3Ps3);
+            bool resolvedAtrac3Ps3 = tone.Codec == Nus3SubfileCodec.Atrac3
+                ? sampleRate switch
+                {
+                    44100 => false,
+                    48000 => true,
+                    _ => isAtrac3Ps3,
+                }
+                : isAtrac3Ps3;
+            (int startAdjustment, int endAdjustment) = GetLoopReadAdjustments(tone.Codec, sampleRate, resolvedAtrac3Ps3);
             long adjustedStart = (long)rawStart - startAdjustment;
             long adjustedEnd = (long)rawEnd - endAdjustment;
 
@@ -881,6 +889,160 @@ namespace ATRACTool_Reloaded
                 sampleRate = 0;
                 return false;
             }
+        }
+
+        public static bool TryReadRiffLoopChunk(string path, out uint loopStart, out uint loopEnd)
+        {
+            loopStart = 0;
+            loopEnd = 0;
+            if (!File.Exists(path))
+                return false;
+
+            try
+            {
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+                if (!TryReadRiffHeader(fs, out long riffEnd))
+                    return false;
+
+                long p = 12;
+                Span<byte> chunkHeader = stackalloc byte[8];
+                Span<byte> smplData = stackalloc byte[52];
+                while (p + 8 <= riffEnd)
+                {
+                    fs.Position = p;
+                    if (!TryReadExactly(fs, chunkHeader))
+                        return false;
+
+                    uint payloadSize = BinaryPrimitives.ReadUInt32LittleEndian(chunkHeader.Slice(4, 4));
+                    long next = p + 8 + payloadSize + (payloadSize & 1u);
+                    if (next < p || next > riffEnd)
+                        return false;
+
+                    if (AsciiEquals(chunkHeader[..4], "smpl") && payloadSize >= 60)
+                    {
+                        if (!TryReadExactly(fs, smplData) ||
+                            BinaryPrimitives.ReadUInt32LittleEndian(smplData.Slice(28, 4)) == 0)
+                        {
+                            return false;
+                        }
+
+                        uint rawStart = BinaryPrimitives.ReadUInt32LittleEndian(smplData.Slice(44, 4));
+                        uint rawEnd = BinaryPrimitives.ReadUInt32LittleEndian(smplData.Slice(48, 4));
+                        if (rawEnd <= rawStart)
+                            return false;
+
+                        loopStart = rawStart;
+                        loopEnd = rawEnd;
+                        return true;
+                    }
+
+                    p = next;
+                }
+            }
+            catch
+            {
+                loopStart = 0;
+                loopEnd = 0;
+            }
+
+            return false;
+        }
+
+        public static bool TryReadRiffFactSampleCount(string path, out uint sampleCount)
+        {
+            sampleCount = 0;
+            if (!File.Exists(path))
+                return false;
+
+            try
+            {
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+                if (!TryReadRiffHeader(fs, out long riffEnd))
+                    return false;
+
+                long p = 12;
+                Span<byte> chunkHeader = stackalloc byte[8];
+                Span<byte> factData = stackalloc byte[4];
+                while (p + 8 <= riffEnd)
+                {
+                    fs.Position = p;
+                    if (!TryReadExactly(fs, chunkHeader))
+                        return false;
+
+                    uint payloadSize = BinaryPrimitives.ReadUInt32LittleEndian(chunkHeader.Slice(4, 4));
+                    long next = p + 8 + payloadSize + (payloadSize & 1u);
+                    if (next < p || next > riffEnd)
+                        return false;
+
+                    if (AsciiEquals(chunkHeader[..4], "fact") && payloadSize >= 4)
+                    {
+                        if (!TryReadExactly(fs, factData))
+                            return false;
+
+                        sampleCount = BinaryPrimitives.ReadUInt32LittleEndian(factData);
+                        return sampleCount > 0;
+                    }
+
+                    p = next;
+                }
+            }
+            catch
+            {
+                sampleCount = 0;
+            }
+
+            return false;
+        }
+
+        public static bool TryWriteRiffLoopChunk(string path, Nus3RiffLoopPoints loopPoints)
+        {
+            if (!File.Exists(path) || !loopPoints.TryGetRiffLoop(out uint loopStart, out uint loopEnd))
+                return false;
+
+            try
+            {
+                using var fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read, 81920, FileOptions.RandomAccess);
+                if (!TryReadRiffHeader(fs, out long riffEnd))
+                    return false;
+
+                long p = 12;
+                Span<byte> chunkHeader = stackalloc byte[8];
+                Span<byte> loopCount = stackalloc byte[4];
+                Span<byte> loopRange = stackalloc byte[8];
+                while (p + 8 <= riffEnd)
+                {
+                    fs.Position = p;
+                    if (!TryReadExactly(fs, chunkHeader))
+                        return false;
+
+                    uint payloadSize = BinaryPrimitives.ReadUInt32LittleEndian(chunkHeader.Slice(4, 4));
+                    long next = p + 8 + payloadSize + (payloadSize & 1u);
+                    if (next < p || next > riffEnd)
+                        return false;
+
+                    if (AsciiEquals(chunkHeader[..4], "smpl") && payloadSize >= 60)
+                    {
+                        BinaryPrimitives.WriteUInt32LittleEndian(loopCount, 1);
+                        fs.Position = p + 8 + 28;
+                        fs.Write(loopCount);
+
+                        BinaryPrimitives.WriteUInt32LittleEndian(loopRange[..4], loopStart);
+                        BinaryPrimitives.WriteUInt32LittleEndian(loopRange.Slice(4, 4), loopEnd);
+                        fs.Position = p + 8 + 44;
+                        fs.Write(loopRange);
+                        fs.Flush();
+                        return true;
+                    }
+
+                    p = next;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return false;
         }
 
         private static bool TryReadRiffWaveSampleRateFromFile(string path, out int sampleRate)

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -66,7 +65,7 @@ namespace ATRACTool_Reloaded
             All = 3
         }
 
-        private readonly List<FormMain.DebugLogEntry> _logEntries = [];
+        private readonly Queue<FormMain.DebugLogEntry> _logEntries = new(MaxLogLines);
         private DebugLogFilter _currentFilter = DebugLogFilter.All;
         private bool _loadingOptions;
 
@@ -86,6 +85,7 @@ namespace ATRACTool_Reloaded
         }
 
         private DispatcherTimer? _timer;
+        private HwndSource? _hwndSource;
 
         public WindowDebug()
         {
@@ -95,7 +95,7 @@ namespace ATRACTool_Reloaded
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
-            _timer.Tick += (_, __) => RefleshCurrentInstanceInfo();
+            _timer.Tick += Timer_Tick;
         }
 
         private IntPtr _lastMainHandle;
@@ -133,8 +133,8 @@ namespace ATRACTool_Reloaded
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-            source.AddHook(new HwndSourceHook(WndProc));
+            _hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            _hwndSource?.AddHook(WndProc);
 
             FileVersionInfo ver = FileVersionInfo.GetVersionInfo(System.Windows.Forms.Application.ExecutablePath);
             if (ver.FileVersion != null)
@@ -262,20 +262,13 @@ namespace ATRACTool_Reloaded
 
         public void AppendLog(FormMain.DebugLogEntry entry)
         {
-            _logEntries.Add(entry);
+            _logEntries.Enqueue(entry);
 
-            bool removedVisibleEntry = false;
             while (_logEntries.Count > MaxLogLines)
             {
-                FormMain.DebugLogEntry oldEntry = _logEntries[0];
-                _logEntries.RemoveAt(0);
-                removedVisibleEntry |= MatchesFilter(oldEntry);
-            }
-
-            if (removedVisibleEntry)
-            {
-                RebuildLogDocument();
-                return;
+                FormMain.DebugLogEntry oldEntry = _logEntries.Dequeue();
+                if (MatchesFilter(oldEntry))
+                    RemoveFirstLogBlock();
             }
 
             if (!MatchesFilter(entry))
@@ -284,6 +277,19 @@ namespace ATRACTool_Reloaded
             }
 
             AppendLogBlock(entry, scrollToEnd: true);
+        }
+
+        private void RemoveFirstLogBlock()
+        {
+            FlowDocument? document = richText_Message.Document;
+            Block? firstBlock = document?.Blocks.FirstBlock;
+            if (document is null || firstBlock is null)
+                return;
+
+            if (firstBlock is Paragraph paragraph)
+                paragraph.Inlines.Clear();
+
+            document.Blocks.Remove(firstBlock);
         }
 
         private bool MatchesFilter(FormMain.DebugLogEntry entry)
@@ -556,7 +562,7 @@ namespace ATRACTool_Reloaded
             return bitmap;
         }
 
-        private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
             RefleshCurrentInstanceInfo();
         }
@@ -584,7 +590,16 @@ namespace ATRACTool_Reloaded
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            _timer?.Stop();
+            if (_timer is not null)
+            {
+                _timer.Stop();
+                _timer.Tick -= Timer_Tick;
+                _timer = null;
+            }
+
+            _hwndSource?.RemoveHook(WndProc);
+            _hwndSource = null;
+            _logEntries.Clear();
         }
     }
 }

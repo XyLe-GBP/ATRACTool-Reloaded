@@ -8,6 +8,7 @@ namespace ATRACTool_Reloaded
     internal sealed class FormNus3BankMultiEncode : Form
     {
         private readonly ComboBox comboBoxCodec;
+        private readonly ComboBox comboBoxSamplingRate;
         private readonly ListView listViewStreams;
         private readonly TextBox textBoxStreamName;
         private readonly TextBox textBoxLoopStart;
@@ -17,11 +18,16 @@ namespace ATRACTool_Reloaded
         private readonly Button buttonOk;
         private readonly Dictionary<Nus3BankEncodeStreamSetting, (int? LoopStart, int? LoopEnd)> originalLoopValues = [];
         private readonly Dictionary<Nus3BankEncodeStreamSetting, long> totalSamplesByStream = [];
+        private readonly Dictionary<int, int> samplingRateByCodec = [];
         private bool updatingSelection;
+        private int activeCodecIndex = -1;
 
-        public FormNus3BankMultiEncode(IReadOnlyList<Nus3BankEncodeStreamSetting> streams, sbyte initialCodecFlag)
+        public FormNus3BankMultiEncode(
+            IReadOnlyList<Nus3BankEncodeStreamSetting> streams,
+            sbyte initialCodecFlag,
+            int initialSamplingRate)
         {
-            FormMain.DebugInfo($"[FormNus3BankMultiEncode] Initialized. streams={streams.Count}, initialCodecFlag={initialCodecFlag}");
+            FormMain.DebugInfo($"[FormNus3BankMultiEncode] Initialized. streams={streams.Count}, initialCodecFlag={initialCodecFlag}, initialSamplingRate={initialSamplingRate}");
             Text = "NUS3BANK Multi Encode";
             StartPosition = FormStartPosition.CenterParent;
             MinimizeBox = false;
@@ -37,12 +43,31 @@ namespace ATRACTool_Reloaded
                 Width = 180,
             };
             comboBoxCodec.Items.AddRange(["ATRAC3 / ATRAC3+", "ATRAC9"]);
-            comboBoxCodec.SelectedIndex = initialCodecFlag == 0 ? 0 : 1;
+
+            comboBoxSamplingRate = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = 180,
+            };
+
+            samplingRateByCodec[0] = Utils.GetInt("ATRAC3_Console", (int)Constants.ATRAC3ConsoleType.PSP) == (int)Constants.ATRAC3ConsoleType.PS3
+                ? 48000
+                : 44100;
+            int configuredAtrac9Rate = Utils.GetInt("ATRAC9_SamplingValue", 48000);
+            samplingRateByCodec[1] = GetSupportedSamplingRates(codecIndex: 1).Contains(configuredAtrac9Rate)
+                ? configuredAtrac9Rate
+                : 48000;
+
+            int initialCodecIndex = initialCodecFlag == 0 ? 0 : 1;
+            if (GetSupportedSamplingRates(initialCodecIndex).Contains(initialSamplingRate))
+                samplingRateByCodec[initialCodecIndex] = initialSamplingRate;
+
+            comboBoxCodec.SelectedIndexChanged += ComboBoxCodec_SelectedIndexChanged;
+            comboBoxCodec.SelectedIndex = initialCodecIndex;
 
             textBoxStreamName = new TextBox
             {
                 Dock = DockStyle.Fill,
-                Width = 320,
             };
             textBoxStreamName.TextChanged += TextBoxStreamName_TextChanged;
 
@@ -79,7 +104,7 @@ namespace ATRACTool_Reloaded
             var editPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                AutoSize = true,
+                AutoSize = false,
                 ColumnCount = 6,
                 RowCount = 2,
                 Padding = new Padding(8, 8, 8, 4),
@@ -90,9 +115,9 @@ namespace ATRACTool_Reloaded
             editPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             editPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             editPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84));
-            editPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84));
-            editPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            editPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            editPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 128));
+            editPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 29));
+            editPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 29));
 
             editPanel.Controls.Add(new Label
             {
@@ -115,20 +140,28 @@ namespace ATRACTool_Reloaded
 
             editPanel.Controls.Add(new Label
             {
-                Text = "LoopStart",
+                Text = "Sampling rate",
                 AutoSize = true,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = new Padding(0, 6, 8, 0),
             }, 0, 1);
-            editPanel.Controls.Add(textBoxLoopStart, 1, 1);
+            editPanel.Controls.Add(comboBoxSamplingRate, 1, 1);
+            editPanel.Controls.Add(new Label
+            {
+                Text = "LoopStart",
+                AutoSize = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Margin = new Padding(8, 6, 8, 0),
+            }, 2, 1);
+            editPanel.Controls.Add(textBoxLoopStart, 3, 1);
             editPanel.Controls.Add(new Label
             {
                 Text = "LoopEnd",
                 AutoSize = true,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Margin = new Padding(8, 6, 8, 0),
-            }, 2, 1);
-            editPanel.Controls.Add(textBoxLoopEnd, 3, 1);
+            }, 4, 1);
+            editPanel.Controls.Add(textBoxLoopEnd, 5, 1);
 
             listViewStreams = new ListView
             {
@@ -179,7 +212,7 @@ namespace ATRACTool_Reloaded
                 ColumnCount = 1,
                 RowCount = 3,
             };
-            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 54));
             layout.Controls.Add(editPanel, 0, 0);
@@ -195,7 +228,46 @@ namespace ATRACTool_Reloaded
         }
 
         public sbyte SelectedAtracFlag => comboBoxCodec.SelectedIndex == 0 ? (sbyte)0 : (sbyte)1;
+        public int SelectedSamplingRate => comboBoxSamplingRate.SelectedItem is SamplingRateOption option
+            ? option.Value
+            : 48000;
         public List<Nus3BankEncodeStreamSetting> StreamSettings { get; } = [];
+
+        private void ComboBoxCodec_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (activeCodecIndex >= 0 && comboBoxSamplingRate.SelectedItem is SamplingRateOption currentOption)
+                samplingRateByCodec[activeCodecIndex] = currentOption.Value;
+
+            activeCodecIndex = comboBoxCodec.SelectedIndex;
+            int selectedRate = samplingRateByCodec.TryGetValue(activeCodecIndex, out int rememberedRate)
+                ? rememberedRate
+                : GetSupportedSamplingRates(activeCodecIndex)[0];
+
+            comboBoxSamplingRate.BeginUpdate();
+            try
+            {
+                comboBoxSamplingRate.Items.Clear();
+                foreach (int samplingRate in GetSupportedSamplingRates(activeCodecIndex))
+                    comboBoxSamplingRate.Items.Add(new SamplingRateOption(samplingRate));
+
+                comboBoxSamplingRate.SelectedIndex = Math.Max(
+                    0,
+                    comboBoxSamplingRate.Items.Cast<SamplingRateOption>().ToList().FindIndex(option => option.Value == selectedRate));
+            }
+            finally
+            {
+                comboBoxSamplingRate.EndUpdate();
+            }
+
+            FormMain.DebugInfo($"[FormNus3BankMultiEncode] Codec changed. atracFlag={SelectedAtracFlag}, samplingRate={SelectedSamplingRate}");
+        }
+
+        private static int[] GetSupportedSamplingRates(int codecIndex)
+        {
+            return codecIndex == 0
+                ? [44100, 48000]
+                : [48000, 24000, 12000];
+        }
 
         public List<Nus3BankEncodeStreamSetting> GetCurrentStreamSettings()
         {
@@ -402,12 +474,39 @@ namespace ATRACTool_Reloaded
                 return;
             }
 
+            List<Nus3BankEncodeStreamSetting> currentSettings = GetCurrentStreamSettings();
+            if (currentSettings.Any(setting => ContainsMultibyteCharacters(setting.StreamName)))
+            {
+                const string warningMessage = "Streamにマルチバイト文字(日本語、記号等)が含まれています。このままエンコードした場合、マルチバイト文字が含まれたStreamはtone_00**のようにリネームされます。続行しますか？";
+                FormMain.DebugWarn("[FormNus3BankMultiEncode] Multibyte stream name detected. Confirmation requested.");
+
+                DialogResult confirmation = MessageBox.Show(
+                    this,
+                    warningMessage,
+                    Localizable.Localization.MSGBoxWarningCaption,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+                if (confirmation != DialogResult.Yes)
+                {
+                    FormMain.DebugWarn("[FormNus3BankMultiEncode] OK cancelled by multibyte stream name confirmation.");
+                    return;
+                }
+
+                FormMain.DebugInfo("[FormNus3BankMultiEncode] Multibyte stream name encoding confirmed.");
+            }
+
             StreamSettings.Clear();
-            StreamSettings.AddRange(GetCurrentStreamSettings());
-            FormMain.DebugInfo($"[FormNus3BankMultiEncode] OK. streams={StreamSettings.Count}, atracFlag={SelectedAtracFlag}");
+            StreamSettings.AddRange(currentSettings);
+            FormMain.DebugInfo($"[FormNus3BankMultiEncode] OK. streams={StreamSettings.Count}, atracFlag={SelectedAtracFlag}, samplingRate={SelectedSamplingRate}");
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private static bool ContainsMultibyteCharacters(string text)
+        {
+            return text.Any(character => character > 0x7F);
         }
 
         private void ButtonCancel_Click(object? sender, EventArgs e)
@@ -565,6 +664,16 @@ namespace ATRACTool_Reloaded
             }
 
             return string.Empty;
+        }
+
+        private sealed class SamplingRateOption(int value)
+        {
+            public int Value { get; } = value;
+
+            public override string ToString()
+            {
+                return $"{Value} Hz";
+            }
         }
     }
 }

@@ -1706,7 +1706,10 @@ namespace ATRACTool_Reloaded
         {
             Common.Generic.Nus3BankEncodeOutput = enabled;
             if (!enabled)
+            {
                 Common.Generic.Nus3BankEncodeStreamSettings.Clear();
+                Common.Generic.Nus3BankEncodeSamplingRate = 0;
+            }
 
             if (nus3bankToolStripMenuItem is not null && nus3bankToolStripMenuItem.Checked != enabled)
                 nus3bankToolStripMenuItem.Checked = enabled;
@@ -1725,7 +1728,7 @@ namespace ATRACTool_Reloaded
             Config.Save(xmlpath);
             aTRAC9ToolStripMenuItem.Checked = false;
             SetNus3BankEncodeOutput(true);
-            Common.Generic.Nus3BankEncodeCodecFlag = 1;
+            Common.Generic.Nus3BankEncodeCodecFlag = 0;
             toolStripDropDownButton_EF.Text = "NUS3BANK";
         }
         private void ATRAC3ATRAC3ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2062,7 +2065,7 @@ namespace ATRACTool_Reloaded
             Generic.Nus3BankDecodeToFolder = false;
             Generic.Nus3BankExtractEmbedded = false;
             SetNus3BankEncodeOutput(false);
-            Generic.Nus3BankEncodeCodecFlag = 1;
+            Generic.Nus3BankEncodeCodecFlag = 0;
             Generic.Nus3BankEncodeStreamSettings.Clear();
             Generic.Nus3BankPlaybackTempPaths.Clear();
             Generic.Nus3BankPlaybackOriginPaths = null!;
@@ -2510,7 +2513,8 @@ namespace ATRACTool_Reloaded
                 }
             }
 
-            if (Generic.ATRACFlag == 0 || Generic.ATRACFlag == 1)
+            if (Generic.ATRACFlag == 1 &&
+                !(Generic.Nus3BankEncodeOutput && Generic.OpenFilePaths.Length > 1))
             {
                 if (Utils.CheckATRACFormatError(FormLPC.FormLPCInstance.SampleRate))
                 {
@@ -3687,7 +3691,10 @@ namespace ATRACTool_Reloaded
                 Generic.BuildInputJobsFromPaths(Generic.OpenFilePaths, origins);
             }
 
-            using var form = new FormNus3BankMultiEncode(BuildNus3BankMultiEncodeStreamSettings(), Generic.Nus3BankEncodeCodecFlag);
+            using var form = new FormNus3BankMultiEncode(
+                BuildNus3BankMultiEncodeStreamSettings(),
+                Generic.Nus3BankEncodeCodecFlag,
+                Generic.Nus3BankEncodeSamplingRate);
             DialogResult dialogResult = form.ShowDialog(this);
             IReadOnlyList<Nus3BankEncodeStreamSetting> currentSettings = dialogResult == DialogResult.OK
                 ? form.StreamSettings
@@ -3698,6 +3705,7 @@ namespace ATRACTool_Reloaded
                 return false;
 
             Generic.Nus3BankEncodeCodecFlag = form.SelectedAtracFlag;
+            Generic.Nus3BankEncodeSamplingRate = form.SelectedSamplingRate;
             Generic.Nus3BankEncodeStreamSettings = form.StreamSettings.ToList();
             Generic.ATRACFlag = form.SelectedAtracFlag;
             return true;
@@ -4101,7 +4109,7 @@ namespace ATRACTool_Reloaded
             Generic.Nus3BankDecodeToFolder = false;
             Generic.Nus3BankExtractEmbedded = false;
             SetNus3BankEncodeOutput(false);
-            Generic.Nus3BankEncodeCodecFlag = 1;
+            Generic.Nus3BankEncodeCodecFlag = 0;
             Generic.Nus3BankEncodeStreamSettings.Clear();
             Generic.Nus3BankPlaybackTempPaths.Clear();
             Generic.Nus3BankPlaybackOriginPaths = null!;

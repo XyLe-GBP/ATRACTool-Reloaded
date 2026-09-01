@@ -21,12 +21,12 @@ namespace ATRACTool_Reloaded
         private WasapiOut wasapiOut = null!;
         private AsioOut asioOut = null!;
         private string asioDriver = null!;
-        private readonly List<IDisposable> _disposables = [];
         WaveFileReader reader = null!;
         BufferedWaveProvider BufwaveProvider = null!;
         VolumeSampleProvider volumeSmplProvider = null!;
         PanningSampleProvider panSmplProvider = null!;
         long Sample, Start = 0, End = 0;
+        long? loopStartSampleDisplayOverride, loopEndSampleDisplayOverride;
         int bytePerSec, position, length, smplrate, WASAPILatency = 0, WASAPIexLatency = 0, UseThreads = 3;
         long totalsamples;
         uint btnpos;
@@ -45,8 +45,8 @@ namespace ATRACTool_Reloaded
         Point labelTrk, labelStart, labelEnd;
 
         private volatile bool SLTAlive;
-        ThreadStart StartPlaybackThread_s = null!;
-        Thread Playback_s = null!;
+        private readonly object _playbackMonitorSync = new();
+        private Thread? _playbackMonitorThread;
 
         int[] bufferloop = new int[2];
 
@@ -219,7 +219,7 @@ namespace ATRACTool_Reloaded
             label_LoopStartSamples.Text = "";
             label_LoopEndSamples.Text = "";
             label_previewwarn.Text = "";
-            timer_Reload.Interval = 1;
+            timer_Reload.Interval = 15;
         }
 
         private bool IsNus3BankPlaybackActive()
@@ -413,13 +413,13 @@ namespace ATRACTool_Reloaded
         {
             SetTrackbarStart();
             SetTrackbarEnd();
-            label_start.Text = BuildPositionText(customTrackBar_Start.Value);
-            label_end.Text = BuildPositionText(customTrackBar_End.Value);
+            label_start.Text = BuildPositionText(customTrackBar_Start.Value, loopStartSampleDisplayOverride);
+            label_end.Text = BuildPositionText(customTrackBar_End.Value, loopEndSampleDisplayOverride);
         }
 
-        private string BuildPositionText(int milliseconds)
+        private string BuildPositionText(int milliseconds, long? exactSamples = null)
         {
-            return $"{milliseconds}{Environment.NewLine}{MillisecondsToSamples(milliseconds)}";
+            return $"{milliseconds}{Environment.NewLine}{exactSamples ?? MillisecondsToSamples(milliseconds)}";
         }
 
         private long MillisecondsToSamples(int milliseconds)
@@ -437,12 +437,14 @@ namespace ATRACTool_Reloaded
 
         private void CustomTrackBar_End_Scroll(object? sender, EventArgs e)
         {
+            loopEndSampleDisplayOverride = null;
             numericUpDown_LoopEnd.Value = customTrackBar_End.Value;
             UpdateLoopPointValueLabels();
         }
 
         private void CustomTrackBar_Start_Scroll(object? sender, EventArgs e)
         {
+            loopStartSampleDisplayOverride = null;
             numericUpDown_LoopStart.Value = customTrackBar_Start.Value;
             UpdateLoopPointValueLabels();
         }
@@ -906,8 +908,10 @@ namespace ATRACTool_Reloaded
         private bool TryInitWasapi(IWaveProvider provider)
         {
             FormMain.DebugInfo($"[FormLPC] WASAPI initialization started. exclusive={IsWASAPIex}, shared={IsWASAPI}");
-            mmDevice = new MMDeviceEnumerator()
-                .GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            using (var enumerator = new MMDeviceEnumerator())
+            {
+                mmDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            }
 
             // まず�E現在の設定（�E朁Eor 排他）で試ぁE
             try
@@ -941,6 +945,11 @@ namespace ATRACTool_Reloaded
                     IsWASAPI = true;
                     IsWASAPIex = false;
 
+                    try { wasapiOut?.Dispose(); } catch (Exception disposeEx)
+                    {
+                        FormMain.DebugWarn($"[FormLPC] Failed to dispose unsupported WASAPI output. error={disposeEx.Message}");
+                    }
+
                     wasapiOut = new WasapiOut(
                         mmDevice,
                         AudioClientShareMode.Shared,
@@ -965,6 +974,7 @@ namespace ATRACTool_Reloaded
 
                     // ☁E再生監視スレチE���E�E��イマ�Eを即停止
                     StopPlaybackLoop();
+                    DisposeReloadableAudioOutputs();
 
                     // ☁Eメインフォームを「起動直後�E状態」に戻ぁE
                     FormMain.FormMainInstance.ResetToInitialState();
@@ -988,6 +998,7 @@ namespace ATRACTool_Reloaded
 
                 // 念のため監視ループも止める
                 StopPlaybackLoop();
+                DisposeReloadableAudioOutputs();
 
                 return false;
             }
@@ -1061,6 +1072,7 @@ namespace ATRACTool_Reloaded
 
             try
             {
+                DisposeReloadableAudioOutputs();
                 FormMain.DebugInfo($"[FormLPC] PlaybackInit started. channels={reader.WaveFormat.Channels}, sampleRate={reader.WaveFormat.SampleRate}, bits={reader.WaveFormat.BitsPerSample}, wasapi={IsWASAPI}, wasapiExclusive={IsWASAPIex}, asio={IsASIO}");
                 switch (reader.WaveFormat.Channels)
                 {
@@ -1107,7 +1119,6 @@ namespace ATRACTool_Reloaded
                     case 6: // 5.1ch
                         {
                             IsMultiChannel = true;
-                            _disposables.Add(reader);
                             var output = BuildOutputChain(reader);
                             if (IsWASAPI || IsWASAPIex)
                             {
@@ -1130,7 +1141,6 @@ namespace ATRACTool_Reloaded
                     case 8: // 7.1ch
                         {
                             IsMultiChannel = true;
-                            _disposables.Add(reader);
                             var output = BuildOutputChain(reader);
                             if (IsWASAPI || IsWASAPIex)
                             {
@@ -1156,6 +1166,7 @@ namespace ATRACTool_Reloaded
             }
             catch (Exception Ex)
             {
+                DisposeReloadableAudioOutputs();
                 FormMain.DebugError($"[FormLPC] PlaybackInit failed. error={Ex}");
                 MessageBox.Show(this, string.Format(Localization.LPCUnsupportedFormatErrorCaption, Ex), Localization.MSGBoxErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Generic.LPCException = true;
@@ -1164,7 +1175,7 @@ namespace ATRACTool_Reloaded
         }
 
         // 再生ボタンの動作を共通化するヘルパ�E
-        private async Task HandlePlayButtonAsync(IWavePlayer output)
+        private void HandlePlayButton(IWavePlayer output)
         {
             switch (output.PlaybackState)
             {
@@ -1179,7 +1190,7 @@ namespace ATRACTool_Reloaded
                     timer_Reload.Enabled = true;
                     output.Play();
                     button_Play.Text = Localization.PauseCaption;
-                    await Task.Run(Playback);
+                    StartPlaybackMonitor();
                     stopflag = false;
                     button_Stop.Enabled = true;
                     break;
@@ -1194,7 +1205,7 @@ namespace ATRACTool_Reloaded
                             output.Stop();
                             reader.CurrentTime = TimeSpan.FromMilliseconds(customTrackBar_Trk.Value);
                             output.Play();
-                            await Task.Run(Playback);
+                            StartPlaybackMonitor();
                             IsPausedMoveTrackbar = false;
                         }
                         else
@@ -1223,19 +1234,19 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private async void Button_Play_Click(object sender, EventArgs e)
+        private void Button_Play_Click(object sender, EventArgs e)
         {
             if (IsWASAPI || IsWASAPIex)
             {
-                await HandlePlayButtonAsync(wasapiOut);
+                HandlePlayButton(wasapiOut);
             }
             else if (IsASIO)
             {
-                await HandlePlayButtonAsync(asioOut);
+                HandlePlayButton(asioOut);
             }
             else
             {
-                await HandlePlayButtonAsync(wo);
+                HandlePlayButton(wo);
             }
         }
 
@@ -1309,7 +1320,7 @@ namespace ATRACTool_Reloaded
                     button_Play.Text = Localization.PauseCaption;
 
                     // 監視スレチE��を�E度起動（従来どおり�E�E
-                    Task.Run(Playback);
+                    StartPlaybackMonitor();
                     button_Stop.Enabled = true;
                 }
             }
@@ -1364,24 +1375,97 @@ namespace ATRACTool_Reloaded
             }
         }
 
-        private void Playback()
+        private void StartPlaybackMonitor()
         {
-            SLTAlive = true;
-
-            StartPlaybackThread_s = new(StartPlaybackThread);
-            Playback_s = new(StartPlaybackThread_s)
+            lock (_playbackMonitorSync)
             {
-                Name = IsWASAPI || IsWASAPIex
-                    ? "WASAPIOut"
-                    : IsASIO
-                        ? "ASIOOut"
-                        : "waveOut",
-                IsBackground = true,
-                Priority = ThreadPriority.AboveNormal
-            };
+                SLTAlive = true;
+                if (_playbackMonitorThread is { IsAlive: true })
+                    return;
 
-            Playback_s.SetApartmentState(ApartmentState.STA);
-            Playback_s.Start();
+                _playbackMonitorThread = new Thread(StartPlaybackThread)
+                {
+                    Name = IsWASAPI || IsWASAPIex
+                        ? "WASAPIOutMonitor"
+                        : IsASIO
+                            ? "ASIOOutMonitor"
+                            : "WaveOutMonitor",
+                    IsBackground = true,
+                    Priority = ThreadPriority.Normal
+                };
+
+                _playbackMonitorThread.Start();
+            }
+        }
+
+        private void DisposeReloadableAudioOutputs()
+        {
+            if (wasapiOut is not null)
+            {
+                try
+                {
+                    if (wasapiOut.PlaybackState != PlaybackState.Stopped)
+                        wasapiOut.Stop();
+                }
+                catch (Exception ex)
+                {
+                    FormMain.DebugWarn($"[FormLPC] Failed to stop WASAPI output during cleanup. error={ex.Message}");
+                }
+
+                try { wasapiOut.Dispose(); }
+                catch (Exception ex)
+                {
+                    FormMain.DebugWarn($"[FormLPC] Failed to dispose WASAPI output. error={ex.Message}");
+                }
+                wasapiOut = null!;
+            }
+
+            if (asioOut is not null)
+            {
+                try
+                {
+                    if (asioOut.PlaybackState != PlaybackState.Stopped)
+                        asioOut.Stop();
+                }
+                catch (Exception ex)
+                {
+                    FormMain.DebugWarn($"[FormLPC] Failed to stop ASIO output during cleanup. error={ex.Message}");
+                }
+
+                try { asioOut.Dispose(); }
+                catch (Exception ex)
+                {
+                    FormMain.DebugWarn($"[FormLPC] Failed to dispose ASIO output. error={ex.Message}");
+                }
+                asioOut = null!;
+            }
+
+            try { mmDevice?.Dispose(); }
+            catch (Exception ex)
+            {
+                FormMain.DebugWarn($"[FormLPC] Failed to dispose audio endpoint. error={ex.Message}");
+            }
+            mmDevice = null;
+        }
+
+        private void WaitForPlaybackMonitorExit()
+        {
+            Thread? monitor;
+            lock (_playbackMonitorSync)
+            {
+                monitor = _playbackMonitorThread;
+            }
+
+            if (monitor is null || monitor == Thread.CurrentThread || !monitor.IsAlive)
+                return;
+
+            try
+            {
+                monitor.Join(250);
+            }
+            catch (ThreadStateException)
+            {
+            }
         }
 
         private void StartPlaybackThread()
@@ -1444,6 +1528,7 @@ namespace ATRACTool_Reloaded
         {
             _isClosing = true;
             StopPlaybackLoop();
+            WaitForPlaybackMonitorExit();
             base.OnFormClosing(e);
         }
 
@@ -1467,6 +1552,7 @@ namespace ATRACTool_Reloaded
                 return;
             }
             Start = pos;
+            loopStartSampleDisplayOverride = pos;
             FormMain.DebugInfo($"[FormLPC] Loop start set. sample={Start}, buttonIndex={btnpos}");
 
             if (!Generic.lpcreatev2)
@@ -1484,6 +1570,7 @@ namespace ATRACTool_Reloaded
             reader.CurrentTime = oldc;
             label_LoopEndSamples.Text = "LoopEnd: " + pos.ToString() + " " + Localization.SampleCaption;
             End = pos;
+            loopEndSampleDisplayOverride = pos;
             FormMain.DebugInfo($"[FormLPC] Loop end set. sample={End}, buttonIndex={btnpos}");
 
             if (!Generic.lpcreatev2)
@@ -1552,47 +1639,16 @@ namespace ATRACTool_Reloaded
                 try { wo.Dispose(); } catch (ObjectDisposedException) { }
             }
 
-            if (wasapiOut is not null)
-            {
-                try
-                {
-                    if (wasapiOut.PlaybackState != PlaybackState.Stopped)
-                        wasapiOut.Stop();
-                }
-                catch (ObjectDisposedException) { }
-                try { wasapiOut.Dispose(); } catch (ObjectDisposedException) { }
-            }
-
-            if (asioOut is not null)
-            {
-                try
-                {
-                    if (asioOut.PlaybackState != PlaybackState.Stopped)
-                        asioOut.Stop();
-                }
-                catch (ObjectDisposedException) { }
-                try { asioOut.Dispose(); } catch (ObjectDisposedException) { }
-            }
-
-            // マルチチャンネル時に保持してぁE��追加の IDisposable を解放
-            if (_disposables is not null && _disposables.Count > 0)
-            {
-                foreach (var d in _disposables)
-                {
-                    try { d?.Dispose(); } catch (ObjectDisposedException) { }
-                }
-                _disposables.Clear();
-            }
-
-            // WASAPI のチE��イスも解放
-            try { mmDevice?.Dispose(); } catch (ObjectDisposedException) { }
-            mmDevice = null;
+            DisposeReloadableAudioOutputs();
 
             // WaveFileReader を確実に解放
             if (reader is not null)
             {
-                try { reader.Close(); } catch (ObjectDisposedException) { }
-                try { reader.Dispose(); } catch (ObjectDisposedException) { }
+                try { reader.Dispose(); }
+                catch (Exception ex)
+                {
+                    FormMain.DebugWarn($"[FormLPC] Failed to dispose WAV reader. error={ex.Message}");
+                }
                 reader = null!;
             }
 
@@ -1853,6 +1909,8 @@ namespace ATRACTool_Reloaded
             // ループ未設定ならチェチE��を外して UI を�E期化
             if (!isLoopOk || (startSamples == 0 && endSamples == 0))
             {
+                loopStartSampleDisplayOverride = null;
+                loopEndSampleDisplayOverride = null;
                 int tb = GetSafeHalfDurationMillisecondsForLoopEnd();
 
                 checkBox_LoopEnable.Checked = false;
@@ -1868,11 +1926,13 @@ namespace ATRACTool_Reloaded
 
             // サンプル数 ↁEミリ秒に変換�E��Eの計算式に合わせる�E�E
             int sampleRate = reader.WaveFormat.SampleRate;
+            loopStartSampleDisplayOverride = startSamples > 0 ? startSamples : null;
+            loopEndSampleDisplayOverride = endSamples > 0 ? endSamples : null;
 
             if (startSamples > 0)
             {
                 Start = startSamples;
-                int startMs = (int)(startSamples * 1000L / sampleRate);
+                int startMs = SamplesToMilliseconds(startSamples, sampleRate);
 
                 startMs = Math.Clamp(startMs, customTrackBar_Start.Minimum, customTrackBar_Start.Maximum);
                 customTrackBar_Start.Value = startMs;
@@ -1894,7 +1954,7 @@ namespace ATRACTool_Reloaded
             if (endSamples > 0)
             {
                 End = endSamples;
-                int endMs = (int)(endSamples * 1000L / sampleRate);
+                int endMs = SamplesToMilliseconds(endSamples, sampleRate);
 
                 endMs = Math.Clamp(endMs, customTrackBar_End.Minimum, customTrackBar_End.Maximum);
                 customTrackBar_End.Value = endMs;
@@ -2504,12 +2564,16 @@ namespace ATRACTool_Reloaded
 
         private void NumericUpDown_LoopStart_ValueChanged(object sender, EventArgs e)
         {
+            if (!applyingExternalLoopState)
+                loopStartSampleDisplayOverride = null;
             customTrackBar_Start.Value = (int)numericUpDown_LoopStart.Value;
             UpdateLoopPointValueLabels();
         }
 
         private void NumericUpDown_LoopEnd_ValueChanged(object sender, EventArgs e)
         {
+            if (!applyingExternalLoopState)
+                loopEndSampleDisplayOverride = null;
             customTrackBar_End.Value = (int)numericUpDown_LoopEnd.Value;
             UpdateLoopPointValueLabels();
         }
@@ -2747,10 +2811,33 @@ namespace ATRACTool_Reloaded
             numericUpDown_LoopEnd.Value = ClampNumericUpDownValue(numericUpDown_LoopEnd, endMs);
         }
 
-        private void SetLoopUiMilliseconds(int startMs, int endMs)
+        private void SetLoopUiMilliseconds(int startMs, int endMs, long? exactStartSamples = null, long? exactEndSamples = null)
         {
-            SetLoopStartMilliseconds(startMs);
-            SetLoopEndMilliseconds(endMs);
+            bool previousExternalState = applyingExternalLoopState;
+            applyingExternalLoopState = true;
+            try
+            {
+                loopStartSampleDisplayOverride = exactStartSamples;
+                loopEndSampleDisplayOverride = exactEndSamples;
+                SetLoopStartMilliseconds(startMs);
+                SetLoopEndMilliseconds(endMs);
+            }
+            finally
+            {
+                applyingExternalLoopState = previousExternalState;
+            }
+            UpdateLoopPointValueLabels();
+        }
+
+        private static int SamplesToMilliseconds(long samples, int sampleRate)
+        {
+            if (samples <= 0 || sampleRate <= 0)
+                return 0;
+
+            double milliseconds = samples * 1000.0 / sampleRate;
+            return milliseconds >= int.MaxValue
+                ? int.MaxValue
+                : (int)Math.Round(milliseconds, MidpointRounding.AwayFromZero);
         }
 
         private void PanSlider1_PanChanged(object sender, EventArgs e)
@@ -2787,6 +2874,12 @@ namespace ATRACTool_Reloaded
         /// <param name="pos">Current ButtonPosition (multiple files only)</param>
         private void SetLoopPointsWithATRACBuffer(int samplerate, uint pos = 0)
         {
+            if (IsNus3BankPlaybackActive())
+            {
+                FormMain.DebugInfo($"[FormLPC] ATRAC buffer loop sync skipped for NUS3BANK preview. buttonIndex={btnpos}");
+                return;
+            }
+
             if (Generic.IsATRACLooped)
             {
                 if (bufferloop[0] == 0 || bufferloop[1] == 0)
@@ -2822,31 +2915,13 @@ namespace ATRACTool_Reloaded
                     }
                 }
 
-                switch (samplerate)
-                {
-                    case 12000: // ATRAC9 Only
-                        SetLoopUiMilliseconds(
-                            (int)Math.Round(Generic.MultipleLoopStarts[pos] / 12.0, MidpointRounding.AwayFromZero),
-                            (int)Math.Round(Generic.MultipleLoopEnds[pos] / 12.0, MidpointRounding.AwayFromZero));
-                        break;
-                    case 24000: // ATRAC9 Only
-                        SetLoopUiMilliseconds(
-                            (int)Math.Round(Generic.MultipleLoopStarts[pos] / 24.0, MidpointRounding.AwayFromZero),
-                            (int)Math.Round(Generic.MultipleLoopEnds[pos] / 24.0, MidpointRounding.AwayFromZero));
-                        break;
-                    case 44100:
-                        SetLoopUiMilliseconds(
-                            (int)Math.Round(bufferloop[0] / 44.1, MidpointRounding.AwayFromZero),
-                            (int)Math.Round(bufferloop[1] / 44.1, MidpointRounding.AwayFromZero));
-                        break;
-                    case 48000:
-                        SetLoopUiMilliseconds(
-                            (int)Math.Round(bufferloop[0] / 48.0, MidpointRounding.AwayFromZero),
-                            (int)Math.Round(bufferloop[1] / 48.0, MidpointRounding.AwayFromZero));
-                        break;
-                    default:
-                        break;
-                }
+                long exactStartSamples = Generic.IsOpenMulti ? Generic.MultipleLoopStarts[pos] : bufferloop[0];
+                long exactEndSamples = Generic.IsOpenMulti ? Generic.MultipleLoopEnds[pos] : bufferloop[1];
+                SetLoopUiMilliseconds(
+                    SamplesToMilliseconds(exactStartSamples, samplerate),
+                    SamplesToMilliseconds(exactEndSamples, samplerate),
+                    exactStartSamples,
+                    exactEndSamples);
 
                 if (Generic.IsOpenMulti)
                 {

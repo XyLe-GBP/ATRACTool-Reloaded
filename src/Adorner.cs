@@ -92,12 +92,14 @@ namespace ATRACTool_Reloaded
             {
                 formattedText.LineHeight = _textBlock.LineHeight;
             }
-            formattedText.MaxTextWidth = _textBlock.ActualWidth - _textBlock.Padding.Left - _textBlock.Padding.Right;
-            formattedText.MaxTextHeight = _textBlock.ActualHeight - _textBlock.Padding.Top;// - _textBlock.Padding.Bottom;
-            while (formattedText.Extent == double.NegativeInfinity)
-            {
-                formattedText.MaxTextHeight++;
-            }
+            double availableWidth = _textBlock.ActualWidth - _textBlock.Padding.Left - _textBlock.Padding.Right;
+            double availableHeight = _textBlock.ActualHeight - _textBlock.Padding.Top;// - _textBlock.Padding.Bottom;
+            formattedText.MaxTextWidth = double.IsFinite(availableWidth) && availableWidth > 0
+                ? availableWidth
+                : 1;
+            formattedText.MaxTextHeight = double.IsFinite(availableHeight) && availableHeight > 0
+                ? availableHeight
+                : 1;
 
             // Build the geometry object that represents the text.
             var _textGeometry = formattedText.BuildGeometry(new Point(_textBlock.Padding.Left, _textBlock.Padding.Top));
