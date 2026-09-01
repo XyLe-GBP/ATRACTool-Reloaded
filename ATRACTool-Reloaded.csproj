@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.51.2620.814</AssemblyVersion>
-    <FileVersion>1.51.2620.814</FileVersion>
+    <AssemblyVersion>1.52.2620.901</AssemblyVersion>
+    <FileVersion>1.52.2620.901</FileVersion>
     <Version>$(FileVersion)</Version>
     <InformationalVersion>$(FileVersion)</InformationalVersion>
     <AssemblyTitle>ATRACTool Reloaded</AssemblyTitle>
