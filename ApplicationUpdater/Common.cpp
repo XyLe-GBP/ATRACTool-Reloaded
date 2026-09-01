@@ -141,7 +141,6 @@ bool Common::CopyDirectoryFiles(tstring folderPath, tstring destfolderPath, vect
 	hFind = FindFirstFile(search_name.c_str(), &win32fd);
 
 	if (hFind == INVALID_HANDLE_VALUE) {
-		throw runtime_error("file not found");
 		return false;
 	}
 
@@ -178,7 +177,7 @@ bool Common::CopyDirectoryFiles(tstring folderPath, tstring destfolderPath, vect
 				return false;
 			}
 			printf("copyfile: ");
-			printf(Common::TWStringToString(file_names.back().c_str()).c_str());
+			printf("%s", Common::TWStringToString(file_names.back().c_str()).c_str());
 			printf("\n");
 		}
 	} while (FindNextFile(hFind, &win32fd));
@@ -428,7 +427,12 @@ wstring Common::StringToWString(const string& arg_str)
 };
 
 TCHAR* Common::ConvertTCHAR(LPCTSTR string) {
-	TCHAR* tmpT = (TCHAR*)malloc(sizeof(TCHAR) * 256); // Convert TCHAR.
+	if (string == NULL) {
+		return NULL;
+	}
+
+	size_t length = _tcslen(string) + 1;
+	TCHAR* tmpT = (TCHAR*)malloc(sizeof(TCHAR) * length); // Convert TCHAR.
 	if (NULL == tmpT) {
 		perror("can not malloc");
 		OutputDebugString(_T("TCHAR syntax (tmpT) malloc failed.\n"));
@@ -436,8 +440,8 @@ TCHAR* Common::ConvertTCHAR(LPCTSTR string) {
 		return NULL;
 	}
 	else {
-		ZeroMemory(&tmpT[0], 256);
-		_tcscpy_s(&tmpT[0], 256, string);
+		ZeroMemory(tmpT, sizeof(TCHAR) * length);
+		_tcscpy_s(tmpT, length, string);
 	}
 	return tmpT;
 };
