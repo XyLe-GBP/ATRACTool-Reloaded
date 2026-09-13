@@ -45,6 +45,7 @@ namespace ATRACTool_Reloaded
                 Generic.MultipleLoopStarts[idx] = (int)startSamples;
                 Generic.MultipleFilesLoopOKFlags[idx] =
                     Generic.MultipleLoopEnds[idx] != 0;
+                SyncAtracMetadataBuffer(idx);
             }
             else
             {
@@ -99,6 +100,7 @@ namespace ATRACTool_Reloaded
                 Generic.MultipleLoopEnds[idx] = (int)endSamples;
                 Generic.MultipleFilesLoopOKFlags[idx] =
                     Generic.MultipleLoopStarts[idx] != 0;
+                SyncAtracMetadataBuffer(idx);
             }
             else
             {
@@ -141,14 +143,24 @@ namespace ATRACTool_Reloaded
                 endSamples.HasValue &&
                 end > start;
 
-            if (Generic.ATRACMultiMetadataBuffer is not null &&
-                Generic.ATRACMultiMetadataBuffer.GetLength(0) > sourceIndex &&
-                Generic.ATRACMultiMetadataBuffer.GetLength(1) >= 2)
-            {
-                Generic.ATRACMultiMetadataBuffer[sourceIndex, 0] = start;
-                Generic.ATRACMultiMetadataBuffer[sourceIndex, 1] = end;
-            }
+            SyncAtracMetadataBuffer(sourceIndex);
             FormMain.DebugInfo($"[LoopPoint] Source updated. sourceIndex={sourceIndex}, start={start}, end={end}, ok={Generic.MultipleFilesLoopOKFlags[sourceIndex]}");
+        }
+
+        private static void SyncAtracMetadataBuffer(int sourceIndex)
+        {
+            if (sourceIndex < 0 ||
+                sourceIndex >= Generic.MultipleLoopStarts.Length ||
+                sourceIndex >= Generic.MultipleLoopEnds.Length ||
+                Generic.ATRACMultiMetadataBuffer is null ||
+                Generic.ATRACMultiMetadataBuffer.GetLength(0) <= sourceIndex ||
+                Generic.ATRACMultiMetadataBuffer.GetLength(1) < 2)
+            {
+                return;
+            }
+
+            Generic.ATRACMultiMetadataBuffer[sourceIndex, 0] = Generic.MultipleLoopStarts[sourceIndex];
+            Generic.ATRACMultiMetadataBuffer[sourceIndex, 1] = Generic.MultipleLoopEnds[sourceIndex];
         }
 
         private static void EnsureLoopArraysForIndex(int sourceIndex)
@@ -260,6 +272,7 @@ namespace ATRACTool_Reloaded
             Generic.MultipleLoopStarts[idx] = 0;
             Generic.MultipleLoopEnds[idx] = 0;
             Generic.MultipleFilesLoopOKFlags[idx] = false;
+            SyncAtracMetadataBuffer(idx);
 
             if (FormMain.FormMainInstance is null)
                 return;

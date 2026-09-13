@@ -237,19 +237,13 @@
     <value>203, 22</value>
   </data>
   <data name="audioToWAVEToolStripMenuItem.Text" xml:space="preserve">
-    <value>別形式からWAVEに変換...</value>
+    <value>別形式からWAVに変換...</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 22</value>
   </data>
   <data name="wAVEToAudioToolStripMenuItem.Text" xml:space="preserve">
-    <value>WAVEから別形式に変換...</value>
-  </data>
-  <data name="loopPointCreationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 22</value>
-  </data>
-  <data name="loopPointCreationToolStripMenuItem.Text" xml:space="preserve">
-    <value>ループポイント作成 (&amp;L)...</value>
+    <value>WAVから別形式に変換...</value>
   </data>
   <data name="helpHToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 20</value>
@@ -270,10 +264,10 @@
     <value>アップデートの確認 (&amp;U)...</value>
   </data>
   <data name="button_Decode.Text" xml:space="preserve">
-    <value>デコード (ATRAC⇒WAVE)</value>
+    <value>デコード</value>
   </data>
   <data name="button_Encode.Text" xml:space="preserve">
-    <value>エンコード (WAVE⇒ATRAC)</value>
+    <value>エンコード</value>
   </data>
   <data name="toolStripStatusLabel_Status.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 17</value>

@@ -425,7 +425,7 @@
     <value />
   </data>
   <data name="checkBox_Unattended.ToolTip" xml:space="preserve">
-    <value />
+    <value>Uses the input file metadata without opening the song information dialog during conversion.</value>
   </data>
   <data name="checkBox_everyFormats.ToolTip" xml:space="preserve">
     <value />

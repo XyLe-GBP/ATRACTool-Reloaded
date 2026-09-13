@@ -284,6 +284,16 @@
     <value>启用此功能可在加载ATRAC格式时进行播放。
 启用此功能后，将无法使用“IO-&gt;输出至指定文件夹”功能。</value>
   </data>
+  <data name="checkBox_EnableMiniDiscPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 19</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.Text" xml:space="preserve">
+    <value>加载MiniDisc SP / AEA时启用播放界面</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.ToolTip" xml:space="preserve">
+    <value>加载MiniDisc SP (ATRAC1 / AEA) 文件时启用播放界面。
+此设置不会影响ATRAC3、ATRAC3plus、ATRAC9、NUS3BANK或NUB2的播放。</value>
+  </data>
   <data name="checkBox_EnableNus3BankPlayback.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 19</value>
   </data>
@@ -472,17 +482,6 @@ ASIO：需专用驱动程序及兼容DAC设备支持播放。
   <data name="checkBox_FasterATRAC.ToolTip" xml:space="preserve">
     <value>读取ATRAC时立即进行转换。
 若启用此选项，则忽略“常规-&gt;加载ATRAC时启用播放接口”和“将ATRAC作为编码源加载”选项。</value>
-  </data>
-  <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 19</value>
-  </data>
-  <data name="checkBox_Oldmode.Text" xml:space="preserve">
-    <value>启用旧版模式（不推荐）</value>
-  </data>
-  <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
-    <value>启用传统模式。
-启用传统模式将采用旧版处理方法，并允许循环点创建器独立运行。
-但该模式存在缺陷且已被弃用，因此通常无需启用传统模式。</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>偏好设置</value>

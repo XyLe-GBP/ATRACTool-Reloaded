@@ -399,6 +399,36 @@
   <data name="&gt;&gt;button_SetEnd.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
+  <data name="button_RestoreOriginalLoop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_RestoreOriginalLoop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="button_RestoreOriginalLoop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>677, 330</value>
+  </data>
+  <data name="button_RestoreOriginalLoop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 40</value>
+  </data>
+  <data name="button_RestoreOriginalLoop.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="button_RestoreOriginalLoop.Text" xml:space="preserve">
+    <value>Restore original loop</value>
+  </data>
+  <data name="&gt;&gt;button_RestoreOriginalLoop.Name" xml:space="preserve">
+    <value>button_RestoreOriginalLoop</value>
+  </data>
+  <data name="&gt;&gt;button_RestoreOriginalLoop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_RestoreOriginalLoop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_RestoreOriginalLoop.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
   <data name="numericUpDown_LoopStart.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -421,7 +451,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDown_LoopStart.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>23</value>
   </data>
   <data name="numericUpDown_LoopEnd.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -445,7 +475,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;numericUpDown_LoopEnd.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>22</value>
   </data>
   <data name="checkBox_LoopEnable.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -454,7 +484,7 @@
     <value>Flat</value>
   </data>
   <data name="checkBox_LoopEnable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 349</value>
+    <value>679, 306</value>
   </data>
   <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 19</value>
@@ -475,67 +505,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_LoopEnable.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
-  <data name="radioButton_at3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButton_at3.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="radioButton_at3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 281</value>
-  </data>
-  <data name="radioButton_at3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 19</value>
-  </data>
-  <data name="radioButton_at3.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="radioButton_at3.Text" xml:space="preserve">
-    <value>ATRAC3+</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Name" xml:space="preserve">
-    <value>radioButton_at3</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at3.ZOrder" xml:space="preserve">
     <value>21</value>
-  </data>
-  <data name="radioButton_at9.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButton_at9.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="radioButton_at9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>797, 305</value>
-  </data>
-  <data name="radioButton_at9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 19</value>
-  </data>
-  <data name="radioButton_at9.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="radioButton_at9.Text" xml:space="preserve">
-    <value>ATRAC9</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Name" xml:space="preserve">
-    <value>radioButton_at9</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioButton_at9.ZOrder" xml:space="preserve">
-    <value>20</value>
   </data>
   <data name="label_File.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 11.25pt</value>
@@ -562,7 +532,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_File.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="button_Prev.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -589,7 +559,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Prev.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="button_Next.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -616,7 +586,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_Next.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="label_Psamples.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 14.25pt, style=Bold</value>
@@ -649,7 +619,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Psamples.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="label_Plength.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI Semibold, 14.25pt, style=Bold</value>
@@ -679,7 +649,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Plength.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="volumeSlider1.Location" type="System.Drawing.Point, System.Drawing">
     <value>679, 282</value>
@@ -700,7 +670,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;volumeSlider1.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="label_Volume.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -727,7 +697,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Volume.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="button_LS_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -760,7 +730,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_LS_Current.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="button_LE_Current.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -796,7 +766,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button_LE_Current.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label_start.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -832,7 +802,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_start.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label_trk.Font" type="System.Drawing.Font, System.Drawing">
     <value>Yu Gothic UI, 8.25pt, style=Bold</value>
@@ -904,10 +874,10 @@
     <value>0</value>
   </data>
   <data name="panSlider1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 324</value>
+    <value>784, 282</value>
   </data>
   <data name="panSlider1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 19</value>
+    <value>88, 19</value>
   </data>
   <data name="panSlider1.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -922,13 +892,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panSlider1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label_Pan.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label_Pan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>679, 307</value>
+    <value>784, 265</value>
   </data>
   <data name="label_Pan.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 15</value>
@@ -949,6 +919,36 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label_Pan.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="button_PanCenter.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_PanCenter.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="button_PanCenter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>784, 304</value>
+  </data>
+  <data name="button_PanCenter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 22</value>
+  </data>
+  <data name="button_PanCenter.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="button_PanCenter.Text" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;button_PanCenter.Name" xml:space="preserve">
+    <value>button_PanCenter</value>
+  </data>
+  <data name="&gt;&gt;button_PanCenter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_PanCenter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;button_PanCenter.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="customTrackBar_End.Enabled" type="System.Boolean, mscorlib">

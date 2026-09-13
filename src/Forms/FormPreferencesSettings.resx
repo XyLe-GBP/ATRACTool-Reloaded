@@ -936,13 +936,13 @@ This may be useful when processing source folders organized by item.</value>
     <value>True</value>
   </data>
   <data name="checkBox_Usepal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 171</value>
+    <value>8, 286</value>
   </data>
   <data name="checkBox_Usepal.Size" type="System.Drawing.Size, System.Drawing">
     <value>272, 19</value>
   </data>
   <data name="checkBox_Usepal.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>22</value>
   </data>
   <data name="checkBox_Usepal.Text" xml:space="preserve">
     <value>Process using Parallel.ForEach during playback</value>
@@ -954,10 +954,10 @@ This may be useful when processing source folders organized by item.</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;checkBox_Usepal.Parent" xml:space="preserve">
-    <value>tabPageLPC</value>
+    <value>tabPageAdvanced</value>
   </data>
   <data name="&gt;&gt;checkBox_Usepal.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>15</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -966,7 +966,7 @@ This may be useful when processing source folders organized by item.</value>
     <value>NoControl</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 265</value>
+    <value>8, 215</value>
   </data>
   <data name="checkBox_EnableATRACPlayback.Size" type="System.Drawing.Size, System.Drawing">
     <value>274, 19</value>
@@ -993,6 +993,40 @@ When this function is enabled, the 'IO-&gt;Output to specified folder' function 
   <data name="&gt;&gt;checkBox_EnableATRACPlayback.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="checkBox_EnableMiniDiscPlayback.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 265</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 19</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.Text" xml:space="preserve">
+    <value>Enable playback interface when loading MiniDisc SP / AEA</value>
+  </data>
+  <data name="checkBox_EnableMiniDiscPlayback.ToolTip" xml:space="preserve">
+    <value>Enables playback when loading MiniDisc SP (ATRAC1 / AEA) files.
+This setting is independent of ATRAC3, ATRAC3plus, ATRAC9, NUS3BANK, and NUB2 playback.</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableMiniDiscPlayback.Name" xml:space="preserve">
+    <value>checkBox_EnableMiniDiscPlayback</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableMiniDiscPlayback.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableMiniDiscPlayback.Parent" xml:space="preserve">
+    <value>tabPageLPC</value>
+  </data>
+  <data name="&gt;&gt;checkBox_EnableMiniDiscPlayback.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="checkBox_EnableNus3BankPlayback.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1000,13 +1034,13 @@ When this function is enabled, the 'IO-&gt;Output to specified folder' function 
     <value>NoControl</value>
   </data>
   <data name="checkBox_EnableNus3BankPlayback.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 290</value>
+    <value>8, 240</value>
   </data>
   <data name="checkBox_EnableNus3BankPlayback.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 19</value>
   </data>
   <data name="checkBox_EnableNus3BankPlayback.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="checkBox_EnableNus3BankPlayback.Text" xml:space="preserve">
     <value>Enable playback interface when loading NUSound</value>
@@ -1034,7 +1068,7 @@ The contained ATRAC3, ATRAC3plus, ATRAC9, IVAG streams are temporarily decoded t
     <value>NoControl</value>
   </data>
   <data name="checkBox_Smoothsamples.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 240</value>
+    <value>8, 171</value>
   </data>
   <data name="checkBox_Smoothsamples.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 19</value>
@@ -1060,7 +1094,7 @@ Disabling this option enables advanced settings such as playback buffer and late
     <value>tabPageLPC</value>
   </data>
   <data name="&gt;&gt;checkBox_Smoothsamples.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>0</value>
   </data>
   <data name="comboBox_LPCMultisourcePlaybackmode.Items" xml:space="preserve">
     <value>WASAPI (Shared)</value>
@@ -1317,7 +1351,7 @@ Otherwise, the application will return an error.</value>
     <value>133, 19</value>
   </data>
   <data name="checkBox_debug.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="checkBox_debug.Text" xml:space="preserve">
     <value>Enable Debug Mode</value>
@@ -1877,38 +1911,6 @@ If this option is enabled, the 'General-&gt;Enable playback interface when loadi
   </data>
   <data name="&gt;&gt;checkBox_FasterATRAC.ZOrder" xml:space="preserve">
     <value>14</value>
-  </data>
-  <data name="checkBox_Oldmode.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox_Oldmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 286</value>
-  </data>
-  <data name="checkBox_Oldmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 19</value>
-  </data>
-  <data name="checkBox_Oldmode.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="checkBox_Oldmode.Text" xml:space="preserve">
-    <value>Enable Legacy Mode (Not recommended)</value>
-  </data>
-  <data name="checkBox_Oldmode.ToolTip" xml:space="preserve">
-    <value>Enable Legacy Mode.
-Enabling Legacy Mode uses older processing methods and allows the Loop Point Creator to operate independently.
-However, it is buggy and deprecated, so there is usually no need to enable Legacy Mode.</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Name" xml:space="preserve">
-    <value>checkBox_Oldmode</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.Parent" xml:space="preserve">
-    <value>tabPageAdvanced</value>
-  </data>
-  <data name="&gt;&gt;checkBox_Oldmode.ZOrder" xml:space="preserve">
-    <value>15</value>
   </data>
   <data name="tabPageAdvanced.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>

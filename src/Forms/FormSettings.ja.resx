@@ -1006,7 +1006,10 @@ PSVita、PS4で形式が異なります。
     <value />
   </data>
   <data name="checkBox_Unattended.ToolTip" xml:space="preserve">
-    <value />
+    <value>変換時に楽曲情報ダイアログを開かず、入力ファイルのメタデータをそのまま使用します。</value>
+  </data>
+  <data name="checkBox_Unattended.Text" xml:space="preserve">
+    <value>楽曲情報確認を省略</value>
   </data>
   <data name="checkBox_everyFormats.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 19</value>
@@ -1039,10 +1042,16 @@ PSVita、PS4で形式が異なります。
     <value />
   </data>
   <data name="comboBox_OutputFormats.Items4" xml:space="preserve">
-    <value>[ATRAC3] ビデオクリップ (.kdr)</value>
+    <value>【非推奨・DRM保護形式】[ATRAC3] ビデオクリップ (.kdr)</value>
   </data>
   <data name="comboBox_OutputFormats.Items8" xml:space="preserve">
-    <value>[ATRAC3+] ビデオクリップ (.kdr)</value>
+    <value>【非推奨・DRM保護形式】[ATRAC3+] ビデオクリップ (.kdr)</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items2" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3] OpenMG Audio (.omg)</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items6" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3+] OpenMG Audio (.omg)</value>
   </data>
   <data name="comboBox_OutputFormats.ToolTip" xml:space="preserve">
     <value />

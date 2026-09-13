@@ -59,6 +59,7 @@ namespace ATRACTool_Reloaded
 
                 // ATRAC 再生 / プレビュー警告
                 checkBox_EnableATRACPlayback.Checked = Utils.GetBool("PlaybackATRAC", false);
+                checkBox_EnableMiniDiscPlayback.Checked = Utils.GetBool("PlaybackMiniDisc", true);
                 checkBox_EnableNus3BankPlayback.Checked = Utils.GetBool("PlaybackNus3Bank", true);
                 checkBox_DisablePreviewWarning.Checked = Utils.GetBool("DisablePreviewWarning", false);
 
@@ -78,8 +79,7 @@ namespace ATRACTool_Reloaded
                     textBox_Splashimg.Text = string.Empty;
                 }
 
-                // 旧モード / スプラッシュ非表示 / 高速ATRAC
-                checkBox_Oldmode.Checked = Utils.GetBool("Oldmode", false);
+                // スプラッシュ非表示 / 高速ATRAC
                 checkBox_Hidesplash.Checked = Utils.GetBool("HideSplash", false);
                 checkBox_FasterATRAC.Checked = Utils.GetBool("FasterATRAC", false);
 
@@ -220,7 +220,7 @@ namespace ATRACTool_Reloaded
                 }
 
                 // マルチストリーム設定
-                bool lpcMultiAlwaysWasapiOrAsio = Utils.GetBool("LPCMultipleStreamAlwaysWASAPIorASIO", false);
+                bool lpcMultiAlwaysWasapiOrAsio = Utils.GetBool("LPCMultipleStreamAlwaysWASAPIorASIO", true);
                 checkBox_MultisoundDontDS.Checked = lpcMultiAlwaysWasapiOrAsio;
 
                 int lpcMultiPlaybackMethod = Utils.GetInt("LPCMultipleStreamPlaybackMethod", 0);
@@ -429,6 +429,15 @@ namespace ATRACTool_Reloaded
                 Config.Entry["PlaybackATRAC"].Value = "true";
             }
 
+            if (checkBox_EnableMiniDiscPlayback.Checked != true)
+            {
+                Config.Entry["PlaybackMiniDisc"].Value = "false";
+            }
+            else
+            {
+                Config.Entry["PlaybackMiniDisc"].Value = "true";
+            }
+
             if (checkBox_EnableNus3BankPlayback.Checked != true)
             {
                 Config.Entry["PlaybackNus3Bank"].Value = "false";
@@ -456,15 +465,6 @@ namespace ATRACTool_Reloaded
             {
                 Config.Entry["SplashImage"].Value = "true";
                 Config.Entry["SplashImage_Path"].Value = textBox_Splashimg.Text;
-            }
-
-            if (checkBox_Oldmode.Checked != true)
-            {
-                Config.Entry["Oldmode"].Value = "false";
-            }
-            else
-            {
-                Config.Entry["Oldmode"].Value = "true";
             }
 
             if (checkBox_debug.Checked != true)

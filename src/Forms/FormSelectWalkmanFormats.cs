@@ -57,7 +57,7 @@ namespace ATRACTool_Reloaded
             // Decode: _flag == false（デコードフォーマット）
             if (_flag)
             {
-                int idx = comboBox_OutputFormats.SelectedIndex;
+                int idx = Common.Utils.NormalizeWalkmanOutputFormatIndex(comboBox_OutputFormats.SelectedIndex);
                 FormMain.DebugInfo($"[FormSelectWalkmanFormats] Output format selected. index={idx}");
 
                 // 既存の Generic も更新（即時反映のため）
@@ -66,31 +66,9 @@ namespace ATRACTool_Reloaded
                 // ★変換が参照しているのはココ（Config/Utils側）なので必ず更新する
                 Common.Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = idx.ToString();
 
-                // ★FileType もここで揃えておく（traconv の --FileType に直結させる想定）
-                // FormSettings の switch と同等のマッピング
-                Common.Config.Entry["Walkman_FileType"].Value = idx switch
-                {
-                    0 => "PCM",
-                    1 => "OMA3",
-                    2 => "OMG3",
-                    3 => "AAL3",
-                    4 => "KDR3",
-                    5 => "OMAP",
-                    6 => "OMGP",
-                    7 => "AALP",
-                    8 => "KDRP",
-                    _ => "OMA3",
-                };
-
-                // 必要なら拡張子もここで更新（あなたの既存設計に合わせて調整）
-                Common.Generic.WalkmanMultiConvExt = idx switch
-                {
-                    2 => ".omg",
-                    4 => ".kdr",
-                    6 => ".omg",
-                    8 => ".kdr",
-                    _ => ".oma",
-                };
+                Common.Config.Entry["Walkman_FileType"].Value = Common.Utils.GetWalkmanFileType(idx);
+                Common.Generic.WalkmanMultiConvExt = Common.Utils.GetWalkmanExtension(idx);
+                Common.Generic.WalkmanEveryFilter = Common.Utils.GetWalkmanSaveFilter(idx);
             }
             else
             {

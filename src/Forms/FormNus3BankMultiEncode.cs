@@ -28,7 +28,7 @@ namespace ATRACTool_Reloaded
             int initialSamplingRate)
         {
             FormMain.DebugInfo($"[FormNus3BankMultiEncode] Initialized. streams={streams.Count}, initialCodecFlag={initialCodecFlag}, initialSamplingRate={initialSamplingRate}");
-            Text = "NUS3BANK Multi Encode";
+            Text = "NUSound Multi Encode";
             StartPosition = FormStartPosition.CenterParent;
             MinimizeBox = false;
             MaximizeBox = false;

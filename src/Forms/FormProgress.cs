@@ -309,7 +309,11 @@ namespace ATRACTool_Reloaded
             bool fasterAtrac = Utils.GetBool("FasterATRAC", false);
             bool atracEncodeSource = Utils.GetBool("ATRACEncodeSource", false);
 
-            if (playbackAtrac && Generic.IsATRAC && !fasterAtrac)
+            if (Generic.IsPlaybackConversion && Generic.IsATRAC)
+            {
+                fi2 = new(Generic.pATRACSavePath);
+            }
+            else if (playbackAtrac && Generic.IsATRAC && !fasterAtrac)
             {
                 fi2 = new(Generic.pATRACSavePath);
             }
@@ -328,7 +332,12 @@ namespace ATRACTool_Reloaded
             var atrac9Console = (Constants.ATRAC9ConsoleType)Utils.GetInt("ATRAC9_Console", (int)Constants.ATRAC9ConsoleType.PSV);
             string outPath = Path.Combine(TempDirectory, fi2.Name);
 
-            if (ext == ".AT3")
+            if (ext == ".AEA")
+            {
+                if (!DecodeMiniDiscAtrac1ToWave(Generic.OpenFilePaths[0], outPath, p, cToken))
+                    return false;
+            }
+            else if (ext == ".AT3")
             {
                 Constants.ATRAC3ConsoleType decodeConsole = ResolveAtrac3DecoderConsole(Generic.OpenFilePaths[0], atrac3Console);
                 string tool = Atrac3Tools[decodeConsole];
@@ -341,23 +350,11 @@ namespace ATRACTool_Reloaded
             }
             else if (ext == ".OMA")
             {
-                // OMA → WAV は FFmpeg(MediaToolkit) 経由で _temp に吐く
-                string ffpath = Path.Combine(Directory.GetCurrentDirectory(), "res", "ffmpeg.exe");
-                if (!File.Exists(ffpath))
-                {
-                    FormMain.DebugError("ffmpeg.exe not found: " + ffpath);
-                    return false;
-                }
-
-                // outPath が .wav 以外なら .wav に補正
                 string outWav = outPath;
                 if (!string.Equals(Path.GetExtension(outWav), ".wav", StringComparison.OrdinalIgnoreCase))
                     outWav = Path.ChangeExtension(outWav, ".wav");
 
-                using var engine = new Engine(ffpath);
-
-                // 失敗したら false（上位で Encode/Decode エラー扱い）
-                if (!RunMediaToolkitDecodeToWav(engine, Generic.OpenFilePaths[0], outWav, p, cToken))
+                if (!DecodeWalkmanOmaToWave(Generic.OpenFilePaths[0], outWav, p, cToken))
                     return false;
             }
             else if (ext == ".OMG")
@@ -493,6 +490,9 @@ namespace ATRACTool_Reloaded
             var atrac9Console = (Constants.ATRAC9ConsoleType)Utils.GetInt("ATRAC9_Console", (int)Constants.ATRAC9ConsoleType.PSV);
             FormMain.DebugInfo($"[Decode] Multiple files started. files={Generic.OpenFilePaths.Length}, atrac3Console={atrac3Console}, atrac9Console={atrac9Console}");
 
+            if (ShouldUseParallelPlaybackDecode())
+                return DecodeMultiplePlaybackFilesInParallel(p, cToken, atrac3Console, atrac9Console);
+
             string ffpath = Path.Combine(Directory.GetCurrentDirectory(), "res", "ffmpeg.exe");
             using Engine? ffEngine = File.Exists(ffpath) ? new Engine(ffpath) : null;
             if (ffEngine != null)
@@ -520,6 +520,13 @@ namespace ATRACTool_Reloaded
 
                 switch (fi.Extension.ToUpperInvariant())
                 {
+                    case ".AEA":
+                        {
+                            if (!DecodeMiniDiscAtrac1ToWave(file, outPath, p, cToken))
+                                return false;
+                        }
+                        break;
+
                     case ".AT3":
                         {
                             Constants.ATRAC3ConsoleType decodeConsole = ResolveAtrac3DecoderConsole(file, atrac3Console);
@@ -542,15 +549,7 @@ namespace ATRACTool_Reloaded
                         break;
                     case ".OMA":
                         {
-                            if (ffEngine == null)
-                            {
-                                FormMain.DebugError("ffmpeg.exe not found (OMA decode requires it): " + ffpath);
-                                return false;
-                            }
-
-                            string outPath2 = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, ".wav"));
-
-                            if (!RunMediaToolkitDecodeToWav(ffEngine, file, outPath2, p, cToken))
+                            if (!DecodeWalkmanOmaToWave(file, outPath, p, cToken))
                                 return false;
 
                             break;
@@ -564,9 +563,7 @@ namespace ATRACTool_Reloaded
                             }
 
                             // DRM だと失敗する可能性が高いです（失敗時は false で止める）
-                            string outPath2 = Path.Combine(TempDirectory, fi.Name.Replace(fi.Extension, ".wav"));
-
-                            if (!RunMediaToolkitDecodeToWav(ffEngine, file, outPath2, p, cToken))
+                            if (!RunMediaToolkitDecodeToWav(ffEngine, file, outPath, p, cToken))
                                 return false;
 
                             break;
@@ -587,6 +584,131 @@ namespace ATRACTool_Reloaded
             }
             FormMain.DebugInfo($"[Decode] Multiple files completed. files={Generic.OpenFilePaths.Length}");
             return true;
+        }
+
+        private static bool ShouldUseParallelPlaybackDecode()
+        {
+            if (!Generic.IsPlaybackConversion ||
+                !Utils.GetBool("UseParallelMethod", false) ||
+                Generic.OpenFilePaths.Length < 2)
+            {
+                return false;
+            }
+
+            return Generic.OpenFilePaths.All(path =>
+            {
+                string extension = Path.GetExtension(path);
+                return extension.Equals(".aea", StringComparison.OrdinalIgnoreCase) ||
+                    extension.Equals(".at3", StringComparison.OrdinalIgnoreCase) ||
+                    extension.Equals(".at9", StringComparison.OrdinalIgnoreCase) ||
+                    extension.Equals(".oma", StringComparison.OrdinalIgnoreCase);
+            });
+        }
+
+        private static bool DecodeMultiplePlaybackFilesInParallel(
+            IProgress<int> progress,
+            CancellationToken cToken,
+            Constants.ATRAC3ConsoleType atrac3Console,
+            Constants.ATRAC9ConsoleType atrac9Console)
+        {
+            int threadCount = Math.Clamp(Utils.GetInt("PlaybackThreadCount", 3) + 1, 1, 8);
+            int failed = 0;
+            var options = new ParallelOptions
+            {
+                CancellationToken = cToken,
+                MaxDegreeOfParallelism = threadCount
+            };
+
+            FormMain.DebugInfo($"[Decode] Parallel playback preview decode started. files={Generic.OpenFilePaths.Length}, threads={threadCount}");
+            try
+            {
+                Parallel.ForEach(
+                    Enumerable.Range(0, Generic.OpenFilePaths.Length),
+                    options,
+                    (index, state) =>
+                    {
+                        if (Volatile.Read(ref failed) != 0)
+                        {
+                            state.Stop();
+                            return;
+                        }
+
+                        try
+                        {
+                            if (!DecodePlaybackFileAtIndex(index, progress, cToken, atrac3Console, atrac9Console))
+                            {
+                                Interlocked.Exchange(ref failed, 1);
+                                state.Stop();
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            FormMain.DebugError($"[Decode] Parallel playback preview decode failed. index={index + 1}, error={ex}");
+                            Interlocked.Exchange(ref failed, 1);
+                            state.Stop();
+                        }
+                    });
+            }
+            catch (OperationCanceledException)
+            {
+                FormMain.DebugWarn("[Decode] Parallel playback preview decode cancelled.");
+                return false;
+            }
+
+            bool result = Volatile.Read(ref failed) == 0;
+            FormMain.DebugInfo($"[Decode] Parallel playback preview decode completed. files={Generic.OpenFilePaths.Length}, result={result}");
+            return result;
+        }
+
+        private static bool DecodePlaybackFileAtIndex(
+            int index,
+            IProgress<int> progress,
+            CancellationToken cToken,
+            Constants.ATRAC3ConsoleType atrac3Console,
+            Constants.ATRAC9ConsoleType atrac9Console)
+        {
+            cToken.ThrowIfCancellationRequested();
+            string file = Generic.OpenFilePaths[index];
+            string originKey = Generic.InputJobs != null && Generic.InputJobs.Count == Generic.OpenFilePaths.Length
+                ? Generic.InputJobs[index].OriginPath
+                : file;
+            string outputPath = Utils.MakeTempUniquePath(TempDirectory, originKey, index, ".wav");
+            string extension = Path.GetExtension(file).ToUpperInvariant();
+            FormMain.DebugInfo($"[Decode] Parallel file started. index={index + 1}/{Generic.OpenFilePaths.Length}, ext={extension}, input={file}");
+
+            bool result = extension switch
+            {
+                ".AEA" => DecodeMiniDiscAtrac1ToWave(file, outputPath, progress, cToken),
+                ".AT3" => RunAtracTool(
+                    Atrac3Tools[ResolveAtrac3DecoderConsole(file, atrac3Console)],
+                    Generic.DecodeParamAT3,
+                    file,
+                    outputPath,
+                    progress,
+                    cToken),
+                ".AT9" => RunAtracTool(
+                    Atrac9Tools[atrac9Console],
+                    Generic.DecodeParamAT9,
+                    file,
+                    outputPath,
+                    progress,
+                    cToken),
+                ".OMA" => DecodeWalkmanOmaToWave(file, outputPath, progress, cToken),
+                _ => false
+            };
+
+            if (result && (!File.Exists(outputPath) || new FileInfo(outputPath).Length == 0))
+            {
+                FormMain.DebugError($"[Decode] Parallel playback output validation failed. index={index + 1}, output={outputPath}");
+                result = false;
+            }
+
+            FormMain.DebugInfo($"[Decode] Parallel file completed. index={index + 1}/{Generic.OpenFilePaths.Length}, result={result}, input={file}");
+            return result;
         }
 
         private static FileInfo ResolveSingleDecodeTarget()
@@ -1182,6 +1304,8 @@ namespace ATRACTool_Reloaded
                 fi2 = new(Generic.SavePath);
             }
 
+            if (Generic.IsMiniDisc)
+                return EncodeMiniDiscSingle(fi, fi2, p, cToken);
 
             switch (Generic.ATRACFlag)
             {
@@ -1369,9 +1493,13 @@ namespace ATRACTool_Reloaded
 
                         var job = Common.Generic.InputJobs[0];
                         bool unattended = Utils.GetBool("Walkman_Unattended", false);
+                        bool useConfiguredMetadata = Utils.GetBool("Walkman_FixSongInformation", false);
 
-                        // unattended でなければ、ここでメタデータ設定画面を出せる（必要なときだけ）
-                        if (!unattended)
+                        if (useConfiguredMetadata)
+                            Common.Utils.ApplyConfiguredWalkmanMeta(job);
+
+                        // 入力メタデータを使う場合だけ、必要に応じて確認画面を表示する。
+                        if (!useConfiguredMetadata && !unattended)
                         {
                             FormMain.DebugInfo("Walkman_Params after form: " + Utils.GetString("Walkman_Params", ""));
                             Common.Generic.CurrentWalkmanInputFile = Generic.OriginOpenFilePaths[0];
@@ -1453,6 +1581,98 @@ namespace ATRACTool_Reloaded
                 : requestedOutput.Name;
 
             return Path.Combine(TempDirectory, outputName);
+        }
+
+        private static bool EncodeMiniDiscSingle(FileInfo input, FileInfo requestedOutput, IProgress<int> progress, CancellationToken cToken)
+        {
+            var profile = GetMiniDiscEncodeProfile(Generic.MiniDiscEncodeMode);
+            string encoderInputPath = input.FullName;
+            if (!TryPrepareAtracEncodeInput(
+                    input.FullName,
+                    input.FullName,
+                    0,
+                    44100,
+                    profile.Name,
+                    out encoderInputPath,
+                    out _))
+            {
+                return false;
+            }
+
+            string? resampledInputPath = string.Equals(encoderInputPath, input.FullName, StringComparison.OrdinalIgnoreCase)
+                ? null
+                : encoderInputPath;
+            string outPath = Path.Combine(TempDirectory, Path.ChangeExtension(requestedOutput.Name, profile.Extension));
+            Generic.ATRACExt = profile.Extension;
+
+            try
+            {
+                FormMain.DebugInfo($"[MiniDisc] Single encode started. mode={Generic.MiniDiscEncodeMode}, input={input.FullName}, output={outPath}");
+                return RunMiniDiscTool(profile.ToolPath, profile.Name, profile.Parameters, encoderInputPath, outPath, progress, cToken);
+            }
+            finally
+            {
+                if (resampledInputPath is not null)
+                    TryDeleteFile(resampledInputPath);
+            }
+        }
+
+        private static bool EncodeMiniDiscMultiple(string[] inputPaths, IProgress<int> progress, CancellationToken cToken)
+        {
+            var profile = GetMiniDiscEncodeProfile(Generic.MiniDiscEncodeMode);
+            Generic.ATRACExt = profile.Extension;
+
+            for (int i = 0; i < inputPaths.Length; i++)
+            {
+                cToken.ThrowIfCancellationRequested();
+                string inputPath = inputPaths[i];
+                string originPath = Generic.InputJobs.Count == inputPaths.Length
+                    ? Generic.InputJobs[i].OriginPath
+                    : inputPath;
+                string encoderInputPath = inputPath;
+
+                if (!TryPrepareAtracEncodeInput(
+                        inputPath,
+                        originPath,
+                        i,
+                        44100,
+                        profile.Name,
+                        out encoderInputPath,
+                        out _))
+                {
+                    return false;
+                }
+
+                string? resampledInputPath = string.Equals(encoderInputPath, inputPath, StringComparison.OrdinalIgnoreCase)
+                    ? null
+                    : encoderInputPath;
+                string outPath = Utils.MakeTempUniquePath(TempDirectory, originPath, i, profile.Extension);
+
+                try
+                {
+                    FormMain.DebugInfo($"[MiniDisc] File started. index={i + 1}/{inputPaths.Length}, mode={Generic.MiniDiscEncodeMode}, input={inputPath}, output={outPath}");
+                    if (!RunMiniDiscTool(profile.ToolPath, profile.Name, profile.Parameters, encoderInputPath, outPath, progress, cToken))
+                        return false;
+                }
+                finally
+                {
+                    if (resampledInputPath is not null)
+                        TryDeleteFile(resampledInputPath);
+                }
+            }
+
+            FormMain.DebugInfo($"[MiniDisc] Multiple encode completed. files={inputPaths.Length}, mode={Generic.MiniDiscEncodeMode}");
+            return true;
+        }
+
+        private static (string ToolPath, string Parameters, string Extension, string Name) GetMiniDiscEncodeProfile(Constants.MiniDiscMode mode)
+        {
+            return mode switch
+            {
+                Constants.MiniDiscMode.SP => (Generic.ATRAC1tool, "-e atrac1 -i $InFile -o $OutFile", ".aea", "MiniDisc SP (ATRAC1)"),
+                Constants.MiniDiscMode.LP4 => (Generic.PSP_ATRAC3tool, "at3tool -e -br 66 $InFile $OutFile", ".at3", "MiniDisc LP4 (ATRAC3 66 kbps)"),
+                _ => (Generic.PSP_ATRAC3tool, "at3tool -e -br 132 $InFile $OutFile", ".at3", "MiniDisc LP2 (ATRAC3 132 kbps)")
+            };
         }
 
         private static bool WrapSingleNus3BankIfRequested(string encodedPath, FileInfo requestedOutput, FileInfo sourceInput, Nus3RiffLoopPoints? loopPoints)
@@ -1923,11 +2143,21 @@ namespace ATRACTool_Reloaded
             }
             FormMain.DebugInfo($"[Encode] Multiple files started. files={fp.Length}, atracFlag={Generic.ATRACFlag}, atrac3Console={atrac3Console}, atrac9Console={atrac9Console}, nus3bankOutput={Generic.Nus3BankEncodeOutput}");
 
-            // Walkman 用：毎回フォームを出さず、必要なら「最初に1回だけ」出す
-            bool walkmanUnattended = Utils.GetBool("Walkman_Unattended", false);
-            bool walkmanEveryFmt = Utils.GetBool("Walkman_FixSongInformation", false);
+            if (Generic.IsMiniDisc)
+                return EncodeMiniDiscMultiple(fp, p, cToken);
 
-            if (Generic.ATRACFlag == 2 && !walkmanEveryFmt && !walkmanUnattended)
+            // Walkman metadata is either fixed for all files, inherited without
+            // prompting, or confirmed per file.
+            bool walkmanUnattended = Utils.GetBool("Walkman_Unattended", false);
+            bool useConfiguredWalkmanMetadata = Utils.GetBool("Walkman_FixSongInformation", false);
+
+            if (Generic.ATRACFlag == 2 && useConfiguredWalkmanMetadata)
+            {
+                foreach (var job in Common.Generic.InputJobs)
+                    Common.Utils.ApplyConfiguredWalkmanMeta(job);
+            }
+
+            if (Generic.ATRACFlag == 2 && !useConfiguredWalkmanMetadata && !walkmanUnattended)
             {
                 for (int i = 0; i < Common.Generic.InputJobs.Count; i++)
                 {
@@ -1967,9 +2197,6 @@ namespace ATRACTool_Reloaded
                     }));*/
                 }
             }
-
-            // ここで確定した Walkman_Params を掴んでおく（フォームが保存した後）
-            string walkmanParamTemplate = Utils.GetString("Walkman_Params", Generic.EncodeParamWalkman);
 
             if (Generic.ATRACFlag == 2)
             {
@@ -2250,6 +2477,280 @@ namespace ATRACTool_Reloaded
         /// $InFile / $OutFile プレースホルダ展開と、
         /// at3tool / at9tool / traconv のプレフィックス削除もここで行う。
         /// </summary>
+        private static bool RunMiniDiscTool(
+            string toolPath,
+            string operation,
+            string parameterTemplate,
+            string inputFile,
+            string outputFile,
+            IProgress<int> progress,
+            CancellationToken cToken)
+        {
+            if (!File.Exists(toolPath))
+            {
+                FormMain.DebugError($"[MiniDisc] Required tool not found. operation={operation}, path={toolPath}");
+                return false;
+            }
+
+            bool isAtracdenc = Path.GetFileName(toolPath)
+                .Equals("atracdenc.exe", StringComparison.OrdinalIgnoreCase);
+            bool isDecode = Regex.IsMatch(parameterTemplate, @"(?:^|\s)-d(?:\s|$)", RegexOptions.IgnoreCase);
+            bool stageAtracdencInput = isAtracdenc && RequiresAtracdencPathStaging(inputFile);
+            string toolInputFile = inputFile;
+            string toolOutputFile = outputFile;
+            if (isAtracdenc)
+            {
+                Directory.CreateDirectory(TempDirectory);
+                if (stageAtracdencInput)
+                {
+                    string inputExtension = isDecode ? ".aea" : ".wav";
+                    toolInputFile = Path.Combine(TempDirectory, $"mdinput_{Guid.NewGuid():N}{inputExtension}");
+                    FormMain.DebugInfo($"[MiniDisc] Using ASCII staging input for atracdenc. operation={operation}, source={inputFile}, staged={toolInputFile}");
+                }
+
+                string outputExtension = isDecode ? ".wav" : ".aea";
+                toolOutputFile = Path.Combine(TempDirectory, $"mdtool_{Guid.NewGuid():N}{outputExtension}");
+                FormMain.DebugInfo($"[MiniDisc] Using ASCII staging output for atracdenc. operation={operation}, staged={toolOutputFile}, destination={outputFile}");
+            }
+
+            TryDeleteFile(outputFile);
+            if (isAtracdenc)
+                TryDeleteFile(toolOutputFile);
+            if (stageAtracdencInput)
+                TryDeleteFile(toolInputFile);
+
+            try
+            {
+                if (stageAtracdencInput)
+                    File.Copy(inputFile, toolInputFile, overwrite: true);
+
+                string arguments = parameterTemplate
+                    .Replace("$InFile", "\"" + toolInputFile + "\"")
+                    .Replace("$OutFile", "\"" + toolOutputFile + "\"")
+                    .Replace("at3tool ", "")
+                    .Replace("atracdenc ", "");
+                using Process? process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = toolPath,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = false,
+                    CreateNoWindow = true
+                });
+                if (process is null || !WaitForProcessExit(process, Path.GetFileName(toolPath), progress, cToken))
+                    return false;
+
+                if (!File.Exists(toolOutputFile) || new FileInfo(toolOutputFile).Length == 0)
+                {
+                    FormMain.DebugError($"[MiniDisc] Tool output validation failed. operation={operation}, input={inputFile}, output={toolOutputFile}");
+                    return false;
+                }
+
+                if (isAtracdenc)
+                {
+                    string? destinationDirectory = Path.GetDirectoryName(outputFile);
+                    if (!string.IsNullOrWhiteSpace(destinationDirectory))
+                        Directory.CreateDirectory(destinationDirectory);
+
+                    File.Move(toolOutputFile, outputFile, overwrite: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[MiniDisc] Tool execution failed. operation={operation}, error={ex}");
+                return false;
+            }
+            finally
+            {
+                if (isAtracdenc)
+                    TryDeleteFile(toolOutputFile);
+                if (stageAtracdencInput)
+                    TryDeleteFile(toolInputFile);
+            }
+
+            if (!File.Exists(outputFile) || new FileInfo(outputFile).Length == 0)
+            {
+                FormMain.DebugError($"[MiniDisc] Output validation failed. operation={operation}, input={inputFile}, output={outputFile}");
+                TryDeleteFile(outputFile);
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool RequiresAtracdencPathStaging(string path)
+        {
+            if (path.Length >= 240)
+                return true;
+
+            foreach (char character in path)
+            {
+                if (character > 0x7F)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool DecodeMiniDiscAtrac1ToWave(
+            string inputFile,
+            string outputFile,
+            IProgress<int> progress,
+            CancellationToken cToken)
+        {
+            if (!RunMiniDiscTool(
+                    Generic.ATRAC1tool,
+                    "decode SP",
+                    "-d -i $InFile -o $OutFile",
+                    inputFile,
+                    outputFile,
+                    progress,
+                    cToken))
+            {
+                return false;
+            }
+
+            return TryFinalizeAndValidateMiniDiscWave(inputFile, outputFile);
+        }
+
+        private static bool DecodeWalkmanOmaToWave(
+            string inputFile,
+            string outputFile,
+            IProgress<int> progress,
+            CancellationToken cToken)
+        {
+            if (!File.Exists(Generic.Walkman_TraConv))
+            {
+                FormMain.DebugError($"[Walkman] TraConv was not found. path={Generic.Walkman_TraConv}");
+                return false;
+            }
+
+            TryDeleteFile(outputFile);
+            if (!RunAtracTool(
+                    Generic.Walkman_TraConv,
+                    Generic.DecodeParamWalkman,
+                    inputFile,
+                    outputFile,
+                    progress,
+                    cToken))
+            {
+                return false;
+            }
+
+            try
+            {
+                using var reader = new WaveFileReader(outputFile);
+                if (reader.WaveFormat.Channels <= 0 || reader.WaveFormat.SampleRate <= 0 || reader.Length <= 0)
+                    throw new InvalidDataException("Decoded OMA does not contain playable PCM data.");
+
+                FormMain.DebugInfo($"[Walkman] OMA decoded for playback. input={inputFile}, output={outputFile}, channels={reader.WaveFormat.Channels}, sampleRate={reader.WaveFormat.SampleRate}, bytes={reader.Length}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[Walkman] OMA decoded WAV validation failed. input={inputFile}, output={outputFile}, error={ex}");
+                TryDeleteFile(outputFile);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// atracdenc 0.2.3 for Windows leaves the RIFF and data chunk sizes at
+        /// zero after ATRAC1 decoding. The PCM payload and fmt chunk are valid,
+        /// so repair those two size fields before NAudio opens the preview.
+        /// </summary>
+        private static bool TryFinalizeAndValidateMiniDiscWave(string inputFile, string outputFile)
+        {
+            try
+            {
+                using (var stream = new FileStream(outputFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                {
+                    if (stream.Length < 44 || stream.Length - 8 > uint.MaxValue)
+                        throw new InvalidDataException($"Decoded WAV size is invalid: {stream.Length} bytes.");
+
+                    Span<byte> riffHeader = stackalloc byte[12];
+                    stream.ReadExactly(riffHeader);
+                    if (!riffHeader[..4].SequenceEqual("RIFF"u8) ||
+                        !riffHeader[8..12].SequenceEqual("WAVE"u8))
+                    {
+                        throw new InvalidDataException("Decoded output does not contain a RIFF/WAVE header.");
+                    }
+
+                    bool fmtFound = false;
+                    bool dataFound = false;
+                    long chunkOffset = 12;
+                    Span<byte> chunkHeader = stackalloc byte[8];
+                    Span<byte> sizeBuffer = stackalloc byte[sizeof(uint)];
+                    while (chunkOffset + 8 <= stream.Length)
+                    {
+                        stream.Position = chunkOffset;
+                        stream.ReadExactly(chunkHeader);
+                        uint declaredSize = BinaryPrimitives.ReadUInt32LittleEndian(chunkHeader[4..8]);
+
+                        if (chunkHeader[..4].SequenceEqual("fmt "u8))
+                        {
+                            if (declaredSize < 16 || chunkOffset + 8 + declaredSize > stream.Length)
+                                throw new InvalidDataException("Decoded WAV contains an invalid fmt chunk.");
+
+                            fmtFound = true;
+                        }
+                        else if (chunkHeader[..4].SequenceEqual("data"u8))
+                        {
+                            if (!fmtFound)
+                                throw new InvalidDataException("Decoded WAV has no fmt chunk before its audio data.");
+
+                            long dataOffset = chunkOffset + 8;
+                            long availableDataSize = stream.Length - dataOffset;
+                            if (availableDataSize <= 0 || availableDataSize > uint.MaxValue)
+                                throw new InvalidDataException($"Decoded WAV data size is invalid: {availableDataSize} bytes.");
+
+                            if (declaredSize == 0)
+                            {
+                                stream.Position = chunkOffset + 4;
+                                BinaryPrimitives.WriteUInt32LittleEndian(sizeBuffer, checked((uint)availableDataSize));
+                                stream.Write(sizeBuffer);
+                            }
+                            else if (dataOffset + declaredSize > stream.Length)
+                            {
+                                throw new InvalidDataException("Decoded WAV data chunk exceeds the file length.");
+                            }
+
+                            dataFound = true;
+                            break;
+                        }
+
+                        long nextChunkOffset = checked(chunkOffset + 8 + declaredSize + (declaredSize & 1));
+                        if (nextChunkOffset <= chunkOffset || nextChunkOffset > stream.Length)
+                            throw new InvalidDataException("Decoded WAV contains an invalid chunk layout.");
+
+                        chunkOffset = nextChunkOffset;
+                    }
+
+                    if (!fmtFound || !dataFound)
+                        throw new InvalidDataException("Decoded WAV is missing a required fmt or data chunk.");
+
+                    stream.Position = 4;
+                    BinaryPrimitives.WriteUInt32LittleEndian(sizeBuffer, checked((uint)(stream.Length - 8)));
+                    stream.Write(sizeBuffer);
+                    stream.Flush(flushToDisk: true);
+                }
+
+                using var reader = new WaveFileReader(outputFile);
+                if (reader.WaveFormat.Channels <= 0 || reader.WaveFormat.SampleRate <= 0 || reader.Length <= 0)
+                    throw new InvalidDataException("Decoded WAV has no playable PCM data.");
+
+                FormMain.DebugInfo($"[MiniDisc] ATRAC1 decoded WAV finalized. input={inputFile}, output={outputFile}, channels={reader.WaveFormat.Channels}, sampleRate={reader.WaveFormat.SampleRate}, bytes={reader.Length}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FormMain.DebugError($"[MiniDisc] ATRAC1 decoded WAV validation failed. input={inputFile}, output={outputFile}, error={ex}");
+                TryDeleteFile(outputFile);
+                return false;
+            }
+        }
+
         private static bool RunAtracTool(
             string toolPath,
             string parameterTemplate,
@@ -2268,7 +2769,8 @@ namespace ATRACTool_Reloaded
                 .Replace("$OutFile", "\"" + outputFile + "\"")
                 .Replace("at3tool ", "")
                 .Replace("at9tool ", "")
-                .Replace("traconv ", "");
+                .Replace("traconv ", "")
+                .Replace("atracdenc ", "");
             if (normalizeLoopExpandedDecode)
                 args = UseSingleLoopRepeatForDecode(args);
 

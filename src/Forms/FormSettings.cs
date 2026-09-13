@@ -1054,7 +1054,7 @@ namespace ATRACTool_Reloaded
             else
             {
                 paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramAT9;
+                textBox_cmd_walkman.Text = paramWalkman;
             }
 
             switch (bool.Parse(Config.Entry["LPC_Create"].Value))
@@ -1157,14 +1157,13 @@ namespace ATRACTool_Reloaded
             {
                 radioButton_each.Checked = false;
                 radioButton_specified.Checked = true;
-                groupBox_walkman_others.Enabled = true;
             }
             else
             {
                 radioButton_each.Checked = true;
                 radioButton_specified.Checked = false;
-                groupBox_walkman_others.Enabled = false;
             }
+            UpdateWalkmanMetadataModeControls();
 
             if (string.IsNullOrWhiteSpace(Config.Entry["Walkman_Bitrate"].Value))
             {
@@ -2662,46 +2661,10 @@ namespace ATRACTool_Reloaded
             }
 
             Config.Entry["Walkman_EveryFmt_DecodeFmt"].Value = comboBox_DecodeFormats.SelectedIndex.ToString();
-            Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = comboBox_OutputFormats.SelectedIndex.ToString();
-            switch (comboBox_OutputFormats.SelectedIndex)
-            {
-                case 0:
-                    Common.Generic.WalkmanEveryFilter = "PCM ATRAC (*.oma)|*.oma;";
-                    Config.Entry["Walkman_FileType"].Value = "PCM";
-                    break;
-                case 1:
-                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.oma)|*.oma;";
-                    Config.Entry["Walkman_FileType"].Value = "OMA3";
-                    break;
-                case 2:
-                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3 (*.omg)|*.omg;";
-                    Config.Entry["Walkman_FileType"].Value = "OMG3";
-                    break;
-                case 3:
-                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Advanced Lossless (*.oma)|*.oma;";
-                    Config.Entry["Walkman_FileType"].Value = "AAL3";
-                    break;
-                case 4:
-                    Common.Generic.WalkmanEveryFilter = "ATRAC3 Video Clip (*.kdr)|*.kdr;";
-                    Config.Entry["Walkman_FileType"].Value = "KDR3";
-                    break;
-                case 5:
-                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.oma)|*.oma;";
-                    Config.Entry["Walkman_FileType"].Value = "OMAP";
-                    break;
-                case 6:
-                    Common.Generic.WalkmanEveryFilter = "OpenMG ATRAC3+ (*.omg)|*.omg;";
-                    Config.Entry["Walkman_FileType"].Value = "OMGP";
-                    break;
-                case 7:
-                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Advanced Lossless (*.oma)|*.oma;";
-                    Config.Entry["Walkman_FileType"].Value = "AALP";
-                    break;
-                case 8:
-                    Common.Generic.WalkmanEveryFilter = "ATRAC3+ Video Clip (*.kdr)|*.kdr;";
-                    Config.Entry["Walkman_FileType"].Value = "KDRP";
-                    break;
-            }
+            int walkmanOutputFormat = Utils.NormalizeWalkmanOutputFormatIndex(comboBox_OutputFormats.SelectedIndex);
+            Config.Entry["Walkman_EveryFmt_OutputFmt"].Value = walkmanOutputFormat.ToString();
+            Config.Entry["Walkman_FileType"].Value = Utils.GetWalkmanFileType(walkmanOutputFormat);
+            Common.Generic.WalkmanEveryFilter = Utils.GetWalkmanSaveFilter(walkmanOutputFormat);
 
             if (radioButton_each.Checked)
             {
@@ -2890,7 +2853,7 @@ namespace ATRACTool_Reloaded
             Config.Entry["Walkman_Lyrics"].Value = lyrics;
             Config.Entry["Walkman_LyricsMode"].Value = comboBox_Lyricsmode.SelectedIndex.ToString();
             Config.Entry["Walkman_LinerNotes"].Value = linernotes;
-            Config.Entry["Walkman_LinerMode"].Value = comboBox_Linermode.SelectedIndex.ToString();
+            Config.Entry["Walkman_LinerNotesMode"].Value = comboBox_Linermode.SelectedIndex.ToString();
             Config.Entry["Walkman_Jacket"].Value = jacket;
             Config.Entry["Walkman_JacketMode"].Value = comboBox_Jacketmode.SelectedIndex.ToString();
 
@@ -3151,26 +3114,22 @@ namespace ATRACTool_Reloaded
 
         private void RadioButton_each_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_each.Checked)
-            {
-                groupBox_walkman_others.Enabled = false;
-            }
-            else
-            {
-                groupBox_walkman_others.Enabled = true;
-            }
+            UpdateWalkmanMetadataModeControls();
         }
 
         private void RadioButton_specified_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_specified.Checked)
-            {
-                groupBox_walkman_others.Enabled = true;
-            }
-            else
-            {
-                groupBox_walkman_others.Enabled = false;
-            }
+            UpdateWalkmanMetadataModeControls();
+        }
+
+        private void UpdateWalkmanMetadataModeControls()
+        {
+            bool useSpecifiedInformation = radioButton_specified.Checked;
+            groupBox_walkman_others.Enabled = useSpecifiedInformation;
+
+            // This option only controls the per-file confirmation dialog. It has
+            // no effect when one fixed set of song information is selected.
+            checkBox_Unattended.Enabled = !useSpecifiedInformation;
         }
 
         private void ComboBox_DecodeFormats_SelectedIndexChanged(object sender, EventArgs e)
@@ -3379,22 +3338,15 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "Lyrics file (*.lrc)|*.lrc;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Lyrics file",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 label_Lyricspath.Text = ofd.FileName;
                 lyrics = " --Lyrics \"" + ofd.FileName + "\"";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-            }
-            else
-            {
-                label_Lyricspath.Text = "";
-                lyrics = "";
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }
@@ -3433,22 +3385,15 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "Text file (*.txt)|*.txt;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Liner Notes file",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 label_Linerpath.Text = ofd.FileName;
                 linernotes = " --LinerNotes \"" + ofd.FileName + "\"";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-            }
-            else
-            {
-                label_Linerpath.Text = "";
-                linernotes = "";
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }
@@ -3487,9 +3432,9 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Jacket image",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -3497,14 +3442,7 @@ namespace ATRACTool_Reloaded
                 pictureBox_Jacket.ImageLocation = ofd.FileName;
                 label_Jacketpath.Text = ofd.FileName;
                 jacket = " --Jacket \"" + ofd.FileName + "\"";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-            }
-            else
-            {
-                Utils.PictureboxImageDispose(pictureBox_Jacket);
-                label_Jacketpath.Text = "";
-                jacket = "";
+                comboBox_Jacketmode.SelectedIndex = 2;
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }

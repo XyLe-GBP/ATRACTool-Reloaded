@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.52.2620.901</AssemblyVersion>
-    <FileVersion>1.52.2620.901</FileVersion>
+    <AssemblyVersion>1.53.2620.913</AssemblyVersion>
+    <FileVersion>1.53.2620.913</FileVersion>
     <Version>$(FileVersion)</Version>
     <InformationalVersion>$(FileVersion)</InformationalVersion>
     <AssemblyTitle>ATRACTool Reloaded</AssemblyTitle>
@@ -20,7 +20,7 @@
     <Company>XyLe</Company>
     <Description>Open source ATRAC conversion utility</Description>
     <Copyright>Copyright © 2026 - XyLe. All Rights Reserved.</Copyright>
-    <PackageTags>ATRAC, ATRAC3, ATRAC9, walkman, at3, at9, Converter, GUI</PackageTags>
+    <PackageTags>ATRAC, ATRAC1, ATRAC3, ATRAC9, MiniDisc, walkman, aea, at3, at9, Converter, GUI</PackageTags>
     <ApplicationIcon>Properties\ATRACTool.ico</ApplicationIcon>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
     <UseWPF>True</UseWPF>
@@ -52,7 +52,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
-    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio" Version="3.0.1" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
   </ItemGroup>
 
@@ -69,6 +69,29 @@
     <Resource Include="Properties\SIE_White.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="third_party\atracdenc\0.2.3\win-x86\atracdenc.exe">
+      <TargetPath>res\atracdenc.exe</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="third_party\atracdenc\0.2.3\win-x86\README.TXT">
+      <TargetPath>res\licenses\atracdenc\README.TXT</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="third_party\atracdenc\0.2.3\win-x86\LICENSE">
+      <TargetPath>res\licenses\atracdenc\LICENSE</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="third_party\atracdenc\0.2.3\win-x86\NOTICE.md">
+      <TargetPath>res\licenses\atracdenc\NOTICE.md</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

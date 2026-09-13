@@ -6,7 +6,6 @@ namespace ATRACTool_Reloaded
     public partial class FormWalkmanInformations : Form
     {
         private readonly InputJob _job;
-        private readonly WalkmanMeta _metaBackup;
 
         private string walkmanfmt = null!;
         private string title = null!;
@@ -38,26 +37,24 @@ namespace ATRACTool_Reloaded
 
         private string paramWalkman = "traconv";
 
-        bool iseveryfmt = false;
-
         public FormWalkmanInformations(InputJob job)
         {
             InitializeComponent();
             ModernUI.ModernTheme.Apply(this);
             FormMain.DebugInfo("[FormWalkmanInformations] Initialized.");
             _job = job ?? throw new ArgumentNullException(nameof(job));
-            _metaBackup = _job.Meta.Clone(); // Clone を用意（後述）
         }
 
         private void FormWalkmanInformations_Load(object sender, EventArgs e)
         {
             FormMain.DebugInfo($"[FormWalkmanInformations] Loaded. index={_job.Index}, origin={_job.OriginPath}, work={_job.WorkPath}");
-            // ここで Config を読まない（責務を切る）
-            // Config のデフォルト適用は BuildInputJobsFromPaths / PopulateWalkmanMetaFromOrigin 側に寄せる
+            // This form edits the metadata already assigned to this input job.
 
             // 画面へ反映
             textBox_Title.Text = _job.Meta.Title ?? "";
             textBox_SortTitle.Text = _job.Meta.SortTitle ?? "";
+            textBox_Subtitle.Text = _job.Meta.Subtitle ?? "";
+            textBox_SortSubtitle.Text = _job.Meta.SortSubtitle ?? "";
             textBox_Artist.Text = _job.Meta.Artist ?? "";
             textBox_SortArtist.Text = _job.Meta.SortArtist ?? "";
             textBox_Album.Text = _job.Meta.Album ?? "";
@@ -69,13 +66,13 @@ namespace ATRACTool_Reloaded
             textBox_Lyricist.Text = _job.Meta.Lyricist ?? "";
             textBox_TrackNumber.Text = _job.Meta.TrackNumber ?? "";
             textBox_TotalTracks.Text = _job.Meta.TotalTracks ?? "";
+            textBox_Duration.Text = _job.Meta.Duration ?? "";
+            textBox_MilliSecond.Text = _job.Meta.MilliSecond ?? "";
 
-            // ★ReleaseYear (string) → dateTimePicker_Release (DateTimePicker)
-            if (int.TryParse(_job.Meta.ReleaseYear, out int y) && y >= 1 && y <= 9999)
+            if (TryParseWalkmanDate(_job.Meta.ReleaseYear, out DateTime releaseDate))
             {
-                // 年だけ使う（1/1固定）
-                dateTimePicker_Release.Value = new DateTime(y, 1, 1);
-                dateTimePicker_Release.Checked = true; // ShowCheckBox を使っている場合
+                dateTimePicker_Release.Value = releaseDate;
+                dateTimePicker_Release.Checked = true;
             }
             else
             {
@@ -87,11 +84,10 @@ namespace ATRACTool_Reloaded
                     dateTimePicker_Release.Checked = false;
             }
 
-            if (int.TryParse(_job.Meta.Import, out int i) && i >= 1 && i <= 9999)
+            if (TryParseWalkmanDate(_job.Meta.Import, out DateTime importDate))
             {
-                // 年だけ使う（1/1固定）
-                dateTimePicker_Import.Value = new DateTime(i, 1, 1);
-                dateTimePicker_Import.Checked = true; // ShowCheckBox を使っている場合
+                dateTimePicker_Import.Value = importDate;
+                dateTimePicker_Import.Checked = true;
             }
             else
             {
@@ -108,45 +104,25 @@ namespace ATRACTool_Reloaded
 
             // ★追加：JacketPath → pictureBox/label に反映
             ApplyJacketToUIFromMeta();
+
+            // The per-file dialog must preserve the same jacket mode used by
+            // unattended conversion.  An extracted/selected image is explicit.
+            comboBox_Jacketmode.SelectedIndex = JacketModeToSelectedIndex(
+                string.IsNullOrWhiteSpace(_job.Meta.JacketPath)
+                    ? _job.Meta.JacketMode
+                    : "Picture");
+            label_Lyricspath.Text = _job.Meta.LyricsPath ?? "";
+            label_Linerpath.Text = _job.Meta.LinerNotesPath ?? "";
+            comboBox_Lyricsmode.SelectedIndex = ContentModeToSelectedIndex(_job.Meta.LyricsMode);
+            comboBox_Linermode.SelectedIndex = ContentModeToSelectedIndex(_job.Meta.LinerNotesMode);
+            RefreshPathBackedCommandOptions();
         }
 
         private void Button_OK_Click(object sender, EventArgs e)
         {
-            // job.Meta へ書き戻す
-            _job.Meta.Title = textBox_Title.Text?.Trim() ?? "";
-            _job.Meta.SortTitle = textBox_SortTitle.Text?.Trim() ?? "";
-            _job.Meta.Artist = textBox_Artist.Text?.Trim() ?? "";
-            _job.Meta.SortArtist = textBox_SortArtist.Text?.Trim() ?? "";
-            _job.Meta.Album = textBox_Album.Text?.Trim() ?? "";
-            _job.Meta.SortAlbum = textBox_SortAlbum.Text?.Trim() ?? "";
-            _job.Meta.AlbumArtist = textBox_AlbumArtist.Text?.Trim() ?? "";
-            _job.Meta.SortAlbumArtist = textBox_SortAlbumArtist.Text?.Trim() ?? "";
-            _job.Meta.Genre = textBox_Genre.Text?.Trim() ?? "";
-            _job.Meta.Composer = textBox_Composer.Text?.Trim() ?? "";
-            _job.Meta.Lyricist = textBox_Lyricist.Text?.Trim() ?? "";
-
-            // 数値系は “空なら空” を許容（traconv 引数化は後段で）
-            _job.Meta.TrackNumber = textBox_TrackNumber.Text?.Trim() ?? "";
-            _job.Meta.TotalTracks = textBox_TotalTracks.Text?.Trim() ?? "";
-
-            // ★dateTimePicker_Release → ReleaseYear
-            if (dateTimePicker_Release.ShowCheckBox && !dateTimePicker_Release.Checked)
-            {
-                _job.Meta.ReleaseYear = ""; // 未設定
-            }
-            else
-            {
-                _job.Meta.ReleaseYear = dateTimePicker_Release.Value.Year.ToString();
-            }
-
-            if (dateTimePicker_Import.ShowCheckBox && !dateTimePicker_Import.Checked)
-            {
-                _job.Meta.Import = ""; // 未設定
-            }
-            else
-            {
-                _job.Meta.Import = dateTimePicker_Import.Value.Year.ToString();
-            }
+            SaveControlsToMeta(_job.Meta);
+            if (!ValidateJacketSelection())
+                return;
 
             Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
             FormMain.DebugInfo($"[FormWalkmanInformations] OK. index={_job.Index}, title={_job.Meta.Title}, artist={_job.Meta.Artist}, jacket={_job.Meta.JacketPath}");
@@ -190,13 +166,14 @@ namespace ATRACTool_Reloaded
             Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
 
             string path = _job.Meta.JacketPath?.Trim() ?? "";
+            label_Jacketpath.Text = path;
             if (path.Length == 0 || !System.IO.File.Exists(path))
             {
-                label_Jacketpath.Text = "";
+                jacket = "";
                 return;
             }
 
-            label_Jacketpath.Text = path;
+            jacket = BuildStrOpt("--Jacket", path);
 
             // ★ファイルロック回避：ImageLocation を使わず、メモリに読み込んでから閉じる
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -204,6 +181,40 @@ namespace ATRACTool_Reloaded
             {
                 pictureBox_Jacket.Image = new Bitmap(img);
             }
+        }
+
+        private void RefreshPathBackedCommandOptions()
+        {
+            lyrics = BuildStrOpt("--Lyrics", _job.Meta.LyricsPath);
+            linernotes = BuildStrOpt("--LinerNotes", _job.Meta.LinerNotesPath);
+            jacket = File.Exists(_job.Meta.JacketPath)
+                ? BuildStrOpt("--Jacket", _job.Meta.JacketPath)
+                : "";
+            paramWalkman = RefleshParamWalkman();
+            textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private bool ValidateJacketSelection()
+        {
+            string path = _job.Meta.JacketPath?.Trim() ?? "";
+            string mode = SelectedIndexToJacketMode(comboBox_Jacketmode.SelectedIndex);
+            bool pathIsRequired = mode.Equals("Picture", StringComparison.OrdinalIgnoreCase);
+            bool invalid = (pathIsRequired && path.Length == 0) ||
+                (path.Length > 0 && !File.Exists(path));
+
+            if (!invalid)
+                return true;
+
+            string message = Localizable.Localization.ResourceManager.GetString("WalkmanJacketPathErrorCaption")
+                ?? "The jacket image path is empty or the file cannot be found.";
+            MessageBox.Show(
+                this,
+                message,
+                Localizable.Localization.MSGBoxErrorCaption,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+            FormMain.DebugWarn($"[FormWalkmanInformations] Invalid jacket path. index={_job.Index}, mode={mode}, path={path}");
+            return false;
         }
 
         private string RefleshParamWalkman()
@@ -343,22 +354,16 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "Lyrics file (*.lrc)|*.lrc;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Lyrics file",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 label_Lyricspath.Text = ofd.FileName;
                 lyrics = " --Lyrics \"" + ofd.FileName + "\"";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-            }
-            else
-            {
-                label_Lyricspath.Text = "";
-                lyrics = "";
+                _job.Meta.LyricsPath = ofd.FileName;
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }
@@ -397,22 +402,16 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "Text file (*.txt)|*.txt;|JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Liner Notes file",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 label_Linerpath.Text = ofd.FileName;
                 linernotes = " --LinerNotes \"" + ofd.FileName + "\"";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-            }
-            else
-            {
-                label_Linerpath.Text = "";
-                linernotes = "";
+                _job.Meta.LinerNotesPath = ofd.FileName;
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
             }
@@ -451,87 +450,94 @@ namespace ATRACTool_Reloaded
                 FileName = "",
                 InitialDirectory = "",
                 Filter = "JPEG Image (*.jpg)|*.jpg;|PNG Image (*.png)|*.png;|All Files (*.*)|*.*;",
-                FilterIndex = 0,
+                FilterIndex = 1,
                 Title = "Open Jacket image",
-                Multiselect = true,
+                Multiselect = false,
                 RestoreDirectory = true
             };
-            if (iseveryfmt)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                DialogResult dr = DialogResult.None;
-                Thread thread = new(() =>
-                {
-                    dr = ofd.ShowDialog();
-                });
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-                thread.Join();
-
-                if (dr == DialogResult.OK)
-                {
-                    pictureBox_Jacket.ImageLocation = ofd.FileName;
-                    label_Jacketpath.Text = ofd.FileName;
-                    jacket = " --Jacket \"" + ofd.FileName + "\"";
-                    paramWalkman = RefleshParamWalkman();
-                    textBox_cmd_walkman.Text = paramWalkman;
-                }
-                else
-                {
-                    Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
-                    label_Jacketpath.Text = "";
-                    jacket = "";
-                    paramWalkman = RefleshParamWalkman();
-                    textBox_cmd_walkman.Text = paramWalkman;
-                }
-            }
-            else if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                pictureBox_Jacket.ImageLocation = ofd.FileName;
                 label_Jacketpath.Text = ofd.FileName;
                 jacket = " --Jacket \"" + ofd.FileName + "\"";
                 paramWalkman = RefleshParamWalkman();
                 textBox_cmd_walkman.Text = paramWalkman;
 
                 _job.Meta.JacketPath = ofd.FileName;
-                _job.Meta.JacketMode = "Picture"; // あるいは "Auto"。あなたの traconv 仕様に合わせる
+                _job.Meta.JacketMode = "Picture";
+                comboBox_Jacketmode.SelectedIndex = JacketModeToSelectedIndex("Picture");
 
-                ApplyJacketToUIFromMeta();
-            }
-            else
-            {
-                Common.Utils.PictureboxImageDispose(pictureBox_Jacket);
-                label_Jacketpath.Text = "";
-                jacket = "";
-                paramWalkman = RefleshParamWalkman();
-                textBox_cmd_walkman.Text = paramWalkman;
-
-                _job.Meta.JacketPath = "";
-                _job.Meta.JacketMode = "Auto";
                 ApplyJacketToUIFromMeta();
             }
         }
 
         private void ComboBox_Jacketmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox_Jacketmode.SelectedIndex)
+            string selectedMode = SelectedIndexToJacketMode(comboBox_Jacketmode.SelectedIndex);
+            switch (selectedMode)
             {
-                case 0:
+                case "Delete":
                     jacketmode = " --JacketMode Delete";
                     break;
-                case 1:
+                case "Text":
                     jacketmode = " --JacketMode Text";
                     break;
-                case 2:
+                case "Picture":
                     jacketmode = " --JacketMode Picture";
                     break;
-                case 3:
+                case "Auto":
                     jacketmode = " --JacketMode Auto";
                     break;
                 default:
                     break;
             }
+            _job.Meta.JacketMode = selectedMode;
             paramWalkman = RefleshParamWalkman();
             textBox_cmd_walkman.Text = paramWalkman;
+        }
+
+        private static string SelectedIndexToJacketMode(int selectedIndex)
+        {
+            return selectedIndex switch
+            {
+                0 => "Delete",
+                1 => "Text",
+                2 => "Picture",
+                _ => "Auto",
+            };
+        }
+
+        private static int JacketModeToSelectedIndex(string? jacketMode)
+        {
+            return jacketMode?.Trim().ToUpperInvariant() switch
+            {
+                "DELETE" => 0,
+                "TEXT" => 1,
+                "PICTURE" => 2,
+                _ => 3,
+            };
+        }
+
+        private static int ContentModeToSelectedIndex(string? mode)
+        {
+            return mode?.Trim().ToUpperInvariant() switch
+            {
+                "DELETE" => 0,
+                "TEXT" => 1,
+                "PICTURE" => 2,
+                "HYBRID" => 4,
+                _ => 3,
+            };
+        }
+
+        private static bool TryParseWalkmanDate(string? value, out DateTime date)
+        {
+            if (int.TryParse(value, out int year) && year is >= 1 and <= 9999)
+            {
+                date = new DateTime(year, 1, 1);
+                return true;
+            }
+
+            return DateTime.TryParse(value, out date);
         }
 
         // Tags
@@ -794,6 +800,8 @@ namespace ATRACTool_Reloaded
         {
             m.Title = textBox_Title.Text.Trim();
             m.SortTitle = textBox_SortTitle.Text.Trim();
+            m.Subtitle = textBox_Subtitle.Text.Trim();
+            m.SortSubtitle = textBox_SortSubtitle.Text.Trim();
             m.Artist = textBox_Artist.Text.Trim();
             m.SortArtist = textBox_SortArtist.Text.Trim();
             m.Album = textBox_Album.Text.Trim();
@@ -805,16 +813,30 @@ namespace ATRACTool_Reloaded
             m.Lyricist = textBox_Lyricist.Text.Trim();
             m.TrackNumber = textBox_TrackNumber.Text.Trim();
             m.TotalTracks = textBox_TotalTracks.Text.Trim();
+            m.Duration = textBox_Duration.Text.Trim();
+            m.MilliSecond = textBox_MilliSecond.Text.Trim();
 
-            m.Import = dateTimePicker_Import.Value.ToString("yyyy/MM/dd");
-            m.ReleaseYear = dateTimePicker_Release.Value.Year.ToString();
+            m.Import = dateTimePicker_Import.ShowCheckBox && !dateTimePicker_Import.Checked
+                ? ""
+                : dateTimePicker_Import.Value.ToString("yyyy/MM/dd");
+            m.ReleaseYear = dateTimePicker_Release.ShowCheckBox && !dateTimePicker_Release.Checked
+                ? ""
+                : dateTimePicker_Release.Value.ToString("yyyy/MM/dd");
 
-            // Jacket は UI の選択結果をそのまま（あなたの抽出済み temp を使う）
-            m.JacketPath = pictureBox_Jacket.ImageLocation ?? "";
+            m.LyricsPath = label_Lyricspath.Text?.Trim() ?? "";
+            m.LyricsMode = Common.Utils.GetWalkmanContentMode(comboBox_Lyricsmode.SelectedIndex);
+            m.LinerNotesPath = label_Linerpath.Text?.Trim() ?? "";
+            m.LinerNotesMode = Common.Utils.GetWalkmanContentMode(comboBox_Linermode.SelectedIndex);
+
+            // JacketPath is updated when the file is loaded or selected. The
+            // read-only path control is display-only, so long-path wrapping can
+            // never alter the path passed to TraConv.
+            m.JacketMode = SelectedIndexToJacketMode(comboBox_Jacketmode.SelectedIndex);
 
             // ★必須：FileType
             //m.FileType = comboBox_FileType.Text.Trim();
-            if (string.IsNullOrWhiteSpace(m.FileType)) m.FileType = "OMA3";
+            if (string.IsNullOrWhiteSpace(m.FileType))
+                m.FileType = Common.Utils.GetWalkmanFileType(Common.Utils.GetInt("Walkman_EveryFmt_OutputFmt", 1));
         }
 
         private void FormWalkmanInformations_FormClosed(object sender, FormClosedEventArgs e)

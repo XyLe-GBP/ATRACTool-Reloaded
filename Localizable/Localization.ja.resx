@@ -226,7 +226,10 @@ JPG、PNG、BMP のいずれかのファイルを指定してください。</va
     <value>{0} KiB ({1} バイト)</value>
   </data>
   <data name="Filters" xml:space="preserve">
-    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.flac;*.mp3;*.wma;*.opus;*.ogg;*.wav;*.at3;*.at9</value>
+    <value>Advanced Audio Coding (*.m4a, *.aac)|*.m4a;*.aac;|Audio Interchange File Format (*.aiff)|*.aiff;|Apple Lossless Audio Codec (*.m4a, *.alac)|*.m4a;*.alac;|Free Lossless Audio Codec (*.flac)|*.flac;|MPEG-1 Audio Layer-3 (*.mp3)|*.mp3;|Windows Media Audio (*.wma)|*.wma;|Opus (*.opus)|*.opus;|Vorbis (*.ogg)|*.ogg;|RIFF waveform Audio Format (*.wav)|*.wav;|Adaptive TRansform Acoustic Coding 3 / 3+ (*.at3)|*.at3;|Adaptive TRansform Acoustic Coding 9 (*.at9)|*.at9;|OpenMG Audio / ウォークマン (*.oma)|*.oma;|サポートされているすべての形式|*.m4a;*.aac;*.aiff;*.alac;*.flac;*.mp3;*.wma;*.opus;*.ogg;*.wav;*.at3;*.at9;*.oma</value>
+  </data>
+  <data name="WalkmanOmaFormatCaption" xml:space="preserve">
+    <value>OpenMG Audio / ウォークマン</value>
   </data>
   <data name="FolderSaveDialogTitle" xml:space="preserve">
     <value>保存先のフォルダを選択</value>
@@ -471,6 +474,13 @@ GitHubリポジトリのページを開きますか？</value>
 はい：タグ無しで続行
 いいえ：変換を中止
 キャンセル：編集画面に戻る</value>
+  </data>
+  <data name="WalkmanJacketPathErrorCaption" xml:space="preserve">
+    <value>ジャケット画像のパスが空か、ファイルが見つかりません。
+有効なジャケット画像を選択してから続行してください。</value>
+  </data>
+  <data name="WalkmanDrmFormatWarningCaption" xml:space="preserve">
+    <value>DRM保護が存在する形式に変換しようとしています。このまま変換は可能ですが、再生機器側で再生できない可能性があります。よろしいですか？</value>
   </data>
   <data name="Nus3BankRawExtractConfirmCaption" xml:space="preserve">
     <value>NUSound内のループ情報付き内包ファイルをそのまま出力しますか？

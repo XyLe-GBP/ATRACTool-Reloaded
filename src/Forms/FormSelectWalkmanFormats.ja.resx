@@ -136,4 +136,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ウォークマン用フォーマットを選択</value>
   </data>
+  <data name="comboBox_OutputFormats.Items2" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3] OpenMG Audio (.omg)</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items4" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3] ビデオクリップ (.kdr)</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items6" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3+] OpenMG Audio (.omg)</value>
+  </data>
+  <data name="comboBox_OutputFormats.Items8" xml:space="preserve">
+    <value>【非推奨・DRM保護形式】[ATRAC3+] ビデオクリップ (.kdr)</value>
+  </data>
 </root>

@@ -62,6 +62,7 @@
             tabPageLPC = new TabPage();
             checkBox_Usepal = new CheckBox();
             checkBox_EnableATRACPlayback = new CheckBox();
+            checkBox_EnableMiniDiscPlayback = new CheckBox();
             checkBox_EnableNus3BankPlayback = new CheckBox();
             checkBox_Smoothsamples = new CheckBox();
             comboBox_LPCMultisourcePlaybackmode = new ComboBox();
@@ -87,7 +88,6 @@
             comboBox_Fixconvert = new ComboBox();
             checkBox_Fixconvert = new CheckBox();
             checkBox_FasterATRAC = new CheckBox();
-            checkBox_Oldmode = new CheckBox();
             toolTip_Description = new ToolTip(components);
             groupBox_IO_Behavior.SuspendLayout();
             tabControl1.SuspendLayout();
@@ -334,10 +334,10 @@
             // 
             // tabPageLPC
             // 
-            tabPageLPC.Controls.Add(checkBox_Usepal);
+            tabPageLPC.Controls.Add(checkBox_Smoothsamples);
             tabPageLPC.Controls.Add(checkBox_EnableATRACPlayback);
             tabPageLPC.Controls.Add(checkBox_EnableNus3BankPlayback);
-            tabPageLPC.Controls.Add(checkBox_Smoothsamples);
+            tabPageLPC.Controls.Add(checkBox_EnableMiniDiscPlayback);
             tabPageLPC.Controls.Add(comboBox_LPCMultisourcePlaybackmode);
             tabPageLPC.Controls.Add(label_LPC_MultiplesourcePlaybackmode);
             tabPageLPC.Controls.Add(comboBox_LPCASIODriver);
@@ -363,6 +363,15 @@
             checkBox_EnableATRACPlayback.Name = "checkBox_EnableATRACPlayback";
             toolTip_Description.SetToolTip(checkBox_EnableATRACPlayback, resources.GetString("checkBox_EnableATRACPlayback.ToolTip"));
             checkBox_EnableATRACPlayback.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_EnableMiniDiscPlayback
+            // 
+            resources.ApplyResources(checkBox_EnableMiniDiscPlayback, "checkBox_EnableMiniDiscPlayback");
+            checkBox_EnableMiniDiscPlayback.Checked = true;
+            checkBox_EnableMiniDiscPlayback.CheckState = CheckState.Checked;
+            checkBox_EnableMiniDiscPlayback.Name = "checkBox_EnableMiniDiscPlayback";
+            toolTip_Description.SetToolTip(checkBox_EnableMiniDiscPlayback, resources.GetString("checkBox_EnableMiniDiscPlayback.ToolTip"));
+            checkBox_EnableMiniDiscPlayback.UseVisualStyleBackColor = true;
             // 
             // checkBox_EnableNus3BankPlayback
             // 
@@ -451,7 +460,7 @@
             tabPageAdvanced.Controls.Add(comboBox_Fixconvert);
             tabPageAdvanced.Controls.Add(checkBox_Fixconvert);
             tabPageAdvanced.Controls.Add(checkBox_FasterATRAC);
-            tabPageAdvanced.Controls.Add(checkBox_Oldmode);
+            tabPageAdvanced.Controls.Add(checkBox_Usepal);
             resources.ApplyResources(tabPageAdvanced, "tabPageAdvanced");
             tabPageAdvanced.Name = "tabPageAdvanced";
             tabPageAdvanced.UseVisualStyleBackColor = true;
@@ -569,13 +578,6 @@
             toolTip_Description.SetToolTip(checkBox_FasterATRAC, resources.GetString("checkBox_FasterATRAC.ToolTip"));
             checkBox_FasterATRAC.UseVisualStyleBackColor = true;
             // 
-            // checkBox_Oldmode
-            // 
-            resources.ApplyResources(checkBox_Oldmode, "checkBox_Oldmode");
-            checkBox_Oldmode.Name = "checkBox_Oldmode";
-            toolTip_Description.SetToolTip(checkBox_Oldmode, resources.GetString("checkBox_Oldmode.ToolTip"));
-            checkBox_Oldmode.UseVisualStyleBackColor = true;
-            // 
             // FormPreferencesSettings
             // 
             AcceptButton = button_OK;
@@ -631,7 +633,6 @@
         private CheckBox checkBox_ShowFolder;
         private CheckBox checkBox_Checkupdate;
         private TabPage tabPageAdvanced;
-        private CheckBox checkBox_Oldmode;
         private Button button_Splashimg;
         private TextBox textBox_Splashimg;
         private CheckBox checkBox_Splashimg;
@@ -652,6 +653,7 @@
         private CheckBox checkBox_Hidesplash;
         private CheckBox checkBox_Smoothsamples;
         private CheckBox checkBox_EnableATRACPlayback;
+        private CheckBox checkBox_EnableMiniDiscPlayback;
         private CheckBox checkBox_EnableNus3BankPlayback;
         private CheckBox checkBox_ATRACEncodeSource;
         private CheckBox checkBox_IO_SaveSourcesnest;

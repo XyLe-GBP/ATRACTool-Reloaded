@@ -75,6 +75,17 @@ namespace ATRACTool_Reloaded
                 PS4 = 1
             }
 
+            /// <summary>
+            /// MiniDisc recording modes. SP uses ATRAC1; LP2 and LP4 use the
+            /// 44.1 kHz ATRAC3 profiles defined by the MDLP specification.
+            /// </summary>
+            public enum MiniDiscMode
+            {
+                SP = 0,
+                LP2 = 1,
+                LP4 = 2
+            }
+
             public enum LPCPlaybackMethodType
             {
                 DirectSound = 0,
@@ -88,8 +99,11 @@ namespace ATRACTool_Reloaded
         {
             public string Title { get; set; } = "";
             public string SortTitle { get; set; } = "";
+            public string Subtitle { get; set; } = "";
+            public string SortSubtitle { get; set; } = "";
             public string Artist { get; set; } = "";
             public string SortArtist { get; set; } = "";
+            public string ArtistUrl { get; set; } = "";
             public string Album { get; set; } = "";
             public string SortAlbum { get; set; } = "";
             public string AlbumArtist { get; set; } = "";
@@ -101,6 +115,8 @@ namespace ATRACTool_Reloaded
             public string TotalTracks { get; set; } = "";
             public string ReleaseYear { get; set; } = "";
             public string Import { get; set; } = "";
+            public string Duration { get; set; } = "";
+            public string MilliSecond { get; set; } = "";
 
             // ★必須：--FileType（未指定だとPCM16になりタグが付かない）
             public string FileType { get; set; } = "";   // 例: "OMA3" / "OMAP" 等
@@ -125,8 +141,11 @@ namespace ATRACTool_Reloaded
                 // タグ類だけ消す
                 Title = "";
                 SortTitle = "";
+                Subtitle = "";
+                SortSubtitle = "";
                 Artist = "";
                 SortArtist = "";
+                ArtistUrl = "";
                 Album = "";
                 SortAlbum = "";
                 AlbumArtist = "";
@@ -138,6 +157,8 @@ namespace ATRACTool_Reloaded
                 TotalTracks = "";
                 ReleaseYear = "";
                 Import = "";
+                Duration = "";
+                MilliSecond = "";
                 JacketPath = "";
 
                 // Lyrics/LinerNotes を持っているなら同様に
@@ -150,6 +171,8 @@ namespace ATRACTool_Reloaded
 
                 // JacketMode は Picture 強制でも良いが、JacketPath を消すので Auto でOK
                 JacketMode = "Auto";
+                LyricsMode = "Auto";
+                LinerNotesMode = "Auto";
             }
         }
 
@@ -272,6 +295,10 @@ namespace ATRACTool_Reloaded
             /// </summary>
             public static readonly string Walkman_TraConv = Directory.GetCurrentDirectory() + @"\res\traconv.exe";
             /// <summary>
+            /// Open-source ATRAC encoder/decoder used only for MiniDisc SP (ATRAC1).
+            /// </summary>
+            public static readonly string ATRAC1tool = Directory.GetCurrentDirectory() + @"\res\atracdenc.exe";
+            /// <summary>
             /// Progressフォームの動作を判定するための変数
             /// </summary>
             private static ProcessType _processFlag = ProcessType.None;
@@ -332,6 +359,11 @@ namespace ATRACTool_Reloaded
             public static string[] Nus3BankPlaybackOriginPaths = null!;
             public static int Nus3BankOutputCount = 0;
             public static bool IsWalkman = false;
+            public static bool IsMiniDisc = false;
+            public static bool IsMiniDiscAtrac1Input = false;
+            public static bool IsWalkmanOmaInput = false;
+            public static bool IsPlaybackConversion = false;
+            public static MiniDiscMode MiniDiscEncodeMode = MiniDiscMode.LP2;
             public static bool IsATRACLooped = false;
             public static bool LoopNG = false;
 
@@ -389,7 +421,7 @@ namespace ATRACTool_Reloaded
 
             public static string DecodeParamAT3 = "at3tool -d $InFile $OutFile";
             public static string DecodeParamAT9 = "at9tool -d $InFile $OutFile";
-            public static string DecodeParamWalkman = "traconv --Convert $InFile $OutFile";
+            public static string DecodeParamWalkman = "traconv --Convert --FileType WAV --Output $OutFile $InFile";
             public static string EncodeParamAT3 = "";
             public static string EncodeParamAT3_OLD = "";
             public static string EncodeParamAT9 = "";
@@ -437,6 +469,12 @@ namespace ATRACTool_Reloaded
 
         public class Utils
         {
+            private static readonly HashSet<string> SupportedInputExtensions = new(StringComparer.OrdinalIgnoreCase)
+            {
+                ".wav", ".mp3", ".m4a", ".aac", ".aiff", ".alac", ".flac", ".ogg", ".opus", ".wma",
+                ".at3", ".at9", ".aea", ".oma", ".nus3bank", ".nub2"
+            };
+
             /// <summary>
             /// Process.Start: Open URI for .NET
             /// </summary>
@@ -492,8 +530,45 @@ namespace ATRACTool_Reloaded
 
             public static string[] GetFolderAllFiles(string folderPath)
             {
-                // 必要ならフィルタ（拡張子制限）をここでかける
-                return Directory.EnumerateFiles(folderPath, "*.*", SearchOption.AllDirectories).ToArray();
+                return Directory
+                    .EnumerateFiles(folderPath, "*", SearchOption.AllDirectories)
+                    .Where(IsSupportedInputPath)
+                    .ToArray();
+            }
+
+            public static bool IsSupportedInputPath(string path)
+            {
+                return !string.IsNullOrWhiteSpace(path) && SupportedInputExtensions.Contains(Path.GetExtension(path));
+            }
+
+            /// <summary>
+            /// Returns a destination directory below outputRoot while preserving an
+            /// InputJob's relative source directory. Invalid/rooted/traversal paths
+            /// safely fall back to outputRoot.
+            /// </summary>
+            public static string GetSafeNestedOutputDirectory(string outputRoot, InputJob job)
+            {
+                if (string.IsNullOrWhiteSpace(outputRoot))
+                    throw new ArgumentException("Output root is empty.", nameof(outputRoot));
+                if (job is null)
+                    throw new ArgumentNullException(nameof(job));
+
+                string root = Path.GetFullPath(outputRoot);
+                string relativePath = string.IsNullOrWhiteSpace(job.RelativePath)
+                    ? Path.GetFileName(job.OriginPath)
+                    : job.RelativePath;
+
+                if (Path.IsPathRooted(relativePath))
+                    return root;
+
+                string relativeDirectory = Path.GetDirectoryName(relativePath) ?? string.Empty;
+                string candidate = Path.GetFullPath(Path.Combine(root, relativeDirectory));
+                string rootPrefix = root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+
+                return candidate.Equals(root, StringComparison.OrdinalIgnoreCase) ||
+                       candidate.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase)
+                    ? candidate
+                    : root;
             }
 
             /*public static void GetFolderAllFiles(string FolderPath)
@@ -2117,11 +2192,11 @@ namespace ATRACTool_Reloaded
                     "LPCMultipleStreamAlwaysWASAPIorASIO",
                     "SmoothSamples",
                     "PlaybackATRAC",
+                    "PlaybackMiniDisc",
                     "FasterATRAC",
                     "FixedConvert",
                     "ForceConvertWaveOnly",
                     "UseParallelMethod",
-                    "Oldmode",
                     "Debugmode"
                 ];
 
@@ -2138,6 +2213,7 @@ namespace ATRACTool_Reloaded
                     "Walkman_LyricsMode",
                     "Walkman_LinerNotesMode",
                     "Walkman_JacketMode",
+                    "MiniDisc_Mode",
                     "ToolStrip"
                 ];
 
@@ -2642,6 +2718,10 @@ namespace ATRACTool_Reloaded
                 {
                     Config.Entry["PlaybackATRAC"].Value = "true";
                 }
+                if (Config.Entry["PlaybackMiniDisc"].Value == null) // MiniDisc SP / AEA読み込み時の再生インターフェースの有効 (bool)
+                {
+                    Config.Entry["PlaybackMiniDisc"].Value = "true";
+                }
                 if (Config.Entry["PlaybackNus3Bank"].Value == null) // NUS3BANK読み込み時の再生インターフェースの有効 (bool)
                 {
                     Config.Entry["PlaybackNus3Bank"].Value = "true";
@@ -2706,16 +2786,16 @@ namespace ATRACTool_Reloaded
                     Config.Entry["PlaybackThreadCount"].Value = "3";
                 }
 
-                if (Config.Entry["Oldmode"].Value == null) // 従来のモード (bool)
-                {
-                    Config.Entry["Oldmode"].Value = "false";
-                }
                 if (Config.Entry["Debugmode"].Value == null) // デバッグモード (bool)
                 {
                     Config.Entry["Debugmode"].Value = "false";
                 }
 
                 // その他
+                if (Config.Entry["MiniDisc_Mode"].Value == null) // MiniDisc SP/LP2/LP4 (int)
+                {
+                    Config.Entry["MiniDisc_Mode"].Value = ((int)MiniDiscMode.LP2).ToString(CultureInfo.InvariantCulture);
+                }
                 if (Config.Entry["ToolStrip"].Value == null) // メイン画面ToolStrip (int)
                 {
                     Config.Entry["ToolStrip"].Value = "0";
@@ -3021,17 +3101,26 @@ namespace ATRACTool_Reloaded
 
             public static void PopulateWalkmanMetaFromOrigin(InputJob job)
             {
+                job.Meta.Title = Path.GetFileNameWithoutExtension(job.OriginPath);
                 try
                 {
                     using var tfile = TagLib.File.Create(job.OriginPath);
-                    var performers = tfile.Tag.Performers ?? Array.Empty<string>();
-                    var genres = tfile.Tag.Genres ?? Array.Empty<string>();
+                    TagLib.Tag tag = tfile.Tag;
 
-                    job.Meta.Title = tfile.Tag.Title ?? "";
-                    job.Meta.Artist = performers.Length > 0 ? performers[0] : "";
-                    job.Meta.Album = tfile.Tag.Album ?? "";
-                    job.Meta.Genre = genres.Length > 0 ? genres[0] : "";
+                    job.Meta.Title = string.IsNullOrWhiteSpace(tag.Title)
+                        ? Path.GetFileNameWithoutExtension(job.OriginPath)
+                        : tag.Title;
+                    job.Meta.SortTitle = tag.TitleSort ?? "";
+                    job.Meta.Artist = tag.JoinedPerformers ?? "";
+                    job.Meta.SortArtist = tag.JoinedPerformersSort ?? "";
+                    job.Meta.Album = tag.Album ?? "";
+                    job.Meta.SortAlbum = tag.AlbumSort ?? "";
+                    job.Meta.AlbumArtist = tag.JoinedAlbumArtists ?? "";
+                    job.Meta.SortAlbumArtist = string.Join("; ", tag.AlbumArtistsSort ?? Array.Empty<string>());
+                    job.Meta.Genre = tag.JoinedGenres ?? "";
+                    job.Meta.Composer = tag.JoinedComposers ?? "";
                     job.Meta.TrackNumber = (tfile.Tag.Track != 0) ? tfile.Tag.Track.ToString() : "";
+                    job.Meta.TotalTracks = (tfile.Tag.TrackCount != 0) ? tfile.Tag.TrackCount.ToString() : "";
                     job.Meta.ReleaseYear = (tfile.Tag.Year != 0) ? tfile.Tag.Year.ToString() : "";
 
                     // ★ジャケット抽出（既に手動指定されているなら上書きしない方が安全）
@@ -3042,8 +3131,11 @@ namespace ATRACTool_Reloaded
                         if (!string.IsNullOrWhiteSpace(jacket))
                         {
                             job.Meta.JacketPath = jacket;
-                            if (string.IsNullOrWhiteSpace(job.Meta.JacketMode))
-                                job.Meta.JacketMode = "Picture"; // or "Auto"（あなたのtraconv仕様に合わせて）
+                            // An extracted file is an explicit picture source.  Leaving the
+                            // default "Auto" here makes TraConv decide how to interpret it and
+                            // can result in the jacket not being written when the metadata form
+                            // is shown.  Keep attended and unattended conversion identical.
+                            job.Meta.JacketMode = "Picture";
                         }
                     }
                 }
@@ -3069,6 +3161,130 @@ namespace ATRACTool_Reloaded
                 sb.Append(BuildNumOpt("--Release", meta.ReleaseYear, 1, 9999));
 
                 return sb.ToString();
+            }
+
+            public static int NormalizeWalkmanOutputFormatIndex(int index)
+            {
+                return index is >= 0 and <= 8 ? index : 1;
+            }
+
+            public static bool IsWalkmanDrmProtectedOutputFormat(int index)
+            {
+                return NormalizeWalkmanOutputFormatIndex(index) is 2 or 4 or 6 or 8;
+            }
+
+            public static string GetWalkmanFileType(int index)
+            {
+                return NormalizeWalkmanOutputFormatIndex(index) switch
+                {
+                    0 => "PCM",
+                    1 => "OMA3",
+                    2 => "OMG3",
+                    3 => "AAL3",
+                    4 => "KDR3",
+                    5 => "OMAP",
+                    6 => "OMGP",
+                    7 => "AALP",
+                    8 => "KDRP",
+                    _ => "OMA3",
+                };
+            }
+
+            public static string GetWalkmanExtension(int index)
+            {
+                return NormalizeWalkmanOutputFormatIndex(index) switch
+                {
+                    2 or 6 => ".omg",
+                    4 or 8 => ".kdr",
+                    _ => ".oma",
+                };
+            }
+
+            public static string GetWalkmanSaveFilter(int index)
+            {
+                return NormalizeWalkmanOutputFormatIndex(index) switch
+                {
+                    0 => "PCM ATRAC (*.oma)|*.oma;",
+                    1 => "OpenMG ATRAC3 (*.oma)|*.oma;",
+                    2 => "OpenMG ATRAC3 (*.omg)|*.omg;",
+                    3 => "ATRAC3 Advanced Lossless (*.oma)|*.oma;",
+                    4 => "ATRAC3 Video Clip (*.kdr)|*.kdr;",
+                    5 => "OpenMG ATRAC3+ (*.oma)|*.oma;",
+                    6 => "OpenMG ATRAC3+ (*.omg)|*.omg;",
+                    7 => "ATRAC3+ Advanced Lossless (*.oma)|*.oma;",
+                    8 => "ATRAC3+ Video Clip (*.kdr)|*.kdr;",
+                    _ => "OpenMG ATRAC3 (*.oma)|*.oma;",
+                };
+            }
+
+            public static void ApplyConfiguredWalkmanMeta(InputJob job)
+            {
+                if (job == null) throw new ArgumentNullException(nameof(job));
+
+                WalkmanMeta meta = job.Meta;
+                meta.Title = GetConfigValueAllowEmpty("Walkman_Title");
+                meta.SortTitle = GetConfigValueAllowEmpty("Walkman_SortTitle");
+                meta.Subtitle = GetConfigValueAllowEmpty("Walkman_SubTitle");
+                meta.SortSubtitle = GetConfigValueAllowEmpty("Walkman_SortSubTitle");
+                meta.Artist = GetConfigValueAllowEmpty("Walkman_Artist");
+                meta.SortArtist = GetConfigValueAllowEmpty("Walkman_SortArtist");
+                meta.ArtistUrl = GetConfigValueAllowEmpty("Walkman_ArtistURL");
+                meta.Album = GetConfigValueAllowEmpty("Walkman_Album");
+                meta.SortAlbum = GetConfigValueAllowEmpty("Walkman_SortAlbum");
+                meta.AlbumArtist = GetConfigValueAllowEmpty("Walkman_AlbumArtist");
+                meta.SortAlbumArtist = GetConfigValueAllowEmpty("Walkman_SortAlbumArtist");
+                meta.Genre = GetConfigValueAllowEmpty("Walkman_Genre");
+                meta.Composer = GetConfigValueAllowEmpty("Walkman_Composer");
+                meta.Lyricist = GetConfigValueAllowEmpty("Walkman_Lyricist");
+                meta.TrackNumber = GetConfigValueAllowEmpty("Walkman_TrackNumber");
+                meta.TotalTracks = GetConfigValueAllowEmpty("Walkman_TotalTracks");
+                meta.ReleaseYear = GetConfigValueAllowEmpty("Walkman_Release");
+                meta.Import = GetConfigValueAllowEmpty("Walkman_Import");
+                meta.Duration = GetConfigValueAllowEmpty("Walkman_Duration");
+                meta.MilliSecond = GetConfigValueAllowEmpty("Walkman_MilliSecond");
+                meta.LyricsPath = GetConfiguredWalkmanPath("Walkman_Lyrics", "--Lyrics");
+                meta.LyricsMode = GetWalkmanContentMode(GetInt("Walkman_LyricsMode", 3));
+                meta.LinerNotesPath = GetConfiguredWalkmanPath("Walkman_LinerNotes", "--LinerNotes");
+                meta.LinerNotesMode = GetWalkmanContentMode(GetInt("Walkman_LinerNotesMode", 3));
+                meta.JacketPath = GetConfiguredWalkmanPath("Walkman_Jacket", "--Jacket");
+                meta.JacketMode = GetWalkmanContentMode(GetInt("Walkman_JacketMode", 3), allowHybrid: false);
+                meta.FileType = GetWalkmanFileType(GetInt("Walkman_EveryFmt_OutputFmt", 1));
+            }
+
+            private static string GetConfigValueAllowEmpty(string key)
+            {
+                try
+                {
+                    return Config.Entry.Exists(key) ? Config.Entry[key].Value ?? "" : "";
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+
+            private static string GetConfiguredWalkmanPath(string key, string optionName)
+            {
+                string value = GetConfigValueAllowEmpty(key).Trim();
+                if (value.StartsWith(optionName, StringComparison.OrdinalIgnoreCase))
+                    value = value[optionName.Length..].Trim();
+
+                if (value.Length >= 2 && value[0] == '"' && value[^1] == '"')
+                    value = value[1..^1];
+
+                return value.Replace("\\\"", "\"");
+            }
+
+            public static string GetWalkmanContentMode(int index, bool allowHybrid = true)
+            {
+                return index switch
+                {
+                    0 => "Delete",
+                    1 => "Text",
+                    2 => "Picture",
+                    4 when allowHybrid => "Hybrid",
+                    _ => "Auto",
+                };
             }
 
             public static string BuildTraConvArgsForJob(InputJob job, string inFile, string outFile)
@@ -3107,8 +3323,11 @@ namespace ATRACTool_Reloaded
 
                 sb.Append(BuildStrOpt("--Title", meta.Title));
                 sb.Append(BuildStrOpt("--SortTitle", meta.SortTitle));
+                sb.Append(BuildStrOpt("--Subtitle", meta.Subtitle));
+                sb.Append(BuildStrOpt("--SortSubtitle", meta.SortSubtitle));
                 sb.Append(BuildStrOpt("--Artist", meta.Artist));
                 sb.Append(BuildStrOpt("--SortArtist", meta.SortArtist));
+                sb.Append(BuildStrOpt("--ArtistURL", meta.ArtistUrl));
                 sb.Append(BuildStrOpt("--Album", meta.Album));
                 sb.Append(BuildStrOpt("--SortAlbum", meta.SortAlbum));
                 sb.Append(BuildStrOpt("--AlbumArtist", meta.AlbumArtist));
@@ -3124,21 +3343,31 @@ namespace ATRACTool_Reloaded
                 // Release は年文字列（あなたのMeta設計通り）
                 sb.Append(BuildStrOpt("--Release", meta.ReleaseYear));
 
-                sb.Append(BuildStrOpt("--Import", import));
+                sb.Append(BuildStrOpt("--Import", string.IsNullOrWhiteSpace(meta.Import) ? import : meta.Import));
+                sb.Append(BuildStrOpt("--Duration", meta.Duration));
+                sb.Append(BuildStrOpt("--MilliSecond", meta.MilliSecond));
 
-                // Jacket（任意）
-                if (!string.IsNullOrWhiteSpace(meta.JacketPath))
+                string jacketPath = meta.JacketPath?.Trim() ?? "";
+                string jacketMode = string.IsNullOrWhiteSpace(meta.JacketMode)
+                    ? "Auto"
+                    : meta.JacketMode.Trim();
+
+                if (jacketPath.Length > 0 && !File.Exists(jacketPath))
+                    throw new FileNotFoundException("The jacket image file cannot be found.", jacketPath);
+
+                if (jacketPath.Length == 0 && jacketMode.Equals("Picture", StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException("A jacket image path is required when Jacket Mode is Picture.");
+
+                if (jacketPath.Length > 0)
                 {
-                    sb.Append(BuildStrOpt("--Jacket", meta.JacketPath));
-                    if (!string.IsNullOrWhiteSpace(meta.JacketMode))
-                        sb.Append(" --JacketMode ").Append(meta.JacketMode.Trim());
-                    else
-                        sb.Append(" --JacketMode Picture");
+                    sb.Append(BuildStrOpt("--Jacket", jacketPath));
+                    if (jacketMode.Equals("Auto", StringComparison.OrdinalIgnoreCase))
+                        jacketMode = "Picture";
+                    sb.Append(" --JacketMode ").Append(jacketMode);
                 }
                 else
                 {
-                    // Jacket無しでも Mode は Auto を入れておきたいならここ
-                    sb.Append(" --JacketMode Auto");
+                    sb.Append(" --JacketMode ").Append(jacketMode);
                 }
 
                 if (!string.IsNullOrWhiteSpace(meta.LyricsPath))

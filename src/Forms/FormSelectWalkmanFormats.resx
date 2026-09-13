@@ -217,25 +217,25 @@
     <value>[ATRAC3] OpenMG Audio (.oma)</value>
   </data>
   <data name="comboBox_OutputFormats.Items2" xml:space="preserve">
-    <value>[ATRAC3] OpenMG Audio (.omg)</value>
+    <value>[NOT RECOMMENDED: DRM-protected] [ATRAC3] OpenMG Audio (.omg)</value>
   </data>
   <data name="comboBox_OutputFormats.Items3" xml:space="preserve">
     <value>[ATRAC3] ATRAC Advanced Lossless [132kHz](.oma)</value>
   </data>
   <data name="comboBox_OutputFormats.Items4" xml:space="preserve">
-    <value>[ATRAC3] Video Clip (.kdr)</value>
+    <value>[NOT RECOMMENDED: DRM-protected] [ATRAC3] Video Clip (.kdr)</value>
   </data>
   <data name="comboBox_OutputFormats.Items5" xml:space="preserve">
     <value>[ATRAC3+] OpenMG Audio (.oma)</value>
   </data>
   <data name="comboBox_OutputFormats.Items6" xml:space="preserve">
-    <value>[ATRAC3+] OpenMG Audio (.omg)</value>
+    <value>[NOT RECOMMENDED: DRM-protected] [ATRAC3+] OpenMG Audio (.omg)</value>
   </data>
   <data name="comboBox_OutputFormats.Items7" xml:space="preserve">
     <value>[ATRAC3+] ATRAC Advanced Lossless [352kHz](.oma)</value>
   </data>
   <data name="comboBox_OutputFormats.Items8" xml:space="preserve">
-    <value>[ATRAC3+] Video Clip (.kdr)</value>
+    <value>[NOT RECOMMENDED: DRM-protected] [ATRAC3+] Video Clip (.kdr)</value>
   </data>
   <data name="comboBox_OutputFormats.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 27</value>

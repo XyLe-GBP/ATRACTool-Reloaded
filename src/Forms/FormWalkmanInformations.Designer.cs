@@ -34,7 +34,7 @@
             groupBox_walkman_others = new GroupBox();
             label_Linerpath = new Label();
             label_Lyricspath = new Label();
-            label_Jacketpath = new Label();
+            label_Jacketpath = new TextBox();
             comboBox_Jacketmode = new ComboBox();
             comboBox_Linermode = new ComboBox();
             button_Linerpath = new Button();
@@ -186,7 +186,12 @@
             // label_Jacketpath
             // 
             resources.ApplyResources(label_Jacketpath, "label_Jacketpath");
+            label_Jacketpath.Multiline = true;
             label_Jacketpath.Name = "label_Jacketpath";
+            label_Jacketpath.ReadOnly = true;
+            label_Jacketpath.ScrollBars = ScrollBars.Vertical;
+            label_Jacketpath.TabStop = false;
+            label_Jacketpath.WordWrap = true;
             // 
             // comboBox_Jacketmode
             // 
@@ -541,7 +546,7 @@
         private GroupBox groupBox_walkman_others;
         private Label label_Linerpath;
         private Label label_Lyricspath;
-        private Label label_Jacketpath;
+        private TextBox label_Jacketpath;
         private ComboBox comboBox_Jacketmode;
         private ComboBox comboBox_Linermode;
         private Button button_Linerpath;

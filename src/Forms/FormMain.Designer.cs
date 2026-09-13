@@ -54,7 +54,6 @@
             convertAudioToolStripMenuItem = new ToolStripMenuItem();
             audioToWAVEToolStripMenuItem = new ToolStripMenuItem();
             wAVEToAudioToolStripMenuItem = new ToolStripMenuItem();
-            loopPointCreationToolStripMenuItem = new ToolStripMenuItem();
             helpHToolStripMenuItem = new ToolStripMenuItem();
             aboutATRACToolToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripSeparator();
@@ -257,7 +256,7 @@
             // toolsTToolStripMenuItem
             // 
             toolsTToolStripMenuItem.BackColor = Color.White;
-            toolsTToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertAudioToolStripMenuItem, loopPointCreationToolStripMenuItem });
+            toolsTToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { convertAudioToolStripMenuItem });
             toolsTToolStripMenuItem.ForeColor = Color.FromArgb(31, 35, 40);
             toolsTToolStripMenuItem.Name = "toolsTToolStripMenuItem";
             resources.ApplyResources(toolsTToolStripMenuItem, "toolsTToolStripMenuItem");
@@ -285,14 +284,6 @@
             wAVEToAudioToolStripMenuItem.Name = "wAVEToAudioToolStripMenuItem";
             resources.ApplyResources(wAVEToAudioToolStripMenuItem, "wAVEToAudioToolStripMenuItem");
             wAVEToAudioToolStripMenuItem.Click += WAVEToAudioToolStripMenuItem_Click;
-            // 
-            // loopPointCreationToolStripMenuItem
-            // 
-            loopPointCreationToolStripMenuItem.BackColor = Color.White;
-            resources.ApplyResources(loopPointCreationToolStripMenuItem, "loopPointCreationToolStripMenuItem");
-            loopPointCreationToolStripMenuItem.ForeColor = Color.FromArgb(108, 115, 123);
-            loopPointCreationToolStripMenuItem.Name = "loopPointCreationToolStripMenuItem";
-            loopPointCreationToolStripMenuItem.Click += LoopPointCreationToolStripMenuItem_Click;
             // 
             // helpHToolStripMenuItem
             // 
@@ -540,7 +531,6 @@
         private Label label_Size;
         private ToolStripMenuItem audioToWAVEToolStripMenuItem;
         private ToolStripMenuItem wAVEToAudioToolStripMenuItem;
-        private ToolStripMenuItem loopPointCreationToolStripMenuItem;
         private ToolStripMenuItem saveMethodSettingsMToolStripMenuItem;
         private Panel panel_Control;
         private Panel panel_Main;

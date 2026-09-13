@@ -132,6 +132,12 @@
   <data name="button_SetEnd.Text" xml:space="preserve">
     <value>ループ終了地点を設定</value>
   </data>
+  <data name="button_RestoreOriginalLoop.Text" xml:space="preserve">
+    <value>元のループ情報を復元</value>
+  </data>
+  <data name="button_PanCenter.Text" xml:space="preserve">
+    <value>中央に戻す</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBox_LoopEnable.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 19</value>

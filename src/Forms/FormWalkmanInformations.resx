@@ -241,7 +241,7 @@
     <value>label_Jacketpath</value>
   </data>
   <data name="&gt;&gt;label_Jacketpath.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_Jacketpath.Parent" xml:space="preserve">
     <value>groupBox_walkman_others</value>

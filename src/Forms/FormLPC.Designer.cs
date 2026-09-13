@@ -41,11 +41,10 @@
             label_LoopEndSamples = new Label();
             button_SetStart = new Button();
             button_SetEnd = new Button();
+            button_RestoreOriginalLoop = new Button();
             numericUpDown_LoopStart = new NumericUpDown();
             numericUpDown_LoopEnd = new NumericUpDown();
             checkBox_LoopEnable = new CheckBox();
-            radioButton_at3 = new RadioButton();
-            radioButton_at9 = new RadioButton();
             label_File = new Label();
             button_Prev = new Button();
             button_Next = new Button();
@@ -60,6 +59,7 @@
             label_end = new Label();
             panSlider1 = new NAudio.Gui.PanSlider();
             label_Pan = new Label();
+            button_PanCenter = new Button();
             customTrackBar_End = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
             customTrackBar_Trk = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
             customTrackBar_Start = new ATRACTool_Reloaded.src.Controls.CustomTrackBar();
@@ -172,6 +172,18 @@
             button_SetEnd.UseVisualStyleBackColor = false;
             button_SetEnd.Click += Button_SetEnd_Click;
             // 
+            // button_RestoreOriginalLoop
+            // 
+            button_RestoreOriginalLoop.BackColor = Color.White;
+            resources.ApplyResources(button_RestoreOriginalLoop, "button_RestoreOriginalLoop");
+            button_RestoreOriginalLoop.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_RestoreOriginalLoop.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_RestoreOriginalLoop.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_RestoreOriginalLoop.ForeColor = Color.FromArgb(31, 35, 40);
+            button_RestoreOriginalLoop.Name = "button_RestoreOriginalLoop";
+            button_RestoreOriginalLoop.UseVisualStyleBackColor = false;
+            button_RestoreOriginalLoop.Click += Button_RestoreOriginalLoop_Click;
+            // 
             // numericUpDown_LoopStart
             // 
             numericUpDown_LoopStart.BackColor = Color.White;
@@ -198,31 +210,6 @@
             checkBox_LoopEnable.Name = "checkBox_LoopEnable";
             checkBox_LoopEnable.UseVisualStyleBackColor = false;
             checkBox_LoopEnable.CheckedChanged += CheckBox_LoopEnable_CheckedChanged;
-            // 
-            // radioButton_at3
-            // 
-            resources.ApplyResources(radioButton_at3, "radioButton_at3");
-            radioButton_at3.BackColor = Color.FromArgb(246, 247, 249);
-            radioButton_at3.Checked = true;
-            radioButton_at3.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
-            radioButton_at3.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 120, 212);
-            radioButton_at3.ForeColor = Color.FromArgb(31, 35, 40);
-            radioButton_at3.Name = "radioButton_at3";
-            radioButton_at3.TabStop = true;
-            radioButton_at3.UseVisualStyleBackColor = false;
-            radioButton_at3.CheckedChanged += RadioButton_at3_CheckedChanged;
-            // 
-            // radioButton_at9
-            // 
-            resources.ApplyResources(radioButton_at9, "radioButton_at9");
-            radioButton_at9.BackColor = Color.FromArgb(246, 247, 249);
-            radioButton_at9.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
-            radioButton_at9.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 120, 212);
-            radioButton_at9.ForeColor = Color.FromArgb(31, 35, 40);
-            radioButton_at9.Name = "radioButton_at9";
-            radioButton_at9.TabStop = true;
-            radioButton_at9.UseVisualStyleBackColor = false;
-            radioButton_at9.CheckedChanged += RadioButton_at9_CheckedChanged;
             // 
             // label_File
             // 
@@ -344,6 +331,18 @@
             label_Pan.ForeColor = Color.FromArgb(31, 35, 40);
             label_Pan.Name = "label_Pan";
             // 
+            // button_PanCenter
+            // 
+            button_PanCenter.BackColor = Color.White;
+            resources.ApplyResources(button_PanCenter, "button_PanCenter");
+            button_PanCenter.FlatAppearance.BorderColor = Color.FromArgb(210, 214, 220);
+            button_PanCenter.FlatAppearance.MouseDownBackColor = Color.FromArgb(202, 216, 231);
+            button_PanCenter.FlatAppearance.MouseOverBackColor = Color.FromArgb(220, 230, 241);
+            button_PanCenter.ForeColor = Color.FromArgb(31, 35, 40);
+            button_PanCenter.Name = "button_PanCenter";
+            button_PanCenter.UseVisualStyleBackColor = false;
+            button_PanCenter.Click += Button_PanCenter_Click;
+            // 
             // customTrackBar_End
             // 
             customTrackBar_End.BackgroundColor = SystemColors.Control;
@@ -453,6 +452,7 @@
             Controls.Add(customTrackBar_Start);
             Controls.Add(customTrackBar_Trk);
             Controls.Add(customTrackBar_End);
+            Controls.Add(button_PanCenter);
             Controls.Add(label_Pan);
             Controls.Add(panSlider1);
             Controls.Add(label_start);
@@ -465,11 +465,10 @@
             Controls.Add(button_Next);
             Controls.Add(button_Prev);
             Controls.Add(label_File);
-            Controls.Add(radioButton_at9);
-            Controls.Add(radioButton_at3);
             Controls.Add(checkBox_LoopEnable);
             Controls.Add(numericUpDown_LoopEnd);
             Controls.Add(numericUpDown_LoopStart);
+            Controls.Add(button_RestoreOriginalLoop);
             Controls.Add(button_SetEnd);
             Controls.Add(button_SetStart);
             Controls.Add(label_Length);
@@ -504,6 +503,7 @@
         private Label label_LoopEndSamples;
         private Button button_SetStart;
         private Button button_SetEnd;
+        private Button button_RestoreOriginalLoop;
         private Label label_File;
         private Button button_Prev;
         private Button button_Next;
@@ -517,8 +517,7 @@
         private Label label_end;
         private NAudio.Gui.PanSlider panSlider1;
         private Label label_Pan;
-        public RadioButton radioButton_at3;
-        public RadioButton radioButton_at9;
+        private Button button_PanCenter;
         private src.Controls.CustomTrackBar customTrackBar_Trk;
         internal Label label_Psamples;
         private Label label_previewwarn;
