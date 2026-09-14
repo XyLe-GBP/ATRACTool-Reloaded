@@ -5,7 +5,7 @@
 
 This is a utility tool for converting Sony's ATRAC3, ATRAC3plus, and ATRAC9 (.AT3/.AT9) formats, as well as NUSound (NUB2 and NUS3BANK, which include .AT3, .AT9, and .VAG), to any compatible audio format.  
 
-Alternatively, you can convert audio files with any supported file extension to Sony's ATRAC3, ATRAC3plus, or ATRAC9 formats; convert them to NUSound (NUB2 or NUS3BANK format), which includes ATRAC3, ATRAC3plus, and ATRAC9; or convert them to Walkman format.  
+Alternatively, you can convert audio files with any supported file extension to Sony's ATRAC3, ATRAC3plus, or ATRAC9 formats; convert them to NUSound (NUB2 or NUS3BANK format), which includes ATRAC3, ATRAC3plus, and ATRAC9; or convert them to MiniDisc or Walkman format.  
 
 **This application is a GUI application created with the aim of making the command line tools at3tool.exe and at9tool.exe intuitive to operate.**  
 
@@ -65,6 +65,11 @@ while ATRAC9 is used for PSVita and PS4.
 - .nub2 (ATRAC3, ATRAC3+, VAG) (VAG format is decode only)
 - .nus3bank (ATRAC3, ATRAC3+, ATRAC9)
 
+**For MiniDisc:**
+
+- .at3 (LP2, LP4)
+- .aea (ATRAC1) (SP)
+
 **For Walkman:**
 
 - .oma (ATRAC3, ATRAC3+, ATRAC Advanced Lossless)
@@ -98,6 +103,11 @@ If not adhered to, the application will return an error.
 Some titles developed by Namco may use nub2 or nus3bank files that contain ATRAC.  
 While this application can replace the audio in these games as well, we cannot guarantee that it will work with all game titles.  
 Please be aware of this.  
+
+**About Minidisc Features**
+
+Although the MiniDisc format supports SP, LP2, and LP4 output,  
+we cannot guarantee that ATRAC files converted using this tool will play on all playback devices.
 
 **About Walkman Features**
 
