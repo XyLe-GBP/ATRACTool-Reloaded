@@ -5,7 +5,8 @@
 
 This is a utility tool for converting Sony's ATRAC3, ATRAC3plus, and ATRAC9 (.AT3/.AT9) formats, as well as NUSound (NUB2 and NUS3BANK, which include .AT3, .AT9, and .VAG), to any compatible audio format.  
 
-Alternatively, you can convert audio files with any supported file extension to Sony's ATRAC3, ATRAC3plus, or ATRAC9 formats; convert them to NUSound (NUB2 or NUS3BANK format), which includes ATRAC3, ATRAC3plus, and ATRAC9; or convert them to MiniDisc or Walkman format.  
+Alternatively, you can convert audio files with any supported file extension to Sony's ATRAC3, ATRAC3plus, or ATRAC9 formats  
+convert them to NUSound (NUB2 or NUS3BANK format), which includes ATRAC3, ATRAC3plus, and ATRAC9 or convert them to MiniDisc or Walkman format.  
 
 **This application is a GUI application created with the aim of making the command line tools at3tool.exe and at9tool.exe intuitive to operate.**  
 
